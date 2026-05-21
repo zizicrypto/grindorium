@@ -94,7 +94,7 @@
     .footer-links a:hover{color:var(--white);}
 
     /* FIXED BUTTONS — repositioned to not overlap footer */
-    .sound-btn{position:fixed;bottom:80px;right:24px;transition:opacity 0.3s;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
+      .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:opacity 0.4s,border-color 0.3s;}
     .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
     .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
     .sound-btn:hover .sound-icon{color:var(--accent);}
@@ -359,11 +359,11 @@
   setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
 // Hide fixed buttons near footer
 window.addEventListener('scroll', function(){
-  const footer = document.querySelector('footer');
-  const footerTop = footer.getBoundingClientRect().top;
   const soundBtn = document.querySelector('.sound-btn');
   const disconnectBtn = document.querySelector('.disconnect-btn');
-  if(footerTop < window.innerHeight){
+  const scrollY = window.scrollY;
+  const heroHeight = window.innerHeight;
+  if(scrollY > heroHeight * 0.8){
     soundBtn.style.opacity='0';
     soundBtn.style.pointerEvents='none';
     disconnectBtn.style.opacity='0';
