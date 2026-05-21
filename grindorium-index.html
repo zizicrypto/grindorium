@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grindorium — You Are Safe Here</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4519033126325580" crossorigin="anonymous"></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
   <style>
     :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
@@ -85,6 +88,16 @@
     .journal-entry-date{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:10px;}
     .journal-entry-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
 
+    /* VIDEOS */
+    .video-section{padding:80px 24px;max-width:1200px;margin:0 auto;}
+    .yt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
+    .yt-card{background:var(--bg2);text-decoration:none;display:block;border:1px solid transparent;transition:all 0.3s;}
+    .yt-card:hover{border-color:rgba(126,184,232,0.15);background:#111d2c;}
+    .yt-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
+    .yt-info{padding:20px 24px;}
+    .yt-title{font-size:17px;font-weight:300;color:var(--white);line-height:1.4;margin-bottom:8px;}
+    .yt-date{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);}
+    .yt-loading{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;padding:40px 0;}
     /* FOOTER */
     footer{padding:48px 24px;border-top:1px solid rgba(126,184,232,0.1);}
     .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
@@ -136,6 +149,8 @@
   <a href="#sounds" onclick="closeMobileNav()">Sounds</a>
   <a href="#habits" onclick="closeMobileNav()">Habits</a>
   <a href="#journal" onclick="closeMobileNav()">Journal</a>
+  <a href="#videos" onclick="closeMobileNav()">Videos</a>
+  <a href="grindorium-journal.html" onclick="closeMobileNav()">Journal</a>
   <a href="https://youtube.com/@Grindorium" target="_blank">Watch</a>
 </div>
 
@@ -157,6 +172,8 @@
     <li><a href="#sounds">Sounds</a></li>
     <li><a href="#habits">Habits</a></li>
     <li><a href="#journal">Journal</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="grindorium-journal.html">Journal</a></li>
     <li><a href="https://youtube.com/@Grindorium" target="_blank">Watch</a></li>
   </ul>
   <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
@@ -194,6 +211,7 @@
     <a href="#sounds" class="card"><div class="card-number">03</div><div class="card-title">Sounds</div><div class="card-desc">Rain. Forest. Ocean. Nothing. Choose your quiet.</div><div class="card-arrow">↗</div></a>
     <a href="#habits" class="card"><div class="card-number">04</div><div class="card-title">Habits</div><div class="card-desc">Track one thing. Don't break the chain. That's enough.</div><div class="card-arrow">↗</div></a>
     <a href="#journal" class="card"><div class="card-number">05</div><div class="card-title">Journal</div><div class="card-desc">No likes. No audience. Just you and the page.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-journal.html" class="card"><div class="card-number">06</div><div class="card-title">Writings</div><div class="card-desc">Essays, quotes, reflections. On burnout, silence, and the life most people are not living.</div><div class="card-arrow">↗</div></a>
   </div>
 </div>
 
@@ -247,6 +265,15 @@
   <div class="journal-entries" id="journalEntries"></div>
 </section>
 
+<section id="videos" class="video-section">
+  <div class="section-label">06 — Latest Videos</div>
+  <div class="yt-grid" id="ytGrid">
+    <p class="yt-loading">Loading videos...</p>
+  </div>
+  <div style="text-align:center;margin-top:32px;">
+    <a href="https://youtube.com/@Grindorium" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-decoration:none;text-transform:uppercase;border:1px solid rgba(126,184,232,0.2);padding:12px 28px;transition:all 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">View All Videos →</a>
+  </div>
+</section>
 <footer>
   <div class="footer-inner">
     <span class="footer-logo">Grindorium.org</span>
@@ -303,8 +330,8 @@
   // AMBIENT
   let ambientAudio=null,ambientOn=false;
   function toggleAmbient(){
-    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById('soundIcon').style.color='var(--dim)';}
-    else{ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;document.getElementById('soundIcon').style.color='var(--accent)';}
+    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--dim)';});}
+    else{ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
   }
 
   // DISCONNECT
@@ -345,6 +372,28 @@
 
   // SMOOTH SCROLL
   document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
+
+  // YOUTUBE VIDEOS
+  (function(){
+    const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
+    const RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID) + '&count=6';
+    fetch(RSS_URL)
+      .then(r=>r.json())
+      .then(data=>{
+        const grid = document.getElementById('ytGrid');
+        if(!data.items||!data.items.length){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
+        grid.innerHTML = data.items.map(item=>{
+          const vid = item.link.split('v=')[1];
+          const thumb = 'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg';
+          const date = new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+          return '<a href="'+item.link+'" target="_blank" class="yt-card"><img src="'+thumb+'" class="yt-thumb" alt=""><div class="yt-info"><div class="yt-title">'+item.title+'</div><div class="yt-date">'+date+'</div></div></a>';
+        }).join('');
+      })
+      .catch(()=>{
+        const grid=document.getElementById('ytGrid');
+        grid.innerHTML='<p class="yt-loading">Could not load videos.</p>';
+      });
+  })();
 
   // BREATH LABEL
   const labels=['breathe','slow down',"you're here","it's okay"];
