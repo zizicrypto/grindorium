@@ -351,6 +351,24 @@
   const labels=['breathe','slow down',"you're here","it's okay"];
   let li=0;
   setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
+// Hide fixed buttons near footer
+window.addEventListener('scroll', function(){
+  const footer = document.querySelector('footer');
+  const footerTop = footer.getBoundingClientRect().top;
+  const soundBtn = document.querySelector('.sound-btn');
+  const disconnectBtn = document.querySelector('.disconnect-btn');
+  if(footerTop < window.innerHeight){
+    soundBtn.style.opacity='0';
+    soundBtn.style.pointerEvents='none';
+    disconnectBtn.style.opacity='0';
+    disconnectBtn.style.pointerEvents='none';
+  } else {
+    soundBtn.style.opacity='1';
+    soundBtn.style.pointerEvents='auto';
+    disconnectBtn.style.opacity='1';
+    disconnectBtn.style.pointerEvents='auto';
+  }
+});
 </script>
 </body>
 </html>
