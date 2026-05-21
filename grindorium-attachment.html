@@ -64,7 +64,7 @@
     .share-card-badge{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid;padding:6px 14px;display:inline-block;margin-bottom:12px;}
     .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
     .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
-    .share-card-char{width:56px;height:56px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
+    .share-card-char{width:64px;height:64px;min-width:64px;min-height:64px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
     .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
     .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
     .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
@@ -188,6 +188,9 @@
   }
   function downloadCard(){
     const card=document.getElementById('shareCard');
+    const img=card.querySelector('.share-card-char');
+    if(img) img.style.borderRadius='50%';
+    if(img){img.style.width='64px';img.style.height='64px';img.style.minWidth='64px';img.style.minHeight='64px';}
     html2canvas(card,{scale:2,useCORS:true,backgroundColor:null}).then(canvas=>{
       const link=document.createElement('a');
       link.download='grindorium-attachment-result.png';
