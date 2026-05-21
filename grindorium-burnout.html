@@ -76,7 +76,7 @@
     .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:22px;color:#fff;}
     .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
     .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
-    .share-card-char{width:56px;height:56px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
+    .share-card-char{width:60px;height:60px;object-fit:contain;opacity:0.8;}
     .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
     .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
     .share-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
@@ -193,7 +193,7 @@
 
   function downloadCard(){
     const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'})
+    html2canvas(card,{scale:2,useCORS:true,backgroundColor:null}).then(canvas=>{
       const link=document.createElement('a');
       link.download='grindorium-burnout-result.png';
       link.href=canvas.toDataURL('image/png');
