@@ -60,6 +60,17 @@
     .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
     .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
     .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+
+    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
+    .share-card-inner{width:100%;height:100%;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
+    .share-card-top{font-family:'Space Mono',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;}
+    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
+    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
+    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
+    .share-card-char{width:56px;height:56px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
+    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
+    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
     @media(max-width:768px){nav{padding:20px 24px;}.container{padding:120px 24px 80px;}}
   </style>
 </head>
@@ -102,9 +113,31 @@
     <div class="result-section"><div class="result-section-title">What's happening</div><p class="result-text" id="resultMissing"></p></div>
     <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
     <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+    
+    <div class="result-section">
+      <div class="result-section-title">Share your result</div>
+      <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
+      <div id="shareCard">
+        <div class="share-card-inner" id="shareCardInner">
+          <div class="share-card-top">Grindorium · Emotional Numbness</div>
+          <div>
+            <div style="font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;margin-bottom:8px;">My Result</div>
+            <div class="share-card-type" id="cardType"></div>
+            <div class="share-card-tagline" id="cardTagline"></div>
+          </div>
+          <div class="share-card-bottom">
+            <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
+            <div class="share-card-domain">grindorium.org</div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <button class="share-btn" onclick="downloadCard()">Download Image ↓</button>
+    </div>
     <button class="retake-btn" onclick="retakeTest()">Take it again</button>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   const answers=new Array(12).fill(null);let currentQ=0;
   function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
@@ -131,7 +164,33 @@
     document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>`<div class="step"><span class="step-num">0${i+1}</span><span class="step-text">${s}</span></div>`).join('');
     document.getElementById('resultVideos').innerHTML=r.videos.map(v=>`<a href="${ytSearch(v)}" target="_blank" class="video-card"><span class="video-card-title">${v}</span><span class="video-card-arrow">↗</span></a>`).join('');
   }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));}
+
+  const typeColors={
+    'Emotionally Present':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
+    'Slowly Going Quiet':{bg:'linear-gradient(135deg,#0a0a0f 0%,#14141f 100%)',accent:'#8aa0c8'},
+    'The Distant One':{bg:'linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%)',accent:'#c8c8c8'},
+    'Fully Disconnected':{bg:'linear-gradient(135deg,#0a0a0a 0%,#0f0f0f 100%)',accent:'#888888'}
+  };
+  function buildShareCard(type,tagline){
+    const card=document.getElementById('shareCard');
+    const inner=document.getElementById('shareCardInner');
+    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
+    card.style.display='block';
+    inner.style.background=colors.bg;
+    document.getElementById('cardType').textContent=type;
+    document.getElementById('cardType').style.color=colors.accent;
+    document.getElementById('cardTagline').textContent=tagline;
+  }
+  function downloadCard(){
+    const card=document.getElementById('shareCard');
+    html2canvas(card,{scale:2,useCORS:true,backgroundColor:null}).then(canvas=>{
+      const link=document.createElement('a');
+      link.download='grindorium-numbness-result.png';
+      link.href=canvas.toDataURL('image/png');
+      link.click();
+    });
+  }
+  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
