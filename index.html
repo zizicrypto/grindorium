@@ -362,8 +362,10 @@
   setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
 // Hide fixed buttons near footer
 window.addEventListener('scroll', function(){
+  const footer = document.querySelector('footer');
   const soundBtn = document.querySelector('.sound-btn');
   const disconnectBtn = document.querySelector('.disconnect-btn');
+  if(!footer||!soundBtn||!disconnectBtn) return;
   const scrollY = window.scrollY;
   const heroHeight = window.innerHeight;
   if(scrollY > heroHeight * 0.8){
