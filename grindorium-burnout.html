@@ -193,7 +193,9 @@
 
   function downloadCard(){
     const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,backgroundColor:null}).then(canvas=>{
+    const img=card.querySelector('.share-card-char');
+    if(img) img.style.borderRadius='50%';
+    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
       const link=document.createElement('a');
       link.download='grindorium-burnout-result.png';
       link.href=canvas.toDataURL('image/png');
