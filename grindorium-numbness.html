@@ -44,7 +44,7 @@
     .score-big{font-size:64px;font-weight:300;color:var(--white);}
     .score-max{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);margin-top:8px;}
     .score-level{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-top:12px;}
-    .level-low{color:#6db88a;} .level-mid{color:#e8c87e;} .level-high{color:#e87e7e;}
+    .level-low{color:#6db88a;}.level-mid{color:#e8c87e;}.level-high{color:#e87e7e;}
     .result-section{margin-bottom:40px;}
     .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
     .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
@@ -60,7 +60,6 @@
     .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
     .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
     .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
-
     #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
     .share-card-inner{width:100%;height:100%;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
     .share-card-top{font-family:'Space Mono',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;}
@@ -113,7 +112,6 @@
     <div class="result-section"><div class="result-section-title">What's happening</div><p class="result-text" id="resultMissing"></p></div>
     <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
     <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    
     <div class="result-section">
       <div class="result-section-title">Share your result</div>
       <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
@@ -146,24 +144,6 @@
   function prevQuestion(){if(currentQ===0)return;document.getElementById(`q${currentQ}`).classList.remove('active');currentQ--;document.getElementById(`q${currentQ}`).classList.add('active');updateUI();}
   function updateUI(){document.getElementById('progressText').textContent=`Question ${currentQ+1} of 12`;document.getElementById('progressFill').style.width=`${(currentQ/12)*100}%`;document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results →':'Next →';}
   function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-  function showResult(){
-    const total=answers.reduce((a,b)=>a+b,0);
-    document.getElementById('testScreen').style.display='none';document.getElementById('resultScreen').style.display='block';
-    document.getElementById('totalScore').textContent=total;
-    document.getElementById('progressFill').style.width='100%';
-    let r;
-    if(total<=12){r={type:'Emotionally Present',tagline:"You're still in contact with yourself. That's rarer than it sounds.",analysis:["Your scores suggest you have meaningful access to your own emotional experience. You can generally feel things, name them, and be affected by what happens around you.","This doesn't mean everything is easy — it means the channel between experience and feeling is still open.","The work now is staying present as life gets louder and faster."],missing:"Nothing critical. But presence requires maintenance. The small disconnections that don't feel like much can accumulate.",steps:["Notice one small feeling today that you might have previously scrolled past.","Practice sitting in a quiet moment without filling it. Even five minutes.","When something good happens, let it actually land before moving on.","Ask yourself weekly: what am I actually feeling right now?"],videos:["The Hidden Reason You Feel Empty Even When Life Looks Good","People Who Forgot How to Rest"],level:'low'};}
-    else if(total<=24){r={type:'Slowly Going Quiet',tagline:"The volume is still on. But it's been turning down for a while.",analysis:["You're not completely numb — you still feel things. But there's a growing distance between what happens and what reaches you.","Something has been gradually turning down the emotional volume. Not all at once. Just a little at a time, in ways that felt manageable.","The risk at this level is normalization — the quiet becomes the new baseline, and you stop noticing what's been lost."],missing:"Reconnection with the smaller feelings. Not the dramatic ones — those still break through. It's the quiet, everyday emotional texture that's been fading.",steps:["Name one thing you actually felt today — not something you think you should feel. What was real?","Reduce one source of stimulation this week and notice what surfaces in the space.","Talk to someone about something real — not surface-level. Not catch-up. Something that actually matters to you.","Ask yourself: when did the volume start turning down? What was happening then?"],videos:["The Noise Inside When Your Mind Won't Quiet Down","What They Saw in the Mirror at 40 — Eight Lives, One Question"],level:'mid'};}
-    else if(total<=36){r={type:'The Distant One',tagline:"You're here. But you're not quite inside your own life.",analysis:["The disconnection is significant. You've been operating at a remove from your own emotional experience for long enough that it feels normal now — but it isn't.","You might still feel things in extreme moments — crisis, intensity, sudden loss. But the everyday texture of feeling has largely gone quiet.","This level of numbness is usually not random. Something — chronic overstimulation, accumulated loss, extended survival mode — taught your system that feeling was costly. So it stopped."],missing:"Safety. Your emotional system shut down because staying open felt dangerous. Before anything else, the question is: what would it mean to feel safe enough to feel again?",steps:["Don't try to force feeling. Observe instead. Notice what your body does when something happens, even if the emotional label doesn't come.","Find one person you still feel something toward. Start a real conversation — not about logistics.","Reduce stimulation deliberately. The numbness was partly caused by overload. Less input gives the system room to recover.","Consider whether there's something specific you've been protecting yourself from feeling. You don't have to face it. Just name it."],videos:["The Mirror Man He Had No Face of His Own","The Hidden Reason You Feel Empty Even When Life Looks Good"],level:'high'};}
-    else{r={type:'Fully Disconnected',tagline:"You've been living behind glass for a long time. It's time to come back.",analysis:["Your scores indicate a deep and persistent disconnection from your emotional experience. What you're describing — not feeling, not recognizing feeling, not being able to access what's inside — is significant.","This level of numbness doesn't develop without reason. At some point, feeling was too costly, too dangerous, or too overwhelming. Your system found a way to turn it off. That was a survival strategy, not a flaw.","But what protected you then is now keeping you from your own life. The glass that kept the pain out is also keeping everything else out."],missing:"Gradual, safe re-entry into feeling. Not a dramatic breakthrough. Not a forced emotional release. Just small, consistent exposure to being present — with support.",steps:["This is worth talking to someone about. Not because something is wrong with you — because you deserve support that this level of disconnection genuinely requires.","Start with your body, not your emotions. Notice physical sensations: temperature, texture, hunger, tiredness. The body is a doorway back.","Remove one major source of numbing from your life this week — not permanently, just for a few days. Notice what surfaces.","Be patient with yourself. The numbness took time to build. It takes time to soften. Forcing it doesn't work."],videos:["The System Needs You Tired — Why Your Exhaustion Is Not an Accident","The Body Keeping Score — When Symptoms Are Messages, Not Malfunctions"],level:'high'};}
-    document.getElementById('resultType').textContent=r.type;document.getElementById('resultTagline').textContent=r.tagline;
-    const lc={low:'level-low',mid:'level-mid',high:'level-high'};const ll={low:'Low Numbness',mid:'Moderate Numbness',high:'High Numbness'};
-    const sl=document.getElementById('scoreLevel');sl.textContent=ll[r.level];sl.className='score-level '+lc[r.level];
-    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>`<p class="result-text">${p}</p>`).join('');
-    document.getElementById('resultMissing').textContent=r.missing;
-    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>`<div class="step"><span class="step-num">0${i+1}</span><span class="step-text">${s}</span></div>`).join('');
-    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>`<a href="${ytSearch(v)}" target="_blank" class="video-card"><span class="video-card-title">${v}</span><span class="video-card-arrow">↗</span></a>`).join('');
-  }
 
   const typeColors={
     'Emotionally Present':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
@@ -171,6 +151,7 @@
     'The Distant One':{bg:'linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%)',accent:'#c8c8c8'},
     'Fully Disconnected':{bg:'linear-gradient(135deg,#0a0a0a 0%,#0f0f0f 100%)',accent:'#888888'}
   };
+
   function buildShareCard(type,tagline){
     const card=document.getElementById('shareCard');
     const inner=document.getElementById('shareCardInner');
@@ -181,16 +162,48 @@
     document.getElementById('cardType').style.color=colors.accent;
     document.getElementById('cardTagline').textContent=tagline;
   }
+
   function downloadCard(){
     const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'})
+    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
       const link=document.createElement('a');
       link.download='grindorium-numbness-result.png';
       link.href=canvas.toDataURL('image/png');
       link.click();
     });
   }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+
+  function showResult(){
+    const total=answers.reduce((a,b)=>a+b,0);
+    document.getElementById('testScreen').style.display='none';
+    document.getElementById('resultScreen').style.display='block';
+    document.getElementById('totalScore').textContent=total;
+    document.getElementById('progressFill').style.width='100%';
+    let r;
+    if(total<=12){r={type:'Emotionally Present',tagline:"You're still in contact with yourself. That's rarer than it sounds.",analysis:["Your scores suggest you have meaningful access to your own emotional experience. You can generally feel things, name them, and be affected by what happens around you.","This doesn't mean everything is easy — it means the channel between experience and feeling is still open.","The work now is staying present as life gets louder and faster."],missing:"Nothing critical. But presence requires maintenance. The small disconnections that don't feel like much can accumulate.",steps:["Notice one small feeling today that you might have previously scrolled past.","Practice sitting in a quiet moment without filling it. Even five minutes.","When something good happens, let it actually land before moving on.","Ask yourself weekly: what am I actually feeling right now?"],videos:["The Hidden Reason You Feel Empty Even When Life Looks Good","People Who Forgot How to Rest"],level:'low'};}
+    else if(total<=24){r={type:'Slowly Going Quiet',tagline:"The volume is still on. But it's been turning down for a while.",analysis:["You're not completely numb — you still feel things. But there's a growing distance between what happens and what reaches you.","Something has been gradually turning down the emotional volume. Not all at once. Just a little at a time, in ways that felt manageable.","The risk at this level is normalization — the quiet becomes the new baseline, and you stop noticing what's been lost."],missing:"Reconnection with the smaller feelings. Not the dramatic ones — those still break through. It's the quiet, everyday emotional texture that's been fading.",steps:["Name one thing you actually felt today — not something you think you should feel. What was real?","Reduce one source of stimulation this week and notice what surfaces in the space.","Talk to someone about something real — not surface-level. Not catch-up. Something that actually matters to you.","Ask yourself: when did the volume start turning down? What was happening then?"],videos:["The Noise Inside When Your Mind Won't Quiet Down","What They Saw in the Mirror at 40 — Eight Lives, One Question"],level:'mid'};}
+    else if(total<=36){r={type:'The Distant One',tagline:"You're here. But you're not quite inside your own life.",analysis:["The disconnection is significant. You've been operating at a remove from your own emotional experience for long enough that it feels normal now — but it isn't.","You might still feel things in extreme moments — crisis, intensity, sudden loss. But the everyday texture of feeling has largely gone quiet.","This level of numbness is usually not random. Something — chronic overstimulation, accumulated loss, extended survival mode — taught your system that feeling was costly. So it stopped."],missing:"Safety. Your emotional system shut down because staying open felt dangerous. Before anything else, the question is: what would it mean to feel safe enough to feel again?",steps:["Don't try to force feeling. Observe instead. Notice what your body does when something happens, even if the emotional label doesn't come.","Find one person you still feel something toward. Start a real conversation — not about logistics.","Reduce stimulation deliberately. The numbness was partly caused by overload. Less input gives the system room to recover.","Consider whether there's something specific you've been protecting yourself from feeling. You don't have to face it. Just name it."],videos:["The Mirror Man He Had No Face of His Own","The Hidden Reason You Feel Empty Even When Life Looks Good"],level:'high'};}
+    else{r={type:'Fully Disconnected',tagline:"You've been living behind glass for a long time. It's time to come back.",analysis:["Your scores indicate a deep and persistent disconnection from your emotional experience. What you're describing — not feeling, not recognizing feeling, not being able to access what's inside — is significant.","This level of numbness doesn't develop without reason. At some point, feeling was too costly, too dangerous, or too overwhelming. Your system found a way to turn it off. That was a survival strategy, not a flaw.","But what protected you then is now keeping you from your own life. The glass that kept the pain out is also keeping everything else out."],missing:"Gradual, safe re-entry into feeling. Not a dramatic breakthrough. Not a forced emotional release. Just small, consistent exposure to being present — with support.",steps:["This is worth talking to someone about. Not because something is wrong with you — because you deserve support that this level of disconnection genuinely requires.","Start with your body, not your emotions. Notice physical sensations: temperature, texture, hunger, tiredness. The body is a doorway back.","Remove one major source of numbing from your life this week — not permanently, just for a few days. Notice what surfaces.","Be patient with yourself. The numbness took time to build. It takes time to soften. Forcing it doesn't work."],videos:["The System Needs You Tired — Why Your Exhaustion Is Not an Accident","The Body Keeping Score — When Symptoms Are Messages, Not Malfunctions"],level:'high'};}
+    document.getElementById('resultType').textContent=r.type;
+    document.getElementById('resultTagline').textContent=r.tagline;
+    const lc={low:'level-low',mid:'level-mid',high:'level-high'};
+    const ll={low:'Low Numbness',mid:'Moderate Numbness',high:'High Numbness'};
+    const sl=document.getElementById('scoreLevel');sl.textContent=ll[r.level];sl.className='score-level '+lc[r.level];
+    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>`<p class="result-text">${p}</p>`).join('');
+    document.getElementById('resultMissing').textContent=r.missing;
+    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>`<div class="step"><span class="step-num">0${i+1}</span><span class="step-text">${s}</span></div>`).join('');
+    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>`<a href="${ytSearch(v)}" target="_blank" class="video-card"><span class="video-card-title">${v}</span><span class="video-card-arrow">↗</span></a>`).join('');
+    buildShareCard(r.type,r.tagline);
+  }
+
+  function retakeTest(){
+    answers.fill(null);currentQ=0;
+    document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+    document.getElementById('resultScreen').style.display='none';
+    document.getElementById('startScreen').style.display='block';
+    document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+    document.getElementById('shareCard').style.display='none';
+  }
 </script>
 </body>
 </html>
