@@ -7,7 +7,6 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4519033126325580" crossorigin="anonymous"></script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
   <style>
     :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -150,7 +149,7 @@
   <a href="#habits" onclick="closeMobileNav()">Habits</a>
   <a href="#journal" onclick="closeMobileNav()">Journal</a>
   <a href="#videos" onclick="closeMobileNav()">Videos</a>
-  <a href="grindorium-journal.html" onclick="closeMobileNav()">Journal</a>
+  <a href="grindorium-journal.html" onclick="closeMobileNav()">Writings</a>
   <a href="https://youtube.com/@Grindorium" target="_blank">Watch</a>
 </div>
 
@@ -173,7 +172,7 @@
     <li><a href="#habits">Habits</a></li>
     <li><a href="#journal">Journal</a></li>
     <li><a href="#videos">Videos</a></li>
-    <li><a href="grindorium-journal.html">Writings</a></li>
+    <li><a href="grindorium-journal.html">Journal</a></li>
     <li><a href="https://youtube.com/@Grindorium" target="_blank">Watch</a></li>
   </ul>
   <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
@@ -371,7 +370,7 @@
   renderEntries();
 
   // SMOOTH SCROLL
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e)document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const href=this.getAttribute('href');if(href==='#')return;e.preventDefault();const t=document.querySelector(href);if(t)t.scrollIntoView({behavior:'smooth'});});});
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
 
   // YOUTUBE VIDEOS
   (function(){
