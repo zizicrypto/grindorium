@@ -17,7 +17,6 @@
     :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
     *{margin:0;padding:0;box-sizing:border-box;}
     html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
-
     /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
     .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
@@ -27,13 +26,11 @@
     .nav-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
     .nav-links a:hover{color:var(--white);}
     .nav-menu-btn{display:none;background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer;}
-
     /* MOBILE NAV */
     .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,11,18,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:32px;}
     .mobile-nav.open{display:flex;}
     .mobile-nav a{font-family:'Space Mono',monospace;font-size:14px;letter-spacing:0.2em;color:var(--dim);text-decoration:none;text-transform:uppercase;}
     .mobile-nav-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--dim);font-size:24px;cursor:pointer;}
-
     /* HERO */
     .hero{position:relative;width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(20,40,70,0.5) 0%,transparent 70%);}
     .breath-container{position:relative;display:flex;align-items:center;justify-content:center;width:240px;height:240px;margin-bottom:48px;cursor:pointer;}
@@ -53,17 +50,14 @@
     .scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,transparent,var(--accent));animation:scroll-drop 2s ease-in-out infinite;}
     .scroll-text{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
     @keyframes scroll-drop{0%,100%{opacity:0.4}50%{opacity:1}}
-
     /* QUOTE */
     .quote-section{padding:60px 24px;border-top:1px solid rgba(126,184,232,0.1);border-bottom:1px solid rgba(126,184,232,0.1);text-align:center;max-width:800px;margin:0 auto;}
     .quote-text{font-size:clamp(18px,3vw,28px);font-weight:300;color:var(--white);line-height:1.7;margin-bottom:16px;}
     .quote-source{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;}
-
     /* SECTIONS */
     .section{padding:80px 24px;max-width:1200px;margin:0 auto;}
     .section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:48px;display:flex;align-items:center;gap:20px;}
     .section-label::after{content:'';flex:1;height:1px;background:rgba(126,184,232,0.15);}
-
     /* CARDS */
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;}
     .card{background:var(--bg2);padding:40px 32px;cursor:pointer;transition:background 0.3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;border:1px solid transparent;}
@@ -73,14 +67,12 @@
     .card-desc{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
     .card-arrow{position:absolute;bottom:32px;right:32px;font-family:'Space Mono',monospace;font-size:16px;color:var(--dim);transition:color 0.3s,transform 0.3s;}
     .card:hover .card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-
     /* BREATHE SECTION */
     .breathe-section{padding:80px 24px;text-align:center;}
     .breath-big{width:160px;height:160px;border-radius:50%;border:1px solid rgba(126,184,232,0.4);margin:48px auto;display:flex;align-items:center;justify-content:center;animation:core-breathe 8s ease-in-out infinite;cursor:pointer;transition:border-color 0.3s;position:relative;}
     .breath-big:hover{border-color:rgba(126,184,232,0.8);}
     .breath-counter{font-family:'Space Mono',monospace;font-size:40px;color:rgba(126,184,232,0.6);position:absolute;}
     .breath-instruction{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-top:24px;}
-
     /* JOURNAL */
     .journal-section{padding:80px 24px;max-width:760px;margin:0 auto;}
     .journal-textarea{width:100%;background:var(--bg2);border:1px solid rgba(126,184,232,0.1);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:28px;line-height:1.8;resize:none;outline:none;min-height:180px;transition:border-color 0.3s;}
@@ -92,7 +84,6 @@
     .journal-entry{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.05);}
     .journal-entry-date{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:10px;}
     .journal-entry-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-
     /* VIDEOS */
     .video-section{padding:80px 24px;max-width:1200px;margin:0 auto;}
     .yt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
@@ -110,7 +101,6 @@
     .footer-links{display:flex;flex-wrap:wrap;gap:20px;}
     .footer-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
     .footer-links a:hover{color:var(--white);}
-
     /* FIXED BUTTONS — repositioned to not overlap footer */
     .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
     .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
@@ -118,7 +108,6 @@
     .sound-btn:hover .sound-icon{color:var(--accent);}
     .disconnect-btn{position:fixed;bottom:80px;left:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:rgba(7,11,18,0.95);border:1px solid rgba(126,184,232,0.15);padding:10px 16px;cursor:pointer;z-index:200;transition:all 0.3s;}
     .disconnect-btn:hover{color:var(--accent);border-color:rgba(126,184,232,0.4);}
-
     /* DISCONNECT OVERLAY */
     .disconnect-overlay{position:fixed;inset:0;background:#070b12;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;}
     .disconnect-overlay.active{display:flex;}
@@ -126,7 +115,6 @@
     .disconnect-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--dim);text-transform:uppercase;margin-top:32px;}
     .disconnect-close{position:absolute;top:24px;right:24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);background:transparent;border:none;cursor:pointer;text-transform:uppercase;transition:color 0.3s;}
     .disconnect-close:hover{color:var(--white);}
-
     /* MOBILE */
     @media(max-width:768px){
       nav{padding:16px 20px;}
@@ -145,7 +133,6 @@
   </style>
 </head>
 <body>
-
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-nav-close" onclick="closeMobileNav()">×</button>
@@ -158,14 +145,12 @@
   <a href="grindorium-journal.html" onclick="closeMobileNav()">Writings</a>
   <a href="https://youtube.com/@Grindorium" target="_blank">Watch</a>
 </div>
-
 <!-- DISCONNECT OVERLAY -->
 <div class="disconnect-overlay" id="disconnectOverlay">
   <button class="disconnect-close" onclick="closeDisconnect()">× Close</button>
   <div class="disconnect-circle"></div>
   <p class="disconnect-text">Just breathe. Nothing else.</p>
 </div>
-
 <nav>
   <a href="#" class="nav-logo">
     <img src="grindorium-character.png" alt="Grindorium" class="nav-logo-img" onerror="this.style.display='none'">
@@ -183,7 +168,6 @@
   </ul>
   <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
 </nav>
-
 <section class="hero">
   <div class="breath-container" onclick="startBreath()">
     <div class="breath-ring"></div>
@@ -200,14 +184,12 @@
     <div class="scroll-line"></div>
   </div>
 </section>
-
 <div style="max-width:800px;margin:0 auto;">
   <div class="quote-section">
     <p class="quote-text">"The silence you avoid knows everything about you."</p>
     <span class="quote-source">— Grindorium</span>
   </div>
 </div>
-
 <div class="section">
   <div class="section-label">What's here</div>
   <div class="cards">
@@ -219,14 +201,12 @@
     <a href="grindorium-journal.html" class="card"><div class="card-number">06</div><div class="card-title">Writings</div><div class="card-desc">Essays, quotes, reflections. On burnout, silence, and the life most people are not living.</div><div class="card-arrow">↗</div></a>
   </div>
 </div>
-
 <section id="breathe" class="breathe-section">
   <div class="section-label" style="justify-content:center;max-width:300px;margin:0 auto 48px;">01 — Breathe</div>
   <p style="font-size:17px;font-weight:300;color:var(--dim);max-width:480px;margin:0 auto;line-height:1.8;">Four seconds in. Seven seconds hold. Eight seconds out. Three rounds. That is all.</p>
   <div class="breath-big" onclick="startBreath()" id="breathCircle"><span class="breath-counter" id="breathCounter"></span></div>
   <p class="breath-instruction" id="breathInstruction">Click to begin</p>
 </section>
-
 <section id="tests" class="section">
   <div class="section-label">02 — Know Yourself</div>
   <div class="cards">
@@ -235,9 +215,13 @@
     <a href="grindorium-attachment.html" class="card"><div class="card-number">Attachment</div><div class="card-title">How do you attach?</div><div class="card-desc">Why you keep choosing the same people. Same endings.</div><div class="card-arrow">↗</div></a>
     <a href="grindorium-anxiety.html" class="card"><div class="card-number">Anxiety</div><div class="card-title">Are you overstimulated?</div><div class="card-desc">Your nervous system in 2026. How much is too much?</div><div class="card-arrow">↗</div></a>
     <a href="grindorium-discipline.html" class="card"><div class="card-number">Discipline</div><div class="card-title">How disciplined are you?</div><div class="card-desc">Not motivation. Not willpower. Real self-control. Honestly.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-perfectionism.html" class="card"><div class="card-number">Perfectionism</div><div class="card-title">Are you a perfectionist?</div><div class="card-desc">High standards and perfectionism are not the same thing. Find out which one you actually have.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-peoplepleasing.html" class="card"><div class="card-number">People Pleasing</div><div class="card-title">Do you know what you want?</div><div class="card-desc">You say yes when you mean no. You shrink. Find out how deep the pattern goes.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-loneliness.html" class="card"><div class="card-number">Loneliness</div><div class="card-title">Are you lonely in a full room?</div><div class="card-desc">Loneliness is not about how many people are around you. It is about whether any of them know you.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-selfsabotage.html" class="card"><div class="card-number">Self-Sabotage</div><div class="card-title">Are you your own worst enemy?</div><div class="card-desc">You know what to do. You do not do it. Or you get close and then destroy it. Find out why.</div><div class="card-arrow">↗</div></a>
+    <a href="grindorium-emotionalmaturity.html" class="card"><div class="card-number">Emotional Maturity</div><div class="card-title">How mature are you, really?</div><div class="card-desc">Age is not emotional maturity. You can be 40 and still respond like you are 14. Find out.</div><div class="card-arrow">↗</div></a>
   </div>
 </section>
-
 <section id="sounds" class="section">
   <div class="section-label">03 — Sounds</div>
   <div class="cards">
@@ -247,7 +231,6 @@
     <div class="card" onclick="playSound('silence')" style="user-select:none;"><div class="card-number">Nothing</div><div class="card-title">Silence</div><div class="card-desc">Just stop. That is enough.</div><div class="card-arrow" id="silence-arrow">▶</div></div>
   </div>
 </section>
-
 <section id="habits" class="section">
   <div class="section-label">04 — Habits</div>
   <div style="max-width:500px;">
@@ -260,7 +243,6 @@
     <div id="habitChain" style="margin-top:20px;display:flex;flex-wrap:wrap;gap:6px;"></div>
   </div>
 </section>
-
 <section id="journal" class="journal-section">
   <div class="section-label" style="max-width:760px;margin:0 auto 48px;">05 — Journal</div>
   <p style="font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:32px;max-width:480px;">No likes. No audience. Just you and what you actually think.</p>
@@ -269,7 +251,6 @@
   <button class="journal-save" onclick="saveEntry()">Save →</button>
   <div class="journal-entries" id="journalEntries"></div>
 </section>
-
 <section id="videos" class="video-section">
   <div class="section-label">06 — Latest Videos</div>
   <div class="yt-grid" id="ytGrid">
@@ -295,15 +276,12 @@
     </div>
   </div>
 </footer>
-
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 <button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
-
 <script>
   // MOBILE NAV
   function openMobileNav(){document.getElementById('mobileNav').classList.add('open');}
   function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');}
-
   // BREATH
   let breathActive=false,breathTimer=null;
   function startBreath(){
@@ -319,7 +297,6 @@
     next();
   }
   function countdown(s){const c=document.getElementById('breathCounter');let r=s;c.textContent=r;const iv=setInterval(()=>{r--;if(r<=0){clearInterval(iv);c.textContent='';}else{c.textContent=r;}},1000);}
-
   // SOUNDS
   const soundUrls={rain:'diepthanhdk-rain-meditation-450575.mp3',forest:'meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'99beats-water-fountain-healing-music-239455.mp3',silence:null};
   let currentAudio=null,currentSound=null;
@@ -331,18 +308,15 @@
     if(soundUrls[type]){const a=new Audio(soundUrls[type]);a.loop=true;a.volume=0.4;a.play().catch(()=>{});currentAudio=a;document.getElementById(type+'-arrow').textContent='■';document.getElementById(type+'-arrow').style.color='var(--accent)';}
     else{document.getElementById(type+'-arrow').textContent='○';document.getElementById(type+'-arrow').style.color='var(--accent)';}
   }
-
   // AMBIENT
   let ambientAudio=null,ambientOn=false;
   function toggleAmbient(){
     if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--dim)';});}
     else{ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
   }
-
   // DISCONNECT
   function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}
   function closeDisconnect(){document.getElementById('disconnectOverlay').classList.remove('active');}
-
   // HABITS
   let streak=parseInt(localStorage.getItem('grind_streak')||'0');
   let lastDone=localStorage.getItem('grind_lastdone')||'';
@@ -361,7 +335,6 @@
   const savedHabit=localStorage.getItem('grind_habit');
   if(savedHabit){const el=document.getElementById('habitInput');if(el)el.value=savedHabit;}
   updateChain();
-
   // JOURNAL
   function saveEntry(){
     const text=document.getElementById('journalInput').value.trim();
@@ -378,10 +351,8 @@
     el.innerHTML=entries.map(e=>`<div class="journal-entry"><div class="journal-entry-date">${e.date}</div><div class="journal-entry-text">${e.text}</div></div>`).join('');
   }
   renderEntries();
-
   // SMOOTH SCROLL
   document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
-
   // YOUTUBE VIDEOS
   (function(){
     const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
@@ -403,7 +374,6 @@
         grid.innerHTML='<p class="yt-loading">Could not load videos.</p>';
       });
   })();
-
   // BREATH LABEL
   const labels=['breathe','slow down',"you're here","it's okay"];
   let li=0;
