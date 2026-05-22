@@ -18,25 +18,25 @@
     .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
     .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;letter-spacing:0.15em;}
     .nav-back:hover{color:var(--white);}
-    .container{max-width:760px;margin:0 auto;padding:140px 48px 100px;}
+    .container{max-width:760px;margin:0 auto;padding:120px 28px 80px;}
     .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
     .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
     .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
     .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:60px;}
+    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:32px;}
     .progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
     .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
     .question-block{display:none;animation:fade-up 0.4s ease forwards;}
     .question-block.active{display:block;}
     @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;}
-    .question-text{font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:48px;}
-    .options{display:flex;flex-direction:column;gap:12px;}
-    .option{padding:20px 28px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:20px;font-size:17px;font-weight:300;color:var(--dim);}
+    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;}
+    .question-text{font-size:clamp(19px,2.5vw,26px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:24px;}
+    .options{display:flex;flex-direction:column;gap:8px;}
+    .option{padding:13px 16px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:14px;font-size:15px;font-weight:300;color:var(--dim);}
     .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
     .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:60px;}
-    .nav-buttons{display:flex;gap:16px;margin-top:48px;}
+    .option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:56px;}
+    .nav-buttons{display:flex;gap:12px;margin-top:28px;}
     .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
     .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
     .btn:disabled{opacity:0.3;cursor:not-allowed;}
@@ -97,7 +97,7 @@
     .share-section-top{margin-bottom:56px;}
     .share-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
     #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:0;display:none;}
-    @media(max-width:768px){nav{padding:20px 24px;}.container{padding:120px 24px 80px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
+    @media(max-width:768px){nav{padding:16px 20px;}.container{padding:100px 16px 60px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
   </style>
 </head>
 <body>
