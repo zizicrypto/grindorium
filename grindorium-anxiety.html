@@ -1,264 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anxiety & Overstimulation Test \\u2014 Grindorium</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-    .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
-    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;letter-spacing:0.15em;}
-    .nav-back:hover{color:var(--white);}
-    .container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
-    .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
-    .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
-    .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
-    .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:60px;}
-    .progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
-    .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
-    .question-block{display:none;animation:fade-up 0.4s ease forwards;}
-    .question-block.active{display:block;}
-    @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;}
-    .question-text{font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:48px;}
-    .options{display:flex;flex-direction:column;gap:12px;}
-    .option{padding:20px 28px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:20px;font-size:17px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:60px;}
-    .nav-buttons{display:flex;gap:16px;margin-top:48px;}
-    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
-    .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
-    .btn:disabled{opacity:0.3;cursor:not-allowed;}
-    .btn-primary{background:rgba(126,184,232,0.1);border-color:var(--accent);}
-    .start-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 48px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:8px;}
-    .start-btn:hover{border-color:var(--accent);background:rgba(126,184,232,0.15);color:var(--white);}
-    .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:48px;}
-    .score-card{background:var(--bg2);padding:24px 20px;text-align:center;}
-    .score-card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-bottom:12px;}
-    .score-card-value{font-size:32px;font-weight:300;color:var(--white);margin-bottom:4px;}
-    .score-card-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
-    .score-card-level{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;margin-top:8px;text-transform:uppercase;}
-    .level-low{color:#6db88a;}.level-mid{color:#e8c87e;}.level-high{color:#e87e7e;}
-    .result-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
-    .result-type{font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
-    .result-tagline{font-size:20px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:48px;line-height:1.5;}
-    .result-section{margin-bottom:40px;}
-    .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
-    .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
-    .steps{display:flex;flex-direction:column;gap:16px;}
-    .step{display:flex;gap:20px;align-items:flex-start;}
-    .step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:24px;margin-top:4px;}
-    .step-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .video-cards{display:flex;flex-direction:column;gap:12px;}
-    .video-card{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-    .video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
-    .video-card-title{font-size:16px;font-weight:300;color:var(--white);}
-    .video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:16px;transition:color 0.3s,transform 0.3s;}
-    .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-    .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
-    .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
-    .share-card-top{font-family:'Space Mono',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;}
-    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
-    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
-    .share-card-scores{display:flex;gap:32px;margin-top:8px;}
-    .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:22px;}
-    .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
-    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
-    .share-card-char{width:64px;height:64px;min-width:64px;min-height:64px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
-    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
-    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
-    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
-    @media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.score-grid{grid-template-columns:1fr 1fr;}}
-  
-    /* === FIXES === */
-    .container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
-    .question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
-    .options{display:flex;flex-direction:column;gap:6px;}
-    .option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
-    .question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
-    .nav-buttons{display:flex;gap:10px;margin-top:16px;}
-    #shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:34px 38px;display:flex;flex-direction:column;justify-content:space-between;}
-    .share-section-top{margin-bottom:40px;}
-    .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
-    /* profile */
-    .profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
-    .profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
-    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
-    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
-    .profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
-    .profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
-    .profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
-    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
-    .profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
-    .profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
-    .profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
-    @media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Anxiety & Overstimulation Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<meta property="og:url" content="https://grindorium.org/grindorium-anxiety.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-box{background:var(--bg2);padding:26px;margin-bottom:32px;border:1px solid rgba(126,184,232,0.1);text-align:center;}
+.score-big{font-size:56px;font-weight:300;color:var(--white);}
+.score-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);margin-top:6px;}
+.score-level{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-top:9px;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}}
+</style>
 </head>
 <body>
-<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">← Back</a></nav>
+<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
 <div class="container">
-  <div id="profileScreen">
-  <div class="test-label" id="pLabel"></div>
-  <h1 style="font-size:clamp(30px,6vw,50px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:12px;">Before you begin.</h1>
-  <p style="font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;">Optional. Your name and photo will appear on the result card.</p>
-  <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:#fff;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;margin-bottom:20px;display:block;" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:26px;">
-    <img id="profilePhotoPreview" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);display:none;" src="" alt=""/>
-    <label style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;" for="profilePhotoInput">Upload photo</label>
+
+<div id="profileScreen">
+  <div class="test-label">Anxiety & Overstimulation Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
     <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
-  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;">
-    <button style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;" onclick="goStart()">Begin Assessment</button>
-    <button style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;" onclick="goStart()">Skip</button>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
   </div>
 </div>
+
 <div id="startScreen" style="display:none">
-    <div class="test-label">Anxiety & Overstimulation Assessment</div>
+<div class="test-label">Anxiety & Overstimulation Assessment</div>
     <h1 class="test-title">Are you overstimulated?</h1>
     <p class="test-desc">Your nervous system was never designed for this. Constant notifications. Infinite scroll. Always-on. This assessment measures how overstimulated your system has become, and what kind of anxiety that is creating.</p>
-    <p class="test-note">10 questions \\u00b7 3\\u20135 minutes \\u00b7 Based on GAD-7 and nervous system research \\u00b7 Not a clinical diagnostic tool</p>
-    <button class="start-btn" onclick="startTest()">Begin Assessment \\u2192</button>
+    <p class="test-note">10 questions \· 3\\u20135 minutes \· Based on GAD-7 and nervous system research \· Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel anxious or on edge without being able to identify a specific reason.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I feel calm most of the time.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Occasional unease, but not often.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>Background anxiety is present more than I'd like.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I'm almost always slightly on edge.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>Constant low-level anxiety is my baseline.</div></div></div>
+<div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I check my phone compulsively, not because I'm expecting anything, but because I can't not.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>I use my phone intentionally.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Occasionally, but not habitually.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>More automatic than I'd like.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>It's become reflexive.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>My hand reaches for my phone before I decide to.</div></div></div>
+<div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">My mind jumps rapidly from thought to thought, making it hard to focus on one thing.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>I can generally focus when I need to.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Occasional scatter, but not a major problem.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>Sustained focus is increasingly difficult.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>My thoughts are rarely still.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>My mind is constantly in motion.</div></div></div>
+<div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">Silence or doing nothing feels uncomfortable or even anxiety-inducing.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>Quiet is comfortable for me.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>Sometimes I fill silence, but not always.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>Silence often makes me reach for stimulation.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>Doing nothing feels almost unbearable.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I cannot tolerate silence or stillness.</div></div></div>
+<div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My sleep is disrupted. Either I can't fall asleep, I wake up at night, or I wake up tired.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>I generally sleep well.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Occasional disruption.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>Sleep issues are more common than they should be.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>My sleep is regularly disrupted.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>Good sleep feels almost impossible.</div></div></div>
+<div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel physically tense. Tight muscles, shallow breathing, or a persistent sense of bracing.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>My body feels generally relaxed.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>Occasional tension.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>I notice tension more than I should.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>My body is frequently tense without clear reason.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>I'm almost always physically braced for something.</div></div></div>
+<div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I worry about things that I know are unlikely to happen, but I can't stop the thoughts.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>My worries are generally proportional.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Occasionally excessive, but brief.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice the worry running ahead of reality.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>Worst-case scenarios loop frequently.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>My mind defaults to catastrophe.</div></div></div>
+<div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">After consuming news, social media, or online content, I feel worse rather than better.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>Content doesn't significantly affect my mood.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Occasionally, but I recover quickly.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>I notice the depletion more than I'd like.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>Most sessions leave me feeling drained.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>Every session leaves me worse off.</div></div></div>
+<div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I have difficulty being fully present in conversations. My mind wanders or monitors the environment.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I'm generally present in conversations.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>Occasional drift.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>I notice I'm not fully there.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>Full presence is increasingly difficult.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>I'm rarely fully present with another person.</div></div></div>
+<div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">Even during leisure time, I can't fully relax. I feel like I should be doing something.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>I can genuinely rest when I have free time.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>Sometimes the guilt creeps in.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>Rest often feels unearned.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>Doing nothing feels irresponsible.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>I cannot remember the last time I truly relaxed.</div></div></div>
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
   </div>
-  <div id="testScreen" style="display:none">
-    <div class="progress-text" id="progressText">Question 1 of 10</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel anxious or on edge without being able to identify a specific reason.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I feel calm most of the time.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Occasional unease, but not often.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>Background anxiety is present more than I'd like.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I'm almost always slightly on edge.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>Constant low-level anxiety is my baseline.</div></div></div>
-    <div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I check my phone compulsively, not because I'm expecting anything, but because I can't not.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>I use my phone intentionally.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Occasionally, but not habitually.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>More automatic than I'd like.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>It's become reflexive.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>My hand reaches for my phone before I decide to.</div></div></div>
-    <div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">My mind jumps rapidly from thought to thought, making it hard to focus on one thing.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>I can generally focus when I need to.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Occasional scatter, but not a major problem.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>Sustained focus is increasingly difficult.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>My thoughts are rarely still.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>My mind is constantly in motion.</div></div></div>
-    <div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">Silence or doing nothing feels uncomfortable or even anxiety-inducing.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>Quiet is comfortable for me.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>Sometimes I fill silence, but not always.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>Silence often makes me reach for stimulation.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>Doing nothing feels almost unbearable.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I cannot tolerate silence or stillness.</div></div></div>
-    <div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My sleep is disrupted. Either I can't fall asleep, I wake up at night, or I wake up tired.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>I generally sleep well.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Occasional disruption.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>Sleep issues are more common than they should be.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>My sleep is regularly disrupted.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>Good sleep feels almost impossible.</div></div></div>
-    <div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel physically tense. Tight muscles, shallow breathing, or a persistent sense of bracing.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>My body feels generally relaxed.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>Occasional tension.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>I notice tension more than I should.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>My body is frequently tense without clear reason.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>I'm almost always physically braced for something.</div></div></div>
-    <div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I worry about things that I know are unlikely to happen, but I can't stop the thoughts.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>My worries are generally proportional.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Occasionally excessive, but brief.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice the worry running ahead of reality.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>Worst-case scenarios loop frequently.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>My mind defaults to catastrophe.</div></div></div>
-    <div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">After consuming news, social media, or online content, I feel worse rather than better.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>Content doesn't significantly affect my mood.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Occasionally, but I recover quickly.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>I notice the depletion more than I'd like.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>Most sessions leave me feeling drained.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>Every session leaves me worse off.</div></div></div>
-    <div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I have difficulty being fully present in conversations. My mind wanders or monitors the environment.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I'm generally present in conversations.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>Occasional drift.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>I notice I'm not fully there.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>Full presence is increasingly difficult.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>I'm rarely fully present with another person.</div></div></div>
-    <div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">Even during leisure time, I can't fully relax. I feel like I should be doing something.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>I can genuinely rest when I have free time.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>Sometimes the guilt creeps in.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>Rest often feels unearned.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>Doing nothing feels irresponsible.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>I cannot remember the last time I truly relaxed.</div></div></div>
-    <div class="nav-buttons">
-      <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>← Back</button>
-      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next \\u2192</button>
-    </div>
-  </div>
-  <div id="resultScreen" style="display:none">
+</div>
+
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
     <div class="result-label">Your Result</div>
-    <h1 class="result-type" id="resultType"></h1>
-    <p class="result-tagline" id="resultTagline"></p>
-    <div class="score-grid">
-      <div class="score-card"><div class="score-card-label">Anxiety Score</div><div class="score-card-value" id="anxScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="anxLevel"></div></div>
-      <div class="score-card"><div class="score-card-label">Overstimulation</div><div class="score-card-value" id="stimScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="stimLevel"></div></div>
-    </div>
-    <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-    <div class="result-section"><div class="result-section-title">What's driving it</div><p class="result-text" id="resultMissing"></p></div>
-    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    <div class="result-section">
-      <div class="result-section-title">Share your result</div>
-      <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
-      <div id="shareCard">
-        <div class="share-card-inner" id="shareCardInner">
-          <div class="share-card-top">Grindorium \\u00b7 Anxiety & Overstimulation</div>
-          <div>
-            <div style="font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;margin-bottom:8px;">My Result</div>
-            <div class="share-card-type" id="cardType"></div>
-            <div class="share-card-tagline" id="cardTagline"></div>
+    <div id="shareCard">
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium · Anxiety & Overstimulation</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;">
+            <img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
+            <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span>
           </div>
-          <div class="share-card-scores" id="cardScores"></div>
-          <div class="share-card-bottom">
-            <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div class="share-card-domain">grindorium.org</div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        </div>
+        <div id="cardScores" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;">
+            <div style="font-family:'Space Mono',sans-serif;font-size:9px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.12em;">grindorium.org</div>
+            <div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div>
           </div>
         </div>
       </div>
-      <br>
-      <button class="share-btn" onclick="downloadCard()">Download Image \\u2193</button>
     </div>
-    <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+    <div class="share-btns">
+      <button class="share-btn" onclick="downloadCard()">Download Image</button>
+    </div>
   </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+<div class="score-grid">
+      <div class="score-card"><div class="score-card-label">Anxiety Score</div><div class="score-card-value" id="anxScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="anxLevel"></div></div>
+<div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+    <div class="result-section"><div class="result-section-title">What's driving it</div><p class="result-text" id="resultMissing"></p></div>
+    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+    
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-
-
-  let userPhoto=null;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-anxiety-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+let userPhoto=null;
   function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
   function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
   function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
-</script>
-<script>
-  const answers=new Array(10).fill(null);let currentQ=0;
-  function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
-  function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===9){showResult();return;}document.getElementById(`q${currentQ}`).classList.remove('active');currentQ++;document.getElementById(`q${currentQ}`).classList.add('active');updateUI();}
-  function prevQuestion(){if(currentQ===0)return;document.getElementById(`q${currentQ}`).classList.remove('active');currentQ--;document.getElementById(`q${currentQ}`).classList.add('active');updateUI();}
-  function updateUI(){document.getElementById('progressText').textContent=`Question ${currentQ+1} of 10`;document.getElementById('progressFill').style.width=`${(currentQ/10)*100}%`;document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===9?'See Results \\u2192':'Next \\u2192';}
-  function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-  function getLevel(s,m){const p=s/m;if(p<=0.35)return'low';if(p<=0.65)return'mid';return'high';}
-  function showResult(){
-    const anx=answers[0]+answers[2]+answers[4]+answers[5]+answers[6];
-    const stim=answers[1]+answers[3]+answers[7]+answers[8]+answers[9];
-    const aL=getLevel(anx,20),sL=getLevel(stim,20);
-    document.getElementById('testScreen').style.display='none';document.getElementById('resultScreen').style.display='block';
-    document.getElementById('anxScore').textContent=anx;document.getElementById('stimScore').textContent=stim;
-    document.getElementById('progressFill').style.width='100%';
-    const lbl={low:'Low',mid:'Moderate',high:'High'};const cls={low:'level-low',mid:'level-mid',high:'level-high'};
-    const ae=document.getElementById('anxLevel');ae.textContent=lbl[aL]+' Anxiety';ae.className='score-card-level '+cls[aL];
-    const se=document.getElementById('stimLevel');se.textContent=lbl[sL]+' Stimulation';se.className='score-card-level '+cls[sL];
-    let r;
-    if(aL==='high'&&sL==='high'){r={type:'The Overloaded System',tagline:"Your nervous system is carrying more than it was designed for. And it shows.",analysis:["Both your anxiety and your overstimulation levels are high. This combination means your nervous system is chronically activated with no meaningful recovery periods.","The world is designed to keep you stimulated. Your constant checking, the background noise, the inability to tolerate silence are not character flaws. They are the logical result of a system trained to stay on alert.","The physical symptoms, tension, disrupted sleep, racing thoughts, are not separate from the stimulation. They are the stimulation, internalized."],missing:"Input reduction. Not productivity. Not discipline. Simply less. Your system needs periods of genuine low-stimulation to begin to regulate.",steps:["Identify your three largest sources of daily stimulation. Remove or significantly reduce one this week.","Try one 10-minute period each day with no input. No phone, no content, no background noise. Just be somewhere.","Move your body daily. Not for fitness, for nervous system regulation. Walking works.","Before sleep, put the phone in another room. Your system cannot downregulate while processing content."],videos:["How They Stole Your Attention \\u2014 A Film About the Attention Economy","The Manufactured Need \\u2014 How Your Desires Were Designed for You"]};}
-    else if(aL==='high'){r={type:'The Anxious Mind',tagline:"The noise is not outside. It's inside. And it doesn't stop.",analysis:["Your anxiety levels are high, but your external stimulation pattern is less severe. This suggests your anxiety is more internally generated. The mind has learned to create its own noise even when the environment is quieter.","Worry spirals, catastrophic thinking, physical tension. These are your nervous system trying to prepare for threats that may or may not arrive.","This pattern usually develops in response to an environment that was genuinely unpredictable at some point. The hypervigilance made sense then. It has not turned off."],missing:"A felt sense of safety. Not logical reassurance. Your body already knows the threats are unlikely. What it needs is consistent evidence, through experience, that it is safe to lower the guard.",steps:["Practice named breathing: breathe in for 4 counts, hold for 4, out for 6. The longer exhale activates the parasympathetic nervous system.","When worry spirals start, write them down. The act of externalizing often reduces their intensity.","Identify one area of your life where the anxiety is highest. Ask: what am I actually afraid of here?","Consider whether professional support might help. CBT is particularly effective for this pattern."],videos:["The Mind After Midnight \\u2014 When Your Thoughts Won't Let You Sleep","The Need to Control Everything \\u2014 A Film About Fear"]};}
-    else if(sL==='high'){r={type:'The Overstimulated One',tagline:"You have trained your brain to need constant input. The quiet is unbearable. But the noise is destroying you.",analysis:["Your overstimulation levels are high, but your anxiety has not reached clinical levels yet. This is a crucial window.","Your brain has been reconditioned by constant stimulation. The reward system now expects a new input every few seconds. Anything slower, a book, a conversation, a quiet moment, feels wrong.","This is not about phone addiction as a moral failure. It is about a system deliberately designed to keep you stimulated, and a brain that adapted accordingly."],missing:"Retraining, not willpower. You cannot white-knuckle your way out of a conditioned behavior. The key is creating environments and patterns that make lower stimulation the default.",steps:["Delete the three apps you scroll most. Use them only through a browser. The friction matters.","Make your bedroom a no-phone zone. Not sometimes. Consistently.","For one week, replace 20 minutes of scrolling with something slower: a walk, reading, sitting.","Notice what you are avoiding when you reach for your phone. The scroll is a symptom."],videos:["How They Stole Your Attention \\u2014 A Film About the Attention Economy","They Called it Civilization \\u2014 From Slavery to the Algorithm"]};}
-    else{r={type:'The Regulated One',tagline:"Your system is functioning. Protect that. It is rarer than you think.",analysis:["Your scores suggest relatively low anxiety and overstimulation. Your nervous system has reasonable regulation, and you have not been captured by the constant-input loop that affects most people.","This does not mean everything is perfect. It means you have either built, or maintained, habits that protect your nervous system from the most aggressive demands of modern life.","The risk now is complacency. The conditions that created your balance can erode gradually, without you noticing until it has already shifted significantly."],missing:"Maintenance and vigilance. What you are doing is working. The question is whether you are doing it consciously or accidentally. Only conscious habits can be protected.",steps:["Identify specifically what is keeping your nervous system regulated. Name it so you can protect it.","Monitor your relationship with stimulation over time. Is it trending up or staying stable?","Be thoughtful about which new technologies, apps, or habits you allow into your day.","Share what works with people around you. Your calm is contagious."],videos:["People Who Forgot How to Rest","When Humans Forgot Nature"]};}
-    document.getElementById('resultType').textContent=r.type;document.getElementById('resultTagline').textContent=r.tagline;
-    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>`<p class="result-text">${p}</p>`).join('');
-    document.getElementById('resultMissing').textContent=r.missing;
-    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>`<div class="step"><span class="step-num">0${i+1}</span><span class="step-text">${s}</span></div>`).join('');
-    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>`<a href="${ytSearch(v)}" target="_blank" class="video-card"><span class="video-card-title">${v}</span><span class="video-card-arrow">\\u2197</span></a>`).join('');
-    buildShareCard(r.type,r.tagline,anx,stim);
-  }
-  const typeColors={
-    'The Overloaded System':{bg:'linear-gradient(135deg,#0f0707 0%,#200d0d 100%)',accent:'#e87e7e'},
-    'The Anxious Mind':{bg:'linear-gradient(135deg,#0a080f 0%,#14101f 100%)',accent:'#a07ee8'},
-    'The Overstimulated One':{bg:'linear-gradient(135deg,#0f0a07 0%,#201507 100%)',accent:'#e8b07e'},
-    'The Regulated One':{bg:'linear-gradient(135deg,#07090f 0%,#0a1020 100%)',accent:'#7eb8e8'}
-  };
-  function buildShareCard(type,tagline,anx,stim){
-    const card=document.getElementById('shareCard');
-    const inner=document.getElementById('shareCardInner');
-    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
-    card.style.display='block';
-    inner.style.background=colors.bg;
-    document.getElementById('cardType').textContent=type;
-    document.getElementById('cardType').style.color=colors.accent;
-    document.getElementById('cardTagline').textContent=tagline;
-    document.getElementById('cardScores').innerHTML=`
-      <div><div class="share-card-score-val" style="color:${colors.accent}">${anx}</div><div class="share-card-score-label">Anxiety</div></div>
-      <div><div class="share-card-score-val" style="color:${colors.accent}">${stim}</div><div class="share-card-score-label">Stimulation</div></div>`;
-  }
-  function downloadCard(){
-    const card=document.getElementById('shareCard');
-    const img=card.querySelector('.share-card-char');
-    if(img) img.style.borderRadius='50%';
-    if(img){img.style.width='64px';img.style.height='64px';img.style.minWidth='64px';img.style.minHeight='64px';}
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
-      const link=document.createElement('a');
-      link.download='grindorium-anxiety-result.png';
-      link.href=canvas.toDataURL('image/png');
-      link.click();
-    });
-  }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
-  document.getElementById('pLabel').textContent='Anxiety & Overstimulation Assessment';
 </script>
 </body>
 </html>
