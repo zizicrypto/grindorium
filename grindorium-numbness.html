@@ -1,255 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emotional Numbness Test \\u2014 Grindorium</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
-  <style>
-    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-    .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
-    .nav-back{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
-    .nav-back:hover{color:var(--white);}
-    .container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
-    .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
-    .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
-    .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
-    .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:60px;}
-    .progress-fill{height:100%;background:var(--accent);transition:width 0.4s ease;width:0%;}
-    .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
-    .question-block{display:none;animation:fade-up 0.4s ease forwards;}
-    .question-block.active{display:block;}
-    @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;}
-    .question-text{font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:48px;}
-    .options{display:flex;flex-direction:column;gap:12px;}
-    .option{padding:20px 28px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:20px;font-size:17px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--accent);min-width:60px;}
-    .nav-buttons{display:flex;gap:16px;margin-top:48px;}
-    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
-    .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
-    .btn:disabled{opacity:0.3;cursor:not-allowed;}
-    .btn-primary{background:rgba(126,184,232,0.1);border-color:var(--accent);}
-    .start-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 48px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:8px;}
-    .start-btn:hover{border-color:var(--accent);background:rgba(126,184,232,0.15);color:var(--white);}
-    .result-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
-    .result-type{font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
-    .result-tagline{font-size:20px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:48px;line-height:1.5;}
-    .score-box{background:var(--bg2);padding:32px;margin-bottom:48px;border:1px solid rgba(126,184,232,0.1);text-align:center;}
-    .score-big{font-size:64px;font-weight:300;color:var(--white);}
-    .score-max{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);margin-top:8px;}
-    .score-level{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-top:12px;}
-    .level-low{color:#6db88a;}.level-mid{color:#e8c87e;}.level-high{color:#e87e7e;}
-    .result-section{margin-bottom:40px;}
-    .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
-    .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
-    .steps{display:flex;flex-direction:column;gap:16px;}
-    .step{display:flex;gap:20px;align-items:flex-start;}
-    .step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:24px;margin-top:4px;}
-    .step-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .video-cards{display:flex;flex-direction:column;gap:12px;}
-    .video-card{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-    .video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
-    .video-card-title{font-size:16px;font-weight:300;color:var(--white);}
-    .video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:16px;transition:color 0.3s,transform 0.3s;}
-    .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-    .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
-    .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
-    .share-card-top{font-family:'Space Mono',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;}
-    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
-    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
-    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
-    .share-card-char{width:56px;height:56px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
-    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
-    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
-    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
-    @media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}}
-  
-    /* === FIXES === */
-    .container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
-    .question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
-    .options{display:flex;flex-direction:column;gap:6px;}
-    .option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
-    .question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
-    .nav-buttons{display:flex;gap:10px;margin-top:16px;}
-    #shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:34px 38px;display:flex;flex-direction:column;justify-content:space-between;}
-    .share-section-top{margin-bottom:40px;}
-    .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
-    /* profile */
-    .profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
-    .profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
-    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
-    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
-    .profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
-    .profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
-    .profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
-    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
-    .profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
-    .profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
-    .profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
-    @media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Emotional Numbness Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<meta property="og:url" content="https://grindorium.org/grindorium-numbness.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-box{background:var(--bg2);padding:26px;margin-bottom:32px;border:1px solid rgba(126,184,232,0.1);text-align:center;}
+.score-big{font-size:56px;font-weight:300;color:var(--white);}
+.score-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);margin-top:6px;}
+.score-level{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-top:9px;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}}
+</style>
 </head>
 <body>
-<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">← Back</a></nav>
+<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
 <div class="container">
-  <div id="profileScreen">
-  <div class="test-label" id="pLabel"></div>
-  <h1 style="font-size:clamp(30px,6vw,50px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:12px;">Before you begin.</h1>
-  <p style="font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;">Optional. Your name and photo will appear on the result card.</p>
-  <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:#fff;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;margin-bottom:20px;display:block;" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:26px;">
-    <img id="profilePhotoPreview" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);display:none;" src="" alt=""/>
-    <label style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;" for="profilePhotoInput">Upload photo</label>
+
+<div id="profileScreen">
+  <div class="test-label">Emotional Numbness Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
     <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
-  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;">
-    <button style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;" onclick="goStart()">Begin Assessment</button>
-    <button style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;" onclick="goStart()">Skip</button>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
   </div>
 </div>
+
 <div id="startScreen" style="display:none">
-    <div class="test-label">Emotional Numbness Assessment</div>
+<div class="test-label">Emotional Numbness Assessment</div>
     <h1 class="test-title">How emotionally numb are you?</h1>
     <p class="test-desc">At some point, feeling nothing started feeling normal. This assessment measures how disconnected you've become from your own emotional experience \\u2014 and what that disconnection is actually about.</p>
-    <p class="test-note">12 questions \\u00b7 3\\u20135 minutes \\u00b7 Based on alexithymia and emotional regulation research \\u00b7 Not a clinical diagnostic tool</p>
-    <button class="start-btn" onclick="startTest()">Begin Assessment \\u2192</button>
+    <p class="test-note">12 questions \· 3\\u20135 minutes \· Based on alexithymia and emotional regulation research \· Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 12</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="question-block active" id="q0"><div class="question-number">01 / 12</div><div class="question-text">When something emotional happens, I struggle to identify exactly what I'm feeling.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I can usually name what I feel clearly.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Occasionally unclear, but not a pattern.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>More often than I'd expect.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I frequently don't know what I feel.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>I almost never know what I'm actually feeling.</div></div></div>
+<div class="question-block" id="q1"><div class="question-number">02 / 12</div><div class="question-text">I go through entire days without feeling anything that could be called emotion.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>My days have emotional texture.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Occasionally flat, but not a pattern.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>Some days just pass without anything.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>Most days feel emotionally blank.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>Every day feels like this.</div></div></div>
+<div class="question-block" id="q2"><div class="question-number">03 / 12</div><div class="question-text">Things that used to move me \\u2014 music, moments, people \\u2014 no longer seem to reach me.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>Things still move me the way they used to.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Sometimes less, but mostly still there.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>I notice a growing gap.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>Most things no longer reach me.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>Almost nothing gets through anymore.</div></div></div>
+<div class="question-block" id="q3"><div class="question-number">04 / 12</div><div class="question-text">I feel like I'm watching my own life from a distance, rather than living it.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>I feel present in my own life.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>Occasionally detached, but it passes.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>I notice it more than I should.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>I frequently feel like an observer.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I almost never feel inside my own life.</div></div></div>
+<div class="question-block" id="q4"><div class="question-number">05 / 12</div><div class="question-text">I find it difficult to cry, even when something genuinely sad happens.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>I cry when sad things happen.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Sometimes I hold back, but not always.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>I notice I don't cry when I probably should.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>I rarely cry even when things are genuinely sad.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>I can't remember the last time I cried.</div></div></div>
+<div class="question-block" id="q5"><div class="question-number">06 / 12</div><div class="question-text">When people around me are emotionally affected, I feel disconnected from what they're experiencing.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>I generally feel connected to others' emotions.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>Occasionally disconnected, but not usually.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>I notice a gap more often now.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>I frequently feel separate from what others feel.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>Other people's emotions feel foreign to me.</div></div></div>
+<div class="question-block" id="q6"><div class="question-number">07 / 12</div><div class="question-text">I prefer to stay busy rather than sit with whatever I'm feeling.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>I'm comfortable sitting with my feelings.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Sometimes I distract, but not habitually.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice I fill silence deliberately.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>I almost always need to be doing something.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>Stillness feels unbearable.</div></div></div>
+<div class="question-block" id="q7"><div class="question-number">08 / 12</div><div class="question-text">I struggle to explain what I'm feeling to other people, even when I want to.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>I can usually express what I feel.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Sometimes hard to articulate, but not often.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>Words for feelings often don't come.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>I frequently can't find the words.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>I almost never know how to explain what's inside.</div></div></div>
+<div class="question-block" id="q8"><div class="question-number">09 / 12</div><div class="question-text">I sometimes wonder if I feel things less deeply than other people do.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I feel things as deeply as I expect to.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>The thought has crossed my mind, but not often.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>I notice a difference more than I'd like.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>I regularly wonder if something is different about me.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>I'm fairly certain I feel less than I'm supposed to.</div></div></div>
+<div class="question-block" id="q9"><div class="question-number">10 / 12</div><div class="question-text">Good things happen, but they don't register as good. They just happen.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>Good things feel good when they happen.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>Sometimes a bit flat, but mostly I feel it.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>I notice good things passing without landing.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>Most good things just pass through.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>Nothing registers as particularly good anymore.</div></div></div>
+<div class="question-block" id="q10"><div class="question-number">11 / 12</div><div class="question-text">I feel most alive when I'm in some kind of crisis or high-stimulation situation.</div><div class="options"><div class="option" onclick="selectAnswer(10,0)"><span class="option-key">Never</span>I feel alive in ordinary moments too.</div><div class="option" onclick="selectAnswer(10,1)"><span class="option-key">Rarely</span>Intensity helps sometimes, but not always.</div><div class="option" onclick="selectAnswer(10,2)"><span class="option-key">Sometimes</span>Calm situations feel harder to be present in.</div><div class="option" onclick="selectAnswer(10,3)"><span class="option-key">Often</span>I notice I only really feel things in intense moments.</div><div class="option" onclick="selectAnswer(10,4)"><span class="option-key">Always</span>Ordinary life feels like nothing. I need intensity to feel.</div></div></div>
+<div class="question-block" id="q11"><div class="question-number">12 / 12</div><div class="question-text">The numbness has become so familiar that I'm not sure I'd recognize feeling again.</div><div class="options"><div class="option" onclick="selectAnswer(11,0)"><span class="option-key">Never</span>I still know what feeling feels like.</div><div class="option" onclick="selectAnswer(11,1)"><span class="option-key">Rarely</span>Sometimes distant from it, but still recognizable.</div><div class="option" onclick="selectAnswer(11,2)"><span class="option-key">Sometimes</span>I wonder sometimes what real feeling felt like.</div><div class="option" onclick="selectAnswer(11,3)"><span class="option-key">Often</span>The distance has become the default.</div><div class="option" onclick="selectAnswer(11,4)"><span class="option-key">Always</span>This is just how life feels now. I've accepted it.</div></div></div>
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
   </div>
-  <div id="testScreen" style="display:none">
-    <div class="progress-text" id="progressText">Question 1 of 12</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-block active" id="q0"><div class="question-number">01 / 12</div><div class="question-text">When something emotional happens, I struggle to identify exactly what I'm feeling.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I can usually name what I feel clearly.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Occasionally unclear, but not a pattern.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>More often than I'd expect.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I frequently don't know what I feel.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>I almost never know what I'm actually feeling.</div></div></div>
-    <div class="question-block" id="q1"><div class="question-number">02 / 12</div><div class="question-text">I go through entire days without feeling anything that could be called emotion.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>My days have emotional texture.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Occasionally flat, but not a pattern.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>Some days just pass without anything.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>Most days feel emotionally blank.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>Every day feels like this.</div></div></div>
-    <div class="question-block" id="q2"><div class="question-number">03 / 12</div><div class="question-text">Things that used to move me \\u2014 music, moments, people \\u2014 no longer seem to reach me.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>Things still move me the way they used to.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Sometimes less, but mostly still there.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>I notice a growing gap.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>Most things no longer reach me.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>Almost nothing gets through anymore.</div></div></div>
-    <div class="question-block" id="q3"><div class="question-number">04 / 12</div><div class="question-text">I feel like I'm watching my own life from a distance, rather than living it.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>I feel present in my own life.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>Occasionally detached, but it passes.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>I notice it more than I should.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>I frequently feel like an observer.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I almost never feel inside my own life.</div></div></div>
-    <div class="question-block" id="q4"><div class="question-number">05 / 12</div><div class="question-text">I find it difficult to cry, even when something genuinely sad happens.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>I cry when sad things happen.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Sometimes I hold back, but not always.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>I notice I don't cry when I probably should.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>I rarely cry even when things are genuinely sad.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>I can't remember the last time I cried.</div></div></div>
-    <div class="question-block" id="q5"><div class="question-number">06 / 12</div><div class="question-text">When people around me are emotionally affected, I feel disconnected from what they're experiencing.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>I generally feel connected to others' emotions.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>Occasionally disconnected, but not usually.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>I notice a gap more often now.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>I frequently feel separate from what others feel.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>Other people's emotions feel foreign to me.</div></div></div>
-    <div class="question-block" id="q6"><div class="question-number">07 / 12</div><div class="question-text">I prefer to stay busy rather than sit with whatever I'm feeling.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>I'm comfortable sitting with my feelings.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Sometimes I distract, but not habitually.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice I fill silence deliberately.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>I almost always need to be doing something.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>Stillness feels unbearable.</div></div></div>
-    <div class="question-block" id="q7"><div class="question-number">08 / 12</div><div class="question-text">I struggle to explain what I'm feeling to other people, even when I want to.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>I can usually express what I feel.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Sometimes hard to articulate, but not often.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>Words for feelings often don't come.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>I frequently can't find the words.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>I almost never know how to explain what's inside.</div></div></div>
-    <div class="question-block" id="q8"><div class="question-number">09 / 12</div><div class="question-text">I sometimes wonder if I feel things less deeply than other people do.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I feel things as deeply as I expect to.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>The thought has crossed my mind, but not often.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>I notice a difference more than I'd like.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>I regularly wonder if something is different about me.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>I'm fairly certain I feel less than I'm supposed to.</div></div></div>
-    <div class="question-block" id="q9"><div class="question-number">10 / 12</div><div class="question-text">Good things happen, but they don't register as good. They just happen.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>Good things feel good when they happen.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>Sometimes a bit flat, but mostly I feel it.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>I notice good things passing without landing.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>Most good things just pass through.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>Nothing registers as particularly good anymore.</div></div></div>
-    <div class="question-block" id="q10"><div class="question-number">11 / 12</div><div class="question-text">I feel most alive when I'm in some kind of crisis or high-stimulation situation.</div><div class="options"><div class="option" onclick="selectAnswer(10,0)"><span class="option-key">Never</span>I feel alive in ordinary moments too.</div><div class="option" onclick="selectAnswer(10,1)"><span class="option-key">Rarely</span>Intensity helps sometimes, but not always.</div><div class="option" onclick="selectAnswer(10,2)"><span class="option-key">Sometimes</span>Calm situations feel harder to be present in.</div><div class="option" onclick="selectAnswer(10,3)"><span class="option-key">Often</span>I notice I only really feel things in intense moments.</div><div class="option" onclick="selectAnswer(10,4)"><span class="option-key">Always</span>Ordinary life feels like nothing. I need intensity to feel.</div></div></div>
-    <div class="question-block" id="q11"><div class="question-number">12 / 12</div><div class="question-text">The numbness has become so familiar that I'm not sure I'd recognize feeling again.</div><div class="options"><div class="option" onclick="selectAnswer(11,0)"><span class="option-key">Never</span>I still know what feeling feels like.</div><div class="option" onclick="selectAnswer(11,1)"><span class="option-key">Rarely</span>Sometimes distant from it, but still recognizable.</div><div class="option" onclick="selectAnswer(11,2)"><span class="option-key">Sometimes</span>I wonder sometimes what real feeling felt like.</div><div class="option" onclick="selectAnswer(11,3)"><span class="option-key">Often</span>The distance has become the default.</div><div class="option" onclick="selectAnswer(11,4)"><span class="option-key">Always</span>This is just how life feels now. I've accepted it.</div></div></div>
-    <div class="nav-buttons">
-      <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>← Back</button>
-      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next \\u2192</button>
-    </div>
-  </div>
-  <div id="resultScreen" style="display:none">
+</div>
+
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
     <div class="result-label">Your Result</div>
-    <h1 class="result-type" id="resultType"></h1>
-    <p class="result-tagline" id="resultTagline"></p>
-    <div class="score-box"><div class="score-big" id="totalScore"></div><div class="score-max">out of 48</div><div class="score-level" id="scoreLevel"></div></div>
-    <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-    <div class="result-section"><div class="result-section-title">What's happening</div><p class="result-text" id="resultMissing"></p></div>
-    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    <div class="result-section">
-      <div class="result-section-title">Share your result</div>
-      <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
-      <div id="shareCard">
-        <div class="share-card-inner" id="shareCardInner">
-          <div class="share-card-top">Grindorium \\u00b7 Emotional Numbness</div>
-          <div>
-            <div style="font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;margin-bottom:8px;">My Result</div>
-            <div class="share-card-type" id="cardType"></div>
-            <div class="share-card-tagline" id="cardTagline"></div>
+    <div id="shareCard">
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium · Emotional Numbness</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;">
+            <img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
+            <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span>
           </div>
-          <div class="share-card-bottom">
-            <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div class="share-card-domain">grindorium.org</div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        </div>
+        <div id="cardScores" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;">
+            <div style="font-family:'Space Mono',sans-serif;font-size:9px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.12em;">grindorium.org</div>
+            <div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div>
           </div>
         </div>
       </div>
-      <br>
-      <button class="share-btn" onclick="downloadCard()">Download Image \\u2193</button>
     </div>
-    <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+    <div class="share-btns">
+      <button class="share-btn" onclick="downloadCard()">Download Image</button>
+    </div>
   </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+<div class="score-box"><div class="score-big" id="totalScore"></div><div class="score-max">out of 48</div><div class="score-level" id="scoreLevel"></div></div>
+<div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+    <div class="result-section"><div class="result-section-title">What's happening</div><p class="result-text" id="resultMissing"></p></div>
+    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+    
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-
-
-  let userPhoto=null;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-numbness-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+let userPhoto=null;
   function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
   function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
   function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
-</script>
-<script>
-  const answers=new Array(12).fill(null);let currentQ=0;
-  function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
-  function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===11){showResult();return;}document.getElementById(`q${currentQ}`).classList.remove('active');currentQ++;document.getElementById(`q${currentQ}`).classList.add('active');updateUI();}
-  function prevQuestion(){if(currentQ===0)return;document.getElementById(`q${currentQ}`).classList.remove('active');currentQ--;document.getElementById(`q${currentQ}`).classList.add('active');updateUI();}
-  function updateUI(){document.getElementById('progressText').textContent=`Question ${currentQ+1} of 12`;document.getElementById('progressFill').style.width=`${(currentQ/12)*100}%`;document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results \\u2192':'Next \\u2192';}
-  function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-
-  const typeColors={
-    'Emotionally Present':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
-    'Slowly Going Quiet':{bg:'linear-gradient(135deg,#0a0a0f 0%,#14141f 100%)',accent:'#8aa0c8'},
-    'The Distant One':{bg:'linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%)',accent:'#c8c8c8'},
-    'Fully Disconnected':{bg:'linear-gradient(135deg,#0a0a0a 0%,#0f0f0f 100%)',accent:'#888888'}
-  };
-
-  function buildShareCard(type,tagline){
-    const card=document.getElementById('shareCard');
-    const inner=document.getElementById('shareCardInner');
-    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
-    card.style.display='block';
-    inner.style.background=colors.bg;
-    document.getElementById('cardType').textContent=type;
-    document.getElementById('cardType').style.color=colors.accent;
-    document.getElementById('cardTagline').textContent=tagline;
-  }
-
-  function downloadCard(){
-    const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
-      const link=document.createElement('a');
-      link.download='grindorium-numbness-result.png';
-      link.href=canvas.toDataURL('image/png');
-      link.click();
-    });
-  }
-
-  function showResult(){
-    const total=answers.reduce((a,b)=>a+b,0);
-    document.getElementById('testScreen').style.display='none';
-    document.getElementById('resultScreen').style.display='block';
-    document.getElementById('totalScore').textContent=total;
-    document.getElementById('progressFill').style.width='100%';
-    let r;
-    if(total<=12){r={type:'Emotionally Present',tagline:"You're still in contact with yourself. That's rarer than it sounds.",analysis:["Your scores suggest you have meaningful access to your own emotional experience. You can generally feel things, name them, and be affected by what happens around you.","This doesn't mean everything is easy \\u2014 it means the channel between experience and feeling is still open.","The work now is staying present as life gets louder and faster."],missing:"Nothing critical. But presence requires maintenance. The small disconnections that don't feel like much can accumulate.",steps:["Notice one small feeling today that you might have previously scrolled past.","Practice sitting in a quiet moment without filling it. Even five minutes.","When something good happens, let it actually land before moving on.","Ask yourself weekly: what am I actually feeling right now?"],videos:["The Hidden Reason You Feel Empty Even When Life Looks Good","People Who Forgot How to Rest"],level:'low'};}
-    else if(total<=24){r={type:'Slowly Going Quiet',tagline:"The volume is still on. But it's been turning down for a while.",analysis:["You're not completely numb \\u2014 you still feel things. But there's a growing distance between what happens and what reaches you.","Something has been gradually turning down the emotional volume. Not all at once. Just a little at a time, in ways that felt manageable.","The risk at this level is normalization \\u2014 the quiet becomes the new baseline, and you stop noticing what's been lost."],missing:"Reconnection with the smaller feelings. Not the dramatic ones \\u2014 those still break through. It's the quiet, everyday emotional texture that's been fading.",steps:["Name one thing you actually felt today \\u2014 not something you think you should feel. What was real?","Reduce one source of stimulation this week and notice what surfaces in the space.","Talk to someone about something real \\u2014 not surface-level. Not catch-up. Something that actually matters to you.","Ask yourself: when did the volume start turning down? What was happening then?"],videos:["The Noise Inside When Your Mind Won't Quiet Down","What They Saw in the Mirror at 40 \\u2014 Eight Lives, One Question"],level:'mid'};}
-    else if(total<=36){r={type:'The Distant One',tagline:"You're here. But you're not quite inside your own life.",analysis:["The disconnection is significant. You've been operating at a remove from your own emotional experience for long enough that it feels normal now \\u2014 but it isn't.","You might still feel things in extreme moments \\u2014 crisis, intensity, sudden loss. But the everyday texture of feeling has largely gone quiet.","This level of numbness is usually not random. Something \\u2014 chronic overstimulation, accumulated loss, extended survival mode \\u2014 taught your system that feeling was costly. So it stopped."],missing:"Safety. Your emotional system shut down because staying open felt dangerous. Before anything else, the question is: what would it mean to feel safe enough to feel again?",steps:["Don't try to force feeling. Observe instead. Notice what your body does when something happens, even if the emotional label doesn't come.","Find one person you still feel something toward. Start a real conversation \\u2014 not about logistics.","Reduce stimulation deliberately. The numbness was partly caused by overload. Less input gives the system room to recover.","Consider whether there's something specific you've been protecting yourself from feeling. You don't have to face it. Just name it."],videos:["The Mirror Man He Had No Face of His Own","The Hidden Reason You Feel Empty Even When Life Looks Good"],level:'high'};}
-    else{r={type:'Fully Disconnected',tagline:"You've been living behind glass for a long time. It's time to come back.",analysis:["Your scores indicate a deep and persistent disconnection from your emotional experience. What you're describing \\u2014 not feeling, not recognizing feeling, not being able to access what's inside \\u2014 is significant.","This level of numbness doesn't develop without reason. At some point, feeling was too costly, too dangerous, or too overwhelming. Your system found a way to turn it off. That was a survival strategy, not a flaw.","But what protected you then is now keeping you from your own life. The glass that kept the pain out is also keeping everything else out."],missing:"Gradual, safe re-entry into feeling. Not a dramatic breakthrough. Not a forced emotional release. Just small, consistent exposure to being present \\u2014 with support.",steps:["This is worth talking to someone about. Not because something is wrong with you \\u2014 because you deserve support that this level of disconnection genuinely requires.","Start with your body, not your emotions. Notice physical sensations: temperature, texture, hunger, tiredness. The body is a doorway back.","Remove one major source of numbing from your life this week \\u2014 not permanently, just for a few days. Notice what surfaces.","Be patient with yourself. The numbness took time to build. It takes time to soften. Forcing it doesn't work."],videos:["The System Needs You Tired \\u2014 Why Your Exhaustion Is Not an Accident","The Body Keeping Score \\u2014 When Symptoms Are Messages, Not Malfunctions"],level:'high'};}
-    document.getElementById('resultType').textContent=r.type;
-    document.getElementById('resultTagline').textContent=r.tagline;
-    const lc={low:'level-low',mid:'level-mid',high:'level-high'};
-    const ll={low:'Low Numbness',mid:'Moderate Numbness',high:'High Numbness'};
-    const sl=document.getElementById('scoreLevel');sl.textContent=ll[r.level];sl.className='score-level '+lc[r.level];
-    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>`<p class="result-text">${p}</p>`).join('');
-    document.getElementById('resultMissing').textContent=r.missing;
-    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>`<div class="step"><span class="step-num">0${i+1}</span><span class="step-text">${s}</span></div>`).join('');
-    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>`<a href="${ytSearch(v)}" target="_blank" class="video-card"><span class="video-card-title">${v}</span><span class="video-card-arrow">\\u2197</span></a>`).join('');
-    buildShareCard(r.type,r.tagline);
-  }
-
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
-  document.getElementById('pLabel').textContent='Emotional Numbness Assessment';
 </script>
 </body>
 </html>
