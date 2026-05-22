@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfectionism Test, Grindorium</title>
+  <meta name="description" content="Are you a perfectionist? This assessment measures how perfectionism is showing up in your life and what it is actually costing you."/>
+  <meta property="og:title" content="Perfectionism Assessment, Grindorium"/>
+  <meta property="og:description" content="You tell yourself you just have high standards. But high standards and perfectionism are not the same thing. Find out which one you actually have."/>
+  <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+  <meta property="og:url" content="https://grindorium.org/grindorium-perfectionism.html"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;letter-spacing:0.15em;}
+    .nav-back:hover{color:var(--white);}
+    .container{max-width:760px;margin:0 auto;padding:140px 48px 100px;}
+    .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
+    .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
+    .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
+    .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
+    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:60px;}
+    .progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+    .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
+    .question-block{display:none;animation:fade-up 0.4s ease forwards;}
+    .question-block.active{display:block;}
+    @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:20px;}
+    .question-text{font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:48px;}
+    .options{display:flex;flex-direction:column;gap:12px;}
+    .option{padding:20px 28px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:20px;font-size:17px;font-weight:300;color:var(--dim);}
+    .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
+    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+    .option-key{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:60px;}
+    .nav-buttons{display:flex;gap:16px;margin-top:48px;}
+    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+    .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+    .btn:disabled{opacity:0.3;cursor:not-allowed;}
+    .btn-primary{background:rgba(126,184,232,0.1);border-color:var(--accent);}
+    .start-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 48px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:8px;}
+    .start-btn:hover{border-color:var(--accent);background:rgba(126,184,232,0.15);color:var(--white);}
+    .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px;}
+    .score-card{background:var(--bg2);padding:24px 20px;text-align:center;}
+    .score-card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-bottom:12px;}
+    .score-card-value{font-size:32px;font-weight:300;color:var(--white);margin-bottom:4px;}
+    .score-card-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
+    .score-card-level{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;margin-top:8px;text-transform:uppercase;}
+    .level-low{color:#6db88a;}.level-mid{color:#e8c87e;}.level-high{color:#e87e7e;}
+    .result-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+    .result-type{font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+    .result-tagline{font-size:20px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:48px;line-height:1.5;}
+    .result-section{margin-bottom:40px;}
+    .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
+    .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
+    .steps{display:flex;flex-direction:column;gap:16px;}
+    .step{display:flex;gap:20px;align-items:flex-start;}
+    .step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:24px;margin-top:4px;}
+    .step-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
+    .video-cards{display:flex;flex-direction:column;gap:12px;}
+    .video-card{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+    .video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+    .video-card-title{font-size:16px;font-weight:300;color:var(--white);}
+    .video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:16px;transition:color 0.3s,transform 0.3s;}
+    .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
+    .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
+    .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
+    .share-card-inner{width:100%;height:100%;padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
+    .share-card-top{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.5;color:#fff;white-space:nowrap;overflow:hidden;}
+    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
+    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
+    .share-card-scores{display:flex;gap:28px;margin-top:20px;}
+    .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:20px;}
+    .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
+    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+    .share-card-char{width:56px;height:56px;min-width:56px;min-height:56px;object-fit:cover;border-radius:50%;opacity:0.85;}
+    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.65);text-transform:uppercase;}
+    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
+    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
+    @media(max-width:768px){nav{padding:20px 24px;}.container{padding:120px 24px 80px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
+  </style>
+</head>
+<body>
+<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
+<div class="container">
+  <div id="startScreen">
+    <div class="test-label">Perfectionism Assessment</div>
+    <h1 class="test-title">Are you a perfectionist?</h1>
+    <p class="test-desc">You tell yourself you just have high standards. But high standards and perfectionism are not the same thing. High standards help you. Perfectionism punishes you.</p>
+    <p class="test-desc">This assessment measures three dimensions: self-oriented perfectionism, socially prescribed perfectionism, and the cost it is currently extracting from your life.</p>
+    <p class="test-note">12 questions · 4 to 5 minutes · Based on Frost and Hewitt perfectionism research · Not a clinical diagnostic tool</p>
+    <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+  </div>
+  <div id="testScreen" style="display:none">
+    <div class="progress-text" id="progressText">Question 1 of 12</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="question-block active" id="q0"><div class="question-number">01 / 12</div><div class="question-text">If I cannot do something well, I would rather not do it at all.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I am fine with doing things imperfectly.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>I sometimes hesitate but still try.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>I notice I avoid things I might fail at.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I regularly avoid things I cannot do well.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>I only do things I can do well.</div></div></div>
+    <div class="question-block" id="q1"><div class="question-number">02 / 12</div><div class="question-text">Finishing something good enough feels like failure. I keep going past the point of diminishing returns.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>I can stop when something is good enough.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Sometimes I overdo it but can usually stop.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>I often keep refining things that are already done.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>Good enough almost never feels good enough.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>I cannot stop until it is as good as I can make it.</div></div></div>
+    <div class="question-block" id="q2"><div class="question-number">03 / 12</div><div class="question-text">I am very concerned about what other people think of my work and my performance.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>I care about quality, not about judgment.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Occasionally aware of it but not driven by it.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>Other people's opinions influence me more than I'd like.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>I frequently perform for external approval.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>What others think is a primary driver of my effort.</div></div></div>
+    <div class="question-block" id="q3"><div class="question-number">04 / 12</div><div class="question-text">Making a mistake feels like more than an error. It feels like a reflection of who I am.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>Mistakes are information, not identity.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>Occasionally feel it personally but recover quickly.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>Mistakes hit me harder than they probably should.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>Errors feel like evidence of something wrong with me.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>Every mistake confirms a negative story about myself.</div></div></div>
+    <div class="question-block" id="q4"><div class="question-number">05 / 12</div><div class="question-text">I procrastinate on important tasks because I am afraid the result will not be good enough.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>Fear of imperfection does not stop me from starting.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Occasionally delayed but I push through.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>I recognize this pattern in myself.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>Perfectionism regularly causes me to delay or avoid.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>The fear of imperfect output stops me before I begin.</div></div></div>
+    <div class="question-block" id="q5"><div class="question-number">06 / 12</div><div class="question-text">I hold other people to the same high standards I hold myself, and I am often disappointed.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>I let people do things in their own way.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>I have preferences but do not push them on others.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>I notice frustration when others do not meet my standards.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>Other people's imperfection regularly bothers me.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>Almost no one meets the standard I expect.</div></div></div>
+    <div class="question-block" id="q6"><div class="question-number">07 / 12</div><div class="question-text">I feel like the people around me expect more from me than I can consistently deliver.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>I feel the expectations around me are reasonable.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Occasionally feel the pressure but it passes.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice I am performing for expectations that are not mine.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>I frequently feel like I am falling short of what is expected.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>The expectations feel impossible and relentless.</div></div></div>
+    <div class="question-block" id="q7"><div class="question-number">08 / 12</div><div class="question-text">I replay past mistakes or failures in my head long after they have passed.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>I process and move on relatively quickly.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Sometimes I revisit things but not habitually.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>I notice rumination more than I would like.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>Past failures come back regularly and occupy my mind.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>I cannot stop replaying things that went wrong.</div></div></div>
+    <div class="question-block" id="q8"><div class="question-number">09 / 12</div><div class="question-text">I find it hard to celebrate what I achieved because I am already thinking about what I should do better.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I can let achievements land before moving on.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>Sometimes I move on quickly but I still feel the win.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>Wins pass quickly and the next task arrives immediately.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>I barely register accomplishments before moving to what is next.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>Nothing I achieve feels like enough to stop and feel.</div></div></div>
+    <div class="question-block" id="q9"><div class="question-number">10 / 12</div><div class="question-text">My self-worth is strongly tied to my performance. When I fail, I feel like less of a person.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>My worth is separate from my output.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>I notice the link but do not let it define me.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>Performance affects how I feel about myself more than I'd like.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>My sense of worth rises and falls with my results.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>Without performance I am not sure what I am worth.</div></div></div>
+    <div class="question-block" id="q10"><div class="question-number">11 / 12</div><div class="question-text">I find it difficult to ask for help because it would mean admitting I cannot handle things on my own.</div><div class="options"><div class="option" onclick="selectAnswer(10,0)"><span class="option-key">Never</span>Asking for help feels normal and sensible.</div><div class="option" onclick="selectAnswer(10,1)"><span class="option-key">Rarely</span>A little uncomfortable but I can do it.</div><div class="option" onclick="selectAnswer(10,2)"><span class="option-key">Sometimes</span>I delay asking longer than I should.</div><div class="option" onclick="selectAnswer(10,3)"><span class="option-key">Often</span>Asking for help feels like admitting weakness.</div><div class="option" onclick="selectAnswer(10,4)"><span class="option-key">Always</span>I would rather struggle alone than let people see I need help.</div></div></div>
+    <div class="question-block" id="q11"><div class="question-number">12 / 12</div><div class="question-text">The gap between who I am and who I think I should be causes me constant low-level distress.</div><div class="options"><div class="option" onclick="selectAnswer(11,0)"><span class="option-key">Never</span>I feel relatively okay about who I am right now.</div><div class="option" onclick="selectAnswer(11,1)"><span class="option-key">Rarely</span>Sometimes I feel the gap but it does not dominate.</div><div class="option" onclick="selectAnswer(11,2)"><span class="option-key">Sometimes</span>The gap between real and ideal is a quiet presence.</div><div class="option" onclick="selectAnswer(11,3)"><span class="option-key">Often</span>The gap feels large and persistent.</div><div class="option" onclick="selectAnswer(11,4)"><span class="option-key">Always</span>I am never the person I think I should be.</div></div></div>
+    <div class="nav-buttons">
+      <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+    </div>
+  </div>
+  <div id="resultScreen" style="display:none">
+    <div class="result-label">Your Result</div>
+    <h1 class="result-type" id="resultType"></h1>
+    <p class="result-tagline" id="resultTagline"></p>
+    <div class="score-grid">
+      <div class="score-card"><div class="score-card-label">Self-Oriented</div><div class="score-card-value" id="selfScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="selfLevel"></div></div>
+      <div class="score-card"><div class="score-card-label">Social</div><div class="score-card-value" id="socScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="socLevel"></div></div>
+      <div class="score-card"><div class="score-card-label">Cost</div><div class="score-card-value" id="costScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="costLevel"></div></div>
+    </div>
+    <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+    <div class="result-section"><div class="result-section-title">What it is costing you</div><p class="result-text" id="resultMissing"></p></div>
+    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+    <div class="result-section">
+      <div class="result-section-title">Share your result</div>
+      <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
+      <div id="shareCard">
+        <div class="share-card-inner" id="shareCardInner">
+          <div class="share-card-top">Grindorium · Perfectionism Assessment</div>
+          <div>
+            <div style="font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;margin-bottom:8px;">My Result</div>
+            <div class="share-card-type" id="cardType"></div>
+            <div class="share-card-tagline" id="cardTagline"></div>
+          </div>
+          <div class="share-card-scores" id="cardScores"></div>
+          <div class="share-card-bottom">
+            <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
+            <div style="text-align:right;"><div class="share-card-domain">grindorium.org</div><div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div></div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <button class="share-btn" onclick="downloadCard()">Download Image</button>
+    </div>
+    <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  const answers=new Array(12).fill(null);let currentQ=0;
+  function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach((o,i)=>o.classList.toggle('selected',i===v));document.getElementById('nextBtn').disabled=false;}
+  function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===11){showResult();return;}document.getElementById('q'+currentQ).classList.remove('active');currentQ++;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
+  function prevQuestion(){if(currentQ===0)return;document.getElementById('q'+currentQ).classList.remove('active');currentQ--;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
+  function updateUI(){document.getElementById('progressText').textContent='Question '+(currentQ+1)+' of 12';document.getElementById('progressFill').style.width=((currentQ/12)*100)+'%';document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results':'Next';}
+  function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+  function getLevel(s,m){const p=s/m;if(p<=0.35)return'low';if(p<=0.65)return'mid';return'high';}
+  const typeColors={
+    'The High Achiever':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
+    'The Driven Perfectionist':{bg:'linear-gradient(135deg,#0f0907 0%,#201207 100%)',accent:'#e8a07e'},
+    'The Approval Seeker':{bg:'linear-gradient(135deg,#0a080f 0%,#14101f 100%)',accent:'#a07ee8'},
+    'The Self-Critical One':{bg:'linear-gradient(135deg,#0f0707 0%,#200d0d 100%)',accent:'#e87e7e'},
+    'The Paralyzed Perfectionist':{bg:'linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%)',accent:'#c8c8c8'},
+    'The Recovering Perfectionist':{bg:'linear-gradient(135deg,#07090f 0%,#0a1020 100%)',accent:'#7eb8e8'}
+  };
+  function showResult(){
+    const self=answers[0]+answers[1]+answers[3]+answers[9];
+    const soc=answers[2]+answers[5]+answers[6]+answers[10];
+    const cost=answers[4]+answers[7]+answers[8]+answers[11];
+    const sL=getLevel(self,16),soL=getLevel(soc,16),cL=getLevel(cost,16);
+    document.getElementById('testScreen').style.display='none';
+    document.getElementById('resultScreen').style.display='block';
+    document.getElementById('selfScore').textContent=self;
+    document.getElementById('socScore').textContent=soc;
+    document.getElementById('costScore').textContent=cost;
+    document.getElementById('progressFill').style.width='100%';
+    const lbl={low:'Low',mid:'Moderate',high:'High'};
+    const cls={low:'level-low',mid:'level-mid',high:'level-high'};
+    [['self',sL],['soc',soL],['cost',cL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lbl[l];el.className='score-card-level '+cls[l];});
+    let r;
+    if(sL==='low'&&soL==='low'&&cL==='low'){r={type:'The High Achiever',tagline:'You have standards without the suffering. That is rarer than it sounds.',analysis:['Your scores suggest you have genuine standards without the self-punishment that comes with perfectionism. You care about quality. You work hard. But you are not defined by your output, and failure does not destroy you.','This is the healthy version of caring about what you do. It is the result of standards that come from inside rather than from fear of judgment or collapse of self-worth.','The distinction matters. High achievers grow. Perfectionists stall.'],missing:'Nothing critical. Maintain the distinction between caring about quality and tying your worth to results. That line is easy to lose.',steps:['Check in periodically on whether your standards still feel internally motivated or if external pressure has crept in.','Notice how you respond to mistakes. The response is the signal.','Protect your ability to do imperfect things for enjoyment without needing them to be good.','Share what works. The people around you may be carrying what you do not.'],videos:['Hard Means It\'s Right','How to Actually Change Your Life']};}
+    else if(sL==='high'&&cL==='low'){r={type:'The Driven Perfectionist',tagline:'The standards are high. The suffering is still manageable. For now.',analysis:['You hold yourself to high internal standards and care deeply about doing things well. The cost to your wellbeing is still relatively low, which means the perfectionism has not yet crossed into self-destructive territory.','But this balance is fragile. High self-oriented perfectionism without psychological cost tends to shift over time, especially under pressure, failure, or when the external rewards stop coming.','You are in a productive zone. The question is whether you are building the psychological flexibility to stay there.'],missing:'Tolerance for imperfection. Not lower standards. The ability to produce imperfect work without it threatening who you are.',steps:['Practice finishing something to 80 percent and shipping it. Notice what happens. Usually nothing bad.','Build in deliberate rest between high-effort projects. Not earned rest. Scheduled rest.','Identify one area where you can do something badly on purpose. Cooking. A hobby. Something low-stakes.','Ask yourself: if the results were exactly the same but no one ever saw them, would the effort still feel worthwhile?'],videos:['The Comfortable Trap, When a Good Enough Life Becomes Your Prison','Hard Means It\'s Right']};}
+    else if(soL==='high'){r={type:'The Approval Seeker',tagline:'The standards are not really yours. You inherited them from the audience.',analysis:['Your socially prescribed perfectionism is the dominant pattern. You are not primarily driven by internal standards. You are driven by the perceived expectations of others, and by the fear of falling short in their eyes.','This is one of the most exhausting forms of perfectionism because the bar is always moving. You cannot satisfy a perceived standard because perceived standards are infinite and inconsistent. You are chasing something that was never clearly defined.','The critical question is not whether you are doing enough. It is: whose standard are you actually trying to meet?'],missing:'Standards that come from inside. Work you would do even if no one were watching. The ability to disappoint someone and still feel okay.',steps:['Identify the specific person or group whose approval you are performing for. Name them explicitly.','Ask yourself about one current goal: would I still want this if no one would ever know I achieved it?','Practice doing one thing this week that you want to do but that earns no external recognition.','Notice the difference between shame and guilt. Shame says you are defective. Guilt says you did something wrong. Only one of them is useful.'],videos:['Why Most Men Feel Empty and Lonely in 2026','What They Saw in the Mirror at 40, Eight Lives, One Question']};}
+    else if(sL==='high'&&cL==='high'){r={type:'The Self-Critical One',tagline:'The standard you hold yourself to was never designed to be met.',analysis:['Your perfectionism is both internally driven and psychologically costly. You set high standards for yourself, you tie your worth to how well you meet them, and when you fall short, the internal response is not a course correction. It is an attack.','This is the most common form of clinical perfectionism. The self-criticism is not a motivational tool. It has become the default response to anything short of perfect, which means it fires constantly.','The perfectionism that once pushed you to do well has turned inward and is now working against you.'],missing:'Self-compassion as a strategy, not as softness. The research is consistent: people who treat themselves with more kindness when they fail actually perform better over time, not worse.',steps:['When something goes wrong, write down what you would say to a friend in the same situation. Then say that to yourself.','Identify the voice that tells you what you should be. Ask where it came from. It did not originate inside you.','Separate the action from the person. You can have done something poorly without being poor.','Consider speaking to a therapist who works with perfectionism. This pattern responds well to structured intervention.'],videos:['The Cost of Always Being the Strong One','Why Most Men Wake Up at 30 and Feel Like They Wasted Everything']};}
+    else if(cL==='high'){r={type:'The Paralyzed Perfectionist',tagline:'You are not lazy. You are afraid the result will not be good enough before you even begin.',analysis:['Your scores show high cost from perfectionism without necessarily the highest internal or external standards. This pattern often develops as a protective mechanism: if you do not try, you cannot fail properly. The avoidance looks like procrastination from the outside. From the inside it feels like stuckness.','Tasks pile up. Projects never start. Important things get delayed indefinitely. Not because you do not care but because caring too much has made starting feel impossible.','The perfectionism has inverted. Instead of driving you to produce better work, it is preventing you from producing any work at all.'],missing:'Permission to start badly. The first draft is not the final draft. The first attempt is not the verdict.',steps:['Use a time limit, not a quality limit. Give yourself 25 minutes to start something without judgment. Stop when the timer ends.','Separate starting from finishing. You do not have to finish today. You just have to begin.','Write down what you are afraid the result will look like. Usually the fear is exaggerated. Usually the actual output is better than the feared one.','Identify one thing that has been stuck on your list for more than a month. Do it badly, this week, for 20 minutes.'],videos:['How to Actually Change Your Life','Hard Means It\'s Right']};}
+    else{r={type:'The Recovering Perfectionist',tagline:'You have been here long enough to know the cost. Now comes the harder work.',analysis:['Your scores are moderate across multiple dimensions. You have enough self-awareness to recognize the perfectionism, and enough wear from it to want something different. But the patterns are still running.','Moderate perfectionism is in some ways harder to address than severe perfectionism, because the suffering is not acute enough to force change, but is persistent enough to quietly diminish your life.','You are in the window where change is most possible. Not because things are broken, but because you can still choose.'],missing:'Consistency in the alternative. You know perfectionism is costing you. The work now is building habits that reward completion over correctness, and effort over outcome.',steps:['For one week, track how often you revise something after it is already good enough. The number will surprise you.','Set a rule for one project: when it is done, it is done. No further revision.','Identify what good enough looks like before you start, not after. Knowing the exit point removes the loop.','Notice when you feel the urge to over-prepare. Ask if the preparation is adding value or managing anxiety.'],videos:['The Hidden Reason You\'re Exhausted All the Time in 2026','The Comfortable Trap']};}
+    document.getElementById('resultType').textContent=r.type;
+    document.getElementById('resultTagline').textContent=r.tagline;
+    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
+    document.getElementById('resultMissing').textContent=r.missing;
+    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
+    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+ytSearch(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+    buildShareCard(r.type,r.tagline,self,soc,cost);
+  }
+  function buildShareCard(type,tagline,self,soc,cost){
+    const card=document.getElementById('shareCard');
+    const inner=document.getElementById('shareCardInner');
+    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
+    card.style.display='block';
+    inner.style.background=colors.bg;
+    document.getElementById('cardType').textContent=type;
+    document.getElementById('cardType').style.color=colors.accent;
+    document.getElementById('cardTagline').textContent=tagline;
+    document.getElementById('cardScores').innerHTML='<div><div class="share-card-score-val" style="color:'+colors.accent+'">'+self+'</div><div class="share-card-score-label">Self</div></div><div><div class="share-card-score-val" style="color:'+colors.accent+'">'+soc+'</div><div class="share-card-score-label">Social</div></div><div><div class="share-card-score-val" style="color:'+colors.accent+'">'+cost+'</div><div class="share-card-score-label">Cost</div></div>';
+  }
+  function downloadCard(){
+    const card=document.getElementById('shareCard');
+    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
+      const link=document.createElement('a');link.download='grindorium-perfectionism-result.png';link.href=canvas.toDataURL('image/png');link.click();
+    });
+  }
+  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+</script>
+</body>
+</html>
