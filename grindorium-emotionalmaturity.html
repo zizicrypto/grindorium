@@ -156,7 +156,7 @@
 <script>
   const answers=new Array(12).fill(null);let currentQ=0;
   function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach((o,i)=>o.classList.toggle('selected',i===v));document.getElementById('nextBtn').disabled=false;}
+  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll("#q"+q+" .option").forEach(o=>o.classList.remove("selected"));event.currentTarget.classList.add("selected");document.getElementById("nextBtn").disabled=false;}
   function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===11){showResult();return;}document.getElementById('q'+currentQ).classList.remove('active');currentQ++;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
   function prevQuestion(){if(currentQ===0)return;document.getElementById('q'+currentQ).classList.remove('active');currentQ--;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
   function updateUI(){document.getElementById('progressText').textContent='Question '+(currentQ+1)+' of 12';document.getElementById('progressFill').style.width=((currentQ/12)*100)+'%';document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results':'Next';}
