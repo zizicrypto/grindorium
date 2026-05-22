@@ -1,279 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loneliness Test, Grindorium</title>
-  <meta name="description" content="Are you lonely? Not the obvious kind. The kind where you are surrounded by people and still feel completely alone. This assessment measures the depth of your disconnection."/>
-  <meta property="og:title" content="Loneliness Assessment, Grindorium"/>
-  <meta property="og:description" content="You are surrounded by people. You still feel completely alone. Find out what kind of lonely you are and what to do about it."/>
-  <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
-  <meta property="og:url" content="https://grindorium.org/grindorium-loneliness.html"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-    .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
-    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;letter-spacing:0.15em;}
-    .nav-back:hover{color:var(--white);}
-    .container{max-width:760px;margin:0 auto;padding:120px 28px 80px;}
-    .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
-    .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
-    .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
-    .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:32px;}
-    .progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
-    .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
-    .question-block{display:none;animation:fade-up 0.4s ease forwards;}
-    .question-block.active{display:block;}
-    @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;}
-    .question-text{font-size:clamp(19px,2.5vw,26px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:24px;}
-    .options{display:flex;flex-direction:column;gap:8px;}
-    .option{padding:13px 16px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:14px;font-size:15px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:56px;}
-    .nav-buttons{display:flex;gap:12px;margin-top:28px;}
-    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
-    .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
-    .btn:disabled{opacity:0.3;cursor:not-allowed;}
-    .btn-primary{background:rgba(126,184,232,0.1);border-color:var(--accent);}
-    .start-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 48px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:8px;}
-    .start-btn:hover{border-color:var(--accent);background:rgba(126,184,232,0.15);color:var(--white);}
-    .score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:48px;}
-    .score-card{background:var(--bg2);padding:24px 20px;text-align:center;}
-    .score-card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-bottom:12px;}
-    .score-card-value{font-size:32px;font-weight:300;color:var(--white);margin-bottom:4px;}
-    .score-card-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
-    .score-card-level{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;margin-top:8px;text-transform:uppercase;}
-    .level-low{color:#6db88a;}.level-mid{color:#e8c87e;}.level-high{color:#e87e7e;}
-    .result-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
-    .result-type{font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
-    .result-tagline{font-size:20px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:48px;line-height:1.5;}
-    .result-section{margin-bottom:40px;}
-    .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
-    .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
-    .steps{display:flex;flex-direction:column;gap:16px;}
-    .step{display:flex;gap:20px;align-items:flex-start;}
-    .step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:24px;margin-top:4px;}
-    .step-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .video-cards{display:flex;flex-direction:column;gap:12px;}
-    .video-card{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-    .video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
-    .video-card-title{font-size:16px;font-weight:300;color:var(--white);}
-    .video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:16px;transition:color 0.3s,transform 0.3s;}
-    .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-    .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
-    .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
-    .share-card-top{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.5;color:#fff;white-space:nowrap;overflow:hidden;}
-    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
-    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
-    .share-card-scores{display:flex;gap:28px;margin-top:20px;}
-    .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:20px;}
-    .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
-    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
-    .share-card-char{width:56px;height:56px;min-width:56px;min-height:56px;object-fit:cover;border-radius:50%;opacity:0.85;}
-    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.65);text-transform:uppercase;}
-    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
-    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
-    /* PROFILE SCREEN */
-    .profile-sub{font-size:17px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:40px;}
-    .profile-fields{display:flex;flex-direction:column;gap:16px;margin-bottom:32px;}
-    .profile-input{width:100%;background:var(--bg2);border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;padding:14px 0;outline:none;transition:border-color 0.3s;}
-    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.6);}
-    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
-    .profile-photo-row{display:flex;align-items:center;gap:16px;margin-top:8px;}
-    .profile-photo-preview{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
-    .profile-photo-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:10px 20px;cursor:pointer;transition:all 0.3s;}
-    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
-    .profile-skip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;padding:0;transition:color 0.3s;}
-    .profile-skip:hover{color:var(--white);}
-    /* SHARE CARD TOP */
-    .share-section-top{margin-bottom:56px;}
-    .share-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:0;display:none;}
-    @media(max-width:768px){nav{padding:16px 20px;}.container{padding:100px 16px 60px;}.score-grid{grid-template-columns:1fr 1fr;}}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Loneliness Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px;}
+.score-card{background:var(--bg2);padding:18px 14px;text-align:center;}
+.score-card-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--dim);text-transform:uppercase;margin-bottom:9px;}
+.score-card-value{font-size:28px;font-weight:300;color:var(--white);margin-bottom:3px;}
+.score-card-max{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.score-card-level{font-family:'Space Mono',monospace;font-size:8px;margin-top:5px;text-transform:uppercase;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}}
+</style>
 </head>
 <body>
 <nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
 <div class="container">
-    <div id="profileScreen">
-    <div class="test-label" id="profileLabel"></div>
-    <h1 class="test-title" style="margin-bottom:16px;">Before you begin.</h1>
-    <p class="profile-sub">Optional. Your name and photo will appear on your result card.</p>
-    <div class="profile-fields">
-      <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
-    </div>
-    <div class="profile-photo-row">
-      <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
-      <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
-      <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
-    </div>
-    <div style="display:flex;gap:24px;align-items:center;margin-top:48px;flex-wrap:wrap;">
-      <button class="start-btn" onclick="startTest()">Begin Assessment</button>
-      <button class="profile-skip" onclick="startTest()">Skip, stay anonymous</button>
-    </div>
+<div id="profileScreen">
+  <div class="test-label">Loneliness Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
-  <div id="startScreen" style="display:none">
-    <div class="test-label">Loneliness Assessment</div>
-    <h1 class="test-title">Are you lonely in a room full of people?</h1>
-    <p class="test-desc">Loneliness is not about how many people are around you. It is about whether any of them actually know you. Whether you are actually known.</p>
-    <p class="test-desc">This assessment measures two dimensions: social loneliness, the absence of connection, and existential loneliness, the feeling of being fundamentally unseen.</p>
-    <p class="test-note">10 questions · 3 to 4 minutes · Based on UCLA loneliness scale and Cacioppo research · Not a clinical diagnostic tool</p>
-    <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
   </div>
+</div>
+<div id="startScreen" style="display:none">
+  <div class="test-label">Loneliness Assessment</div>
+  <h1 class="test-title">Are you lonely in a room full of people?</h1>
+  <p class="test-desc">Loneliness is not about how many people are around you. It is about whether any of them actually know you. Whether you are actually known.</p>
+  <p class="test-desc">This assessment measures two dimensions: social loneliness and existential loneliness, the feeling of being fundamentally unseen.</p>
+  <p class="test-note">10 questions &middot; 3 to 4 minutes &middot; Based on UCLA loneliness scale and Cacioppo research &middot; Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel like I do not have anyone I can truly talk to, someone who would understand what I actually mean.</div><div class="options"><div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>I have people who genuinely understand me.</div><div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Sometimes I feel misunderstood but not isolated.</div><div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>Real understanding feels harder to find than it should.</div><div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>I rarely feel truly understood by anyone.</div><div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>No one in my life actually knows me.</div></div></div>
+  <div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I can be in a room full of people and feel completely alone.</div><div class="options"><div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>Being around people reduces my sense of aloneness.</div><div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Occasionally but not a dominant experience.</div><div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>Social situations often leave me feeling more alone.</div><div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>Being around people frequently highlights the distance.</div><div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>Crowds make the loneliness worse, not better.</div></div></div>
+  <div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">When something significant happens in my life, I do not have someone I naturally want to call.</div><div class="options"><div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>I have clear people I reach out to when things happen.</div><div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Sometimes uncertain who to call but usually find someone.</div><div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>I notice I process things mostly alone.</div><div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>Significant moments pass without anyone to share them with.</div><div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>There is no one I would automatically reach for.</div></div></div>
+  <div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">I feel like no one would notice, or truly care, if I went quiet for a few weeks.</div><div class="options"><div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>People in my life would notice and reach out.</div><div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>A few people would notice eventually.</div><div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>I wonder sometimes if my absence would register.</div><div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>I doubt my absence would meaningfully impact anyone.</div><div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>I could disappear and it would take a long time for anyone to notice.</div></div></div>
+  <div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My relationships feel shallow or transactional. Plenty of acquaintances, no one who actually knows me.</div><div class="options"><div class="option" onclick="sa(4,0)"><span class="option-key">Never</span>My relationships have genuine depth.</div><div class="option" onclick="sa(4,1)"><span class="option-key">Rarely</span>Some are shallow but I have a few deep ones.</div><div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>Depth is harder to find than I want it to be.</div><div class="option" onclick="sa(4,3)"><span class="option-key">Often</span>Most of my connections stay at the surface level.</div><div class="option" onclick="sa(4,4)"><span class="option-key">Always</span>All my relationships feel like performances or transactions.</div></div></div>
+  <div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel like I am fundamentally different from the people around me in a way that prevents real connection.</div><div class="options"><div class="option" onclick="sa(5,0)"><span class="option-key">Never</span>I feel a basic kinship with people around me.</div><div class="option" onclick="sa(5,1)"><span class="option-key">Rarely</span>Sometimes I feel different but it does not prevent connection.</div><div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>The sense of being fundamentally different comes up.</div><div class="option" onclick="sa(5,3)"><span class="option-key">Often</span>I frequently feel like I am operating in a different world.</div><div class="option" onclick="sa(5,4)"><span class="option-key">Always</span>I do not know how to bridge the gap between who I am and who others seem to be.</div></div></div>
+  <div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I present a version of myself to people that is not really me, because the real version does not seem welcome.</div><div class="options"><div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>I am largely the same person in private and public.</div><div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Slight adjustment but mostly genuine.</div><div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice myself performing a more acceptable version.</div><div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>The version most people know is significantly edited.</div><div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>No one in my life knows who I actually am.</div></div></div>
+  <div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">I feel lonely most consistently at night, or on Sundays, or after leaving social events that should have felt good.</div><div class="options"><div class="option" onclick="sa(7,0)"><span class="option-key">Never</span>These transitions do not carry a loneliness spike.</div><div class="option" onclick="sa(7,1)"><span class="option-key">Rarely</span>Sometimes a brief emptiness but it passes quickly.</div><div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>There is a particular ache in those quiet transitions.</div><div class="option" onclick="sa(7,3)"><span class="option-key">Often</span>Those moments reliably surface the loneliness.</div><div class="option" onclick="sa(7,4)"><span class="option-key">Always</span>The quiet after connection is when it hits hardest.</div></div></div>
+  <div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I use screens, content, or busyness to fill the space where connection would otherwise be absent.</div><div class="options"><div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I use screens for enjoyment, not to fill a void.</div><div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Sometimes but not as a systematic coping mechanism.</div><div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>I notice I reach for stimulation when loneliness surfaces.</div><div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>Most of my screen time is really loneliness management.</div><div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>Without constant stimulation, the emptiness becomes unbearable.</div></div></div>
+  <div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">At a deep level, I feel unseen. Like no one has actually encountered who I really am.</div><div class="options"><div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>I feel genuinely seen by people in my life.</div><div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>Sometimes invisible but generally known.</div><div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Being truly seen feels rare and temporary.</div><div class="option" onclick="sa(9,3)"><span class="option-key">Often</span>I do not think anyone has really encountered me.</div><div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I am invisible. Not because no one is looking but because I have not shown them where to look.</div></div></div>
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
   </div>
-  <div id="testScreen" style="display:none">
-    <div class="progress-text" id="progressText">Question 1 of 10</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel like I do not have anyone I can truly talk to, someone who would understand what I actually mean.</div><div class="options"><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>I have people who genuinely understand me.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Sometimes I feel misunderstood but not isolated.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>Real understanding feels harder to find than it should.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>I rarely feel truly understood by anyone.</div><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>No one in my life actually knows me.</div></div></div>
-    <div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I can be in a room full of people and feel completely alone.</div><div class="options"><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>Being around people generally reduces my sense of aloneness.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Occasionally but not a dominant experience.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>Social situations often leave me feeling more alone, not less.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>Being around people frequently highlights the distance.</div><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>Crowds make the loneliness worse, not better.</div></div></div>
-    <div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">When something significant happens in my life, I do not have someone I naturally want to call.</div><div class="options"><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>I have clear people I reach out to when things happen.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Sometimes uncertain who to call but usually find someone.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>I notice I process things mostly alone.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>Significant moments pass without anyone to share them with.</div><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>There is no one I would automatically reach for.</div></div></div>
-    <div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">I feel like no one would notice, or truly care, if I went quiet for a few weeks.</div><div class="options"><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>People in my life would notice and reach out.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>A few people would notice eventually.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>I wonder sometimes if my absence would register.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>I doubt my absence would meaningfully impact anyone.</div><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I could disappear and it would take a long time for anyone to notice.</div></div></div>
-    <div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My relationships feel shallow or transactional. Plenty of acquaintances, no one who actually knows me.</div><div class="options"><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>My relationships have genuine depth.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>Some are shallow but I have a few deep ones.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>Depth is harder to find than I want it to be.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>Most of my connections stay at the surface level.</div><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>All my relationships feel like performances or transactions.</div></div></div>
-    <div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel like I am fundamentally different from the people around me in a way that prevents real connection.</div><div class="options"><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>I feel a basic kinship with people around me.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>Sometimes I feel different but it does not prevent connection.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>The sense of being fundamentally different comes up.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>I frequently feel like I am operating in a different world from others.</div><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>I do not know how to bridge the gap between who I am and who others seem to be.</div></div></div>
-    <div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I present a version of myself to people that is not really me, because the real version does not seem welcome.</div><div class="options"><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>I am largely the same person in private and public.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Slight adjustment but mostly genuine.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice myself performing a more acceptable version.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>The version most people know is significantly edited.</div><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>No one in my life knows who I actually am.</div></div></div>
-    <div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">I feel lonely most consistently at night, or on Sundays, or after leaving social events that should have felt good.</div><div class="options"><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>These transitions do not carry a loneliness spike.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Sometimes a brief emptiness but it passes quickly.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>There is a particular ache in those quiet transitions.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>Those moments reliably surface the loneliness.</div><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>The quiet after connection is when it hits hardest.</div></div></div>
-    <div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I use screens, content, or busyness to fill the space where connection would otherwise be absent.</div><div class="options"><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I use screens for enjoyment, not to fill a void.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>Sometimes but not as a systematic coping mechanism.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>I notice I reach for stimulation when loneliness surfaces.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>Most of my screen time is really loneliness management.</div><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>Without constant stimulation, the emptiness becomes unbearable.</div></div></div>
-    <div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">At a deep level, I feel unseen. Like no one has actually encountered who I really am.</div><div class="options"><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>I feel genuinely seen by people in my life.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>Sometimes invisible but generally known.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>Being truly seen feels rare and temporary.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>I do not think anyone has really encountered me.</div><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>I am invisible. Not because no one is looking but because I have not shown them where to look.</div></div></div>
-    <div class="nav-buttons">
-      <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>Back</button>
-      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
-    </div>
-  </div>
-    <div id="resultScreen" style="display:none">
-    <div class="share-section-top">
-      <div class="result-label">Your Result</div>
-      <div id="shareCard">
-        <div class="share-card-inner" id="shareCardInner">
-          <div class="share-card-top" id="cardTestLabel"></div>
-          <div>
-            <div id="cardUserRow" style="display:none;align-items:center;gap:10px;margin-bottom:10px;">
-              <img id="cardUserPhoto" style="width:28px;height:28px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
-              <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);"></span>
-            </div>
-            <div class="share-card-type" id="cardType"></div>
-            <div class="share-card-tagline" id="cardTagline"></div>
-          </div>
-          <div id="cardScores"></div>
-          <div class="share-card-bottom">
-            <img id="cardCharImg" src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div style="text-align:right;"><div class="share-card-domain">grindorium.org</div><div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div></div>
-          </div>
+</div>
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
+    <div class="result-label">Your Result</div>
+    <div id="shareCard">
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Loneliness Assessment</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        </div>
+        <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
         </div>
       </div>
-      <div class="share-btns">
-        <button class="share-btn" onclick="downloadCard()">Download Image</button>
-      </div>
     </div>
-    <h1 class="result-type" id="resultType"></h1>
-    <p class="result-tagline" id="resultTagline"></p>
-    <div class="score-grid">
-      <div class="score-card"><div class="score-card-label">Social Loneliness</div><div class="score-card-value" id="socScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="socLevel"></div></div>
-      <div class="score-card"><div class="score-card-label">Existential</div><div class="score-card-value" id="exScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="exLevel"></div></div>
-    </div>
-    <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-    <div class="result-section"><div class="result-section-title">What is underneath it</div><p class="result-text" id="resultMissing"></p></div>
-    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
   </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-card-label">Social Loneliness</div><div class="score-card-value" id="socScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="socLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Existential</div><div class="score-card-value" id="exScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="exLevel"></div></div>
+  </div>
+  <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+  <div class="result-section"><div class="result-section-title">What is underneath it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  const answers=new Array(10).fill(null);let currentQ=0;
-  
-  // PROFILE
-  let userPhoto=null;
-  function handlePhoto(input){
-    if(!input.files||!input.files[0])return;
-    const reader=new FileReader();
-    reader.onload=function(e){
-      userPhoto=e.target.result;
-      const prev=document.getElementById('profilePhotoPreview');
-      prev.src=userPhoto;prev.style.display='block';
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-  function applyUserToCard(testLabel){
-    const name=document.getElementById('profileName').value.trim();
-    const testLabelEl=document.getElementById('cardTestLabel');
-    if(testLabelEl)testLabelEl.textContent='Grindorium · '+testLabel;
-    const userRow=document.getElementById('cardUserRow');
-    const userNameEl=document.getElementById('cardUserName');
-    const userPhotoEl=document.getElementById('cardUserPhoto');
-    const charImg=document.getElementById('cardCharImg');
-    if(name||userPhoto){
-      if(userRow)userRow.style.display='flex';
-      if(name&&userNameEl)userNameEl.textContent=name;
-      if(userPhoto&&userPhotoEl){userPhotoEl.src=userPhoto;userPhotoEl.style.display='block';}
-      if(userPhoto&&charImg){charImg.src=userPhoto;charImg.style.borderRadius='50%';}
-    }
-  }
-  function startTest(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
-  function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===9){showResult();return;}document.getElementById('q'+currentQ).classList.remove('active');currentQ++;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
-  function prevQuestion(){if(currentQ===0)return;document.getElementById('q'+currentQ).classList.remove('active');currentQ--;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
-  function updateUI(){document.getElementById('progressText').textContent='Question '+(currentQ+1)+' of 10';document.getElementById('progressFill').style.width=((currentQ/10)*100)+'%';document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===9?'See Results':'Next';}
-  function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-  function getLevel(s,m){const p=s/m;if(p<=0.35)return'low';if(p<=0.65)return'mid';return'high';}
-  const typeColors={
-    'Connected':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
-    'The Quiet Distance':{bg:'linear-gradient(135deg,#0a0a0f 0%,#14141f 100%)',accent:'#8aa0c8'},
-    'Surrounded and Alone':{bg:'linear-gradient(135deg,#0d070f 0%,#1a0d2a 100%)',accent:'#b87ee8'},
-    'The Invisible One':{bg:'linear-gradient(135deg,#0f0707 0%,#200d0d 100%)',accent:'#e87e7e'}
-  };
-  function showResult(){
-    const soc=answers[0]+answers[2]+answers[3]+answers[4]+answers[7];
-    const ex=answers[1]+answers[5]+answers[6]+answers[8]+answers[9];
-    const sL=getLevel(soc,20),eL=getLevel(ex,20);
-    document.getElementById('testScreen').style.display='none';
-    document.getElementById('resultScreen').style.display='block';
-    document.getElementById('socScore').textContent=soc;
-    document.getElementById('exScore').textContent=ex;
-    document.getElementById('progressFill').style.width='100%';
-    const lbl={low:'Low',mid:'Moderate',high:'High'};const cls={low:'level-low',mid:'level-mid',high:'level-high'};
-    const sl=document.getElementById('socLevel');sl.textContent=lbl[sL];sl.className='score-card-level '+cls[sL];
-    const el=document.getElementById('exLevel');el.textContent=lbl[eL];el.className='score-card-level '+cls[eL];
-    let r;
-    if(sL==='low'&&eL==='low'){r={type:'Connected',tagline:'You feel known. That is the whole thing. Most people do not have that.',analysis:['Your scores suggest genuine connection in your life. Not just social contact but actual mutual recognition, people who know you and whom you know.','This is worth protecting consciously. Modern life consistently erodes connection through busyness, screens, and surface-level interaction. What you have required either luck, intention, or both.','The work is maintenance and deepening, not repair.'],missing:'Nothing critical. But connection can be disrupted by life transitions, geographic change, or the slow drift of unchecked busyness. Stay intentional.',steps:['Name the two or three relationships in your life that have the most genuine depth. Invest in them deliberately.','Notice if your screen use is reducing the quality of your in-person interactions even when the quantity is fine.','Practice being more fully present in the connections you already have. Listen more than you perform.','Reach out to someone you have been meaning to reach out to for months. Today.'],videos:['Why Most Men Feel Empty and Lonely in 2026, Even When Connected','When Humans Forgot Nature']};}
-    else if(sL==='high'&&eL==='low'){r={type:'The Quiet Distance',tagline:'The people are there. The connection is not. That gap is lonelier than being alone.',analysis:['Your social loneliness is significant but your existential loneliness is lower. This means you have some sense of being known at a deeper level but the practical social fabric is thinner than you need it to be.','You may have moved, changed life circumstances, or simply let relationships drift while life got busy. The capacity for real connection is there. The infrastructure has eroded.','This is the most actionable form of loneliness. It responds well to deliberate effort.'],missing:'Proximity and frequency. Connection does not maintain itself without investment. You probably know who you want to be closer to. The barrier is usually initiation.',steps:['Pick one person you have been wanting to spend real time with and make a specific plan, not soon, a specific date.','Reduce one social obligation that is not meaningful and replace it with something more real.','Join or create a recurring situation that brings you into consistent contact with people you actually like.','Send a message to someone you have been meaning to reconnect with. Not a long one. Just: I have been thinking about you.'],videos:['Why Most Men Feel Empty and Lonely in 2026, Even When Connected','The Glass Border']};}
-    else if(sL==='low'&&eL==='high'){r={type:'Surrounded and Alone',tagline:'The room is full. You are still invisible. And you have been for a long time.',analysis:['Your existential loneliness is high but your social loneliness is lower. You have people around you. Possibly many. But you do not feel truly known by them.','This is the hardest kind of loneliness to name because from the outside everything looks fine. You have relationships. You participate in life. But somewhere in the middle of all of it, you are completely unseen.','This pattern usually develops gradually. You show people the acceptable version. They respond to the acceptable version. And slowly the real version becomes harder to locate even for yourself.'],missing:'Being genuinely seen. Not fixed. Not helped. Seen. The risk is that you have hidden for so long that you are not sure what there is to be seen.',steps:['Identify one person in your life with whom you could be 10 percent more honest than you normally are. Start there.','Practice saying something you actually think in a conversation today, not the managed version, the real one.','Ask yourself: when did I start hiding the real version? What made it feel necessary?','Consider that the people around you may want to know you more than you have been allowing them to.'],videos:['The Mirror Man He Had No Face of His Own','What They Saw in the Mirror at 40, Eight Lives, One Question']};}
-    else{r={type:'The Invisible One',tagline:'You are not alone because no one is there. You are alone because no one is reaching you.',analysis:['Both your social and existential loneliness scores are high. You lack the quantity of connection and the quality of being known. This is deep loneliness, and it is far more common than anyone acknowledges.','Loneliness at this level is not just an emotional experience. Research consistently shows it has significant physical effects, comparable in impact to smoking. It is also self-reinforcing. Chronic loneliness changes how the brain processes social information, making connection feel more threatening and less rewarding over time.','This is not your fault. But it is your responsibility.'],missing:'One real thing. Not a social network. One person, one conversation, one moment of actual contact. That is how it starts.',steps:['Start smaller than you think you need to. One message. One yes to an invitation. One genuine moment in a conversation.','Reduce screen-based social substitutes. Passive social media consumption creates the feeling of social contact without any of the actual nourishment.','Consider whether therapy might provide a starting point. Not as a replacement for connection but as a space to be known while you build the real thing.','Be patient with yourself. The loneliness did not build overnight. The return to connection is equally gradual.'],videos:['Why Most Men Feel Empty and Lonely in 2026, Even When Connected','The Glass Border, An Animated Short Film']};}
-    document.getElementById('resultType').textContent=r.type;
-    document.getElementById('resultTagline').textContent=r.tagline;
-    document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
-    document.getElementById('resultMissing').textContent=r.missing;
-    document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
-    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+ytSearch(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-    buildShareCard(r.type,r.tagline,soc,ex);
-  }
-  function buildShareCard(type,tagline,soc,ex){
-    applyUserToCard('Loneliness Assessment');
-    const card=document.getElementById('shareCard');
-    const inner=document.getElementById('shareCardInner');
-    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
-    card.style.display='block';
-    inner.style.background=colors.bg;
-    document.getElementById('cardType').textContent=type;
-    document.getElementById('cardType').style.color=colors.accent;
-    document.getElementById('cardTagline').textContent=tagline;
-    document.getElementById('cardScores').innerHTML='<div><div class="share-card-score-val" style="color:'+colors.accent+'">'+soc+'</div><div class="share-card-score-label">Social</div></div><div><div class="share-card-score-val" style="color:'+colors.accent+'">'+ex+'</div><div class="share-card-score-label">Existential</div></div>';
-  }
-  function downloadCard(){
-    const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
-      const link=document.createElement('a');link.download='grindorium-loneliness-result.png';link.href=canvas.toDataURL('image/png');link.click();
-    });
-  }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
-  document.getElementById('profileLabel').textContent='Loneliness Assessment';
+  function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
+
+const answers=new Array(10).fill(null);let cQ=0;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+const COLORS={'Connected':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'The Quiet Distance':{bg:'linear-gradient(135deg,#0a0a0f,#14141f)',ac:'#8aa0c8'},'Surrounded and Alone':{bg:'linear-gradient(135deg,#0d070f,#1a0d2a)',ac:'#b87ee8'},'The Invisible One':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'}};
+function showResult(){
+  const soc=answers[0]+answers[2]+answers[3]+answers[4]+answers[7];
+  const ex=answers[1]+answers[5]+answers[6]+answers[8]+answers[9];
+  const sL=lv(soc,20),eL=lv(ex,20);
+  document.getElementById('testScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('socScore').textContent=soc;
+  document.getElementById('exScore').textContent=ex;
+  document.getElementById('progressFill').style.width='100%';
+  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const sl=document.getElementById('socLevel');sl.textContent=lb[sL];sl.className='score-card-level '+cs[sL];
+  const el=document.getElementById('exLevel');el.textContent=lb[eL];el.className='score-card-level '+cs[eL];
+  let r;
+  if(sL==='low'&&eL==='low'){r={type:'Connected',tagline:'You feel known. That is the whole thing. Most people do not have that.',analysis:['Your scores suggest genuine connection in your life. Not just social contact but actual mutual recognition.','This is worth protecting consciously. Modern life consistently erodes connection through busyness, screens, and surface-level interaction.'],missing:'Nothing critical. Connection can be disrupted by life transitions or the slow drift of unchecked busyness. Stay intentional.',steps:['Name the two or three relationships in your life that have the most genuine depth. Invest in them deliberately.','Notice if your screen use is reducing the quality of your in-person interactions.','Reach out to someone you have been meaning to reach out to for months. Today.'],videos:['Why Most Men Feel Empty and Lonely in 2026','When Humans Forgot Nature']};}
+  else if(sL==='high'&&eL==='low'){r={type:'The Quiet Distance',tagline:'The people are there. The connection is not. That gap is lonelier than being alone.',analysis:['Your social loneliness is significant but your existential loneliness is lower. You have some sense of being known at a deeper level but the practical social fabric is thinner than you need it to be.','This is the most actionable form of loneliness. It responds well to deliberate effort.'],missing:'Proximity and frequency. Connection does not maintain itself without investment.',steps:['Pick one person you have been wanting to spend real time with and make a specific plan.','Reduce one social obligation that is not meaningful and replace it with something more real.','Send a message to someone you have been meaning to reconnect with. Not a long one. Just: I have been thinking about you.'],videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']};}
+  else if(sL==='low'&&eL==='high'){r={type:'Surrounded and Alone',tagline:'The room is full. You are still invisible. And you have been for a long time.',analysis:['Your existential loneliness is high but your social loneliness is lower. You have people around you. Possibly many. But you do not feel truly known by them.','This pattern usually develops gradually. You show people the acceptable version. They respond to it. And slowly the real version becomes harder to locate even for yourself.'],missing:'Being genuinely seen. Not fixed. Not helped. Seen.',steps:['Identify one person in your life with whom you could be 10 percent more honest than you normally are. Start there.','Practice saying something you actually think in a conversation today, not the managed version.','Ask yourself: when did I start hiding the real version? What made it feel necessary?'],videos:['The Mirror Man He Had No Face of His Own','What They Saw in the Mirror at 40']};}
+  else{r={type:'The Invisible One',tagline:'You are not alone because no one is there. You are alone because no one is reaching you.',analysis:['Both your social and existential loneliness scores are high. You lack the quantity of connection and the quality of being known.','Loneliness at this level is not just an emotional experience. Research consistently shows it has significant physical effects. It is also self-reinforcing.'],missing:'One real thing. Not a social network. One person, one conversation, one moment of actual contact. That is how it starts.',steps:['Start smaller than you think you need to. One message. One yes to an invitation. One genuine moment in a conversation.','Reduce screen-based social substitutes. Passive social media consumption creates the feeling of contact without the nourishment.','Consider whether therapy might provide a starting point. Not as a replacement for connection but as a space to be known while you build the real thing.'],videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']};}
+  document.getElementById('resultType').textContent=r.type;
+  document.getElementById('resultTagline').textContent=r.tagline;
+  document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
+  document.getElementById('resultMissing').textContent=r.missing;
+  document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
+  document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
+  const card=document.getElementById('shareCard');card.style.display='block';
+  document.getElementById('shareCardInner').style.background=col.bg;
+  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  document.getElementById('cardTagline').textContent=r.tagline;
+  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+soc+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Social</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+ex+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Existential</div></div>';
+  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-loneliness-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
