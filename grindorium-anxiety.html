@@ -3,12 +3,6 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Anxiety & Overstimulation Test — Grindorium</title>
-  <meta name="description" content="Are you overstimulated? This assessment measures how overstimulated your nervous system has become and what kind of anxiety that is creating."/>
-<meta property="og:title" content="Anxiety & Overstimulation Assessment — Grindorium"/>
-<meta property="og:description" content="Your nervous system was never designed for this. Constant notifications. Infinite scroll. Always-on. Find out how overstimulated you are."/>
-<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
-<meta property="og:url" content="https://grindorium.org/grindorium-anxiety.html"/>
-<meta name="twitter:card" content="summary_large_image"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
   <style>
     :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
@@ -69,16 +63,16 @@
     .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
     .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
     #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:48px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
-    .share-card-top{font-family:'Space Mono',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;}
+    .share-card-inner{width:100%;height:100%;padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
+    .share-card-top{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.5;color:#fff;white-space:nowrap;overflow:hidden;}
     .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
     .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
     .share-card-scores{display:flex;gap:32px;margin-top:8px;}
     .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:22px;}
     .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
     .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
-    .share-card-char{width:64px;height:64px;min-width:64px;min-height:64px;object-fit:cover;border-radius:50%;opacity:0.8;margin-top:16px;}
-    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+    .share-card-char{width:56px;height:56px;min-width:56px;min-height:56px;object-fit:cover;border-radius:50%;opacity:0.85;}
+    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.65);text-transform:uppercase;}
     .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
     .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
     @media(max-width:768px){nav{padding:20px 24px;}.container{padding:120px 24px 80px;}.score-grid{grid-template-columns:1fr 1fr;}}
@@ -138,7 +132,10 @@
           <div class="share-card-scores" id="cardScores"></div>
           <div class="share-card-bottom">
             <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div class="share-card-domain">grindorium.org</div>
+            <div style="text-align:right;">
+              <div class="share-card-domain">grindorium.org</div>
+              <div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div>
+            </div>
           </div>
         </div>
       </div>
