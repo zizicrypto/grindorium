@@ -349,6 +349,8 @@
   function markDone(){
     const today=new Date().toDateString();
     if(lastDone===today){document.getElementById('habitStreak').textContent='Already done today ✓';return;}
+    const habit=document.getElementById('habitInput').value;
+    if(habit)localStorage.setItem('grind_habit',habit);
     streak++;lastDone=today;localStorage.setItem('grind_streak',streak);localStorage.setItem('grind_lastdone',lastDone);updateChain();
   }
   function updateChain(){
@@ -356,6 +358,8 @@
     for(let i=0;i<Math.min(streak,60);i++){const d=document.createElement('div');d.style.cssText='width:10px;height:10px;border-radius:50%;background:rgba(126,184,232,0.5);';chain.appendChild(d);}
     if(streak>0)document.getElementById('habitStreak').textContent=streak+' day streak 🔥';
   }
+  const savedHabit=localStorage.getItem('grind_habit');
+  if(savedHabit){const el=document.getElementById('habitInput');if(el)el.value=savedHabit;}
   updateChain();
 
   // JOURNAL
