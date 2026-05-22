@@ -1,297 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Emotional Maturity Test, Grindorium</title>
-  <meta name="description" content="How emotionally mature are you, really? This assessment measures emotional regulation, accountability, and the ability to be present in difficulty without collapsing or escaping."/>
-  <meta property="og:title" content="Emotional Maturity Assessment, Grindorium"/>
-  <meta property="og:description" content="Age is not emotional maturity. You can be 40 and still respond to disappointment like you are 14. Find out where you actually are."/>
-  <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
-  <meta property="og:url" content="https://grindorium.org/grindorium-emotionalmaturity.html"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-    .nav-logo{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
-    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;letter-spacing:0.15em;}
-    .nav-back:hover{color:var(--white);}
-    .container{max-width:760px;margin:0 auto;padding:120px 28px 80px;}
-    .test-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;}
-    .test-title{font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
-    .test-desc{font-size:18px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:16px;}
-    .test-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);opacity:0.6;margin-bottom:60px;}
-    .progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:32px;}
-    .progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
-    .progress-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:16px;}
-    .question-block{display:none;animation:fade-up 0.4s ease forwards;}
-    .question-block.active{display:block;}
-    @keyframes fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    .question-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;}
-    .question-text{font-size:clamp(19px,2.5vw,26px);font-weight:300;color:var(--white);line-height:1.4;margin-bottom:24px;}
-    .options{display:flex;flex-direction:column;gap:8px;}
-    .option{padding:13px 16px;border:1px solid rgba(126,184,232,0.15);background:var(--bg2);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:14px;font-size:15px;font-weight:300;color:var(--dim);}
-    .option:hover{border-color:rgba(126,184,232,0.5);color:var(--white);background:#111d2c;}
-    .option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
-    .option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:56px;}
-    .nav-buttons{display:flex;gap:12px;margin-top:28px;}
-    .btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
-    .btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
-    .btn:disabled{opacity:0.3;cursor:not-allowed;}
-    .btn-primary{background:rgba(126,184,232,0.1);border-color:var(--accent);}
-    .start-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 48px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:8px;}
-    .start-btn:hover{border-color:var(--accent);background:rgba(126,184,232,0.15);color:var(--white);}
-    .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px;}
-    .score-card{background:var(--bg2);padding:24px 20px;text-align:center;}
-    .score-card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-bottom:12px;}
-    .score-card-value{font-size:32px;font-weight:300;color:var(--white);margin-bottom:4px;}
-    .score-card-max{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
-    .score-card-level{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;margin-top:8px;text-transform:uppercase;}
-    .level-low{color:#e87e7e;}.level-mid{color:#e8c87e;}.level-high{color:#6db88a;}
-    .result-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
-    .result-type{font-size:clamp(32px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
-    .result-tagline{font-size:20px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:48px;line-height:1.5;}
-    .result-section{margin-bottom:40px;}
-    .result-section-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(126,184,232,0.1);}
-    .result-text{font-size:17px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:16px;}
-    .steps{display:flex;flex-direction:column;gap:16px;}
-    .step{display:flex;gap:20px;align-items:flex-start;}
-    .step-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);min-width:24px;margin-top:4px;}
-    .step-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .video-cards{display:flex;flex-direction:column;gap:12px;}
-    .video-card{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-    .video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
-    .video-card-title{font-size:16px;font-weight:300;color:var(--white);}
-    .video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);font-size:16px;transition:color 0.3s,transform 0.3s;}
-    .video-card:hover .video-card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-    .retake-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:48px;}
-    .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:20px;display:none;}
-    .share-card-inner{width:100%;height:100%;padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
-    .share-card-top{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.5;color:#fff;white-space:nowrap;overflow:hidden;}
-    .share-card-type{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,6vw,44px);font-weight:300;color:#fff;line-height:1.1;margin:16px 0 12px;}
-    .share-card-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.5;max-width:320px;}
-    .share-card-scores{display:flex;gap:28px;margin-top:20px;}
-    .share-card-score-val{font-family:'Space Mono',sans-serif;font-size:20px;}
-    .share-card-score-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
-    .share-card-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
-    .share-card-char{width:56px;height:56px;min-width:56px;min-height:56px;object-fit:cover;border-radius:50%;opacity:0.85;}
-    .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.65);text-transform:uppercase;}
-    .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
-    .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
-    .profile-sub{font-size:17px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:36px;}
-    .profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;padding:12px 0;outline:none;transition:border-color 0.3s;margin-bottom:28px;display:block;}
-    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
-    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
-    .profile-photo-row{display:flex;align-items:center;gap:16px;margin-bottom:40px;}
-    .profile-photo-preview{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.2);}
-    .profile-photo-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:9px 18px;cursor:pointer;transition:all 0.3s;}
-    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
-    .profile-skip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;padding:0;transition:color 0.3s;}
-    .profile-skip:hover{color:var(--white);}
-    .share-section-top{margin-bottom:52px;}
-    .share-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;}
-    /* PROFILE SCREEN */
-    .profile-sub{font-size:17px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:40px;}
-    .profile-fields{display:flex;flex-direction:column;gap:16px;margin-bottom:32px;}
-    .profile-input{width:100%;background:var(--bg2);border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;padding:14px 0;outline:none;transition:border-color 0.3s;}
-    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.6);}
-    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
-    .profile-photo-row{display:flex;align-items:center;gap:16px;margin-top:8px;}
-    .profile-photo-preview{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
-    .profile-photo-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:10px 20px;cursor:pointer;transition:all 0.3s;}
-    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
-    .profile-skip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;padding:0;transition:color 0.3s;}
-    .profile-skip:hover{color:var(--white);}
-    /* SHARE CARD TOP */
-    .share-section-top{margin-bottom:56px;}
-    .share-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
-    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:0;display:none;}
-    @media(max-width:768px){nav{padding:16px 20px;}.container{padding:100px 16px 60px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Emotional Maturity Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:32px;}
+.score-card{background:var(--bg2);padding:18px 14px;text-align:center;}
+.score-card-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--dim);text-transform:uppercase;margin-bottom:9px;}
+.score-card-value{font-size:28px;font-weight:300;color:var(--white);margin-bottom:3px;}
+.score-card-max{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.score-card-level{font-family:'Space Mono',monospace;font-size:8px;margin-top:5px;text-transform:uppercase;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.lv-low-r{color:#e87e7e;}.lv-mid-r{color:#e8c87e;}.lv-high-r{color:#6db88a;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
+</style>
 </head>
 <body>
 <nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
 <div class="container">
-    <div id="profileScreen">
-    <div class="test-label" id="profileLabel"></div>
-    <h1 class="test-title" style="margin-bottom:16px;">Before you begin.</h1>
-    <p class="profile-sub">Optional. Your name and photo will appear on your result card.</p>
-    <div class="profile-fields">
-      <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
-    </div>
-    <div class="profile-photo-row">
-      <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
-      <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
-      <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
-    </div>
-    <div style="display:flex;gap:24px;align-items:center;margin-top:48px;flex-wrap:wrap;">
-      <button class="start-btn" onclick="startTest()">Begin Assessment</button>
-      <button class="profile-skip" onclick="startTest()">Skip, stay anonymous</button>
-    </div>
+<div id="profileScreen">
+  <div class="test-label">Emotional Maturity Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
-  <div id="startScreen" style="display:none">
-    <div class="test-label">Emotional Maturity Assessment</div>
-    <h1 class="test-title">How emotionally mature are you, really?</h1>
-    <p class="test-desc">Age is not emotional maturity. You can be 40 and still respond to disappointment like you are 14. You can be 25 and have more emotional stability than most people twice your age.</p>
-    <p class="test-desc">This assessment measures three dimensions: emotional regulation, accountability, and relational maturity. It will not tell you what you want to hear.</p>
-    <p class="test-note">12 questions · 4 to 5 minutes · Based on emotional intelligence and DBT research · Not a clinical diagnostic tool</p>
-    <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
   </div>
+</div>
+<div id="startScreen" style="display:none">
+  <div class="test-label">Emotional Maturity Assessment</div>
+  <h1 class="test-title">How emotionally mature are you, really?</h1>
+  <p class="test-desc">Age is not emotional maturity. You can be 40 and still respond to disappointment like you are 14. This assessment measures three dimensions: emotional regulation, accountability, and relational maturity.</p>
+  <p class="test-note">12 questions &middot; 4 to 5 minutes &middot; Based on emotional intelligence and DBT research &middot; Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 12</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="question-block active" id="q0"><div class="question-number">01 / 12</div><div class="question-text">When I am hurt or angry, I can hold the feeling without immediately acting on it or expressing it destructively.</div><div class="options"><div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>I can be with difficult feelings before responding.</div><div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>Mostly, with occasional reactive moments.</div><div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>Depends on how intense the feeling is.</div><div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Difficult emotions usually come out before I decide to express them.</div><div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>When I feel something intensely, it controls what I do next.</div></div></div>
+  <div class="question-block" id="q1"><div class="question-number">02 / 12</div><div class="question-text">When I am wrong or have made a mistake, I can acknowledge it directly without becoming defensive.</div><div class="options"><div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>I own mistakes cleanly.</div><div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>Usually can, sometimes get defensive first.</div><div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>I can admit mistakes but not always without a fight first.</div><div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Admitting fault feels very threatening.</div><div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>I almost always find a way to justify or deflect.</div></div></div>
+  <div class="question-block" id="q2"><div class="question-number">03 / 12</div><div class="question-text">I can stay engaged in a difficult conversation without shutting down, going silent, or walking away.</div><div class="options"><div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>I can stay present in hard conversations.</div><div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>Usually, though some topics make it harder.</div><div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>Certain emotional triggers cause me to shut down.</div><div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Difficult conversations usually end with me withdrawing.</div><div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>When conversations get hard I leave, either physically or emotionally.</div></div></div>
+  <div class="question-block" id="q3"><div class="question-number">04 / 12</div><div class="question-text">I take responsibility for my part in conflicts without needing the other person to admit fault first.</div><div class="options"><div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>I can own my part regardless of what the other person does.</div><div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>Mostly, though I sometimes wait to see if they go first.</div><div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>It is easier to see my part once they acknowledge theirs.</div><div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>I usually wait for them to admit fault before I consider mine.</div><div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>I focus on what the other person did wrong rather than what I contributed.</div></div></div>
+  <div class="question-block" id="q4"><div class="question-number">05 / 12</div><div class="question-text">I can tolerate someone being angry with me without needing to immediately resolve it or make them like me again.</div><div class="options"><div class="option" onclick="sa(4,4)"><span class="option-key">Always</span>I can let someone be upset with me without collapsing.</div><div class="option" onclick="sa(4,3)"><span class="option-key">Often</span>Usually okay, occasionally feel the pull to fix it fast.</div><div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>Someone being angry with me creates significant distress.</div><div class="option" onclick="sa(4,1)"><span class="option-key">Rarely</span>I will do a lot to restore approval when someone is upset with me.</div><div class="option" onclick="sa(4,0)"><span class="option-key">Never</span>Someone being angry with me feels like a crisis I must resolve immediately.</div></div></div>
+  <div class="question-block" id="q5"><div class="question-number">06 / 12</div><div class="question-text">I can separate my feelings about a situation from the facts of the situation and address both with some clarity.</div><div class="options"><div class="option" onclick="sa(5,4)"><span class="option-key">Always</span>I can hold the emotional and factual dimensions separately.</div><div class="option" onclick="sa(5,3)"><span class="option-key">Often</span>Usually, though intense emotion makes it harder.</div><div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>Feelings and facts frequently merge in ways that complicate things.</div><div class="option" onclick="sa(5,1)"><span class="option-key">Rarely</span>When I am upset, my feelings become the facts of the situation.</div><div class="option" onclick="sa(5,0)"><span class="option-key">Never</span>I cannot see past how something feels to what is actually happening.</div></div></div>
+  <div class="question-block" id="q6"><div class="question-number">07 / 12</div><div class="question-text">I do not need other people's problems, crises, or emotional states to define my own sense of purpose.</div><div class="options"><div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>My sense of purpose is internally generated.</div><div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>Mostly, though I sometimes get caught up in others' situations.</div><div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice I feel most needed when others are struggling.</div><div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Other people's problems give me a sense of direction and importance.</div><div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>Without someone else's needs to meet, I am not sure what I am for.</div></div></div>
+  <div class="question-block" id="q7"><div class="question-number">08 / 12</div><div class="question-text">I can disagree with someone I care about without it threatening the relationship or my sense of safety.</div><div class="options"><div class="option" onclick="sa(7,4)"><span class="option-key">Always</span>Disagreement is just disagreement. The relationship survives it.</div><div class="option" onclick="sa(7,3)"><span class="option-key">Often</span>Usually fine, some people or topics are harder.</div><div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>Disagreement feels risky with certain people.</div><div class="option" onclick="sa(7,1)"><span class="option-key">Rarely</span>Disagreement usually feels like the beginning of something breaking.</div><div class="option" onclick="sa(7,0)"><span class="option-key">Never</span>I avoid disagreement to preserve the relationship.</div></div></div>
+  <div class="question-block" id="q8"><div class="question-number">09 / 12</div><div class="question-text">When I make a promise to myself, I tend to keep it.</div><div class="options"><div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>I follow through on commitments to myself.</div><div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>Usually keep them, with some exceptions.</div><div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>Self-commitments break more than external ones.</div><div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>I break self-promises regularly and feel guilty about it.</div><div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I rarely keep the commitments I make to myself.</div></div></div>
+  <div class="question-block" id="q9"><div class="question-number">10 / 12</div><div class="question-text">I can sit with uncertainty or unresolved situations without needing immediate answers or closure.</div><div class="options"><div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I can tolerate not knowing without being undone by it.</div><div class="option" onclick="sa(9,3)"><span class="option-key">Often</span>Usually manage ambiguity, some situations are harder.</div><div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Unresolved situations create significant background anxiety.</div><div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>I need resolution quickly or I become increasingly distressed.</div><div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>Not knowing what is happening or what someone thinks is almost unbearable.</div></div></div>
+  <div class="question-block" id="q10"><div class="question-number">11 / 12</div><div class="question-text">I do not hold resentment for long. I can process what happened and genuinely move on.</div><div class="options"><div class="option" onclick="sa(10,4)"><span class="option-key">Always</span>I process and move forward without accumulating resentment.</div><div class="option" onclick="sa(10,3)"><span class="option-key">Often</span>Usually move on, though some things take longer.</div><div class="option" onclick="sa(10,2)"><span class="option-key">Sometimes</span>I carry things longer than I would like.</div><div class="option" onclick="sa(10,1)"><span class="option-key">Rarely</span>I hold onto hurts for a long time even when I want to let go.</div><div class="option" onclick="sa(10,0)"><span class="option-key">Never</span>I have a catalog of injuries I have not released.</div></div></div>
+  <div class="question-block" id="q11"><div class="question-number">12 / 12</div><div class="question-text">I know the difference between what I feel and what I should do about it. Feeling something does not automatically mean acting on it.</div><div class="options"><div class="option" onclick="sa(11,4)"><span class="option-key">Always</span>Feeling and action are clearly separate for me.</div><div class="option" onclick="sa(11,3)"><span class="option-key">Often</span>Usually I can create that space, some emotions are harder.</div><div class="option" onclick="sa(11,2)"><span class="option-key">Sometimes</span>Strong emotions sometimes bypass my ability to choose my response.</div><div class="option" onclick="sa(11,1)"><span class="option-key">Rarely</span>How I feel usually determines what I do.</div><div class="option" onclick="sa(11,0)"><span class="option-key">Never</span>I act on what I feel. The feeling and the response are the same thing.</div></div></div>
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
   </div>
-  <div id="testScreen" style="display:none">
-    <div class="progress-text" id="progressText">Question 1 of 12</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-block active" id="q0"><div class="question-number">01 / 12</div><div class="question-text">When I am hurt or angry, I can hold the feeling without immediately acting on it or expressing it destructively.</div><div class="options"><div class="option" onclick="selectAnswer(0,4)"><span class="option-key">Always</span>I can be with difficult feelings before responding.</div><div class="option" onclick="selectAnswer(0,3)"><span class="option-key">Often</span>Mostly, with occasional reactive moments.</div><div class="option" onclick="selectAnswer(0,2)"><span class="option-key">Sometimes</span>Depends on how intense the feeling is.</div><div class="option" onclick="selectAnswer(0,1)"><span class="option-key">Rarely</span>Difficult emotions usually come out before I decide to express them.</div><div class="option" onclick="selectAnswer(0,0)"><span class="option-key">Never</span>When I feel something intensely, it controls what I do next.</div></div></div>
-    <div class="question-block" id="q1"><div class="question-number">02 / 12</div><div class="question-text">When I am wrong or have made a mistake, I can acknowledge it directly without becoming defensive.</div><div class="options"><div class="option" onclick="selectAnswer(1,4)"><span class="option-key">Always</span>I own mistakes cleanly.</div><div class="option" onclick="selectAnswer(1,3)"><span class="option-key">Often</span>Usually can, sometimes get defensive first.</div><div class="option" onclick="selectAnswer(1,2)"><span class="option-key">Sometimes</span>I can admit mistakes but not always without a fight first.</div><div class="option" onclick="selectAnswer(1,1)"><span class="option-key">Rarely</span>Admitting fault feels very threatening.</div><div class="option" onclick="selectAnswer(1,0)"><span class="option-key">Never</span>I almost always find a way to justify or deflect.</div></div></div>
-    <div class="question-block" id="q2"><div class="question-number">03 / 12</div><div class="question-text">I can stay engaged in a difficult conversation without shutting down, going silent, or walking away.</div><div class="options"><div class="option" onclick="selectAnswer(2,4)"><span class="option-key">Always</span>I can stay present in hard conversations.</div><div class="option" onclick="selectAnswer(2,3)"><span class="option-key">Often</span>Usually, though some topics make it harder.</div><div class="option" onclick="selectAnswer(2,2)"><span class="option-key">Sometimes</span>Certain emotional triggers cause me to shut down.</div><div class="option" onclick="selectAnswer(2,1)"><span class="option-key">Rarely</span>Difficult conversations usually end with me withdrawing.</div><div class="option" onclick="selectAnswer(2,0)"><span class="option-key">Never</span>When conversations get hard I leave, either physically or emotionally.</div></div></div>
-    <div class="question-block" id="q3"><div class="question-number">04 / 12</div><div class="question-text">I take responsibility for my part in conflicts without needing the other person to admit fault first.</div><div class="options"><div class="option" onclick="selectAnswer(3,4)"><span class="option-key">Always</span>I can own my part regardless of what the other person does.</div><div class="option" onclick="selectAnswer(3,3)"><span class="option-key">Often</span>Mostly, though I sometimes wait to see if they go first.</div><div class="option" onclick="selectAnswer(3,2)"><span class="option-key">Sometimes</span>It is easier to see my part once they acknowledge theirs.</div><div class="option" onclick="selectAnswer(3,1)"><span class="option-key">Rarely</span>I usually wait for them to admit fault before I consider mine.</div><div class="option" onclick="selectAnswer(3,0)"><span class="option-key">Never</span>I focus on what the other person did wrong rather than what I contributed.</div></div></div>
-    <div class="question-block" id="q4"><div class="question-number">05 / 12</div><div class="question-text">I can tolerate someone being angry with me without needing to immediately resolve it or make them like me again.</div><div class="options"><div class="option" onclick="selectAnswer(4,4)"><span class="option-key">Always</span>I can let someone be upset with me without collapsing.</div><div class="option" onclick="selectAnswer(4,3)"><span class="option-key">Often</span>Usually okay, occasionally feel the pull to fix it fast.</div><div class="option" onclick="selectAnswer(4,2)"><span class="option-key">Sometimes</span>Someone being angry with me creates significant distress.</div><div class="option" onclick="selectAnswer(4,1)"><span class="option-key">Rarely</span>I will do a lot to restore approval when someone is upset with me.</div><div class="option" onclick="selectAnswer(4,0)"><span class="option-key">Never</span>Someone being angry with me feels like a crisis I must resolve immediately.</div></div></div>
-    <div class="question-block" id="q5"><div class="question-number">06 / 12</div><div class="question-text">I can separate my feelings about a situation from the facts of the situation and address both with some clarity.</div><div class="options"><div class="option" onclick="selectAnswer(5,4)"><span class="option-key">Always</span>I can hold the emotional and factual dimensions separately.</div><div class="option" onclick="selectAnswer(5,3)"><span class="option-key">Often</span>Usually, though intense emotion makes it harder.</div><div class="option" onclick="selectAnswer(5,2)"><span class="option-key">Sometimes</span>Feelings and facts frequently merge in ways that complicate things.</div><div class="option" onclick="selectAnswer(5,1)"><span class="option-key">Rarely</span>When I am upset, my feelings become the facts of the situation.</div><div class="option" onclick="selectAnswer(5,0)"><span class="option-key">Never</span>I cannot see past how something feels to what is actually happening.</div></div></div>
-    <div class="question-block" id="q6"><div class="question-number">07 / 12</div><div class="question-text">I do not need other people's problems, crises, or emotional states to define my own sense of purpose.</div><div class="options"><div class="option" onclick="selectAnswer(6,4)"><span class="option-key">Always</span>My sense of purpose is internally generated.</div><div class="option" onclick="selectAnswer(6,3)"><span class="option-key">Often</span>Mostly, though I sometimes get caught up in others' situations.</div><div class="option" onclick="selectAnswer(6,2)"><span class="option-key">Sometimes</span>I notice I feel most needed when others are struggling.</div><div class="option" onclick="selectAnswer(6,1)"><span class="option-key">Rarely</span>Other people's problems give me a sense of direction and importance.</div><div class="option" onclick="selectAnswer(6,0)"><span class="option-key">Never</span>Without someone else's needs to meet, I am not sure what I am for.</div></div></div>
-    <div class="question-block" id="q7"><div class="question-number">08 / 12</div><div class="question-text">I can disagree with someone I care about without it threatening the relationship or my sense of safety.</div><div class="options"><div class="option" onclick="selectAnswer(7,4)"><span class="option-key">Always</span>Disagreement is just disagreement. The relationship survives it.</div><div class="option" onclick="selectAnswer(7,3)"><span class="option-key">Often</span>Usually fine, some people or topics are harder.</div><div class="option" onclick="selectAnswer(7,2)"><span class="option-key">Sometimes</span>Disagreement feels risky with certain people.</div><div class="option" onclick="selectAnswer(7,1)"><span class="option-key">Rarely</span>Disagreement usually feels like the beginning of something breaking.</div><div class="option" onclick="selectAnswer(7,0)"><span class="option-key">Never</span>I avoid disagreement to preserve the relationship.</div></div></div>
-    <div class="question-block" id="q8"><div class="question-number">09 / 12</div><div class="question-text">When I make a promise to myself, I tend to keep it.</div><div class="options"><div class="option" onclick="selectAnswer(8,4)"><span class="option-key">Always</span>I follow through on commitments to myself.</div><div class="option" onclick="selectAnswer(8,3)"><span class="option-key">Often</span>Usually keep them, with some exceptions.</div><div class="option" onclick="selectAnswer(8,2)"><span class="option-key">Sometimes</span>Self-commitments break more than external ones.</div><div class="option" onclick="selectAnswer(8,1)"><span class="option-key">Rarely</span>I break self-promises regularly and feel guilty about it.</div><div class="option" onclick="selectAnswer(8,0)"><span class="option-key">Never</span>I rarely keep the commitments I make to myself.</div></div></div>
-    <div class="question-block" id="q9"><div class="question-number">10 / 12</div><div class="question-text">I can sit with uncertainty or unresolved situations without needing immediate answers or closure.</div><div class="options"><div class="option" onclick="selectAnswer(9,4)"><span class="option-key">Always</span>I can tolerate not knowing without being undone by it.</div><div class="option" onclick="selectAnswer(9,3)"><span class="option-key">Often</span>Usually manage ambiguity, some situations are harder.</div><div class="option" onclick="selectAnswer(9,2)"><span class="option-key">Sometimes</span>Unresolved situations create significant background anxiety.</div><div class="option" onclick="selectAnswer(9,1)"><span class="option-key">Rarely</span>I need resolution quickly or I become increasingly distressed.</div><div class="option" onclick="selectAnswer(9,0)"><span class="option-key">Never</span>Not knowing what is happening or what someone thinks is almost unbearable.</div></div></div>
-    <div class="question-block" id="q10"><div class="question-number">11 / 12</div><div class="question-text">I do not hold resentment for long. I can process what happened and genuinely move on.</div><div class="options"><div class="option" onclick="selectAnswer(10,4)"><span class="option-key">Always</span>I process and move forward without accumulating resentment.</div><div class="option" onclick="selectAnswer(10,3)"><span class="option-key">Often</span>Usually move on, though some things take longer.</div><div class="option" onclick="selectAnswer(10,2)"><span class="option-key">Sometimes</span>I carry things longer than I would like.</div><div class="option" onclick="selectAnswer(10,1)"><span class="option-key">Rarely</span>I hold onto hurts for a long time even when I want to let go.</div><div class="option" onclick="selectAnswer(10,0)"><span class="option-key">Never</span>I have a catalog of injuries I have not released.</div></div></div>
-    <div class="question-block" id="q11"><div class="question-number">12 / 12</div><div class="question-text">I know the difference between what I feel and what I should do about it. Feeling something does not automatically mean acting on it.</div><div class="options"><div class="option" onclick="selectAnswer(11,4)"><span class="option-key">Always</span>Feeling and action are clearly separate for me.</div><div class="option" onclick="selectAnswer(11,3)"><span class="option-key">Often</span>Usually I can create that space, some emotions are harder.</div><div class="option" onclick="selectAnswer(11,2)"><span class="option-key">Sometimes</span>Strong emotions sometimes bypass my ability to choose my response.</div><div class="option" onclick="selectAnswer(11,1)"><span class="option-key">Rarely</span>How I feel usually determines what I do.</div><div class="option" onclick="selectAnswer(11,0)"><span class="option-key">Never</span>I act on what I feel. The feeling and the response are the same thing.</div></div></div>
-    <div class="nav-buttons">
-      <button class="btn" id="prevBtn" onclick="prevQuestion()" disabled>Back</button>
-      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
-    </div>
-  </div>
-    <div id="resultScreen" style="display:none">
-    <div class="share-section-top">
-      <div class="result-label">Your Result</div>
-      <div id="shareCard">
-        <div class="share-card-inner" id="shareCardInner">
-          <div class="share-card-top" id="cardTestLabel"></div>
-          <div>
-            <div id="cardUserRow" style="display:none;align-items:center;gap:10px;margin-bottom:10px;">
-              <img id="cardUserPhoto" style="width:28px;height:28px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
-              <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);"></span>
-            </div>
-            <div class="share-card-type" id="cardType"></div>
-            <div class="share-card-tagline" id="cardTagline"></div>
-          </div>
-          <div id="cardScores"></div>
-          <div class="share-card-bottom">
-            <img id="cardCharImg" src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div style="text-align:right;"><div class="share-card-domain">grindorium.org</div><div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div></div>
-          </div>
+</div>
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
+    <div class="result-label">Your Result</div>
+    <div id="shareCard">
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Emotional Maturity</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        </div>
+        <div id="cardScores" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
         </div>
       </div>
-      <div class="share-btns">
-        <button class="share-btn" onclick="downloadCard()">Download Image</button>
-      </div>
     </div>
-    <h1 class="result-type" id="resultType"></h1>
-    <p class="result-tagline" id="resultTagline"></p>
-    <div class="score-grid">
-      <div class="score-card"><div class="score-card-label">Regulation</div><div class="score-card-value" id="regScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="regLevel"></div></div>
-      <div class="score-card"><div class="score-card-label">Accountability</div><div class="score-card-value" id="accScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="accLevel"></div></div>
-      <div class="score-card"><div class="score-card-label">Relational</div><div class="score-card-value" id="relScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="relLevel"></div></div>
-    </div>
-    <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-    <div class="result-section"><div class="result-section-title">What to develop</div><p class="result-text" id="resultMissing"></p></div>
-    <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
   </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-card-label">Regulation</div><div class="score-card-value" id="regScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="regLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Accountability</div><div class="score-card-value" id="accScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="accLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Relational</div><div class="score-card-value" id="relScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="relLevel"></div></div>
+  </div>
+  <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+  <div class="result-section"><div class="result-section-title">What to develop</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  const answers=new Array(12).fill(null);let currentQ=0;
-  
-  // PROFILE
+  const answers=new Array(12).fill(null);let cQ=0;
+
   let userPhoto=null;
-  function handlePhoto(input){
-    if(!input.files||!input.files[0])return;
-    const reader=new FileReader();
-    reader.onload=function(e){
-      userPhoto=e.target.result;
-      const prev=document.getElementById('profilePhotoPreview');
-      prev.src=userPhoto;prev.style.display='block';
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-  function applyUserToCard(testLabel){
-    const name=document.getElementById('profileName').value.trim();
-    const testLabelEl=document.getElementById('cardTestLabel');
-    if(testLabelEl)testLabelEl.textContent='Grindorium · '+testLabel;
-    const userRow=document.getElementById('cardUserRow');
-    const userNameEl=document.getElementById('cardUserName');
-    const userPhotoEl=document.getElementById('cardUserPhoto');
-    const charImg=document.getElementById('cardCharImg');
-    if(name||userPhoto){
-      if(userRow)userRow.style.display='flex';
-      if(name&&userNameEl)userNameEl.textContent=name;
-      if(userPhoto&&userPhotoEl){userPhotoEl.src=userPhoto;userPhotoEl.style.display='block';}
-      if(userPhoto&&charImg){charImg.src=userPhoto;charImg.style.borderRadius='50%';}
-    }
-  }
-  function startTest(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll("#q"+q+" .option").forEach(o=>o.classList.remove("selected"));event.currentTarget.classList.add("selected");document.getElementById("nextBtn").disabled=false;}
-  function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===11){showResult();return;}document.getElementById('q'+currentQ).classList.remove('active');currentQ++;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
-  function prevQuestion(){if(currentQ===0)return;document.getElementById('q'+currentQ).classList.remove('active');currentQ--;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
-  function updateUI(){document.getElementById('progressText').textContent='Question '+(currentQ+1)+' of 12';document.getElementById('progressFill').style.width=((currentQ/12)*100)+'%';document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results':'Next';}
-  function ytSearch(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-  function getLevel(s,m){const p=s/m;if(p<=0.35)return'low';if(p<=0.65)return'mid';return'high';}
-  const typeColors={
-    'Emotionally Mature':{bg:'linear-gradient(135deg,#07120a 0%,#0d2014 100%)',accent:'#7ee8a0'},
-    'Developing':{bg:'linear-gradient(135deg,#07090f 0%,#0a1020 100%)',accent:'#7eb8e8'},
-    'Reactive':{bg:'linear-gradient(135deg,#0f0a07 0%,#201507 100%)',accent:'#e8b07e'},
-    'Accountability Gap':{bg:'linear-gradient(135deg,#0d070f 0%,#1a0d2a 100%)',accent:'#b87ee8'},
-    'Still Growing':{bg:'linear-gradient(135deg,#0f0707 0%,#200d0d 100%)',accent:'#e87e7e'}
-  };
+  function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+  function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+  function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+  function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+  function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+  function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+  function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+  function applyUser(col){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
+  function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+
+  function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+  function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
+  const EM_COLORS={'Emotionally Mature':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'Developing':{bg:'linear-gradient(135deg,#07090f,#0a1020)',ac:'#7eb8e8'},'Reactive':{bg:'linear-gradient(135deg,#0f0a07,#201507)',ac:'#e8b07e'},'Accountability Gap':{bg:'linear-gradient(135deg,#0d070f,#1a0d2a)',ac:'#b87ee8'},'Still Growing':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'}};
   function showResult(){
     const reg=answers[0]+answers[5]+answers[9]+answers[11];
     const acc=answers[1]+answers[3]+answers[8]+answers[10];
     const rel=answers[2]+answers[4]+answers[6]+answers[7];
-    const rL=getLevel(reg,16),aL=getLevel(acc,16),rlL=getLevel(rel,16);
-    document.getElementById('testScreen').style.display='none';
-    document.getElementById('resultScreen').style.display='block';
-    document.getElementById('regScore').textContent=reg;
-    document.getElementById('accScore').textContent=acc;
-    document.getElementById('relScore').textContent=rel;
+    const rL=lv(reg,16),aL=lv(acc,16),rlL=lv(rel,16);
+    document.getElementById('testScreen').style.display='none';document.getElementById('resultScreen').style.display='block';
+    document.getElementById('regScore').textContent=reg;document.getElementById('accScore').textContent=acc;document.getElementById('relScore').textContent=rel;
     document.getElementById('progressFill').style.width='100%';
-    const lbl={low:'Developing',mid:'Growing',high:'Strong'};const cls={low:'level-low',mid:'level-mid',high:'level-high'};
-    [['reg',rL],['acc',aL],['rel',rlL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lbl[l];el.className='score-card-level '+cls[l];});
+    const lb={low:'Developing',mid:'Growing',high:'Strong'};const cs={low:'lv-high-r',mid:'lv-mid',high:'lv-low-r'};
+    [['reg',rL],['acc',aL],['rel',rlL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
     let r;
-    if(rL==='high'&&aL==='high'&&rlL==='high'){r={type:'Emotionally Mature',tagline:'You can feel things without being controlled by them. That is the whole thing.',analysis:['Your scores are high across all three dimensions. You can regulate difficult emotions without suppressing them, take accountability without collapsing, and maintain genuine presence in relationships without losing yourself.','This is not a personality trait you were born with. It was built, through experience, probably including difficult experience, and the choice to grow from it rather than just survive it.','Emotional maturity at this level is genuinely rare. Most adults are still working on significant gaps in one or more of these dimensions.'],missing:'The main risk is complacency. Emotional maturity can be eroded by sustained stress, grief, or relationships that consistently pull you into immature dynamics. Maintenance is active, not passive.',steps:['Continue the practice of pausing before responding in high-stakes moments. It is not automatic. It is a choice you keep making.','Notice if any current relationship consistently pulls you into less mature responses. That is information about the relationship, not a failure of yours.','Share what you have learned. People in your life benefit from being around someone who models this.','Ask yourself periodically: is there an area where my emotional development has quietly stalled?'],videos:['What They Saw in the Mirror at 40, Eight Lives, One Question','The Cost of Always Being the Strong One']};}
-    else if(rL==='low'&&aL==='low'&&rlL==='low'){r={type:'Still Growing',tagline:'You feel everything. You just have not yet learned how to be with it without it running you.',analysis:['Your scores across all three dimensions are developing. Emotional regulation, accountability, and relational stability are all areas with significant room to grow.','This is not a verdict. It is a map. The fact that you are taking this seriously is itself a sign of the thing being measured.','Emotional maturity is not fixed. It is a set of learnable skills that develop through practice, reflection, and the willingness to see yourself clearly. You are at the beginning of that development, not at the end of what is possible.'],missing:'The basics. Pausing before responding. Owning your part. Staying in difficult conversations. These are not dramatic acts of growth. They are small repeated choices that compound over time.',steps:['Pick one of the three dimensions and focus there for 30 days. Not all three at once. One.','When you feel a strong emotion coming, try waiting five minutes before acting on it. Just five minutes.','Identify one recurring conflict in your life. Ask honestly: what is my actual contribution to it?','Consider whether therapy or structured learning about emotional intelligence would help accelerate the development.'],videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']};}
-    else if(rL==='low'){r={type:'Reactive',tagline:'The feelings are real. The responses they produce are not always yours to keep.',analysis:['Your emotional regulation scores are the primary development area. You feel things deeply and the feelings tend to run ahead of your ability to choose what to do with them. Responses happen before decisions are made.','This is not a character flaw. It is a gap in a specific skill: the ability to create space between stimulus and response. That space is where choice lives.','Without that space, emotion drives behavior in ways that often contradict your actual values and intentions. You end up doing or saying things and then regretting them, not because you are a bad person but because the gap was not there.'],missing:'The pause. The single most important skill in emotional regulation is learning to create a small delay between feeling something and expressing or acting on it.',steps:['Practice the simplest possible intervention: when you feel a strong emotion, take three slow breaths before you respond. Not as a suppression tool. As a delay tool.','Identify your most common reactive patterns. What triggers them? What do you usually do? What would you prefer to do?','Notice the physical signals that come before you react, tension, heat, a tightening. Those are your early warning system. Learn to use them.','Journaling about emotionally significant events, after the fact, helps build the reflective capacity that makes regulation possible.'],videos:['The Noise Inside When Your Mind Won\'t Quiet Down','Hard Means It\'s Right']};}
-    else if(aL==='low'){r={type:'Accountability Gap',tagline:'You are more interested in being right than in being honest about your part.',analysis:['Your accountability scores are the primary development area. Regulation and relational capacity may be present, but when conflict arises, the pattern is to focus on what the other person did rather than what you contributed.','Accountability does not mean taking blame for everything. It means being able to see your own role in situations with the same clarity you apply to others.','Without this capacity, growth stalls. Patterns repeat. The same conflicts keep appearing with different faces because the one constant, your contribution, is not being examined.'],missing:'The willingness to be wrong without it threatening your identity. Accountability requires the belief that you can have done something poorly and still be a person worth respecting.',steps:['In your next significant conflict, before you explain the other person\'s contribution, write down three things you actually did or did not do that affected the situation.','Practice saying: I was wrong about that. Out loud. In small situations. Build the muscle before you need it in large ones.','Notice the internal response when someone criticizes you. Is the first move to defend? To deflect? To find their fault? Observe it.','Ask someone who knows you well where they think you have blind spots in conflict. Listen without defending.'],videos:['Why Most Men Wake Up at 30 and Feel Like They Wasted Everything','What They Saw in the Mirror at 40']};}
-    else{r={type:'Developing',tagline:'You are further along than you think. The gaps are real. So is the progress.',analysis:['Your scores show meaningful development in emotional maturity with some areas still growing. You are not starting from zero. You have significant capacity in some dimensions. The work is in the places where the pattern still runs you rather than the other way around.','Moderate scores often represent people in genuine development: aware enough to see their patterns, skilled enough to manage some of them, still being caught by others.','This is the majority of adults doing real inner work. The discomfort you feel when you see your own patterns is not failure. It is the presence of the awareness required to change them.'],missing:'Consistency. You have the capacity. The work is applying it under pressure, when it is hardest, not just when it is easy.',steps:['Identify which dimension is lowest and choose one practice for that area this month.','Notice the gap between how you handle things when you are calm versus when you are stressed. That gap is the target.','Keep a brief record of situations where you responded well and situations where you did not. Patterns emerge.','Do not confuse knowing about emotional maturity with having it. The knowing is the start. The practice is the actual work.'],videos:['Hard Means It\'s Right','The Hidden Reason You Feel Empty Even When Life Looks Good']};}
+    if(rL==='high'&&aL==='high'&&rlL==='high'){r={type:'Emotionally Mature',tagline:'You can feel things without being controlled by them. That is the whole thing.',analysis:['Your scores are high across all three dimensions. You can regulate difficult emotions without suppressing them, take accountability without collapsing, and maintain genuine presence in relationships without losing yourself.','Emotional maturity at this level is genuinely rare. Most adults are still working on significant gaps in one or more of these dimensions.'],missing:'The main risk is complacency. Emotional maturity can be eroded by sustained stress or relationships that consistently pull you into immature dynamics. Maintenance is active, not passive.',steps:['Continue the practice of pausing before responding in high-stakes moments.','Notice if any current relationship consistently pulls you into less mature responses.','Ask yourself periodically: is there an area where my emotional development has quietly stalled?'],videos:['What They Saw in the Mirror at 40','The Cost of Always Being the Strong One']};}
+    else if(rL==='low'&&aL==='low'&&rlL==='low'){r={type:'Still Growing',tagline:'You feel everything. You just have not yet learned how to be with it without it running you.',analysis:['Your scores across all three dimensions are developing. Emotional regulation, accountability, and relational stability are all areas with significant room to grow.','Emotional maturity is not fixed. It is a set of learnable skills that develop through practice, reflection, and the willingness to see yourself clearly.'],missing:'The basics. Pausing before responding. Owning your part. Staying in difficult conversations.',steps:['Pick one of the three dimensions and focus there for 30 days. Not all three at once. One.','When you feel a strong emotion coming, try waiting five minutes before acting on it.','Identify one recurring conflict in your life. Ask honestly: what is my actual contribution to it?'],videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']};}
+    else if(rL==='low'){r={type:'Reactive',tagline:'The feelings are real. The responses they produce are not always yours to keep.',analysis:['Your emotional regulation scores are the primary development area. You feel things deeply and the feelings tend to run ahead of your ability to choose what to do with them.','The space between stimulus and response is where choice lives. Without it, emotion drives behavior in ways that often contradict your actual values and intentions.'],missing:'The pause. The single most important skill in emotional regulation is learning to create a small delay between feeling something and expressing or acting on it.',steps:['When you feel a strong emotion, take three slow breaths before you respond. Not as suppression. As a delay.','Identify your most common reactive patterns. What triggers them? What would you prefer to do?','Notice the physical signals that come before you react. Those are your early warning system.'],videos:['The Noise Inside When Your Mind Won't Quiet Down','Hard Means It's Right']};}
+    else if(aL==='low'){r={type:'Accountability Gap',tagline:'You are more interested in being right than in being honest about your part.',analysis:['Regulation and relational capacity may be present, but when conflict arises, the pattern is to focus on what the other person did rather than what you contributed.','Accountability does not mean taking blame for everything. It means being able to see your own role in situations with the same clarity you apply to others.'],missing:'The willingness to be wrong without it threatening your identity.',steps:['In your next significant conflict, before you explain the other person's contribution, write down three things you actually did that affected the situation.','Practice saying: I was wrong about that. Out loud. In small situations.','Ask someone who knows you well where they think you have blind spots in conflict. Listen without defending.'],videos:['Why Most Men Wake Up at 30','What They Saw in the Mirror at 40']};}
+    else{r={type:'Developing',tagline:'You are further along than you think. The gaps are real. So is the progress.',analysis:['Your scores show meaningful development in emotional maturity with some areas still growing. You are not starting from zero. The work is in the places where the pattern still runs you.'],missing:'Consistency. You have the capacity. The work is applying it under pressure, when it is hardest.',steps:['Identify which dimension is lowest and choose one practice for that area this month.','Notice the gap between how you handle things when you are calm versus when you are stressed.','Do not confuse knowing about emotional maturity with having it. The knowing is the start.'],videos:['Hard Means It's Right','The Hidden Reason You Feel Empty Even When Life Looks Good']};}
     document.getElementById('resultType').textContent=r.type;
     document.getElementById('resultTagline').textContent=r.tagline;
     document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
     document.getElementById('resultMissing').textContent=r.missing;
     document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
-    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+ytSearch(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-    buildShareCard(r.type,r.tagline,reg,acc,rel);
+    document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+    const col=EM_COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
+    const card=document.getElementById('shareCard');card.style.display='block';
+    document.getElementById('shareCardInner').style.background=col.bg;
+    document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+    document.getElementById('cardTagline').textContent=r.tagline;
+    document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+reg+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Regulation</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+acc+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Accountability</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+rel+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Relational</div></div>';
+    applyUser(col);
   }
-  function buildShareCard(type,tagline,reg,acc,rel){
-    applyUserToCard('Emotional Maturity Assessment');
-    const card=document.getElementById('shareCard');
-    const inner=document.getElementById('shareCardInner');
-    const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
-    card.style.display='block';
-    inner.style.background=colors.bg;
-    document.getElementById('cardType').textContent=type;
-    document.getElementById('cardType').style.color=colors.accent;
-    document.getElementById('cardTagline').textContent=tagline;
-    document.getElementById('cardScores').innerHTML='<div><div class="share-card-score-val" style="color:'+colors.accent+'">'+reg+'</div><div class="share-card-score-label">Regulation</div></div><div><div class="share-card-score-val" style="color:'+colors.accent+'">'+acc+'</div><div class="share-card-score-label">Accountability</div></div><div><div class="share-card-score-val" style="color:'+colors.accent+'">'+rel+'</div><div class="share-card-score-label">Relational</div></div>';
-  }
-  function downloadCard(){
-    const card=document.getElementById('shareCard');
-    html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
-      const link=document.createElement('a');link.download='grindorium-emotionalmaturity-result.png';link.href=canvas.toDataURL('image/png');link.click();
-    });
-  }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
-  document.getElementById('profileLabel').textContent='Emotional Maturity Assessment';
+  function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-emotionalmaturity-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
 </script>
 </body>
 </html>
