@@ -81,19 +81,53 @@
     .share-card-domain{font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.65);text-transform:uppercase;}
     .share-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:#7eb8e8;cursor:pointer;transition:all 0.3s;}
     .share-btn:hover{background:rgba(126,184,232,0.15);color:#fff;}
+    /* PROFILE SCREEN */
+    .profile-sub{font-size:17px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:40px;}
+    .profile-fields{display:flex;flex-direction:column;gap:16px;margin-bottom:32px;}
+    .profile-input{width:100%;background:var(--bg2);border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;padding:14px 0;outline:none;transition:border-color 0.3s;}
+    .profile-input:focus{border-bottom-color:rgba(126,184,232,0.6);}
+    .profile-input::placeholder{color:rgba(138,160,184,0.3);}
+    .profile-photo-row{display:flex;align-items:center;gap:16px;margin-top:8px;}
+    .profile-photo-preview{width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+    .profile-photo-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:10px 20px;cursor:pointer;transition:all 0.3s;}
+    .profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+    .profile-skip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;padding:0;transition:color 0.3s;}
+    .profile-skip:hover{color:var(--white);}
+    /* SHARE CARD TOP */
+    .share-section-top{margin-bottom:56px;}
+    .share-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
+    #shareCard{width:100%;max-width:480px;aspect-ratio:1;position:relative;overflow:hidden;border-radius:2px;margin-bottom:0;display:none;}
     @media(max-width:768px){nav{padding:20px 24px;}.container{padding:120px 24px 80px;}.score-grid{grid-template-columns:1fr 1fr 1fr;}}
   </style>
 </head>
 <body>
 <nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
 <div class="container">
-  <div id="startScreen">
+    <div id="profileScreen">
+    <div class="test-label" id="profileLabel"></div>
+    <h1 class="test-title" style="margin-bottom:16px;">Before you begin.</h1>
+    <p class="profile-sub">Optional. Your name and photo will appear on your result card.</p>
+    <div class="profile-fields">
+      <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+    </div>
+    <div class="profile-photo-row">
+      <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+      <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+      <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
+    </div>
+    <div style="display:flex;gap:24px;align-items:center;margin-top:48px;flex-wrap:wrap;">
+      <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+      <button class="profile-skip" onclick="startTest()">Skip, stay anonymous</button>
+    </div>
+  </div>
+  <div id="startScreen" style="display:none">
     <div class="test-label">Perfectionism Assessment</div>
     <h1 class="test-title">Are you a perfectionist?</h1>
     <p class="test-desc">You tell yourself you just have high standards. But high standards and perfectionism are not the same thing. High standards help you. Perfectionism punishes you.</p>
     <p class="test-desc">This assessment measures three dimensions: self-oriented perfectionism, socially prescribed perfectionism, and the cost it is currently extracting from your life.</p>
     <p class="test-note">12 questions · 4 to 5 minutes · Based on Frost and Hewitt perfectionism research · Not a clinical diagnostic tool</p>
     <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+  </div>
   </div>
   <div id="testScreen" style="display:none">
     <div class="progress-text" id="progressText">Question 1 of 12</div>
@@ -115,8 +149,31 @@
       <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
     </div>
   </div>
-  <div id="resultScreen" style="display:none">
-    <div class="result-label">Your Result</div>
+    <div id="resultScreen" style="display:none">
+    <div class="share-section-top">
+      <div class="result-label">Your Result</div>
+      <div id="shareCard">
+        <div class="share-card-inner" id="shareCardInner">
+          <div class="share-card-top" id="cardTestLabel"></div>
+          <div>
+            <div id="cardUserRow" style="display:none;align-items:center;gap:10px;margin-bottom:10px;">
+              <img id="cardUserPhoto" style="width:28px;height:28px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
+              <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);"></span>
+            </div>
+            <div class="share-card-type" id="cardType"></div>
+            <div class="share-card-tagline" id="cardTagline"></div>
+          </div>
+          <div id="cardScores"></div>
+          <div class="share-card-bottom">
+            <img id="cardCharImg" src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
+            <div style="text-align:right;"><div class="share-card-domain">grindorium.org</div><div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn" onclick="downloadCard()">Download Image</button>
+      </div>
+    </div>
     <h1 class="result-type" id="resultType"></h1>
     <p class="result-tagline" id="resultTagline"></p>
     <div class="score-grid">
@@ -128,35 +185,42 @@
     <div class="result-section"><div class="result-section-title">What it is costing you</div><p class="result-text" id="resultMissing"></p></div>
     <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
     <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
-    <div class="result-section">
-      <div class="result-section-title">Share your result</div>
-      <p class="result-text" style="margin-bottom:24px;">Save this as an image and share it.</p>
-      <div id="shareCard">
-        <div class="share-card-inner" id="shareCardInner">
-          <div class="share-card-top">Grindorium · Perfectionism Assessment</div>
-          <div>
-            <div style="font-family:'Space Mono',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.5;color:#fff;margin-bottom:8px;">My Result</div>
-            <div class="share-card-type" id="cardType"></div>
-            <div class="share-card-tagline" id="cardTagline"></div>
-          </div>
-          <div class="share-card-scores" id="cardScores"></div>
-          <div class="share-card-bottom">
-            <img src="grindorium-character.png" class="share-card-char" onerror="this.style.display='none'">
-            <div style="text-align:right;"><div class="share-card-domain">grindorium.org</div><div style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:3px;">Take the test</div></div>
-          </div>
-        </div>
-      </div>
-      <br>
-      <button class="share-btn" onclick="downloadCard()">Download Image</button>
-    </div>
     <button class="retake-btn" onclick="retakeTest()">Take it again</button>
   </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   const answers=new Array(12).fill(null);let currentQ=0;
-  function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
-  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach((o,i)=>o.classList.toggle('selected',i===v));document.getElementById('nextBtn').disabled=false;}
+  
+  // PROFILE
+  let userPhoto=null;
+  function handlePhoto(input){
+    if(!input.files||!input.files[0])return;
+    const reader=new FileReader();
+    reader.onload=function(e){
+      userPhoto=e.target.result;
+      const prev=document.getElementById('profilePhotoPreview');
+      prev.src=userPhoto;prev.style.display='block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  function applyUserToCard(testLabel){
+    const name=document.getElementById('profileName').value.trim();
+    const testLabelEl=document.getElementById('cardTestLabel');
+    if(testLabelEl)testLabelEl.textContent='Grindorium · '+testLabel;
+    const userRow=document.getElementById('cardUserRow');
+    const userNameEl=document.getElementById('cardUserName');
+    const userPhotoEl=document.getElementById('cardUserPhoto');
+    const charImg=document.getElementById('cardCharImg');
+    if(name||userPhoto){
+      if(userRow)userRow.style.display='flex';
+      if(name&&userNameEl)userNameEl.textContent=name;
+      if(userPhoto&&userPhotoEl){userPhotoEl.src=userPhoto;userPhotoEl.style.display='block';}
+      if(userPhoto&&charImg){charImg.src=userPhoto;charImg.style.borderRadius='50%';}
+    }
+  }
+  function startTest(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+  function selectAnswer(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
   function nextQuestion(){if(answers[currentQ]===null)return;if(currentQ===11){showResult();return;}document.getElementById('q'+currentQ).classList.remove('active');currentQ++;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
   function prevQuestion(){if(currentQ===0)return;document.getElementById('q'+currentQ).classList.remove('active');currentQ--;document.getElementById('q'+currentQ).classList.add('active');updateUI();}
   function updateUI(){document.getElementById('progressText').textContent='Question '+(currentQ+1)+' of 12';document.getElementById('progressFill').style.width=((currentQ/12)*100)+'%';document.getElementById('prevBtn').disabled=currentQ===0;document.getElementById('nextBtn').disabled=answers[currentQ]===null;document.getElementById('nextBtn').textContent=currentQ===11?'See Results':'Next';}
@@ -200,6 +264,7 @@
     buildShareCard(r.type,r.tagline,self,soc,cost);
   }
   function buildShareCard(type,tagline,self,soc,cost){
+    applyUserToCard('Perfectionism Assessment');
     const card=document.getElementById('shareCard');
     const inner=document.getElementById('shareCardInner');
     const colors=typeColors[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',accent:'#7eb8e8'};
@@ -216,7 +281,8 @@
       const link=document.createElement('a');link.download='grindorium-perfectionism-result.png';link.href=canvas.toDataURL('image/png');link.click();
     });
   }
-  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+  function retakeTest(){answers.fill(null);currentQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('startScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+  document.getElementById('profileLabel').textContent='Perfectionism Assessment';
 </script>
 </body>
 </html>
