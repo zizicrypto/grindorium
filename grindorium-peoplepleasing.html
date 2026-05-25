@@ -75,32 +75,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-
-/* SHARE CARD */
-#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
-.card-bg{position:absolute;inset:0;z-index:0;}
-.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
-.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
-.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
-.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
-.card-user-row{display:flex;align-items:center;gap:7px;}
-.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
-.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
-.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
-.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
-.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
-.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
-.card-score-item{}
-.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
-.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
-.card-footer{display:flex;justify-content:space-between;align-items:center;}
-.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
-.card-site{text-align:right;}
-.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
-.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
-.score-level{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-top:9px;}
-
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -108,7 +84,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </style>
 </head>
 <body>
-<nav><a href="/" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
+<nav><a href="/" class="nav-logo">Grindorium</a><a href="/" class="nav-back">Back</a></nav>
 <div class="container">
 
 <div id="profileScreen">
@@ -161,28 +137,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="card-bg" id="cardBg"></div>
-      <div class="card-grain"></div>
-      <div class="card-vignette"></div>
-      <div class="share-card-inner">
-        <div class="card-header">
-          <div class="card-header-label">Grindorium &middot; People Pleasing<br>My Result</div>
-          <div class="card-user-row" id="cardUserRow" style="display:none;">
-            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
-            <span class="card-user-name" id="cardUserName"></span>
-          </div>
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; People Pleasing</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
         </div>
-        <div class="card-middle">
-          <div class="card-type-text" id="cardType"></div>
-          <div class="card-tagline-text" id="cardTagline"></div>
-        </div>
-        <div class="card-scores-row" id="cardScores"></div>
-        <div class="card-footer">
-          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
-          <div class="card-site">
-            <div class="card-site-url">grindorium.org</div>
-            <div class="card-site-cta">Take the test</div>
-          </div>
+        <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
         </div>
       </div>
     </div>
@@ -190,13 +155,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   </div>
   <h1 class="result-type" id="resultType"></h1>
   <p class="result-tagline" id="resultTagline"></p>
-  <div class="score-grid" style="grid-template-columns:1fr 1fr 1fr;">
-    <div class="score-card"><div class="score-card-label">Compliance</div><div class="score-card-value" id="compScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="compLevel"></div></div>
-    <div class="score-card"><div class="score-card-label">Self-Erasure</div><div class="score-card-value" id="selfScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="selfLevel"></div></div>
-    <div class="score-card"><div class="score-card-label">Approval Anxiety</div><div class="score-card-value" id="anxScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="anxLevel"></div></div>
-  </div>
+  <div class="score-box"><div class="score-big" id="totalScore"></div><div class="score-max">out of 48</div><div class="score-level" id="scoreLevel"></div></div>
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-  <div class="result-section"><div class="result-section-title">Where it comes from</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What it is costing you</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
   <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
@@ -205,7 +166,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const answers=new Array(12).fill(null);let cQ=0;
+const answers=new Array(12).fill(null);let cQ=0;const totalQ=12;
 let userPhoto=null;
 function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
 function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
@@ -215,199 +176,39 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}d
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s){return s<=5?'low':s<=10?'mid':'high';}
-
-/*
-3 boyut — her biri 4 soru x 4 = max 16:
-Compliance (dışsal uyum): q0,q6,q9,q2
-  q0: yes when want no
-  q2: adjust opinions based on who around
-  q6: stayed in situations too long
-  q9: cant say no without explanation
-
-Self-Erasure (kendini silme): q4,q8,q10,q11
-  q4: cant ask for what I need
-  q8: suppress true feelings
-  q10: difficulty knowing what I actually want
-  q11: need to justify doing something for myself
-
-Approval Anxiety (onay kaygısı): q1,q3,q5,q7
-  q1: apologize frequently
-  q3: feel responsible for others emotions
-  q5: feel guilty prioritizing own needs
-  q7: anxious when someone might be annoyed
-*/
-
-const RESULTS={
-  'low_low_low':{
-    type:'Largely Yourself',
-    tagline:'You know what you want. You say what you mean. That is rarer than you think.',
-    ac:'#7ee8a0',
-    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
-    analysis:['Your scores are low across all three dimensions. You can set limits without spiraling, identify your own needs, and tolerate disapproval without collapsing.','This is worth protecting. Self-silencing patterns can be introduced gradually by chronic stress or sustained exposure to people who require you to make yourself smaller.'],
-    missing:'Nothing critical. Notice if certain relationships consistently require more contraction from you than others.',
-    steps:['Check in periodically on whether your yeses still feel voluntary.','Notice who you feel most yourself around and who makes you contract. That pattern is information.','Keep developing the ability to say difficult things directly.'],
-    videos:['The Cost of Always Being the Strong One','Hard Means It\'s Right']
-  },
-  'high_low_low':{
-    type:'The Accommodator',
-    tagline:'You keep the peace. You are not sure what it is costing you.',
-    ac:'#8ab8e8',
-    bg:'linear-gradient(135deg,#070a12 0%,#0c1222 50%,#07090f 100%)',
-    analysis:['Compliance is the dominant pattern. You adjust what you say and do based on who is around you and what they seem to need. Your self-knowledge and inner world are relatively intact — but externally you consistently adapt.','This pattern often reads as flexibility or social intelligence. The cost is cumulative: you become unreliable to yourself in small ways that compound over time.'],
-    missing:'The experience of staying in your own position even when someone needs you to move.',
-    steps:['This week, hold one opinion in a conversation where you would normally adjust it.','When you notice yourself editing your response before you have even formed it, pause.','Identify the relationships where the compliance is highest. What are you afraid will happen if you stop?'],
-    videos:['The Cost of Always Being the Strong One','The Life You\'re Not Living']
-  },
-  'low_high_low':{
-    type:'The Self-Silencer',
-    tagline:'You know what you need. You have just stopped expecting to get it.',
-    ac:'#c8b87e',
-    bg:'linear-gradient(135deg,#0f0e06 0%,#1e1a08 50%,#0f0e06 100%)',
-    analysis:['Self-erasure is the dominant pattern. You suppress your feelings, struggle to ask for what you need, have difficulty knowing what you actually want, and feel the need to justify doing things for yourself.','This pattern tends to develop when expressing needs consistently produced disappointment, rejection, or conflict. The suppression became more efficient than the expression.'],
-    missing:'The belief that your needs are worth stating — not because they will always be met but because they are real.',
-    steps:['Once a day, ask yourself what you actually want in a situation before adjusting to what seems expected.','When you feel the impulse to justify doing something for yourself, notice it without acting on it.','Identify one need you have been sitting on for a long time. State it to someone this week.'],
-    videos:['The Life You\'re Not Living','What They Saw in the Mirror at 40']
-  },
-  'low_low_high':{
-    type:'The Anxious Pleaser',
-    tagline:'You are not always doing what they want. But you are always watching to see if they are okay.',
-    ac:'#e8c87e',
-    bg:'linear-gradient(135deg,#0f0e06 0%,#221c08 50%,#0f0e06 100%)',
-    analysis:['Approval anxiety is the dominant pattern. You apologize frequently, feel responsible for other people\'s emotions, feel guilty when you prioritize yourself, and feel anxious when someone might be disappointed.','Your behavior may actually be reasonably boundaried — but internally the monitoring is constant. The cost is carried inside, not on the outside.'],
-    missing:'The experience of letting someone feel something without it becoming your responsibility to fix.',
-    steps:['When someone expresses disappointment, practice staying with the discomfort for 60 seconds before doing anything about it.','Notice the difference between genuine empathy and responsibility for other people\'s emotional states.','Identify where the monitoring started. Whose emotional state did you learn to watch very closely?'],
-    videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']
-  },
-  'high_high_low':{
-    type:'The Disappearing Act',
-    tagline:'You have stopped showing up for yourself so consistently that it no longer feels like a choice.',
-    ac:'#b87ee8',
-    bg:'linear-gradient(135deg,#0d0812 0%,#1a0d30 50%,#0d0816 100%)',
-    analysis:['High compliance and high self-erasure — without the anxiety dimension being primary. You adapt externally and suppress internally, but perhaps without the constant emotional monitoring.','The effect is a kind of quiet disappearance. Not dramatic. Incremental. You one day notice that the version people know is significantly less than the whole.'],
-    missing:'The original version. Not a new self. The one that was there before the editing started.',
-    steps:['Identify one preference you have consistently suppressed in a close relationship. State it once.','Notice when you are adjusting your behavior before anyone has actually asked you to.','Ask yourself: what would I do, say, or want if I were alone?'],
-    videos:['The Life You\'re Not Living','The Cost of Always Being the Strong One']
-  },
-  'high_low_high':{
-    type:'The Chronic Appeaser',
-    tagline:'You adjust what you say and feel anxious about what people think. The inside and outside are both managed.',
-    ac:'#e8a07e',
-    bg:'linear-gradient(135deg,#100906 0%,#221408 50%,#100906 100%)',
-    analysis:['High compliance and high approval anxiety. You change your external behavior to fit what others seem to need and internally monitor their reactions constantly.','This combination is particularly exhausting because neither the behavior nor the internal state gets to rest. You are managing on two levels simultaneously.'],
-    missing:'Permission to stop managing. Not forever. For one conversation.',
-    steps:['Identify the most exhausting relationship in your life right now. What would you do differently if you were not trying to manage their reaction?','This week, say something directly that you would normally soften or wrap in qualifiers.','When you feel the monitoring activate, name it internally: there it is. You do not have to act on it.'],
-    videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']
-  },
-  'low_high_high':{
-    type:'The Fawn Response',
-    tagline:'You have been managing other people\'s emotions since before you knew that was what you were doing.',
-    ac:'#e87e9e',
-    bg:'linear-gradient(135deg,#120608 0%,#2a0a18 50%,#180610 100%)',
-    analysis:['Self-erasure and approval anxiety are both high. You suppress your needs and feelings while remaining highly attuned to other people\'s emotional states.','The fawn response is one of four responses to threat. You become agreeable, helpful, invisible. It was probably adaptive at some point. The cost now is enormous and largely invisible.'],
-    missing:'Permission to disappoint people. Not as a goal. As a practice.',
-    steps:['Start with one no per week. Not a big one. Something small and low-stakes.','Identify the earliest memory of needing to manage someone\'s emotions to stay safe or keep the peace.','When you feel the pull to apologize, fix, or shrink: ask whether you are responding to an actual threat or to the memory of one.'],
-    videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']
-  },
-  'high_high_high':{
-    type:'The Ghost of Yourself',
-    tagline:'You have been so focused on not being too much that you have become almost nothing.',
-    ac:'#e87e7e',
-    bg:'linear-gradient(135deg,#130606 0%,#2a0a0a 50%,#180606 100%)',
-    analysis:['All three dimensions are high. You adapt externally, erase internally, and monitor constantly. This is people-pleasing that is pervasive and deeply embedded.','This is not weakness. This is what happens when someone learned that being themselves was dangerous or costly. It was a solution. It is now the problem.'],
-    missing:'You. The actual you, with preferences and needs and opinions. Recovering that is the entire project.',
-    steps:['The first step is naming it. You have been doing this. It is not who you are. It is what you learned.','Find a therapist you trust. This level of self-silencing is real and addressable.','Spend ten minutes each day asking yourself small questions: what do I actually want right now? What do I actually think?'],
-    videos:['The Life You\'re Not Living','Why Most Men Wake Up at 30']
-  },
-  'mid_all':{
-    type:'Slowly Disappearing',
-    tagline:'The version of you that other people know is edited. The original is in there. But quieter.',
-    ac:'#a0b0c8',
-    bg:'linear-gradient(135deg,#07090f 0%,#0c1020 50%,#07090f 100%)',
-    analysis:['Your scores across all three dimensions are in the moderate range. You have some healthy self-expression but a growing pattern of self-suppression. The pattern is not severe enough to feel like a crisis but is consistent enough to have a cumulative effect.','Moderate across all dimensions often means the drift is happening gradually and being normalized as it goes.'],
-    missing:'Small moments of expressing what is actually true, before the pattern becomes harder to reverse.',
-    steps:['This week, say one thing you actually think to someone you usually edit yourself around.','When you notice yourself apologizing reflexively, pause before the word comes out.','Identify one area where you consistently suppress your preferences. For one week, state them once per day.'],
-    videos:['The Life You\'re Not Living','What They Saw in the Mirror at 40']
-  }
-};
-
-function getResultKey(cL,sL,aL){
-  if(cL==='high'&&sL==='high'&&aL==='high') return 'high_high_high';
-  if(cL==='low'&&sL==='low'&&aL==='low') return 'low_low_low';
-  if(cL==='high'&&sL==='low'&&aL==='low') return 'high_low_low';
-  if(cL==='low'&&sL==='high'&&aL==='low') return 'low_high_low';
-  if(cL==='low'&&sL==='low'&&aL==='high') return 'low_low_high';
-  if(cL==='high'&&sL==='high'&&aL!=='high') return 'high_high_low';
-  if(cL==='high'&&aL==='high'&&sL!=='high') return 'high_low_high';
-  if(sL==='high'&&aL==='high'&&cL!=='high') return 'low_high_high';
-  return 'mid_all';
-}
-
+const COLORS={'Largely Yourself':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'Slowly Disappearing':{bg:'linear-gradient(135deg,#0a0a0f,#14141f)',ac:'#8aa0c8'},'The Fawn Response':{bg:'linear-gradient(135deg,#0d070f,#1a0d2a)',ac:'#b87ee8'},'The Ghost of Yourself':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'}};
 function showResult(){
-  // Compliance: q0,q2,q6,q9
-  // Self-Erasure: q4,q8,q10,q11
-  // Approval Anxiety: q1,q3,q5,q7
-  const comp=answers[0]+answers[2]+answers[6]+answers[9];
-  const self=answers[4]+answers[8]+answers[10]+answers[11];
-  const anx=answers[1]+answers[3]+answers[5]+answers[7];
-  const cL=lv(comp),sL=lv(self),aL=lv(anx);
-  const key=getResultKey(cL,sL,aL);
-  const r=RESULTS[key];
+  const total=answers.reduce((a,b)=>a+b,0);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
-  document.getElementById('compScore').textContent=comp;
-  document.getElementById('selfScore').textContent=self;
-  document.getElementById('anxScore').textContent=anx;
+  document.getElementById('totalScore').textContent=total;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};
-  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
-  [['comp',cL],['self',sL],['anx',aL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
+  let r;
+  if(total<=12){r={type:'Largely Yourself',tagline:'You know what you want. You say what you mean. That is rarer than you think.',analysis:['Your scores suggest a relatively healthy relationship with your own needs and preferences. You can say no without spiraling.','The work is maintenance. Self-silencing patterns can be introduced by chronic stress or sustained exposure to people who require you to make yourself smaller.'],missing:'Nothing critical. But notice if certain relationships consistently require more of you than they give back.',steps:['Check in periodically on whether your yeses still feel voluntary.','Notice who you feel more yourself around versus who makes you contract.','Keep developing your ability to say difficult things directly.'],videos:['The Cost of Always Being the Strong One','Hard Means It\'s Right']};}
+  else if(total<=24){r={type:'Slowly Disappearing',tagline:'The version of you that other people know is edited. The original is in there. But quieter.',analysis:['You have some healthy self-expression but a growing pattern of self-suppression. You say yes more than you mean to. The pattern is not severe enough to feel like a crisis but is consistent enough to have a cumulative effect.'],missing:'Practices that bring the original version of you back online. Small moments of expressing what is actually true.',steps:['This week, say one thing you actually think to someone you usually edit yourself around.','When you notice yourself apologizing reflexively, pause before the word comes out.','Identify one area where you consistently suppress your preferences. For one week, state them once.'],videos:['The Life You\'re Not Living','What They Saw in the Mirror at 40']};}
+  else if(total<=36){r={type:'The Fawn Response',tagline:'You have been managing other people\'s emotions since before you knew that was what you were doing.',analysis:['Your scores indicate significant people-pleasing behavior. This level of self-suppression is not a personality trait. It is a survival response that was probably developed early.','The fawn response is one of the four responses to threat: fight, flight, freeze, and fawn. You become agreeable, helpful, invisible. The cost is enormous and largely invisible.'],missing:'Permission to disappoint people. Not as a goal. As a practice.',steps:['Start with one no per week. Not a big one. Something small and low-stakes.','Identify the earliest memory of needing to manage someone\'s emotions to stay safe.','When you feel the pull to apologize, fix, or shrink: am I responding to an actual threat, or to the memory of one?'],videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']};}
+  else{r={type:'The Ghost of Yourself',tagline:'You have been so focused on not being too much that you have become almost nothing.',analysis:['Your scores indicate that people-pleasing is pervasive and deeply embedded. You are not occasionally adjusting. You are systematically erasing yourself.','This is not weakness. This is what happens when someone learned that being themselves was dangerous.'],missing:'You. The actual you, with preferences and needs and opinions. Recovering that is the entire project.',steps:['The first step is naming it. You have been doing this. It is not who you are.','Find a therapist you trust. This level of self-silencing is real and treatable.','Spend 10 minutes each day asking yourself small questions. What do I want. What do I actually think.'],videos:['The Life You\'re Not Living','Why Most Men Wake Up at 30']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
+  const lvl=total<=12?'low':total<=24?'mid-low':total<=36?'high':'high';
+  const lc=total<=12?'lv-low':total<=24?'lv-mid':'lv-high';
+  const ll=total<=12?'Low People Pleasing':total<=24?'Moderate People Pleasing':'High People Pleasing';
+  const sl=document.getElementById('scoreLevel');sl.textContent=ll;sl.className='score-level '+lc;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const card=document.getElementById('shareCard');
-  card.style.display='block';
-  document.getElementById('cardBg').style.background=r.bg;
-  document.getElementById('cardType').textContent=r.type;
-  document.getElementById('cardType').style.color=r.ac;
+  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
+  const card=document.getElementById('shareCard');card.style.display='block';
+  document.getElementById('shareCardInner').style.background=col.bg;
+  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML=
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+comp+'</div><div class="card-score-label">Compliance / 16</div></div>'+
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+self+'</div><div class="card-score-label">Self-Erasure / 16</div></div>'+
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+anx+'</div><div class="card-score-label">Approval Anxiety / 16</div></div>';
-  const name=document.getElementById('profileName').value.trim();
-  const row=document.getElementById('cardUserRow');
-  const nm=document.getElementById('cardUserName');
-  const ph=document.getElementById('cardUserPhoto');
-  const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){
-    row.style.display='flex';
-    if(name)nm.textContent=name;
-    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
-    if(userPhoto&&ch)ch.src=userPhoto;
-  }
+  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+total+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Score / 48</div></div>';
+  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
 }
-function downloadCard(){
-  const card=document.getElementById('shareCard');
-  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
-    const link=document.createElement('a');
-    link.download='grindorium-peoplepleasing-result.png';
-    link.href=canvas.toDataURL('image/png');
-    link.click();
-  });
-}
-function retakeTest(){
-  answers.fill(null);cQ=0;
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  document.getElementById('resultScreen').style.display='none';
-  document.getElementById('profileScreen').style.display='block';
-  document.getElementById('startScreen').style.display='none';
-  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
-  document.getElementById('shareCard').style.display='none';
-}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-peoplepleasing-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
