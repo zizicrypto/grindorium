@@ -75,8 +75,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+
+/* SHARE CARD */
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
+.card-score-item{}
+.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
+.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -136,17 +159,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="share-card-inner" id="shareCardInner">
-        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Discipline Assessment<br>My Result</div>
-        <div>
-          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
-          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
-          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Discipline Assessment<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
         </div>
-        <div id="cardScores" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;"></div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
-          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+        <div class="card-middle">
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
+        </div>
+        <div class="card-scores-row" id="cardScores"></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
         </div>
       </div>
     </div>
@@ -179,50 +213,168 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}d
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
-const COLORS={
-  'The Disciplined One':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},
-  'The Inconsistent One':{bg:'linear-gradient(135deg,#0a0a14,#141428)',ac:'#8aa0c8'},
-  'The Misaligned One':{bg:'linear-gradient(135deg,#0d0a08,#241808)',ac:'#e8b07e'},
-  'The Impulsive One':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'},
-  'The Undisciplined One':{bg:'linear-gradient(135deg,#120808,#240f0f)',ac:'#e87e7e'}
+function lv(s,m){const p=s/m;return p<=0.33?'low':p<=0.66?'mid':'high';}
+
+const RESULTS={
+  'disciplined':{
+    type:'The Disciplined One',
+    tagline:'You do the work when it matters. That is the whole thing.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
+    analysis:['Your scores are high across all three dimensions. Consistency, impulse resistance, and alignment are all functioning well.','Discipline at this level is rare. Not because people lack character, but because modern life is specifically designed to erode it.'],
+    missing:'Complacency. Discipline erodes fastest when you stop noticing it.',
+    steps:['Review your priorities quarterly. What are you building toward? Is your daily action still pointing there?','Protect recovery time. High discipline without recovery produces diminishing returns.','Identify one area where your discipline has quietly drifted. Address it before it compounds.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'consistent_not_aligned':{
+    type:'The Busy Misdirected',
+    tagline:'You show up every day. You are building something. You are not sure it is what you actually want.',
+    ac:'#e8c87e',
+    bg:'linear-gradient(135deg,#0f0e06 0%,#201c08 50%,#130e05 100%)',
+    analysis:['Your consistency and impulse resistance are strong but alignment is the gap. You follow through. The question is whether you are following through toward the right things.','This is a specific and underdiagnosed form of undiscipline. The action is there. The direction is unclear.'],
+    missing:'Clarity about what you are actually building. Not more effort. Better aim.',
+    steps:['Write down your three most important priorities. Then track your time for one week. Does it match?','Identify one activity you spend significant time on that does not build toward anything you genuinely value.','Ask: if I kept doing exactly what I am doing for five years, what would I have built?'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'aligned_not_consistent':{
+    type:'The Inconsistent One',
+    tagline:'You know what you want. The follow-through is the problem.',
+    ac:'#8aa0c8',
+    bg:'linear-gradient(135deg,#070a14 0%,#0d1228 50%,#07090f 100%)',
+    analysis:['Your alignment is clear and your impulses are managed, but consistency is the primary gap. You know what to do. The sustained daily execution breaks down.','Inconsistency is usually not a character flaw. It is a system problem. The environment is not set up to make the right action easy.'],
+    missing:'A system, not more willpower. Willpower depletes. Systems do not.',
+    steps:['Pick one behavior you want to make consistent. Just one. Attach it to something you already do every day.','Track it for 30 days. Not to build the habit — to make the gap visible.','Reduce the decisions required to do the right thing. The easier the path, the more likely the action.'],
+    videos:['Starting Over Isn\'t Progress','Hard Means It\'s Right']
+  },
+  'impulsive_not_consistent':{
+    type:'The Impulsive One',
+    tagline:'You know what to do. The impulse gets there first.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#120606 0%,#260a0a 50%,#180606 100%)',
+    analysis:['Both consistency and impulse control are low. Your alignment may be present but the execution collapses under the weight of immediate desire.','Impulse is not weakness. It is a faster system overriding a slower one. The slower system is usually more aligned with your actual values.'],
+    missing:'The pause. The most important thing between knowing and doing is a small delay.',
+    steps:['Before acting on any significant impulse, wait 10 minutes. Set a timer.','Identify your three most reliable impulse triggers. What environment precedes them? Modify the conditions.','Build friction into impulsive behaviors. Make the bad path slightly harder.'],
+    videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']
+  },
+  'aligned_impulsive':{
+    type:'The Visionary Without Follow-Through',
+    tagline:'The picture is clear. The bridge between knowing and doing keeps collapsing.',
+    ac:'#e8a07e',
+    bg:'linear-gradient(135deg,#100906 0%,#221408 50%,#160c05 100%)',
+    analysis:['Your alignment is strong — you know what you want and why — but consistency and impulse resistance are the gaps. You can articulate the direction clearly. The daily execution does not match it.','This profile is common in people who are intelligent and self-aware. The understanding is not the problem. The behavior is.'],
+    missing:'The bridge between vision and action. Knowing is not enough. Small, repeated behavior is the only thing that closes the gap.',
+    steps:['Reduce the size of the action. Not the goal — the daily step toward it. Make it smaller than feels meaningful.','Identify the impulse that most reliably pulls you away from aligned action. What triggers it?','One week of tracking: every day, did you do the one thing that moves you toward what you actually want?'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'consistent_impulsive':{
+    type:'The Disciplined in the Wrong Things',
+    tagline:'You are consistent. The consistency is not pointed at what matters.',
+    ac:'#b8a07e',
+    bg:'linear-gradient(135deg,#0e0c08 0%,#1c160a 50%,#110e06 100%)',
+    analysis:['Your consistency is high but alignment and impulse control are uneven. You show up — but for the wrong things, or you get pulled off course when it counts.','This is the profile of someone who has built strong habits but has not checked whether those habits are building toward what they actually want.'],
+    missing:'An honest audit of what your consistency is actually serving.',
+    steps:['List the things you do consistently. Then list what you actually want your life to look like. Do they connect?','Identify the impulses that pull you away from aligned action. These are the specific things to address.','One deliberate shift: redirect one consistent behavior toward something that actually matters to you.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'developing':{
+    type:'The One Building',
+    tagline:'All three dimensions have room to grow. That is not failure. That is a starting point.',
+    ac:'#7eb8e8',
+    bg:'linear-gradient(135deg,#070a10 0%,#0c1220 50%,#07090f 100%)',
+    analysis:['Your scores are in the moderate range across all three dimensions. Not low enough to diagnose a single clear problem. Not high enough to say discipline is working well.','Moderate scores across the board usually mean the development is gradual and continuous. The system is functional but fragile.'],
+    missing:'Momentum. The difference between moderate and strong discipline is usually one habit built to the point where it requires no decision.',
+    steps:['Pick the dimension that feels weakest. Consistency, impulse, or alignment. Focus only there for 30 days.','Build one non-negotiable. One thing you do every day without deciding whether to do it.','Track it visibly. A streak you can see is harder to break than one you cannot.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'undisciplined':{
+    type:'The Starting Point',
+    tagline:'The gap between where you are and where you want to be is visible. That means you can work with it.',
+    ac:'#e87e60',
+    bg:'linear-gradient(135deg,#120808 0%,#260e0a 50%,#180808 100%)',
+    analysis:['Your scores across all three dimensions show significant room for development. Consistency, impulse control, and alignment are all areas where the gap is real.','This is not a character judgment. Most people with low discipline scores have not built the systems and habits that make discipline the default. The systems are learnable.'],
+    missing:'One thing. Not a lifestyle overhaul. One habit, one routine, one commitment kept for 30 days.',
+    steps:['Start smaller than feels meaningful. One minute, one page, one push-up. The size matters less than the consistency.','Remove one option that reliably leads to your worst impulses. Make the bad path harder.','Identify the single area where building discipline would return the most. Focus only there for 60 days.'],
+    videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']
+  }
 };
+
+function getResultKey(cL,iL,aL){
+  const allHigh=cL==='high'&&iL==='high'&&aL==='high';
+  const allLow=cL==='low'&&iL==='low'&&aL==='low';
+  const allMidOrBelow=(cL!=='high')&&(iL!=='high')&&(aL!=='high')&&!allLow;
+  if(allHigh) return 'disciplined';
+  if(allLow) return 'undisciplined';
+  if(cL==='high'&&iL==='high'&&aL!=='high') return 'consistent_not_aligned';
+  if(aL==='high'&&cL==='high'&&iL!=='high') return 'consistent_impulsive';
+  if(aL==='high'&&iL==='high'&&cL!=='high') return 'aligned_not_consistent';
+  if(aL==='high'&&cL!=='high'&&iL!=='high') return 'aligned_impulsive';
+  if(cL==='high'&&aL!=='high'&&iL!=='high') return 'consistent_not_aligned';
+  if(iL==='low'&&cL!=='high') return 'impulsive_not_consistent';
+  return 'developing';
+}
+
 function showResult(){
   const con=answers[0]+answers[1]+answers[2]+answers[4];
   const imp=answers[3]+answers[5]+answers[6]+answers[9];
   const al=answers[7]+answers[8]+answers[10]+answers[11];
   const cL=lv(con,16),iL=lv(imp,16),aL=lv(al,16);
+  const key=getResultKey(cL,iL,aL);
+  const r=RESULTS[key];
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   document.getElementById('conScore').textContent=con;
   document.getElementById('impScore').textContent=imp;
   document.getElementById('alScore').textContent=al;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};
+  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   [['con',cL],['imp',iL],['al',aL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
-  let r;
-  if(cL==='high'&&iL==='high'&&aL==='high'){r={type:'The Disciplined One',tagline:'You do the work when it matters. That is the whole thing.',analysis:['Your scores are high across all three dimensions. Consistency, impulse resistance, and alignment are all functioning well.','Discipline at this level is rare. Not because people lack character, but because modern life is specifically designed to erode it.'],missing:'The main risk is complacency and overextension. Discipline erodes fastest when you stop noticing it.',steps:['Review your priorities quarterly. What are you building toward? Is your daily action still pointing there?','Protect recovery time. High discipline without recovery produces diminishing returns.','Identify one area where your discipline has quietly drifted. Address it before it compounds.'],videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']};}
-  else if(aL==='low'){r={type:'The Misaligned One',tagline:'You\'re working hard. But you\'re building the wrong thing.',analysis:['Your consistency and impulse resistance may be adequate, but your alignment is the critical gap. You are taking action — just not toward what you actually want.','This is the most painful form of undiscipline. You are exerting effort. The effort is not landing where it matters.'],missing:'Clarity about what you actually want. Not what you think you should want. What you actually want.',steps:['Write down your three most important priorities. Then track your time for one week. Does where your time goes match the list?','Identify one activity you spend significant time on that does not build toward anything you genuinely value. Remove or reduce it.','Ask yourself: if I kept doing exactly what I\'m doing for the next five years, what would I have built?'],videos:['Hard Means It\'s Right','The Life You\'re Not Living']};}
-  else if(iL==='low'){r={type:'The Impulsive One',tagline:'You know what to do. The impulse gets there first.',analysis:['Your consistency and alignment scores show intention, but impulse resistance is the gap. You know the right action and frequently don\'t take it because something else takes over.','Impulse is not weakness. It is a faster system overriding a slower one. The slower system is usually more aligned with your actual values.'],missing:'The pause. The single most important thing between knowing and doing is creating a small delay.',steps:['Before acting on any significant impulse, wait 10 minutes. Set a timer if you need to.','Identify your three most reliable impulse triggers. What environment or state precedes the impulse? Modify the conditions.','Build friction into impulsive behaviors. Make them slightly harder to access.'],videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']};}
-  else if(cL==='low'){r={type:'The Inconsistent One',tagline:'The intention is real. The follow-through is the problem.',analysis:['Your scores show reasonable impulse control and alignment, but consistency is the primary gap. You know what to do and can often resist distraction, but the sustained, daily execution breaks down.','Inconsistency is usually not a character flaw. It is a system problem. The environment is not set up to make the right action easy.'],missing:'A system, not more willpower. Willpower depletes. Systems don\'t.',steps:['Pick one behavior you want to make consistent. Just one. Attach it to something you already do every day.','Track it for 30 days. Not because tracking builds the habit — because it makes the gap visible.','Reduce the decisions required to do the right thing. The easier the path, the more likely the action.'],videos:['Starting Over Isn\'t Progress','Hard Means It\'s Right']};}
-  else{r={type:'The Undisciplined One',tagline:'The gap between who you are and who you want to be is visible. That means you can work with it.',analysis:['Your scores across all three dimensions show significant room for development. Consistency, impulse control, and alignment are all areas where the gap is real.','This is the most honest starting point. Most people with low discipline scores are not lazy. They have not built the systems and habits that make discipline the default.'],missing:'One thing. Not a lifestyle overhaul. One habit, one routine, one commitment kept for 30 days.',steps:['Start smaller than you think you need to. One push-up, one page, one minute. The size of the action matters less than the consistency of it.','Remove one option that reliably leads to your worst impulses. Make the bad path harder.','Identify the one area of your life where building discipline would have the highest return. Focus only there for 60 days.'],videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
-  const card=document.getElementById('shareCard');card.style.display='block';
-  document.getElementById('shareCardInner').style.background=col.bg;
-  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+con+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Consistency</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+imp+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Impulse</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+al+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Alignment</div></div>';
-  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+  document.getElementById('cardScores').innerHTML=
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+con+'</div><div class="card-score-label">Consistency / 16</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+imp+'</div><div class="card-score-label">Impulse / 16</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+al+'</div><div class="card-score-label">Alignment / 16</div></div>';
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
 }
-function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-discipline-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
-function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-discipline-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
 </script>
 </body>
 </html>
