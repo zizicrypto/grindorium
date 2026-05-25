@@ -1,6 +1,383 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="refresh" content="0; url=/grindorium-journal.html">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal — Grindorium</title>
+  <meta name="description" content="Writings, quotes, and reflections from Grindorium. On burnout, silence, discipline, and the life most people are not living."/>
+  <meta property="og:title" content="Journal — Grindorium"/>
+  <meta property="og:description" content="Short essays and quotes on burnout, overstimulation, discipline, and emotional numbness. Grindorium writings."/>
+  <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+  <meta property="og:url" content="https://grindorium.org/grindorium-journal.html"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+    .nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+    .nav-back:hover{color:var(--white);}
+    .container{max-width:900px;margin:0 auto;padding:140px 48px 100px;}
+    .page-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+    .page-title{font-size:clamp(40px,6vw,72px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+    .page-desc{font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;max-width:560px;margin-bottom:80px;}
+    .divider{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:80px;}
+    .filter-bar{display:flex;gap:12px;margin-bottom:60px;flex-wrap:wrap;}
+    .filter-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 20px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;}
+    .filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);}
+    .journal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:2px;}
+    .post-card{background:var(--bg2);border:1px solid transparent;transition:all 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+    .post-card:hover{border-color:rgba(126,184,232,0.15);background:#0d1828;}
+    .post-card-body{padding:40px 36px 32px;}
+    .post-meta{display:flex;gap:16px;align-items:center;margin-bottom:24px;}
+    .post-type{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(126,184,232,0.3);padding:4px 12px;}
+    .post-date{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);}
+    .post-read{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);}
+    .post-title{font-size:clamp(20px,2.5vw,28px);font-weight:300;color:var(--white);line-height:1.3;margin-bottom:16px;}
+    .post-excerpt{font-size:15px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:28px;}
+    .post-arrow{font-family:'Space Mono',monospace;font-size:12px;color:var(--dim);transition:color 0.3s,transform 0.3s;display:inline-block;}
+    .post-card:hover .post-arrow{color:var(--accent);transform:translate(4px,-4px);}
+    .quote-card{background:var(--bg2);border:1px solid transparent;transition:all 0.3s;padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;min-height:280px;}
+    .quote-card:hover{border-color:rgba(126,184,232,0.15);}
+    .quote-card-text{font-size:clamp(20px,2.5vw,30px);font-weight:300;font-style:italic;color:var(--white);line-height:1.6;margin-bottom:32px;}
+    .quote-card-source{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;}
+    .quote-card-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.15);padding:4px 12px;display:inline-block;margin-top:16px;}
+    .image-card{background:var(--bg2);border:1px solid transparent;transition:all 0.3s;overflow:hidden;}
+    .image-card:hover{border-color:rgba(126,184,232,0.15);}
+    .image-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:brightness(0.85);transition:filter 0.3s;}
+    .image-card:hover img{filter:brightness(1);}
+    .image-card-caption{padding:20px 24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--dim);text-transform:uppercase;}
+    .post-page{display:none;}
+    .post-page.active{display:block;}
+    .journal-grid.hidden{display:none;}
+    .filter-bar.hidden{display:none;}
+    .page-header.hidden{display:none;}
+    .back-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);background:transparent;border:none;cursor:pointer;padding:0;margin-bottom:48px;transition:color 0.3s;display:flex;align-items:center;gap:8px;}
+    .back-btn:hover{color:var(--white);}
+    .post-full-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+    .post-full-title{font-size:clamp(32px,5vw,60px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;}
+    .post-full-meta{display:flex;gap:24px;margin-bottom:60px;padding-bottom:32px;border-bottom:1px solid rgba(126,184,232,0.1);}
+    .post-full-body{font-size:19px;font-weight:300;color:var(--dim);line-height:2;max-width:680px;}
+    .post-full-body p{margin-bottom:28px;}
+    .post-full-body h2{font-size:28px;font-weight:300;color:var(--white);margin:48px 0 20px;}
+    .post-full-body blockquote{border-left:1px solid var(--accent);padding-left:24px;margin:32px 0;font-style:italic;color:rgba(138,160,184,0.8);}
+    .giscus-wrap{max-width:680px;margin-top:80px;padding-top:48px;border-top:1px solid rgba(126,184,232,0.1);}
+    /* SOUND BUTTON — same as index */
+    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
+    .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
+    .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
+    .sound-btn:hover .sound-icon{color:var(--accent);}
+    @media(max-width:768px){
+      nav{padding:16px 20px;}
+      .container{padding:100px 20px 80px;}
+      .journal-grid{grid-template-columns:1fr;}
+      .sound-btn{bottom:70px;right:16px;width:36px;height:36px;}
+    }
+  </style>
 </head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="grindorium-character.png" alt="Grindorium" class="nav-logo-img" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/" class="nav-back">← Home</a>
+</nav>
+
+<div class="container">
+
+  <div id="listHeader" class="page-header">
+    <div class="page-label">Journal</div>
+    <h1 class="page-title">Writings &amp; Reflections</h1>
+    <p class="page-desc">Short essays, quotes, and observations. On burnout, silence, discipline, and the life most people are not living.</p>
+    <div class="divider"></div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" onclick="filterPosts('all')">All</button>
+      <button class="filter-btn" onclick="filterPosts('essay')">Essays</button>
+      <button class="filter-btn" onclick="filterPosts('quote')">Quotes</button>
+      <button class="filter-btn" onclick="filterPosts('image')">Images</button>
+    </div>
+  </div>
+
+  <div class="journal-grid" id="journalGrid">
+
+    <a class="post-card" data-type="essay" onclick="openPost('post-your-brain-wasn-t-built-for-this-world');return false;" href="#">
+      <div class="post-card-body">
+        <div class="post-meta"><span class="post-type">Essay</span><span class="post-date">May 2026</span><span class="post-read">5 min read</span></div>
+        <div class="post-title">Your brain wasn't built for this world.</div>
+        <div class="post-excerpt">It was built for scarcity. For silence. For long stretches of nothing. Now it gets hit with 10,000 stimuli before breakfast.</div>
+        <div class="post-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="post-card" data-type="essay" onclick="openPost('post-you-re-not-lazy-you-re-overstimulated');return false;" href="#">
+      <div class="post-card-body">
+        <div class="post-meta"><span class="post-type">Essay</span><span class="post-date">May 2026</span><span class="post-read">6 min read</span></div>
+        <div class="post-title">You're Not Lazy. You're Overstimulated.</div>
+        <div class="post-excerpt">You've called yourself lazy so many times it started to feel true. You can't focus. You can't finish things. You're not lazy. You're overstimulated.</div>
+        <div class="post-arrow">↗</div>
+      </div>
+    </a>
+
+    <a class="post-card" data-type="essay" onclick="openPost('post-burnout-silence');return false;" href="#">
+      <div class="post-card-body">
+        <div class="post-meta"><span class="post-type">Essay</span><span class="post-date">May 2026</span><span class="post-read">3 min read</span></div>
+        <div class="post-title">The silence you avoid knows everything about you.</div>
+        <div class="post-excerpt">Most people are not afraid of silence. They are afraid of what they would hear in it. The phone is not a distraction. It is a wall.</div>
+        <div class="post-arrow">↗</div>
+      </div>
+    </a>
+
+    <div class="quote-card" data-type="quote">
+      <div>
+        <div class="quote-card-text">"You are not tired. You are empty. Those are different problems with different solutions."</div>
+        <div class="quote-card-source">Grindorium</div>
+      </div>
+      <div class="quote-card-tag">Burnout</div>
+    </div>
+
+    <a class="post-card" data-type="essay" onclick="openPost('post-discipline-feeling');return false;" href="#">
+      <div class="post-card-body">
+        <div class="post-meta"><span class="post-type">Essay</span><span class="post-date">May 2026</span><span class="post-read">4 min read</span></div>
+        <div class="post-title">Discipline is not about feeling like it.</div>
+        <div class="post-excerpt">Motivation asks how you feel. Discipline does not ask. The decision was already made. The only question is whether you will honor it.</div>
+        <div class="post-arrow">↗</div>
+      </div>
+    </a>
+
+    <div class="quote-card" data-type="quote">
+      <div>
+        <div class="quote-card-text">"The person you are avoiding becoming is waiting on the other side of the thing you keep postponing."</div>
+        <div class="quote-card-source">Grindorium</div>
+      </div>
+      <div class="quote-card-tag">Discipline</div>
+    </div>
+
+    <div class="quote-card" data-type="quote">
+      <div>
+        <div class="quote-card-text">"You did not lose yourself all at once. You gave yourself away one compromise at a time."</div>
+        <div class="quote-card-source">Grindorium</div>
+      </div>
+      <div class="quote-card-tag">Identity</div>
+    </div>
+
+    <a class="post-card" data-type="essay" onclick="openPost('post-numbness');return false;" href="#">
+      <div class="post-card-body">
+        <div class="post-meta"><span class="post-type">Essay</span><span class="post-date">May 2026</span><span class="post-read">3 min read</span></div>
+        <div class="post-title">When feeling nothing starts to feel normal.</div>
+        <div class="post-excerpt">There is a stage of burnout that does not look like burnout. You are functional. You show up. You perform okay. But nothing is reaching you anymore.</div>
+        <div class="post-arrow">↗</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- POST: BURNOUT SILENCE -->
+  <div id="post-burnout-silence" class="post-page">
+    <button class="back-btn" onclick="closePost()">← Back to Journal</button>
+    <div class="post-full-label">Essay · May 2026 · 3 min read</div>
+    <h1 class="post-full-title">The silence you avoid knows everything about you.</h1>
+    <div class="post-full-meta"><span class="post-date" style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.1em;">Grindorium</span></div>
+    <div class="post-full-body">
+      <p>Most people are not afraid of silence. They are afraid of what they would hear in it.</p>
+      <p>The phone is not a distraction. It is a wall. A carefully constructed barrier between you and the thoughts you have been postponing for months. Maybe years.</p>
+      <p>When the screen goes dark and the noise stops, something surfaces. A question you have not answered. A feeling you have not named. A truth about your life that you have been too busy to confront.</p>
+      <blockquote>The silence does not create the discomfort. It reveals it. The discomfort was always there.</blockquote>
+      <p>This is why people fill every moment. Not because they enjoy constant stimulation, but because they are afraid of what happens when it stops.</p>
+      <p>The practice is not meditation. It is not a breathing technique. It is simply this: stop. Sit somewhere. Do not fill the space. Notice what comes.</p>
+      <p>What comes is information. It is telling you something about where you are and what you actually need. The avoidance is the symptom. The silence is the diagnosis.</p>
+      <p>You do not have to fix what surfaces. You do not have to solve it or act on it immediately. You just have to stop pretending it is not there.</p>
+      <p>The silence knows. It has been waiting.</p>
+    </div>
+    <div class="giscus-wrap">
+      <script src="https://giscus.app/client.js" data-repo="zizicrypto/grindorium" data-repo-id="R_kgDOSjXHxA" data-category="General" data-category-id="DIC_kwDOSjXHxM4C9jp-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed" data-lang="en" crossorigin="anonymous" async></script>
+    </div>
+  </div>
+
+  <!-- POST: DISCIPLINE -->
+  <div id="post-discipline-feeling" class="post-page">
+    <button class="back-btn" onclick="closePost()">← Back to Journal</button>
+    <div class="post-full-label">Essay · May 2026 · 4 min read</div>
+    <h1 class="post-full-title">Discipline is not about feeling like it.</h1>
+    <div class="post-full-meta"><span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.1em;">Grindorium</span></div>
+    <div class="post-full-body">
+      <p>Motivation asks how you feel. Discipline does not ask.</p>
+      <p>The decision was already made. The only question is whether you will honor it when the feeling is not there to help you.</p>
+      <p>Most people tie their behavior to their emotional state. When they feel motivated, they work. When they do not, they do not. This means their output is entirely dependent on something they cannot control.</p>
+      <blockquote>Discipline is the decision to act regardless of how you feel about acting. It is made once, in a clear moment, and then it is not made again every morning.</blockquote>
+      <p>The system is simple. The execution is hard. Not because the tasks are difficult, but because every day you have to override the version of yourself that would rather not.</p>
+      <p>You are not fighting laziness. You are fighting the part of your brain that is optimizing for comfort in the short term at the expense of what you actually want in the long term.</p>
+      <h2>The decision point</h2>
+      <p>There is a moment, every day, when you could do the thing or not do the thing. That moment is the whole battle. Everything before it is preparation. Everything after it is consequence.</p>
+      <p>People who are disciplined do not have more willpower. They have fewer decision points. They have made the choices in advance, when their thinking was clear, so that when the moment arrives there is nothing left to decide.</p>
+      <p>The habit removes the question. The question is what makes it hard.</p>
+      <p>Remove the question. Do the thing. Do it again tomorrow.</p>
+    </div>
+    <div class="giscus-wrap">
+      <script src="https://giscus.app/client.js" data-repo="zizicrypto/grindorium" data-repo-id="R_kgDOSjXHxA" data-category="General" data-category-id="DIC_kwDOSjXHxM4C9jp-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed" data-lang="en" crossorigin="anonymous" async></script>
+    </div>
+  </div>
+
+  <!-- POST: NUMBNESS -->
+  <div id="post-numbness" class="post-page">
+    <button class="back-btn" onclick="closePost()">← Back to Journal</button>
+    <div class="post-full-label">Essay · May 2026 · 3 min read</div>
+    <h1 class="post-full-title">When feeling nothing starts to feel normal.</h1>
+    <div class="post-full-meta"><span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.1em;">Grindorium</span></div>
+    <div class="post-full-body">
+      <p>There is a stage of burnout that does not look like burnout.</p>
+      <p>You are functional. You show up. You respond to messages. You perform okay. From the outside, nothing appears wrong. But nothing is reaching you anymore.</p>
+      <p>Music that used to move you passes through without landing. Conversations happen but do not register. Good things occur and you observe them from a slight distance, as if through glass.</p>
+      <blockquote>You are not sad. You are not struggling. You are just not there. And the terrifying part is how normal that has started to feel.</blockquote>
+      <p>This is emotional numbness. It is not dramatic. It does not announce itself. It accumulates gradually, usually as a protective response to sustained stress or chronic overstimulation, until one day you realize the volume has been turned down on your entire life.</p>
+      <h2>What it is not</h2>
+      <p>It is not depression, though it can precede it. It is not introversion. It is not maturity. It is not being strong. It is a nervous system that learned to cope by feeling less.</p>
+      <p>The adaptation made sense at some point. Now it is costing you more than whatever it was protecting you from.</p>
+      <h2>What helps</h2>
+      <p>Not forcing feeling. Forcing does not work.</p>
+      <p>What works is reducing input. The numbness was partly built by overload. Less noise gives the system room to recover. You cannot hear a quiet signal in a loud room.</p>
+      <p>Start small. One conversation that is actually real. One moment you stay in instead of escaping. One feeling you name instead of bypassing.</p>
+      <p>The volume comes back slowly. Then all at once.</p>
+    </div>
+    <div class="giscus-wrap">
+      <script src="https://giscus.app/client.js" data-repo="zizicrypto/grindorium" data-repo-id="R_kgDOSjXHxA" data-category="General" data-category-id="DIC_kwDOSjXHxM4C9jp-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed" data-lang="en" crossorigin="anonymous" async></script>
+    </div>
+  </div>
+
+  <!-- POST: YOUR BRAIN -->
+  <div id="post-your-brain-wasn-t-built-for-this-world" class="post-page">
+    <button class="back-btn" onclick="closePost()">← Back to Journal</button>
+    <div class="post-full-label">Essay · May 2026 · 5 min read</div>
+    <h1 class="post-full-title">Your brain wasn't built for this world.</h1>
+    <div class="post-full-meta"><span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.1em;">Grindorium</span></div>
+    <div class="post-full-body">
+      <p>Your brain wasn't built for this world.</p>
+      <p>It was built for scarcity. For silence. For long stretches of nothing.</p>
+      <p>Now it gets hit with 10,000 stimuli before breakfast.</p>
+      <p>And nobody talks about what that actually does to you.</p>
+      <h2>The Dopamine Lie</h2>
+      <p>Dopamine isn't the pleasure chemical. That's the popular version. The comfortable version.</p>
+      <p>The real version is less flattering.</p>
+      <p>Dopamine is the wanting chemical. It doesn't make you feel good. It makes you want more of whatever you just had.</p>
+      <p>Scroll. Click. Scroll. Click.</p>
+      <p>Your brain isn't enjoying this. It's chasing. There's a difference. One feels full. The other never does.</p>
+      <h2>What Overstimulation Actually Does</h2>
+      <p>Your baseline is broken.</p>
+      <p>When everything is stimulating, nothing is. The brain adapts. It raises the threshold. What used to feel exciting now feels normal. What used to feel normal now feels boring. What used to feel boring now feels unbearable.</p>
+      <p>This is why you can't read a book anymore. This is why a conversation feels exhausting. This is why silence makes you reach for your phone within 30 seconds.</p>
+      <p>You didn't get lazier. You got overstimulated. Repeatedly. For years.</p>
+      <h2>The Part That Should Scare You</h2>
+      <p>You are not addicted to your phone. You are addicted to escaping your own mind. The phone is just the door.</p>
+      <p>Every time a thought gets uncomfortable, every time silence starts to say something you don't want to hear, you open that door. You disappear into the feed. You come back five minutes later feeling worse, but at least the thought is gone.</p>
+      <p>Except it isn't. It's waiting.</p>
+      <p>This is why you're exhausted. Not from doing too much. From running too long.</p>
+      <h2>What Awareness Actually Means</h2>
+      <p>Awareness means sitting with the discomfort long enough to hear what it's actually saying. Not fixing it. Not escaping it. Not posting about it. Just staying.</p>
+      <p>Five minutes without the phone. Without music. Without noise. Just you and whatever comes up.</p>
+      <p>Most people can't do this. Not because they're weak. Because nobody ever taught them that the uncomfortable thought isn't the enemy. The running is.</p>
+      <h2>The Only Way Out</h2>
+      <p>There is no hack for this. No morning routine. No cold shower. No productivity system.</p>
+      <p>The only way out is through.</p>
+      <p>You have to become someone who can tolerate their own mind. Who can sit in silence without immediately filling it. Who can feel something uncomfortable without immediately escaping it.</p>
+      <p>That's not a weekend project. It's a daily practice. Quiet. Unglamorous. Invisible to everyone else.</p>
+      <p>Because the world will keep getting louder. The only question is whether you'll keep running or finally stop.</p>
+    </div>
+    <div class="giscus-wrap">
+      <script src="https://giscus.app/client.js" data-repo="zizicrypto/grindorium" data-repo-id="R_kgDOSjXHxA" data-category="General" data-category-id="DIC_kwDOSjXHxM4C9jp-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed" data-lang="en" crossorigin="anonymous" async></script>
+    </div>
+  </div>
+
+  <!-- POST: NOT LAZY -->
+  <div id="post-you-re-not-lazy-you-re-overstimulated" class="post-page">
+    <button class="back-btn" onclick="closePost()">← Back to Journal</button>
+    <div class="post-full-label">Essay · May 2026 · 6 min read</div>
+    <h1 class="post-full-title">You're Not Lazy. You're Overstimulated.</h1>
+    <div class="post-full-meta"><span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:0.1em;">Grindorium</span></div>
+    <div class="post-full-body">
+      <p>You've called yourself lazy so many times it started to feel true.</p>
+      <p>You can't focus. You can't finish things. You start with intention and dissolve into distraction within minutes.</p>
+      <p>So you tell yourself the story: I'm just not disciplined enough. I'm just weak. I'm just lazy.</p>
+      <p>You're not. You're overstimulated. And there's a significant difference.</p>
+      <h2>The Word "Lazy" Is Doing a Lot of Work</h2>
+      <p>Lazy implies choice. It means you could do the thing, you just won't. But what if the problem isn't willpower? What if the problem is that your nervous system has been running at maximum capacity for so long that it genuinely doesn't know how to shift into a lower gear anymore?</p>
+      <p>That's not laziness. That's exhaustion disguised as laziness. And the two require completely different responses.</p>
+      <h2>What Overstimulation Actually Looks Like</h2>
+      <p>It doesn't look like chaos. It looks like you lying on the couch, not tired enough to sleep, not energized enough to do anything. Scrolling without enjoying it. Watching without watching. Present in body, completely absent in mind.</p>
+      <p>It looks like starting five things and finishing none. It looks like knowing exactly what you should do and being completely unable to make yourself do it.</p>
+      <p>That's not a character flaw. That's a nervous system that has been pushed past its threshold.</p>
+      <h2>How Your Brain Got Here</h2>
+      <p>Your brain has a limited amount of cognitive bandwidth. Every decision, every notification, every context switch, every scroll session drains it.</p>
+      <p>Six hours of mindless scrolling is not rest. It feels like rest because you're horizontal and not doing anything. But your brain is processing an enormous amount of low-quality input the entire time.</p>
+      <p>You finish a scrolling session feeling more tired than when you started. You've noticed this. You just didn't know why. Now you do.</p>
+      <h2>Why Willpower Doesn't Fix This</h2>
+      <p>They know they're distracted. They know they need to focus. So they try harder. They set timers. They make schedules. They download productivity apps on the same phone that's causing the problem.</p>
+      <p>And it works. For a day. Maybe two. Then it collapses.</p>
+      <p>Willpower is a resource. And it depletes. The problem isn't discipline. The problem is the environment that keeps draining it before you can use it.</p>
+      <h2>What Recovery Actually Looks Like</h2>
+      <p>Not a detox weekend. Not deleting every app. Recovery from overstimulation is slow. Unglamorous. It happens in the margins of ordinary days.</p>
+      <p>It's choosing to sit with boredom for ten minutes instead of reaching for your phone. It's finishing one thing before starting another. It's a walk without headphones. A meal without a screen.</p>
+      <h2>You Were Never Lazy</h2>
+      <p>You were running a system at maximum load with no recovery time. You were consuming more information in a single day than previous generations consumed in months.</p>
+      <p>And when you couldn't perform, you blamed yourself. That ends here.</p>
+      <p>Not with a hack. Not with a routine. With the simple understanding that what happened to your attention wasn't your fault. And the quiet decision that reclaiming it is worth it.</p>
+      <p>Your attention is the most valuable thing you have. Spend it like it is.</p>
+    </div>
+    <div class="giscus-wrap">
+      <script src="https://giscus.app/client.js" data-repo="zizicrypto/grindorium" data-repo-id="R_kgDOSjXHxA" data-category="General" data-category-id="DIC_kwDOSjXHxM4C9jp-" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed" data-lang="en" crossorigin="anonymous" async></script>
+    </div>
+  </div>
+
+</div>
+
+<!-- SOUND BUTTON — same as index.html -->
+<div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
+
+<script>
+  function filterPosts(type){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('[data-type]').forEach(el=>{
+      el.style.display=(type==='all'||el.dataset.type===type)?'block':'none';
+    });
+  }
+
+  function openPost(id){
+    document.getElementById('journalGrid').classList.add('hidden');
+    document.getElementById('filterBar').classList.add('hidden');
+    document.getElementById('listHeader').classList.add('hidden');
+    document.querySelectorAll('.post-page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function closePost(){
+    document.querySelectorAll('.post-page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('journalGrid').classList.remove('hidden');
+    document.getElementById('filterBar').classList.remove('hidden');
+    document.getElementById('listHeader').classList.remove('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  /* AMBIENT SOUND — birebir index.html ile aynı */
+  let ambientAudio=null,ambientOn=false;
+  function toggleAmbient(){
+    if(ambientOn){
+      if(ambientAudio)ambientAudio.pause();
+      ambientOn=false;
+      document.getElementById('soundIcon').style.color='var(--dim)';
+    } else {
+      ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');
+      ambientAudio.loop=true;
+      ambientAudio.volume=0.15;
+      ambientAudio.play().catch(()=>{});
+      ambientOn=true;
+      document.getElementById('soundIcon').style.color='var(--accent)';
+    }
+  }
+</script>
+</body>
 </html>
