@@ -1,383 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grindorium — You Are Safe Here</title>
-  <meta name="description" content="Grindorium is a space for people who are burned out, overstimulated, and emotionally exhausted. Take a self-assessment. Read. Breathe. You are safe here."/>
-<meta property="og:title" content="Grindorium — You Are Safe Here"/>
-<meta property="og:description" content="Burned out? Overstimulated? Emotionally numb? Grindorium is a space to slow down, know yourself, and come back."/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Anxiety & Overstimulation Test, Grindorium</title>
 <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
-<meta property="og:url" content="https://grindorium.org/"/>
-<meta name="twitter:card" content="summary_large_image"/>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4519033126325580" crossorigin="anonymous"></script>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet" />
-  <style>
-    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
-    .nav-logo-img{width:32px;height:32px;border-radius:50%;object-fit:cover;}
-    .nav-logo-text{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
-    .nav-links{display:flex;gap:32px;list-style:none;}
-    .nav-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
-    .nav-links a:hover{color:var(--white);}
-    .nav-menu-btn{display:none;background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer;}
-    /* MOBILE NAV */
-    .mobile-nav{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,11,18,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:32px;}
-    .mobile-nav.open{display:flex;}
-    .mobile-nav a{font-family:'Space Mono',monospace;font-size:14px;letter-spacing:0.2em;color:var(--dim);text-decoration:none;text-transform:uppercase;}
-    .mobile-nav-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--dim);font-size:24px;cursor:pointer;}
-    /* HERO */
-    .hero{position:relative;width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(20,40,70,0.5) 0%,transparent 70%);}
-    .breath-container{position:relative;display:flex;align-items:center;justify-content:center;width:240px;height:240px;margin-bottom:48px;cursor:pointer;}
-    .breath-ring{position:absolute;border-radius:50%;border:1px solid rgba(126,184,232,0.2);animation:ring-pulse 8s ease-in-out infinite;}
-    .breath-ring:nth-child(1){width:240px;height:240px;}
-    .breath-ring:nth-child(2){width:190px;height:190px;animation-delay:0.3s;border-color:rgba(126,184,232,0.3);}
-    .breath-ring:nth-child(3){width:140px;height:140px;animation-delay:0.6s;border-color:rgba(126,184,232,0.4);}
-    .breath-core{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(126,184,232,0.15) 0%,rgba(126,184,232,0.05) 60%,transparent 100%);border:1px solid rgba(126,184,232,0.5);animation:core-breathe 8s ease-in-out infinite;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
-    .breath-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;transition:opacity 0.5s;}
-    @keyframes ring-pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.08);opacity:1}}
-    @keyframes core-breathe{0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(126,184,232,0.15)}50%{transform:scale(1.15);box-shadow:0 0 50px rgba(126,184,232,0.35)}}
-    .hero-text{text-align:center;animation:fade-up 2s ease forwards;opacity:0;animation-delay:0.5s;}
-    .hero-title{font-size:clamp(36px,6vw,88px);font-weight:300;letter-spacing:0.05em;color:var(--white);line-height:1;margin-bottom:16px;}
-    .hero-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;}
-    @keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fade-up 2s ease forwards;animation-delay:2s;opacity:0;}
-    .scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,transparent,var(--accent));animation:scroll-drop 2s ease-in-out infinite;}
-    .scroll-text{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
-    @keyframes scroll-drop{0%,100%{opacity:0.4}50%{opacity:1}}
-    /* QUOTE */
-    .quote-section{padding:60px 24px;border-top:1px solid rgba(126,184,232,0.1);border-bottom:1px solid rgba(126,184,232,0.1);text-align:center;max-width:800px;margin:0 auto;}
-    .quote-text{font-size:clamp(18px,3vw,28px);font-weight:300;color:var(--white);line-height:1.7;margin-bottom:16px;}
-    .quote-source{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;}
-    /* SECTIONS */
-    .section{padding:80px 24px;max-width:1200px;margin:0 auto;}
-    .section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:48px;display:flex;align-items:center;gap:20px;}
-    .section-label::after{content:'';flex:1;height:1px;background:rgba(126,184,232,0.15);}
-    /* CARDS */
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;}
-    .card{background:var(--bg2);padding:40px 32px;cursor:pointer;transition:background 0.3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;border:1px solid transparent;}
-    .card:hover{background:#111d2c;border-color:rgba(126,184,232,0.15);}
-    .card-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:24px;}
-    .card-title{font-size:24px;font-weight:300;color:var(--white);margin-bottom:12px;line-height:1.2;}
-    .card-desc{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .card-arrow{position:absolute;bottom:32px;right:32px;font-family:'Space Mono',monospace;font-size:16px;color:var(--dim);transition:color 0.3s,transform 0.3s;}
-    .card:hover .card-arrow{color:var(--accent);transform:translate(4px,-4px);}
-    /* BREATHE SECTION */
-    .breathe-section{padding:80px 24px;text-align:center;}
-    .breath-big{width:160px;height:160px;border-radius:50%;border:1px solid rgba(126,184,232,0.4);margin:48px auto;display:flex;align-items:center;justify-content:center;animation:core-breathe 8s ease-in-out infinite;cursor:pointer;transition:border-color 0.3s;position:relative;}
-    .breath-big:hover{border-color:rgba(126,184,232,0.8);}
-    .breath-counter{font-family:'Space Mono',monospace;font-size:40px;color:rgba(126,184,232,0.6);position:absolute;}
-    .breath-instruction{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-top:24px;}
-    /* JOURNAL */
-    .journal-section{padding:80px 24px;max-width:760px;margin:0 auto;}
-    .journal-textarea{width:100%;background:var(--bg2);border:1px solid rgba(126,184,232,0.1);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:28px;line-height:1.8;resize:none;outline:none;min-height:180px;transition:border-color 0.3s;}
-    .journal-textarea:focus{border-color:rgba(126,184,232,0.4);}
-    .journal-textarea::placeholder{color:rgba(138,160,184,0.4);}
-    .journal-save{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;margin-top:16px;}
-    .journal-save:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
-    .journal-entries{margin-top:40px;display:flex;flex-direction:column;gap:2px;}
-    .journal-entry{background:var(--bg2);padding:20px 24px;border:1px solid rgba(126,184,232,0.05);}
-    .journal-entry-date{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:10px;}
-    .journal-entry-text{font-size:16px;font-weight:300;color:var(--dim);line-height:1.7;}
-    /* VIDEOS */
-    .video-section{padding:80px 24px;max-width:1200px;margin:0 auto;}
-    .yt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;}
-    .yt-card{background:var(--bg2);text-decoration:none;display:block;border:1px solid transparent;transition:all 0.3s;}
-    .yt-card:hover{border-color:rgba(126,184,232,0.15);background:#111d2c;}
-    .yt-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
-    .yt-info{padding:20px 24px;}
-    .yt-title{font-size:17px;font-weight:300;color:var(--white);line-height:1.4;margin-bottom:8px;}
-    .yt-date{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:0.1em;color:var(--dim);}
-    .yt-loading{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;padding:40px 0;}
-    /* FOOTER */
-    footer{padding:48px 24px;border-top:1px solid rgba(126,184,232,0.1);}
-    .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
-    .footer-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
-    .footer-links{display:flex;flex-wrap:wrap;gap:20px;}
-    .footer-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
-    .footer-links a:hover{color:var(--white);}
-    /* FIXED BUTTONS — repositioned to not overlap footer */
-    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
-    .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
-    .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
-    .sound-btn:hover .sound-icon{color:var(--accent);}
-    .disconnect-btn{position:fixed;bottom:80px;left:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:rgba(7,11,18,0.95);border:1px solid rgba(126,184,232,0.15);padding:10px 16px;cursor:pointer;z-index:200;transition:all 0.3s;}
-    .disconnect-btn:hover{color:var(--accent);border-color:rgba(126,184,232,0.4);}
-    /* DISCONNECT OVERLAY */
-    .disconnect-overlay{position:fixed;inset:0;background:#070b12;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;}
-    .disconnect-overlay.active{display:flex;}
-    .disconnect-circle{width:100px;height:100px;border-radius:50%;border:1px solid rgba(126,184,232,0.3);animation:core-breathe 8s ease-in-out infinite;}
-    .disconnect-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--dim);text-transform:uppercase;margin-top:32px;}
-    .disconnect-close{position:absolute;top:24px;right:24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);background:transparent;border:none;cursor:pointer;text-transform:uppercase;transition:color 0.3s;}
-    .disconnect-close:hover{color:var(--white);}
-    /* MOBILE */
-    @media(max-width:768px){
-      nav{padding:16px 20px;}
-      .nav-links{display:none;}
-      .nav-menu-btn{display:block;}
-      .hero-title{font-size:clamp(32px,8vw,56px);}
-      .section{padding:60px 20px;}
-      .breathe-section{padding:60px 20px;}
-      .journal-section{padding:60px 20px;}
-      .cards{grid-template-columns:1fr;}
-      .footer-inner{flex-direction:column;align-items:flex-start;}
-      .footer-links{gap:16px;}
-      .disconnect-btn{font-size:8px;padding:8px 12px;bottom:70px;left:16px;}
-      .sound-btn{bottom:70px;right:16px;width:36px;height:36px;}
-    }
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px;}
+.score-card{background:var(--bg2);padding:18px 14px;text-align:center;}
+.score-card-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--dim);text-transform:uppercase;margin-bottom:9px;}
+.score-card-value{font-size:28px;font-weight:300;color:var(--white);margin-bottom:3px;}
+.score-card-max{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.score-card-level{font-family:'Space Mono',monospace;font-size:8px;margin-top:5px;text-transform:uppercase;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}.score-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-<!-- MOBILE NAV -->
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-close" onclick="closeMobileNav()">×</button>
-  <a href="#breathe" onclick="closeMobileNav()">Breathe</a>
-  <a href="#tests" onclick="closeMobileNav()">Tests</a>
-  <a href="#sounds" onclick="closeMobileNav()">Sounds</a>
-  <a href="#habits" onclick="closeMobileNav()">Habits</a>
-  <a href="#journal" onclick="closeMobileNav()">Journal</a>
-  <a href="#videos" onclick="closeMobileNav()">Videos</a>
-  <a href="/writings" onclick="closeMobileNav()">Writings</a>
-  <a href="https://youtube.com/@Grindorium" target="_blank">Watch</a>
-</div>
-<!-- DISCONNECT OVERLAY -->
-<div class="disconnect-overlay" id="disconnectOverlay">
-  <button class="disconnect-close" onclick="closeDisconnect()">× Close</button>
-  <div class="disconnect-circle"></div>
-  <p class="disconnect-text">Just breathe. Nothing else.</p>
-</div>
-<nav>
-  <a href="#" class="nav-logo">
-    <img src="grindorium-character.png" alt="Grindorium" class="nav-logo-img" onerror="this.style.display='none'">
-    <span class="nav-logo-text">Grindorium</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#breathe">Breathe</a></li>
-    <li><a href="#tests">Tests</a></li>
-    <li><a href="#sounds">Sounds</a></li>
-    <li><a href="#habits">Habits</a></li>
-    <li><a href="#journal">Journal</a></li>
-    <li><a href="#videos">Videos</a></li>
-    <li><a href="/writings">Writings</a></li>
-    <li><a href="https://youtube.com/@Grindorium" target="_blank">Watch</a></li>
-  </ul>
-  <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
-</nav>
-<section class="hero">
-  <div class="breath-container" onclick="startBreath()">
-    <div class="breath-ring"></div>
-    <div class="breath-ring"></div>
-    <div class="breath-ring"></div>
-    <div class="breath-core"><span class="breath-label" id="breathLabel">breathe</span></div>
+<nav><a href="index.html" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
+<div class="container">
+
+<div id="profileScreen">
+  <div class="test-label">Anxiety &amp; Overstimulation Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
-  <div class="hero-text">
-    <h1 class="hero-title">You are safe here.</h1>
-    <p class="hero-sub">Put the phone down. Just breathe.</p>
-  </div>
-  <div class="scroll-hint">
-    <span class="scroll-text">Explore</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-<div style="max-width:800px;margin:0 auto;">
-  <div class="quote-section">
-    <p class="quote-text">"The silence you avoid knows everything about you."</p>
-    <span class="quote-source">— Grindorium</span>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
   </div>
 </div>
-<div class="section">
-  <div class="section-label">What's here</div>
-  <div class="cards">
-    <a href="#breathe" class="card"><div class="card-number">01</div><div class="card-title">Breathe</div><div class="card-desc">Guided breathing. 4-7-8. Box breathing. Just slow down.</div><div class="card-arrow">↗</div></a>
-    <a href="#tests" class="card"><div class="card-number">02</div><div class="card-title">Know Yourself</div><div class="card-desc">Burned out? Emotionally numb? Overstimulated? Find out.</div><div class="card-arrow">↗</div></a>
-    <a href="#sounds" class="card"><div class="card-number">03</div><div class="card-title">Sounds</div><div class="card-desc">Rain. Forest. Ocean. Nothing. Choose your quiet.</div><div class="card-arrow">↗</div></a>
-    <a href="#habits" class="card"><div class="card-number">04</div><div class="card-title">Habits</div><div class="card-desc">Track one thing. Don't break the chain. That's enough.</div><div class="card-arrow">↗</div></a>
-    <a href="#journal" class="card"><div class="card-number">05</div><div class="card-title">Journal</div><div class="card-desc">No likes. No audience. Just you and the page.</div><div class="card-arrow">↗</div></a>
-    <a href="/writings" class="card"><div class="card-number">06</div><div class="card-title">Writings</div><div class="card-desc">Essays, quotes, reflections. On burnout, silence, and the life most people are not living.</div><div class="card-arrow">↗</div></a>
+
+<div id="startScreen" style="display:none">
+  <div class="test-label">Anxiety &amp; Overstimulation Assessment</div>
+  <h1 class="test-title">Are you overstimulated?</h1>
+  <p class="test-desc">Your nervous system was never designed for this. Constant notifications. Infinite scroll. Always-on. This assessment measures how overstimulated your system has become, and what kind of anxiety that is creating.</p>
+  <p class="test-note">10 questions &middot; 3&ndash;5 minutes &middot; Based on GAD-7 and nervous system research &middot; Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel anxious or on edge without being able to identify a specific reason.</div><div class="options"><div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>I feel calm most of the time.</div><div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Occasional unease, but not often.</div><div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>Background anxiety is present more than I'd like.</div><div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>I'm almost always slightly on edge.</div><div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>Constant low-level anxiety is my baseline.</div></div></div>
+  <div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I check my phone compulsively, not because I'm expecting anything, but because I can't not.</div><div class="options"><div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>I use my phone intentionally.</div><div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Occasionally, but not habitually.</div><div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>More automatic than I'd like.</div><div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>It's become reflexive.</div><div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>My hand reaches for my phone before I decide to.</div></div></div>
+  <div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">My mind jumps rapidly from thought to thought, making it hard to focus on one thing.</div><div class="options"><div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>I can generally focus when I need to.</div><div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Occasional scatter, but not a major problem.</div><div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>Sustained focus is increasingly difficult.</div><div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>My thoughts are rarely still.</div><div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>My mind is constantly in motion.</div></div></div>
+  <div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">Silence or doing nothing feels uncomfortable or even anxiety-inducing.</div><div class="options"><div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>Quiet is comfortable for me.</div><div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>Sometimes I fill silence, but not always.</div><div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>Silence often makes me reach for stimulation.</div><div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>Doing nothing feels almost unbearable.</div><div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>I cannot tolerate silence or stillness.</div></div></div>
+  <div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My sleep is disrupted. Either I can't fall asleep, I wake up at night, or I wake up tired.</div><div class="options"><div class="option" onclick="sa(4,0)"><span class="option-key">Never</span>I generally sleep well.</div><div class="option" onclick="sa(4,1)"><span class="option-key">Rarely</span>Occasional disruption.</div><div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>Sleep issues are more common than they should be.</div><div class="option" onclick="sa(4,3)"><span class="option-key">Often</span>My sleep is regularly disrupted.</div><div class="option" onclick="sa(4,4)"><span class="option-key">Always</span>Good sleep feels almost impossible.</div></div></div>
+  <div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel physically tense. Tight muscles, shallow breathing, or a persistent sense of bracing.</div><div class="options"><div class="option" onclick="sa(5,0)"><span class="option-key">Never</span>My body feels generally relaxed.</div><div class="option" onclick="sa(5,1)"><span class="option-key">Rarely</span>Occasional tension.</div><div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>I notice tension more than I should.</div><div class="option" onclick="sa(5,3)"><span class="option-key">Often</span>My body is frequently tense without clear reason.</div><div class="option" onclick="sa(5,4)"><span class="option-key">Always</span>I'm almost always physically braced for something.</div></div></div>
+  <div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I worry about things that I know are unlikely to happen, but I can't stop the thoughts.</div><div class="options"><div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>My worries are generally proportional.</div><div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Occasionally excessive, but brief.</div><div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice the worry running ahead of reality.</div><div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>Worst-case scenarios loop frequently.</div><div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>My mind defaults to catastrophe.</div></div></div>
+  <div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">After consuming news, social media, or online content, I feel worse rather than better.</div><div class="options"><div class="option" onclick="sa(7,0)"><span class="option-key">Never</span>Content doesn't significantly affect my mood.</div><div class="option" onclick="sa(7,1)"><span class="option-key">Rarely</span>Occasionally, but I recover quickly.</div><div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>I notice the depletion more than I'd like.</div><div class="option" onclick="sa(7,3)"><span class="option-key">Often</span>Most sessions leave me feeling drained.</div><div class="option" onclick="sa(7,4)"><span class="option-key">Always</span>Every session leaves me worse off.</div></div></div>
+  <div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I have difficulty being fully present in conversations. My mind wanders or monitors the environment.</div><div class="options"><div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I'm generally present in conversations.</div><div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Occasional drift.</div><div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>I notice I'm not fully there.</div><div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>Full presence is increasingly difficult.</div><div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>I'm rarely fully present with another person.</div></div></div>
+  <div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">Even during leisure time, I can't fully relax. I feel like I should be doing something.</div><div class="options"><div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>I can genuinely rest when I have free time.</div><div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>Sometimes the guilt creeps in.</div><div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Rest often feels unearned.</div><div class="option" onclick="sa(9,3)"><span class="option-key">Often</span>Doing nothing feels irresponsible.</div><div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I cannot remember the last time I truly relaxed.</div></div></div>
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
   </div>
 </div>
-<section id="breathe" class="breathe-section">
-  <div class="section-label" style="justify-content:center;max-width:300px;margin:0 auto 48px;">01 — Breathe</div>
-  <p style="font-size:17px;font-weight:300;color:var(--dim);max-width:480px;margin:0 auto;line-height:1.8;">Four seconds in. Seven seconds hold. Eight seconds out. Three rounds. That is all.</p>
-  <div class="breath-big" onclick="startBreath()" id="breathCircle"><span class="breath-counter" id="breathCounter"></span></div>
-  <p class="breath-instruction" id="breathInstruction">Click to begin</p>
-</section>
-<section id="tests" class="section">
-  <div class="section-label">02 — Know Yourself</div>
-  <div class="cards">
-    <a href="grindorium-burnout.html" class="card"><div class="card-number">Burnout</div><div class="card-title">Are you burned out?</div><div class="card-desc">Not tired. Not lazy. Something deeper. 10 questions. Real analysis.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-numbness.html" class="card"><div class="card-number">Emotional Numbness</div><div class="card-title">How numb are you?</div><div class="card-desc">When feeling nothing starts to feel normal.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-attachment.html" class="card"><div class="card-number">Attachment</div><div class="card-title">How do you attach?</div><div class="card-desc">Why you keep choosing the same people. Same endings.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-anxiety.html" class="card"><div class="card-number">Anxiety</div><div class="card-title">Are you overstimulated?</div><div class="card-desc">Your nervous system in 2026. How much is too much?</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-discipline.html" class="card"><div class="card-number">Discipline</div><div class="card-title">How disciplined are you?</div><div class="card-desc">Not motivation. Not willpower. Real self-control. Honestly.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-perfectionism.html" class="card"><div class="card-number">Perfectionism</div><div class="card-title">Are you a perfectionist?</div><div class="card-desc">High standards and perfectionism are not the same thing. Find out which one you actually have.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-peoplepleasing.html" class="card"><div class="card-number">People Pleasing</div><div class="card-title">Do you know what you want?</div><div class="card-desc">You say yes when you mean no. You shrink. Find out how deep the pattern goes.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-loneliness.html" class="card"><div class="card-number">Loneliness</div><div class="card-title">Are you lonely in a full room?</div><div class="card-desc">Loneliness is not about how many people are around you. It is about whether any of them know you.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-selfsabotage.html" class="card"><div class="card-number">Self-Sabotage</div><div class="card-title">Are you your own worst enemy?</div><div class="card-desc">You know what to do. You do not do it. Or you get close and then destroy it. Find out why.</div><div class="card-arrow">↗</div></a>
-    <a href="grindorium-emotionalmaturity.html" class="card"><div class="card-number">Emotional Maturity</div><div class="card-title">How mature are you, really?</div><div class="card-desc">Age is not emotional maturity. You can be 40 and still respond like you are 14. Find out.</div><div class="card-arrow">↗</div></a>
-  </div>
-</section>
-<section id="sounds" class="section">
-  <div class="section-label">03 — Sounds</div>
-  <div class="cards">
-    <div class="card" onclick="playSound('rain')" style="user-select:none;"><div class="card-number">Rain</div><div class="card-title">Heavy Rain</div><div class="card-desc">Roof. Window. Nowhere to be.</div><div class="card-arrow" id="rain-arrow">▶</div></div>
-    <div class="card" onclick="playSound('forest')" style="user-select:none;"><div class="card-number">Nature</div><div class="card-title">Forest</div><div class="card-desc">Wind. Leaves. Birds far away.</div><div class="card-arrow" id="forest-arrow">▶</div></div>
-    <div class="card" onclick="playSound('ocean')" style="user-select:none;"><div class="card-number">Water</div><div class="card-title">Ocean</div><div class="card-desc">Waves. Constant. Indifferent.</div><div class="card-arrow" id="ocean-arrow">▶</div></div>
-    <div class="card" onclick="playSound('silence')" style="user-select:none;"><div class="card-number">Nothing</div><div class="card-title">Silence</div><div class="card-desc">Just stop. That is enough.</div><div class="card-arrow" id="silence-arrow">▶</div></div>
-  </div>
-</section>
-<section id="habits" class="section">
-  <div class="section-label">04 — Habits</div>
-  <div style="max-width:500px;">
-    <p style="font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:40px;">Pick one thing. Do it today. Come back tomorrow. That is the whole system.</p>
-    <div style="background:var(--bg2);padding:32px;border:1px solid rgba(126,184,232,0.1);">
-      <input type="text" id="habitInput" placeholder="My one habit is..." style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.3);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:12px 0;outline:none;margin-bottom:28px;"/>
-      <button onclick="markDone()" style="background:transparent;border:1px solid rgba(126,184,232,0.3);color:var(--accent);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 28px;cursor:pointer;transition:all 0.3s;margin-right:16px;" onmouseover="this.style.borderColor='rgba(126,184,232,0.7)'" onmouseout="this.style.borderColor='rgba(126,184,232,0.3)'">Done Today ✓</button>
-      <span id="habitStreak" style="font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.1em;"></span>
+
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
+    <div class="result-label">Your Result</div>
+    <div id="shareCard">
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Anxiety &amp; Overstimulation<br>My Result</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        </div>
+        <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+        </div>
+      </div>
     </div>
-    <div id="habitChain" style="margin-top:20px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
   </div>
-</section>
-<section id="journal" class="journal-section">
-  <div class="section-label" style="max-width:760px;margin:0 auto 48px;">05 — Journal</div>
-  <p style="font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:32px;max-width:480px;">No likes. No audience. Just you and what you actually think.</p>
-  <textarea class="journal-textarea" id="journalInput" placeholder="What's actually on your mind right now?"></textarea>
-  <br>
-  <button class="journal-save" onclick="saveEntry()">Save →</button>
-  <div class="journal-entries" id="journalEntries"></div>
-</section>
-<section id="videos" class="video-section">
-  <div class="section-label">06 — Latest Videos</div>
-  <div class="yt-grid" id="ytGrid">
-    <p class="yt-loading">Loading videos...</p>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-card-label">Anxiety</div><div class="score-card-value" id="anxScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="anxLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Stimulation</div><div class="score-card-value" id="stimScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="stimLevel"></div></div>
   </div>
-  <div style="text-align:center;margin-top:32px;">
-    <a href="https://youtube.com/@Grindorium" target="_blank" style="font-family:Space Mono,monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-decoration:none;text-transform:uppercase;border:1px solid rgba(126,184,232,0.2);padding:12px 28px;transition:all 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">View All Videos →</a>
-  </div>
-</section>
-<footer>
-  <div class="footer-inner">
-    <span class="footer-logo">Grindorium.org</span>
-    <div class="footer-links">
-      <a href="https://youtube.com/@Grindorium" target="_blank">YouTube</a>
-      <a href="https://tiktok.com/@Grindorium" target="_blank">TikTok</a>
-      <a href="https://instagram.com/Grindorium" target="_blank">Instagram</a>
-      <a href="https://x.com/Grindorium" target="_blank">X</a>
-      <a href="https://www.facebook.com/grindorium" target="_blank">Facebook</a>
-      <a href="https://pinterest.com/Grindorium" target="_blank">Pinterest</a>
-      <a href="https://reddit.com/u/Grindorium" target="_blank">Reddit</a>
-      <a href="https://quora.com/profile/Grindorium" target="_blank">Quora</a>
-      <a href="https://medium.com/@erturk.ali375" target="_blank">Medium</a>
-    </div>
-  </div>
-</footer>
-<div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
-<button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
+  <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+  <div class="result-section"><div class="result-section-title">What's driving it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  // MOBILE NAV
-  function openMobileNav(){document.getElementById('mobileNav').classList.add('open');}
-  function closeMobileNav(){document.getElementById('mobileNav').classList.remove('open');}
-  // BREATH
-  let breathActive=false,breathTimer=null;
-  function startBreath(){
-    if(breathActive){clearTimeout(breathTimer);breathActive=false;document.getElementById('breathInstruction').textContent='Click to begin';document.getElementById('breathCounter').textContent='';return;}
-    breathActive=true;runBreathCycle(0);
-  }
-  function runBreathCycle(round){
-    if(!breathActive)return;
-    if(round>=3){document.getElementById('breathInstruction').textContent='Good. You can breathe.';document.getElementById('breathCounter').textContent='';breathActive=false;return;}
-    const steps=[{text:'Breathe in',duration:4000},{text:'Hold',duration:7000},{text:'Breathe out',duration:8000}];
-    let si=0;
-    function next(){if(!breathActive)return;if(si>=steps.length){runBreathCycle(round+1);return;}const s=steps[si];document.getElementById('breathInstruction').textContent=s.text;countdown(s.duration/1000);si++;breathTimer=setTimeout(next,s.duration);}
-    next();
-  }
-  function countdown(s){const c=document.getElementById('breathCounter');let r=s;c.textContent=r;const iv=setInterval(()=>{r--;if(r<=0){clearInterval(iv);c.textContent='';}else{c.textContent=r;}},1000);}
-  // SOUNDS
-  const soundUrls={rain:'diepthanhdk-rain-meditation-450575.mp3',forest:'meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'99beats-water-fountain-healing-music-239455.mp3',silence:null};
-  let currentAudio=null,currentSound=null;
-  function playSound(type){
-    ['rain','forest','ocean','silence'].forEach(s=>{document.getElementById(s+'-arrow').textContent='▶';document.getElementById(s+'-arrow').style.color='var(--dim)';});
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
-    if(currentSound===type){currentSound=null;return;}
-    currentSound=type;
-    if(soundUrls[type]){const a=new Audio(soundUrls[type]);a.loop=true;a.volume=0.4;a.play().catch(()=>{});currentAudio=a;document.getElementById(type+'-arrow').textContent='■';document.getElementById(type+'-arrow').style.color='var(--accent)';}
-    else{document.getElementById(type+'-arrow').textContent='○';document.getElementById(type+'-arrow').style.color='var(--accent)';}
-  }
-  // AMBIENT
-  let ambientAudio=null,ambientOn=false;
-  function toggleAmbient(){
-    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--dim)';});}
-    else{ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
-  }
-  // DISCONNECT
-  function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}
-  function closeDisconnect(){document.getElementById('disconnectOverlay').classList.remove('active');}
-  // HABITS
-  let streak=parseInt(localStorage.getItem('grind_streak')||'0');
-  let lastDone=localStorage.getItem('grind_lastdone')||'';
-  function markDone(){
-    const today=new Date().toDateString();
-    if(lastDone===today){document.getElementById('habitStreak').textContent='Already done today ✓';return;}
-    const habit=document.getElementById('habitInput').value;
-    if(habit)localStorage.setItem('grind_habit',habit);
-    streak++;lastDone=today;localStorage.setItem('grind_streak',streak);localStorage.setItem('grind_lastdone',lastDone);updateChain();
-  }
-  function updateChain(){
-    const chain=document.getElementById('habitChain');chain.innerHTML='';
-    for(let i=0;i<Math.min(streak,60);i++){const d=document.createElement('div');d.style.cssText='width:10px;height:10px;border-radius:50%;background:rgba(126,184,232,0.5);';chain.appendChild(d);}
-    if(streak>0)document.getElementById('habitStreak').textContent=streak+' day streak 🔥';
-  }
-  const savedHabit=localStorage.getItem('grind_habit');
-  if(savedHabit){const el=document.getElementById('habitInput');if(el)el.value=savedHabit;}
-  updateChain();
-  // JOURNAL
-  function saveEntry(){
-    const text=document.getElementById('journalInput').value.trim();
-    if(!text)return;
-    const entries=JSON.parse(localStorage.getItem('grind_journal')||'[]');
-    entries.unshift({text,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
-    localStorage.setItem('grind_journal',JSON.stringify(entries.slice(0,50)));
-    document.getElementById('journalInput').value='';
-    renderEntries();
-  }
-  function renderEntries(){
-    const entries=JSON.parse(localStorage.getItem('grind_journal')||'[]');
-    const el=document.getElementById('journalEntries');
-    el.innerHTML=entries.map(e=>`<div class="journal-entry"><div class="journal-entry-date">${e.date}</div><div class="journal-entry-text">${e.text}</div></div>`).join('');
-  }
-  renderEntries();
-  // SMOOTH SCROLL
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
-  // YOUTUBE VIDEOS
-  (function(){
-    const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
-    const RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID) + '&count=6';
-    fetch(RSS_URL)
-      .then(r=>r.json())
-      .then(data=>{
-        const grid = document.getElementById('ytGrid');
-        if(!data.items||!data.items.length){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
-        grid.innerHTML = data.items.map(item=>{
-          const vid = item.link.split('v=')[1];
-          const thumb = 'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg';
-          const date = new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-          return '<a href="'+item.link+'" target="_blank" class="yt-card"><img src="'+thumb+'" class="yt-thumb" alt=""><div class="yt-info"><div class="yt-title">'+item.title+'</div><div class="yt-date">'+date+'</div></div></a>';
-        }).join('');
-      })
-      .catch(()=>{
-        const grid=document.getElementById('ytGrid');
-        grid.innerHTML='<p class="yt-loading">Could not load videos.</p>';
-      });
-  })();
-  // BREATH LABEL
-  const labels=['breathe','slow down',"you're here","it's okay"];
-  let li=0;
-  setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
+const answers=new Array(10).fill(null);let cQ=0;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+const COLORS={
+  'The Regulated One':{bg:'linear-gradient(135deg,#07120a,#0c1a10)',ac:'#7eb8e8'},
+  'The Wired One':{bg:'linear-gradient(135deg,#0a0a14,#141428)',ac:'#8aa0c8'},
+  'The Anxious One':{bg:'linear-gradient(135deg,#0d0a08,#241808)',ac:'#e8c87e'},
+  'The Overloaded System':{bg:'linear-gradient(135deg,#140707,#2a0f0f)',ac:'#e87e7e'}
+};
+function showResult(){
+  const anx=answers[0]+answers[4]+answers[5]+answers[6]+answers[9];
+  const stim=answers[1]+answers[2]+answers[3]+answers[7]+answers[8];
+  const aL=lv(anx,20),sL=lv(stim,20);
+  document.getElementById('testScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('anxScore').textContent=anx;
+  document.getElementById('stimScore').textContent=stim;
+  document.getElementById('progressFill').style.width='100%';
+  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  [['anx',aL],['stim',sL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
+  let r;
+  if(aL==='low'&&sL==='low'){r={type:'The Regulated One',tagline:'Your system is functioning. Protect that — it\'s rarer than you think.',analysis:['Your scores suggest relatively low anxiety and overstimulation. Your nervous system has reasonable regulation and you haven\'t been captured by the constant-input loop that affects most people.','This doesn\'t mean everything is perfect. It means you\'ve either built, or maintained, habits that protect your nervous system from the most aggressive demands of modern life.'],missing:'Complacency. The conditions that created your balance can erode gradually without you noticing until it\'s already shifted significantly.',steps:['Stay intentional about your screen use — the creep is slow and invisible.','Notice what habits are maintaining your regulation. Name them. Protect them.','One phone-free morning per week. Keep the standard you\'ve built.'],videos:['When Humans Forgot Nature','People Who Forgot How to Rest']};}
+  else if(sL==='high'&&aL!=='high'){r={type:'The Wired One',tagline:'Your brain is running on too many inputs. The anxiety will follow if it hasn\'t already.',analysis:['Your overstimulation scores are the primary concern. The constant input — screens, notifications, content — has pushed your nervous system into a state of chronic activation.','The anxiety may not be clinical yet. But a nervous system that never fully comes down is a nervous system building toward one.'],missing:'Genuine downtime. Not sleep. Not switching screens. Actual quiet.',steps:['Set one hour per day with no screens. Non-negotiable. Start today.','Eat at least one meal per day without any input — no phone, no content, no background noise.','Notice how many times per hour you reach for your phone. Count it for one day.'],videos:['You Are Not Tired. You Are Disconnected.','The Silence You Avoid']};}
+  else if(aL==='high'&&sL!=='high'){r={type:'The Anxious One',tagline:'The anxiety is the signal. Not the problem. Something underneath is asking to be heard.',analysis:['Your anxiety scores are elevated but your overstimulation is lower. This suggests your nervous system is not primarily being driven by external input overload but by something more internal — unresolved worry, anticipatory fear, or a baseline sense of threat.','This kind of anxiety has a message. It is pointing at something.'],missing:'Clarity about what the anxiety is actually about. Not management. Understanding.',steps:['Sit with the anxiety for five minutes without trying to fix it. Ask: what is this actually about?','Identify the three things you worry about most. Are these things you can affect?','Consider whether a therapist might help you understand the source rather than just managing the symptoms.'],videos:['The Noise Inside When Your Mind Won\'t Quiet Down','Hard Means It\'s Right']};}
+  else{r={type:'The Overloaded System',tagline:'Your nervous system is carrying more than it was designed for. And it shows.',analysis:['Both your anxiety and overstimulation scores are elevated. Your nervous system is under pressure from two directions — too much external input and too much internal activation.','This combination is increasingly common and increasingly serious. It does not resolve on its own.'],missing:'Recovery conditions. Not a vacation. An actual change in how you are living.',steps:['Reduce your daily screen time by 30 minutes this week. Then another 30 the week after.','One complete day per week with no social media. Not reduced. None.','If the anxiety is significantly affecting your function, consider speaking to a professional. This combination responds well to the right support.'],videos:['You Are Not Tired. You Are Disconnected.','When Humans Forgot Nature']};}
+  document.getElementById('resultType').textContent=r.type;
+  document.getElementById('resultTagline').textContent=r.tagline;
+  document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
+  document.getElementById('resultMissing').textContent=r.missing;
+  document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
+  document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
+  const card=document.getElementById('shareCard');card.style.display='block';
+  document.getElementById('shareCardInner').style.background=col.bg;
+  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  document.getElementById('cardTagline').textContent=r.tagline;
+  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+anx+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Anxiety</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+stim+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Stimulation</div></div>';
+  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-anxiety-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
