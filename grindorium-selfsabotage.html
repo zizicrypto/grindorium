@@ -75,8 +75,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+
+/* SHARE CARD */
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
+.card-score-item{}
+.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
+.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -136,17 +159,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="share-card-inner" id="shareCardInner">
-        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Self-Sabotage Assessment<br>My Result</div>
-        <div>
-          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
-          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
-          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Self-Sabotage Assessment<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
         </div>
-        <div id="cardScores" style="display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;"></div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
-          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+        <div class="card-middle">
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
+        </div>
+        <div class="card-scores-row" id="cardScores"></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
         </div>
       </div>
     </div>
@@ -154,13 +188,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   </div>
   <h1 class="result-type" id="resultType"></h1>
   <p class="result-tagline" id="resultTagline"></p>
-  <div class="score-grid">
+  <div class="score-grid" style="grid-template-columns:1fr 1fr 1fr;">
     <div class="score-card"><div class="score-card-label">Fear-Based</div><div class="score-card-value" id="fearScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="fearLevel"></div></div>
     <div class="score-card"><div class="score-card-label">Worth-Based</div><div class="score-card-value" id="worthScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="worthLevel"></div></div>
     <div class="score-card"><div class="score-card-label">Behavioral</div><div class="score-card-value" id="behavScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="behavLevel"></div></div>
   </div>
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-  <div class="result-section"><div class="result-section-title">What's underneath it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What is underneath it</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
   <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
@@ -179,42 +213,175 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}d
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
-const COLORS={'Not Self-Sabotaging':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'The Avoider':{bg:'linear-gradient(135deg,#0f0a07,#201507)',ac:'#e8b07e'},'The Unworthy':{bg:'linear-gradient(135deg,#0d070f,#1a0d2a)',ac:'#b87ee8'},'The Destroyer':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'},'The Full Saboteur':{bg:'linear-gradient(135deg,#0a0a0a,#181818)',ac:'#a0a0a0'}};
+function lv(s){return s<=5?'low':s<=10?'mid':'high';}
+
+const RESULTS={
+  'low_low_low':{
+    type:'Not Self-Sabotaging',
+    tagline:'You get out of your own way. That is a skill. Protect it.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
+    analysis:['Your scores suggest low self-sabotage across all three dimensions. You move toward things you want, you believe you deserve good outcomes, and your behavior tends to support your goals.','This does not mean the patterns are permanently absent. They are dormant. Pressure, failure, or sudden success can activate them.'],
+    missing:'Vigilance. Notice how you respond when things go well. Fear of success is often invisible until success actually arrives.',
+    steps:['Check in periodically on whether you are moving toward your most important goals or quietly rationalizing delay.','Notice how you respond when something goes well. That response is the signal.','Identify one area where the drift could begin before it does.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'high_low_low':{
+    type:'The Avoider',
+    tagline:'You are not afraid of failure. You are afraid of what happens if you succeed.',
+    ac:'#e8b07e',
+    bg:'linear-gradient(135deg,#0f0a07 0%,#201507 50%,#0f0a07 100%)',
+    analysis:['Your primary sabotage pattern is fear-based. You pull back from things you want not because you doubt your ability but because success itself feels threatening.','What comes after success — the expectations, the exposure, the possibility of losing what you built — feels more dangerous than not having it.'],
+    missing:'Evidence that success is survivable. Not just a belief. An experience.',
+    steps:['Identify one goal you have been circling without fully committing. Ask: what am I actually afraid would happen if I achieved it?','Practice staying with good things when they happen. Resist the urge to find the problem in them.','Do one thing this week that moves you toward something you want.'],
+    videos:['The Life You\'re Not Living','Why Most Men Wake Up at 30']
+  },
+  'low_high_low':{
+    type:'The Unworthy',
+    tagline:'The goal is not the problem. The problem is that you do not believe you deserve to reach it.',
+    ac:'#b87ee8',
+    bg:'linear-gradient(135deg,#0d070f 0%,#1a0d2a 50%,#0d070f 100%)',
+    analysis:['Worth is the dominant pattern. You are not primarily avoiding out of fear or disrupting through behavior. You are undermining through belief. At some level, you do not believe good things are really for you.','This runs deeper than thought. It operates as a background conviction that shapes what you attempt, how hard you try, and when you stop.'],
+    missing:'A different story about what you deserve. Not affirmations. Actual evidence — from your own actions.',
+    steps:['Write down three things you want that you have not pursued because some part of you believes you do not deserve them.','Identify where the unworthiness story came from. It did not originate inside you.','Consider whether a therapist could help you explore this. Worth-based sabotage responds well to the right support.'],
+    videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']
+  },
+  'low_low_high':{
+    type:'The Destroyer',
+    tagline:'Things are good. You cannot leave them that way.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#0f0707 0%,#200d0d 50%,#0f0707 100%)',
+    analysis:['Behavioral sabotage is the primary pattern. You undermine situations that are going well, lose motivation right before completion, and make choices that cost you later even when you know better.','This pattern often has nothing to do with wanting to fail. It is frequently about keeping life at a level of chaos or incompletion that feels familiar.'],
+    missing:'Tolerance for things going well. The disruption is not random. It is a thermostat.',
+    steps:['Identify the last time you disrupted something that was actually going well. What triggered it?','When you feel the urge to make a decision you know will cost you, pause for 24 hours before acting.','Build one stable routine this week. Protect it for 30 days.'],
+    videos:['Starting Over Isn\'t Progress','Hard Means It\'s Right']
+  },
+  'high_high_low':{
+    type:'The Frozen One',
+    tagline:'You want it. You do not think you deserve it. You are afraid of what happens if you get it anyway.',
+    ac:'#c87eb8',
+    bg:'linear-gradient(135deg,#0f0810 0%,#200d22 50%,#0f0810 100%)',
+    analysis:['Fear and worth dimensions are both high — the two most internal forms of sabotage. You pull back from success and undermine yourself through belief.','This combination means you are caught between two internal forces. The fear says do not reach it. The worth says you would not deserve it anyway.'],
+    missing:'One experience that contradicts both narratives simultaneously. One thing you wanted, pursued, got, and survived.',
+    steps:['Identify one small thing you want that you have been avoiding. Make it small enough that both the fear and the unworthiness feel manageable.','When the voice says you do not deserve it, ask: whose voice is that?','Consider speaking to a therapist. This combination benefits significantly from support.'],
+    videos:['The Cost of Always Being the Strong One','The Life You\'re Not Living']
+  },
+  'high_low_high':{
+    type:'The Saboteur at the Finish Line',
+    tagline:'You get close. Then you find a way to make it not happen.',
+    ac:'#e89060',
+    bg:'linear-gradient(135deg,#120806 0%,#260e06 50%,#120806 100%)',
+    analysis:['Fear and behavioral sabotage are both high. You pull back from proximity to success and disrupt through action — not primarily through belief in unworthiness but through avoidance and behavioral derailment.','The pattern is most visible at the edge. The closer to something real, the more reliably the avoidance or disruption activates.'],
+    missing:'The experience of crossing the finish line even once. Just once. Everything changes after that.',
+    steps:['Identify the most recent moment you were close to something and pulled back or disrupted it. What happened just before?','Track the pattern for one month. When does the sabotage activate? What is the trigger?','Make the next step toward something you want small enough that the avoidance has less to work with.'],
+    videos:['Starting Over Isn\'t Progress','The Life You\'re Not Living']
+  },
+  'low_high_high':{
+    type:'The One Who Breaks What They Build',
+    tagline:'You do not think you deserve it. And your behavior confirms the belief.',
+    ac:'#e87e9e',
+    bg:'linear-gradient(135deg,#120608 0%,#2a0a18 50%,#120608 100%)',
+    analysis:['Worth and behavioral sabotage are both high. The unworthiness belief and the disruptive behavior reinforce each other: you do not believe you deserve good things, and your actions consistently prevent you from having them.','Each disruption confirms the belief. Each confirmation produces more disruption. The cycle is self-reinforcing.'],
+    missing:'Interruption of the cycle. Not fixing the belief first. Not fixing the behavior first. Interrupting the loop.',
+    steps:['Name the cycle explicitly: I believe I do not deserve this, so I act to confirm it, which confirms I do not deserve it.','Identify one small interruption you can make this week. Not the whole pattern. One moment.','Consider speaking to a therapist. This combination is hard to address alone.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'high_high_high':{
+    type:'The Full Saboteur',
+    tagline:'You are working very hard against yourself. The energy is real. The direction is wrong.',
+    ac:'#a0a0a0',
+    bg:'linear-gradient(135deg,#0a0a0a 0%,#181818 50%,#0a0a0a 100%)',
+    analysis:['All three dimensions are elevated. Fear of success, unworthiness, and behavioral disruption are all active simultaneously.','The self-sabotage is not failure of character. It is protection that has outlived its usefulness. At some point these responses made sense. They no longer do.'],
+    missing:'The recognition that the threat they are protecting you from is no longer real.',
+    steps:['Start with acknowledgment. You are doing this. Not because you are weak but because something taught you to.','Identify the pattern that shows up most consistently. Is it the fear, the belief, or the behavior? Start with the most visible one.','Pick one small thing you have been avoiding and do it today. Not to fix everything. To begin.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'mid_all':{
+    type:'The Subtle Saboteur',
+    tagline:'The patterns are present but quiet. Quiet enough to ignore. Not quiet enough to be harmless.',
+    ac:'#8aa0b8',
+    bg:'linear-gradient(135deg,#07090f 0%,#0c1020 50%,#07090f 100%)',
+    analysis:['Your scores are moderate across all three dimensions. The sabotage is not severe enough to feel like a crisis but is consistent enough to have a real cumulative effect on what you build and what you allow yourself to have.','Moderate self-sabotage is often the hardest to address because it is easy to normalize.'],
+    missing:'The recognition that moderate and manageable are not the same thing.',
+    steps:['Identify which dimension feels most active right now. Fear, worth, or behavior. Focus there.','Ask: what is the thing I most want that I have been quietly not pursuing? What is the actual reason?','One committed action toward something you want this week. Not tomorrow. This week.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  }
+};
+
+function getResultKey(fL,wL,bL){
+  if(fL==='high'&&wL==='high'&&bL==='high') return 'high_high_high';
+  if(fL==='low'&&wL==='low'&&bL==='low') return 'low_low_low';
+  if(fL==='high'&&wL==='low'&&bL==='low') return 'high_low_low';
+  if(fL==='low'&&wL==='high'&&bL==='low') return 'low_high_low';
+  if(fL==='low'&&wL==='low'&&bL==='high') return 'low_low_high';
+  if(fL==='high'&&wL==='high'&&bL!=='high') return 'high_high_low';
+  if(fL==='high'&&bL==='high'&&wL!=='high') return 'high_low_high';
+  if(wL==='high'&&bL==='high'&&fL!=='high') return 'low_high_high';
+  return 'mid_all';
+}
+
 function showResult(){
   const fear=answers[0]+answers[5]+answers[6]+answers[7];
   const worth=answers[3]+answers[9]+answers[10]+answers[11];
   const behav=answers[1]+answers[2]+answers[4]+answers[8];
-  const fL=lv(fear,16),wL=lv(worth,16),bL=lv(behav,16);
+  const fL=lv(fear),wL=lv(worth),bL=lv(behav);
+  const key=getResultKey(fL,wL,bL);
+  const r=RESULTS[key];
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
-  document.getElementById('fearScore').textContent=fear;document.getElementById('worthScore').textContent=worth;document.getElementById('behavScore').textContent=behav;
+  document.getElementById('fearScore').textContent=fear;
+  document.getElementById('worthScore').textContent=worth;
+  document.getElementById('behavScore').textContent=behav;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};
+  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   [['fear',fL],['worth',wL],['behav',bL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
-  let r;
-  if(fL==='low'&&wL==='low'&&bL==='low'){r={type:'Not Self-Sabotaging',tagline:'You get out of your own way. That is a skill. Protect it.',analysis:['Your scores suggest low self-sabotage across all three dimensions. You move toward things you want, you believe you deserve good outcomes, and your behavior tends to support your goals.'],missing:'Vigilance. The patterns are dormant, not absent. Pressure, failure, or sudden success can activate them.',steps:['Notice how you respond when things go well. Fear of success is often invisible until success arrives.','Check in on whether you are moving toward your most important goals or rationalizing delay.'],videos:['Hard Means It\'s Right','How to Actually Change Your Life']};}
-  else if(fL==='high'&&wL!=='high'){r={type:'The Avoider',tagline:'You are not afraid of failure. You are afraid of what happens if you succeed.',analysis:['Your primary sabotage pattern is fear-based. You pull back from things you want not because you doubt your ability but because success itself feels threatening.','What comes after success — the expectations, the exposure, the possibility of losing what you built — feels more dangerous than not having it.'],missing:'Evidence that success is survivable. Not just a belief. An experience.',steps:['Identify one goal you have been circling without fully committing. Ask: what am I actually afraid would happen if I achieved it?','Practice staying with good things when they happen. Resist the urge to find the problem.','Do one thing this week that moves you toward something you want.'],videos:['The Life You\'re Not Living','Why Most Men Wake Up at 30']};}
-  else if(wL==='high'){r={type:'The Unworthy',tagline:'The goal is not the problem. The problem is that you do not believe you deserve to reach it.',analysis:['You are not primarily avoiding out of fear or disrupting through behavior. You are undermining through belief. At some level, you do not believe good things are really for you.'],missing:'A different story about what you deserve. Not affirmations. Evidence.',steps:['Write down three things you want that you have not pursued because some part of you believes you do not deserve them.','Identify where the unworthiness story came from. It did not originate inside you.','Consider whether a therapist could help you explore this.'],videos:['The Cost of Always Being the Strong One','Why You Keep Choosing the Wrong Person']};}
-  else if(bL==='high'){r={type:'The Destroyer',tagline:'Things are good. You cannot leave them that way.',analysis:['You know what the right actions are. You often do not take them. Or you disrupt situations that are working well.','This pattern often has nothing to do with wanting to fail. It is frequently about unconsciously keeping life at a level of chaos that feels familiar.'],missing:'Tolerance for stability. The disruption is not random. It is a thermostat.',steps:['Identify the last time you disrupted something that was going well. What triggered it?','When you feel the urge to make a decision that you know will cost you, pause for 24 hours before acting.','Build one stable routine this week and protect it for 30 days.'],videos:['How to Actually Change Your Life','The Comfortable Trap']};}
-  else{r={type:'The Full Saboteur',tagline:'You are working very hard against yourself. The energy is real. The direction is wrong.',analysis:['Your scores are elevated across multiple dimensions. Fear, unworthiness, and behavioral disruption are all present.','The sabotage is not failure of character. It is protection that has outlived its usefulness.'],missing:'The realization that the threat it is protecting you from is no longer real.',steps:['Start with acknowledgment. You are doing this. Not because you are weak but because something taught you to.','Identify the pattern in your most significant self-sabotages. Is there a recurring trigger?','Pick one small thing you have been avoiding and do it today.'],videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
-  const card=document.getElementById('shareCard');card.style.display='block';
-  document.getElementById('shareCardInner').style.background=col.bg;
-  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+fear+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Fear</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+worth+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Worth</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:14px;color:'+col.ac+'">'+behav+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Behavior</div></div>';
-  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+  document.getElementById('cardScores').innerHTML=
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+fear+'</div><div class="card-score-label">Fear / 16</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+worth+'</div><div class="card-score-label">Worth / 16</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+behav+'</div><div class="card-score-label">Behavior / 16</div></div>';
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
 }
-function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-selfsabotage-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
-function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-selfsabotage-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
 </script>
 </body>
 </html>
