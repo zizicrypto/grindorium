@@ -75,8 +75,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;position:relative;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:180px;}
+.card-lines{position:absolute;inset:0;z-index:1;opacity:0.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.3) 3px,rgba(255,255,255,0.3) 4px);}
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -106,7 +108,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div id="startScreen" style="display:none">
   <div class="test-label">Anxiety &amp; Overstimulation Assessment</div>
   <h1 class="test-title">Are you overstimulated?</h1>
-  <p class="test-desc">Your nervous system was never designed for this. Constant notifications. Infinite scroll. Always-on. This assessment measures how overstimulated your system has become, and what kind of anxiety that is creating.</p>
+  <p class="test-desc">Your nervous system was never designed for this. Constant notifications. Infinite scroll. Always-on. This assessment measures your anxiety level and how overstimulated your system has become.</p>
   <p class="test-note">10 questions &middot; 3&ndash;5 minutes &middot; Based on GAD-7 and nervous system research &middot; Not a clinical diagnostic tool</p>
   <button class="start-btn" onclick="startTest()">Begin Assessment</button>
 </div>
@@ -114,16 +116,127 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div id="testScreen" style="display:none">
   <div class="progress-text" id="progressText">Question 1 of 10</div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="question-block active" id="q0"><div class="question-number">01 / 10</div><div class="question-text">I feel anxious or on edge without being able to identify a specific reason.</div><div class="options"><div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>I feel calm most of the time.</div><div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Occasional unease, but not often.</div><div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>Background anxiety is present more than I'd like.</div><div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>I'm almost always slightly on edge.</div><div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>Constant low-level anxiety is my baseline.</div></div></div>
-  <div class="question-block" id="q1"><div class="question-number">02 / 10</div><div class="question-text">I check my phone compulsively, not because I'm expecting anything, but because I can't not.</div><div class="options"><div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>I use my phone intentionally.</div><div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Occasionally, but not habitually.</div><div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>More automatic than I'd like.</div><div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>It's become reflexive.</div><div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>My hand reaches for my phone before I decide to.</div></div></div>
-  <div class="question-block" id="q2"><div class="question-number">03 / 10</div><div class="question-text">My mind jumps rapidly from thought to thought, making it hard to focus on one thing.</div><div class="options"><div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>I can generally focus when I need to.</div><div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Occasional scatter, but not a major problem.</div><div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>Sustained focus is increasingly difficult.</div><div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>My thoughts are rarely still.</div><div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>My mind is constantly in motion.</div></div></div>
-  <div class="question-block" id="q3"><div class="question-number">04 / 10</div><div class="question-text">Silence or doing nothing feels uncomfortable or even anxiety-inducing.</div><div class="options"><div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>Quiet is comfortable for me.</div><div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>Sometimes I fill silence, but not always.</div><div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>Silence often makes me reach for stimulation.</div><div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>Doing nothing feels almost unbearable.</div><div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>I cannot tolerate silence or stillness.</div></div></div>
-  <div class="question-block" id="q4"><div class="question-number">05 / 10</div><div class="question-text">My sleep is disrupted. Either I can't fall asleep, I wake up at night, or I wake up tired.</div><div class="options"><div class="option" onclick="sa(4,0)"><span class="option-key">Never</span>I generally sleep well.</div><div class="option" onclick="sa(4,1)"><span class="option-key">Rarely</span>Occasional disruption.</div><div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>Sleep issues are more common than they should be.</div><div class="option" onclick="sa(4,3)"><span class="option-key">Often</span>My sleep is regularly disrupted.</div><div class="option" onclick="sa(4,4)"><span class="option-key">Always</span>Good sleep feels almost impossible.</div></div></div>
-  <div class="question-block" id="q5"><div class="question-number">06 / 10</div><div class="question-text">I feel physically tense. Tight muscles, shallow breathing, or a persistent sense of bracing.</div><div class="options"><div class="option" onclick="sa(5,0)"><span class="option-key">Never</span>My body feels generally relaxed.</div><div class="option" onclick="sa(5,1)"><span class="option-key">Rarely</span>Occasional tension.</div><div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>I notice tension more than I should.</div><div class="option" onclick="sa(5,3)"><span class="option-key">Often</span>My body is frequently tense without clear reason.</div><div class="option" onclick="sa(5,4)"><span class="option-key">Always</span>I'm almost always physically braced for something.</div></div></div>
-  <div class="question-block" id="q6"><div class="question-number">07 / 10</div><div class="question-text">I worry about things that I know are unlikely to happen, but I can't stop the thoughts.</div><div class="options"><div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>My worries are generally proportional.</div><div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Occasionally excessive, but brief.</div><div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice the worry running ahead of reality.</div><div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>Worst-case scenarios loop frequently.</div><div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>My mind defaults to catastrophe.</div></div></div>
-  <div class="question-block" id="q7"><div class="question-number">08 / 10</div><div class="question-text">After consuming news, social media, or online content, I feel worse rather than better.</div><div class="options"><div class="option" onclick="sa(7,0)"><span class="option-key">Never</span>Content doesn't significantly affect my mood.</div><div class="option" onclick="sa(7,1)"><span class="option-key">Rarely</span>Occasionally, but I recover quickly.</div><div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>I notice the depletion more than I'd like.</div><div class="option" onclick="sa(7,3)"><span class="option-key">Often</span>Most sessions leave me feeling drained.</div><div class="option" onclick="sa(7,4)"><span class="option-key">Always</span>Every session leaves me worse off.</div></div></div>
-  <div class="question-block" id="q8"><div class="question-number">09 / 10</div><div class="question-text">I have difficulty being fully present in conversations. My mind wanders or monitors the environment.</div><div class="options"><div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I'm generally present in conversations.</div><div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Occasional drift.</div><div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>I notice I'm not fully there.</div><div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>Full presence is increasingly difficult.</div><div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>I'm rarely fully present with another person.</div></div></div>
-  <div class="question-block" id="q9"><div class="question-number">10 / 10</div><div class="question-text">Even during leisure time, I can't fully relax. I feel like I should be doing something.</div><div class="options"><div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>I can genuinely rest when I have free time.</div><div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>Sometimes the guilt creeps in.</div><div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Rest often feels unearned.</div><div class="option" onclick="sa(9,3)"><span class="option-key">Often</span>Doing nothing feels irresponsible.</div><div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I cannot remember the last time I truly relaxed.</div></div></div>
+
+  <div class="question-block active" id="q0">
+    <div class="question-number">01 / 10</div>
+    <div class="question-text">I feel nervous, anxious, or on edge — often without knowing exactly why.</div>
+    <div class="options">
+      <div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>I feel calm most of the time.</div>
+      <div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Occasional unease, but not often.</div>
+      <div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>Background anxiety is present more than I'd like.</div>
+      <div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>I'm almost always slightly on edge.</div>
+      <div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>Constant low-level anxiety is my baseline.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q1">
+    <div class="question-number">02 / 10</div>
+    <div class="question-text">I check my phone compulsively — not because I'm expecting anything, but because I can't not.</div>
+    <div class="options">
+      <div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>I use my phone intentionally.</div>
+      <div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Occasionally, but not habitually.</div>
+      <div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>More automatic than I'd like.</div>
+      <div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>It has become reflexive.</div>
+      <div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>My hand reaches for my phone before I decide to.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q2">
+    <div class="question-number">03 / 10</div>
+    <div class="question-text">I switch between apps, tabs, or videos without finishing what I started.</div>
+    <div class="options">
+      <div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>I finish things before moving on.</div>
+      <div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Occasionally, but not a pattern.</div>
+      <div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>I notice the switching more than I'd like.</div>
+      <div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>I rarely stay with one thing for long.</div>
+      <div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>I am constantly jumping between inputs.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q3">
+    <div class="question-number">04 / 10</div>
+    <div class="question-text">During quiet or unstructured moments, I feel restless and reach for something to watch, scroll, or listen to.</div>
+    <div class="options">
+      <div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>I am comfortable in stillness.</div>
+      <div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>Sometimes I fill silence, but not always.</div>
+      <div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>Quiet moments often make me reach for stimulation.</div>
+      <div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>Doing nothing feels almost unbearable.</div>
+      <div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>I cannot sit with silence or stillness.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q4">
+    <div class="question-number">05 / 10</div>
+    <div class="question-text">I lie awake with my mind running, or wake in the night feeling tense and unable to settle.</div>
+    <div class="options">
+      <div class="option" onclick="sa(4,0)"><span class="option-key">Never</span>I generally sleep well.</div>
+      <div class="option" onclick="sa(4,1)"><span class="option-key">Rarely</span>Occasional disruption.</div>
+      <div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>Sleep issues are more common than they should be.</div>
+      <div class="option" onclick="sa(4,3)"><span class="option-key">Often</span>My sleep is regularly disrupted by an active mind.</div>
+      <div class="option" onclick="sa(4,4)"><span class="option-key">Always</span>Good sleep feels almost impossible.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q5">
+    <div class="question-number">06 / 10</div>
+    <div class="question-text">I feel physically tense — tight muscles, shallow breathing, or a persistent sense of bracing.</div>
+    <div class="options">
+      <div class="option" onclick="sa(5,0)"><span class="option-key">Never</span>My body feels generally relaxed.</div>
+      <div class="option" onclick="sa(5,1)"><span class="option-key">Rarely</span>Occasional tension.</div>
+      <div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>I notice tension more than I should.</div>
+      <div class="option" onclick="sa(5,3)"><span class="option-key">Often</span>My body is frequently tense without clear reason.</div>
+      <div class="option" onclick="sa(5,4)"><span class="option-key">Always</span>I am almost always physically braced for something.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q6">
+    <div class="question-number">07 / 10</div>
+    <div class="question-text">I worry about things I know are unlikely to happen, but I cannot stop the thoughts.</div>
+    <div class="options">
+      <div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>My worries are generally proportional.</div>
+      <div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Occasionally excessive, but brief.</div>
+      <div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice the worry running ahead of reality.</div>
+      <div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>Worst-case scenarios loop frequently.</div>
+      <div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>My mind defaults to catastrophe.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q7">
+    <div class="question-number">08 / 10</div>
+    <div class="question-text">After consuming news, social media, or online content, I feel worse rather than better.</div>
+    <div class="options">
+      <div class="option" onclick="sa(7,0)"><span class="option-key">Never</span>Content does not significantly affect my mood.</div>
+      <div class="option" onclick="sa(7,1)"><span class="option-key">Rarely</span>Occasionally, but I recover quickly.</div>
+      <div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>I notice the depletion more than I'd like.</div>
+      <div class="option" onclick="sa(7,3)"><span class="option-key">Often</span>Most sessions leave me feeling drained.</div>
+      <div class="option" onclick="sa(7,4)"><span class="option-key">Always</span>Every session leaves me worse off.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q8">
+    <div class="question-number">09 / 10</div>
+    <div class="question-text">I reach for my phone the moment I feel bored, idle, or even slightly uncomfortable.</div>
+    <div class="options">
+      <div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I can sit with discomfort without reaching for my phone.</div>
+      <div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Occasionally, but I catch myself.</div>
+      <div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>Discomfort often triggers automatic phone use.</div>
+      <div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>Any idle moment sends me to my phone.</div>
+      <div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>The phone is my default response to any pause.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q9">
+    <div class="question-number">10 / 10</div>
+    <div class="question-text">I have trouble relaxing or unwinding, even when I have time and nothing demands my attention.</div>
+    <div class="options">
+      <div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>I can genuinely rest when I have free time.</div>
+      <div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>Sometimes the restlessness creeps in.</div>
+      <div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Rest often feels just out of reach.</div>
+      <div class="option" onclick="sa(9,3)"><span class="option-key">Often</span>Doing nothing feels wrong or impossible.</div>
+      <div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I cannot remember the last time I truly relaxed.</div>
+    </div>
+  </div>
+
   <div class="nav-buttons">
     <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
     <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
@@ -134,17 +247,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
+      <div class="card-grain"></div>
+      <div class="card-lines"></div>
       <div class="share-card-inner" id="shareCardInner">
         <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Anxiety &amp; Overstimulation<br>My Result</div>
         <div>
-          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;">
+            <img id="cardUserPhoto" style="width:22px;height:22px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
+            <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span>
+          </div>
           <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
           <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
         </div>
         <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
         <div style="display:flex;justify-content:space-between;align-items:flex-end;">
           <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
-          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+          <div style="text-align:right;">
+            <div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div>
+            <div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div>
+          </div>
         </div>
       </div>
     </div>
@@ -157,7 +278,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     <div class="score-card"><div class="score-card-label">Stimulation</div><div class="score-card-value" id="stimScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="stimLevel"></div></div>
   </div>
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-  <div class="result-section"><div class="result-section-title">What's driving it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What is driving it</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
   <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
@@ -177,12 +298,34 @@ function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remo
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
 function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
-const COLORS={
-  'The Regulated One':{bg:'linear-gradient(135deg,#07120a,#0c1a10)',ac:'#7eb8e8'},
-  'The Wired One':{bg:'linear-gradient(135deg,#0a0a14,#141428)',ac:'#8aa0c8'},
-  'The Anxious One':{bg:'linear-gradient(135deg,#0d0a08,#241808)',ac:'#e8c87e'},
-  'The Overloaded System':{bg:'linear-gradient(135deg,#140707,#2a0f0f)',ac:'#e87e7e'}
+
+const ATMOSPHERES={
+  'The Regulated One':{
+    bg:'linear-gradient(160deg,#061209 0%,#0a1f12 40%,#071510 100%)',
+    ac:'#7ee8a0',
+    glow:'rgba(126,232,160,0.12)',
+    fog:'rgba(10,31,18,0.6)'
+  },
+  'The Wired One':{
+    bg:'linear-gradient(160deg,#07080f 0%,#0d0f22 40%,#090a18 100%)',
+    ac:'#a0b4e8',
+    glow:'rgba(140,160,232,0.14)',
+    fog:'rgba(13,15,34,0.6)'
+  },
+  'The Anxious One':{
+    bg:'linear-gradient(160deg,#0f0c06 0%,#241a07 40%,#180f05 100%)',
+    ac:'#e8c87e',
+    glow:'rgba(232,200,126,0.12)',
+    fog:'rgba(36,26,7,0.6)'
+  },
+  'The Overloaded System':{
+    bg:'linear-gradient(160deg,#0f0606 0%,#240a0a 40%,#1a0606 100%)',
+    ac:'#e87e7e',
+    glow:'rgba(232,126,126,0.14)',
+    fog:'rgba(36,10,10,0.6)'
+  }
 };
+
 function showResult(){
   const anx=answers[0]+answers[4]+answers[5]+answers[6]+answers[9];
   const stim=answers[1]+answers[2]+answers[3]+answers[7]+answers[8];
@@ -192,30 +335,90 @@ function showResult(){
   document.getElementById('anxScore').textContent=anx;
   document.getElementById('stimScore').textContent=stim;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};
+  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   [['anx',aL],['stim',sL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
   let r;
-  if(aL==='low'&&sL==='low'){r={type:'The Regulated One',tagline:'Your system is functioning. Protect that — it\'s rarer than you think.',analysis:['Your scores suggest relatively low anxiety and overstimulation. Your nervous system has reasonable regulation and you haven\'t been captured by the constant-input loop that affects most people.','This doesn\'t mean everything is perfect. It means you\'ve either built, or maintained, habits that protect your nervous system from the most aggressive demands of modern life.'],missing:'Complacency. The conditions that created your balance can erode gradually without you noticing until it\'s already shifted significantly.',steps:['Stay intentional about your screen use — the creep is slow and invisible.','Notice what habits are maintaining your regulation. Name them. Protect them.','One phone-free morning per week. Keep the standard you\'ve built.'],videos:['When Humans Forgot Nature','People Who Forgot How to Rest']};}
-  else if(sL==='high'&&aL!=='high'){r={type:'The Wired One',tagline:'Your brain is running on too many inputs. The anxiety will follow if it hasn\'t already.',analysis:['Your overstimulation scores are the primary concern. The constant input — screens, notifications, content — has pushed your nervous system into a state of chronic activation.','The anxiety may not be clinical yet. But a nervous system that never fully comes down is a nervous system building toward one.'],missing:'Genuine downtime. Not sleep. Not switching screens. Actual quiet.',steps:['Set one hour per day with no screens. Non-negotiable. Start today.','Eat at least one meal per day without any input — no phone, no content, no background noise.','Notice how many times per hour you reach for your phone. Count it for one day.'],videos:['You Are Not Tired. You Are Disconnected.','The Silence You Avoid']};}
-  else if(aL==='high'&&sL!=='high'){r={type:'The Anxious One',tagline:'The anxiety is the signal. Not the problem. Something underneath is asking to be heard.',analysis:['Your anxiety scores are elevated but your overstimulation is lower. This suggests your nervous system is not primarily being driven by external input overload but by something more internal — unresolved worry, anticipatory fear, or a baseline sense of threat.','This kind of anxiety has a message. It is pointing at something.'],missing:'Clarity about what the anxiety is actually about. Not management. Understanding.',steps:['Sit with the anxiety for five minutes without trying to fix it. Ask: what is this actually about?','Identify the three things you worry about most. Are these things you can affect?','Consider whether a therapist might help you understand the source rather than just managing the symptoms.'],videos:['The Noise Inside When Your Mind Won\'t Quiet Down','Hard Means It\'s Right']};}
-  else{r={type:'The Overloaded System',tagline:'Your nervous system is carrying more than it was designed for. And it shows.',analysis:['Both your anxiety and overstimulation scores are elevated. Your nervous system is under pressure from two directions — too much external input and too much internal activation.','This combination is increasingly common and increasingly serious. It does not resolve on its own.'],missing:'Recovery conditions. Not a vacation. An actual change in how you are living.',steps:['Reduce your daily screen time by 30 minutes this week. Then another 30 the week after.','One complete day per week with no social media. Not reduced. None.','If the anxiety is significantly affecting your function, consider speaking to a professional. This combination responds well to the right support.'],videos:['You Are Not Tired. You Are Disconnected.','When Humans Forgot Nature']};}
+  if(aL==='low'&&sL==='low'){
+    r={type:'The Regulated One',tagline:'Your system is functioning. Protect that. It is rarer than you think.',
+    analysis:['Your scores are low across both dimensions. Your nervous system has reasonable regulation and you have not been captured by the constant-input loop that affects most people.',
+    'This does not mean everything is perfect. It means you have maintained habits that protect your system from the most aggressive demands of modern life.'],
+    missing:'Complacency. The balance you have built can erode gradually without you noticing.',
+    steps:['Stay intentional about screen use. The creep is slow and invisible.','Notice what habits are maintaining your regulation. Name them. Protect them.','One phone-free morning per week. Keep the standard.'],
+    videos:['When Humans Forgot Nature','People Who Forgot How to Rest']};
+  } else if(sL==='high'&&aL!=='high'){
+    r={type:'The Wired One',tagline:'Your brain is running on too many inputs. The anxiety will follow if it has not already.',
+    analysis:['Your overstimulation scores are the primary concern. The constant input — screens, notifications, content — has pushed your nervous system into a state of chronic activation.',
+    'The anxiety may not be severe yet. But a nervous system that never fully comes down is a nervous system building toward one.'],
+    missing:'Genuine downtime. Not sleep. Not switching screens. Actual quiet.',
+    steps:['Set one hour per day with no screens. Non-negotiable. Start today.','Eat at least one meal per day without any input — no phone, no content, no background noise.','Notice how many times per hour you reach for your phone. Count it for one day.'],
+    videos:['You Are Not Tired. You Are Disconnected.','The Silence You Avoid']};
+  } else if(aL==='high'&&sL!=='high'){
+    r={type:'The Anxious One',tagline:'The anxiety is the signal. Not the problem. Something underneath is asking to be heard.',
+    analysis:['Your anxiety scores are elevated but your overstimulation is lower. Your nervous system is not primarily driven by external input overload but by something more internal — unresolved worry, anticipatory fear, or a baseline sense of threat.',
+    'This kind of anxiety has a message. It is pointing at something.'],
+    missing:'Clarity about what the anxiety is actually about. Not management. Understanding.',
+    steps:['Sit with the anxiety for five minutes without trying to fix it. Ask: what is this actually about?','Identify the three things you worry about most. Are these things you can affect?','Consider whether a therapist might help you understand the source rather than just managing symptoms.'],
+    videos:['Hard Means It\'s Right','The Noise Inside']};
+  } else {
+    r={type:'The Overloaded System',tagline:'Your nervous system is carrying more than it was designed for. And it shows.',
+    analysis:['Both your anxiety and overstimulation scores are elevated. Your nervous system is under pressure from two directions — too much external input and too much internal activation.',
+    'This combination is increasingly common and increasingly serious. It does not resolve on its own.'],
+    missing:'Recovery conditions. Not a vacation. An actual change in how you are living.',
+    steps:['Reduce your daily screen time by 30 minutes this week. Then another 30 the week after.','One complete day per week with no social media. Not reduced. None.','If the anxiety is significantly affecting your daily function, consider speaking to a professional.'],
+    videos:['You Are Not Tired. You Are Disconnected.','When Humans Forgot Nature']};
+  }
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
-  const card=document.getElementById('shareCard');card.style.display='block';
-  document.getElementById('shareCardInner').style.background=col.bg;
-  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+
+  const atm=ATMOSPHERES[r.type]||{bg:'linear-gradient(160deg,#070b12,#0e1520)',ac:'#7eb8e8',glow:'rgba(126,184,232,0.1)',fog:'rgba(14,21,32,0.5)'};
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  const inner=document.getElementById('shareCardInner');
+  inner.style.background=atm.bg;
+  inner.style.boxShadow='inset 0 0 80px '+atm.glow;
+
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=atm.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+anx+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Anxiety</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+stim+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Stimulation</div></div>';
-  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+  document.getElementById('cardScores').innerHTML=
+    '<div><div style="font-family:Space Mono,sans-serif;font-size:18px;color:'+atm.ac+'">'+anx+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Anxiety</div></div>'+
+    '<div><div style="font-family:Space Mono,sans-serif;font-size:18px;color:'+atm.ac+'">'+stim+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Stimulation</div></div>';
+
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    if(row)row.style.display='flex';
+    if(name&&nm)nm.textContent=name;
+    if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
 }
-function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-anxiety-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
-function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-anxiety-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
 </script>
 </body>
 </html>
