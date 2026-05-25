@@ -75,8 +75,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+
+/* SHARE CARD */
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
+.card-score-item{}
+.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
+.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -135,17 +158,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="share-card-inner" id="shareCardInner">
-        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Burnout Assessment<br>My Result</div>
-        <div>
-          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
-          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
-          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Burnout Assessment<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
         </div>
-        <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
-          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+        <div class="card-middle">
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
+        </div>
+        <div class="card-scores-row" id="cardScores"></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
         </div>
       </div>
     </div>
@@ -159,7 +193,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     <div class="score-card"><div class="score-card-label">Meaning</div><div class="score-card-value" id="meScore"></div><div class="score-card-max">out of 12</div><div class="score-card-level" id="meLevel"></div></div>
   </div>
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-  <div class="result-section"><div class="result-section-title">What's missing</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What is missing</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
   <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
@@ -178,50 +212,178 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}do
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
-const COLORS={
-  'Not Burned Out':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},
-  'The Meaning Seeker':{bg:'linear-gradient(135deg,#0d0a12,#1a1030)',ac:'#b87ee8'},
-  'The Detached Observer':{bg:'linear-gradient(135deg,#070f0a,#0d1f12)',ac:'#7eb88a'},
-  'The Empty One':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'},
-  'The Burned Out':{bg:'linear-gradient(135deg,#120a07,#2a1408)',ac:'#e8a87e'}
+function lv(s,m){const p=s/m;return p<=0.33?'low':p<=0.66?'mid':'high';}
+
+const RESULTS={
+  'not_burned_out':{
+    type:'Not Burned Out',
+    tagline:'Your system is holding. That is not nothing. Most people cannot say the same.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
+    analysis:['Your scores across all three dimensions are low. Exhaustion, detachment, and loss of meaning are all within healthy range.','This does not mean everything is perfect. It means you have not yet crossed into burnout territory. That is worth protecting actively.'],
+    missing:'Vigilance. Burnout builds slowly and invisibly. Most people who burn out did not see it coming.',
+    steps:['Identify one area of your life where you are quietly giving more than you are getting back.','Notice if any relationship or responsibility is drawing more energy than it returns.','Build one recovery habit before you need it — not after.'],
+    videos:['People Who Forgot How to Rest','When Humans Forgot Nature']
+  },
+  'early_warning':{
+    type:'The Early Warning',
+    tagline:'Nothing is broken yet. Something is bending.',
+    ac:'#e8d87e',
+    bg:'linear-gradient(135deg,#100e06 0%,#1e1a08 50%,#120e05 100%)',
+    analysis:['Your scores are in the moderate range — not low enough to dismiss, not high enough to call full burnout. This is the stage most people miss because life still feels manageable.','Moderate scores across multiple dimensions often mean the decline is gradual and continuous. The system is under load. It has not failed yet.'],
+    missing:'Attention paid now rather than later. The cost of ignoring moderate signs is that they become severe signs.',
+    steps:['Identify which of the three dimensions feels most prominent right now. Start there.','Reduce one non-essential commitment this week. Just one.','Protect your recovery time as seriously as your work time. They are equally necessary.'],
+    videos:['People Who Forgot How to Rest','The Hidden Reason You Feel Empty Even When Life Looks Good']
+  },
+  'exhaustion_primary':{
+    type:'The Empty One',
+    tagline:'The tank is empty. Everything else is a matter of time.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#120606 0%,#280a0a 50%,#180606 100%)',
+    analysis:['Exhaustion is your dominant pattern. You are running on fumes. Detachment and loss of meaning have not fully taken hold yet — but a system running this depleted will find ways to protect itself, and those protections become the other two dimensions.','Exhaustion at this level is not solved by a weekend off. The recovery is slower than the depletion was.'],
+    missing:'Genuine rest. Not sleep. Not vacation. Real recovery — the kind that involves doing less for long enough.',
+    steps:['Identify the single largest drain on your energy. Not the most visible — the largest. Reduce it by 20 percent this week.','Sleep before you feel tired. Rest before you collapse. Do not wait for permission.','Say no to one thing you would normally say yes to today. Practice the refusal.'],
+    videos:['People Who Forgot How to Rest','You Are Not Tired. You Are Disconnected.']
+  },
+  'detachment_primary':{
+    type:'The Detached Observer',
+    tagline:'You closed the door before the fire could reach you. But now you are locked inside.',
+    ac:'#7eb88a',
+    bg:'linear-gradient(135deg,#060f08 0%,#0a1e10 50%,#070f09 100%)',
+    analysis:['Detachment is your primary pattern. You have pulled back from people and things that used to matter. The caring has gone quiet, and the distance has become the default.','Detachment is the mind\'s protection against feeling too much for too long. The problem is that it does not discriminate. It protects you from the pain and from everything else.'],
+    missing:'One genuine connection this week. Not a performance of connection. Actual contact.',
+    steps:['Identify one person you have been going through the motions with. Reach out with something real.','Notice when you are physically present but emotionally absent. Just notice, without judgment. The noticing is the start.','Reduce one obligation you are fulfilling on autopilot. The energy freed up might find somewhere real to go.'],
+    videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']
+  },
+  'meaning_primary':{
+    type:'The Meaning Seeker',
+    tagline:'You have the energy. You have lost the reason.',
+    ac:'#b87ee8',
+    bg:'linear-gradient(135deg,#0d0812 0%,#1a0d30 50%,#0d0816 100%)',
+    analysis:['Your meaning scores are the primary concern. Exhaustion and detachment are lower — you are still functioning, still showing up. But the why has gone quiet.','This form of burnout is often invisible from the outside and even to yourself. You are productive. You are competent. And you are not sure any of it matters.'],
+    missing:'One thing that feels genuinely worth doing. Not productive. Not impressive. Worth it to you specifically.',
+    steps:['Ask yourself: when did I last do something that felt meaningful without needing to justify it to anyone?','Identify one activity that used to feel purposeful. Bring it back for 30 minutes this week. Not as a cure. As a test.','Consider whether the direction you are currently moving actually reflects what you care about. Not what you should care about.'],
+    videos:['The Hidden Reason You Feel Empty Even When Life Looks Good','What They Saw in the Mirror at 40']
+  },
+  'exhaustion_detachment':{
+    type:'The One Running on Nothing',
+    tagline:'Empty and distant. The caring left because there was nothing left to care with.',
+    ac:'#e8a07e',
+    bg:'linear-gradient(135deg,#120806 0%,#260e06 50%,#180806 100%)',
+    analysis:['High exhaustion and high detachment — with meaning still partially intact. You are drained and pulled back, but some part of you still remembers what it felt like to care.','This combination is common in people who have been giving at a high rate for a long time. The detachment is the system\'s protection against continuing to give from an empty tank.'],
+    missing:'Permission to stop giving before the recovery is possible. The protection will lift when the load lifts.',
+    steps:['The detachment is not a character flaw. It is a consequence. Address the exhaustion first.','Identify the two or three things consuming the most energy. Which of them are actually necessary?','Rest without earning it. This is the hardest step and the most necessary one.'],
+    videos:['People Who Forgot How to Rest','Why Most Men Feel Empty and Lonely in 2026']
+  },
+  'exhaustion_meaning':{
+    type:'The One Going Through the Motions',
+    tagline:'You keep showing up. You are no longer sure why. And the showing up is costing everything.',
+    ac:'#e8b87e',
+    bg:'linear-gradient(135deg,#110a06 0%,#221406 50%,#160c05 100%)',
+    analysis:['High exhaustion and high loss of meaning — detachment is lower, which means you are still connected enough to feel the pointlessness directly. That is its own kind of pain.','You are not numb. You are just running out of reasons to keep going at the pace you are keeping.'],
+    missing:'Clarity about what you are actually doing this for. Not a motivational answer. An honest one.',
+    steps:['Reduce the load first. Clarity cannot arrive under the current weight.','Ask what you would do differently if the current pace were not an option. That answer is information.','One genuine rest before you return to the question of meaning. The question is harder to answer when you are depleted.'],
+    videos:['The Hidden Reason You Feel Empty Even When Life Looks Good','People Who Forgot How to Rest']
+  },
+  'detachment_meaning':{
+    type:'The One Who Has Quietly Left',
+    tagline:'You are still here. But something essential checked out a while ago. You may have stopped noticing.',
+    ac:'#7ea8e8',
+    bg:'linear-gradient(135deg,#060812 0%,#0a1022 50%,#07090f 100%)',
+    analysis:['High detachment and high loss of meaning — exhaustion is lower, which means this is not primarily about being drained. It is about disconnection from what made things worth doing.','This pattern often builds over months or years. The caring gradually faded, the meaning quietly dissolved, and one day you realized the investment had stopped — and you are not sure when.'],
+    missing:'An honest audit of what you have actually lost and what, if anything, you want to rebuild.',
+    steps:['This is not a rest problem. Do not treat it as one.','Identify when you last genuinely cared about something in your current life. What was different then?','Consider speaking to someone — a therapist, a trusted person — not to fix it but to understand how you got here.'],
+    videos:['What They Saw in the Mirror at 40','The Hidden Reason You Feel Empty Even When Life Looks Good']
+  },
+  'full_burnout':{
+    type:'The Burned Out',
+    tagline:'All three dimensions. This is not a warning. This is the result.',
+    ac:'#e87e60',
+    bg:'linear-gradient(135deg,#150606 0%,#300a08 50%,#1e0606 100%)',
+    analysis:['Your scores are elevated across exhaustion, detachment, and loss of meaning. This is full burnout — not the edge of it, not the beginning of it.','Recovery from this level requires more than rest. It requires an honest evaluation of what you have been sustaining, why, and whether it is actually worth sustaining.'],
+    missing:'Honesty. About what you have been carrying, what it has cost, and what needs to change — not temporarily, but structurally.',
+    steps:['Stop adding things. Recovery cannot happen under continued load. Something has to come out before anything better can come in.','Identify one obligation you have been fulfilling out of habit or obligation rather than choice. Remove or reduce it this week.','Consider speaking to a therapist. Not to fix the burnout in a session. To have someone in your corner who understands what recovery from this actually requires.'],
+    videos:['People Who Forgot How to Rest','The Hidden Reason You Feel Empty Even When Life Looks Good']
+  }
 };
+
+function getResultKey(eL,dL,mL){
+  const allLow=eL==='low'&&dL==='low'&&mL==='low';
+  const allMid=(eL==='mid'||eL==='low')&&(dL==='mid'||dL==='low')&&(mL==='mid'||mL==='low')&&!allLow;
+  const allHigh=eL==='high'&&dL==='high'&&mL==='high';
+  if(allLow) return 'not_burned_out';
+  if(allHigh) return 'full_burnout';
+  if(eL==='high'&&dL==='high'&&mL!=='high') return 'exhaustion_detachment';
+  if(eL==='high'&&mL==='high'&&dL!=='high') return 'exhaustion_meaning';
+  if(dL==='high'&&mL==='high'&&eL!=='high') return 'detachment_meaning';
+  if(eL==='high'&&dL!=='high'&&mL!=='high') return 'exhaustion_primary';
+  if(dL==='high'&&eL!=='high'&&mL!=='high') return 'detachment_primary';
+  if(mL==='high'&&eL!=='high'&&dL!=='high') return 'meaning_primary';
+  return 'early_warning';
+}
+
 function showResult(){
   const ex=answers[0]+answers[1]+answers[2]+answers[3];
   const de=answers[4]+answers[5]+answers[6];
   const me=answers[7]+answers[8]+answers[9];
   const eL=lv(ex,16),dL=lv(de,12),mL=lv(me,12);
+  const key=getResultKey(eL,dL,mL);
+  const r=RESULTS[key];
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   document.getElementById('exScore').textContent=ex;
   document.getElementById('deScore').textContent=de;
   document.getElementById('meScore').textContent=me;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};
+  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   [['ex',eL],['de',dL],['me',mL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
-  let r;
-  if(eL==='low'&&dL==='low'&&mL==='low'){r={type:'Not Burned Out',tagline:'Your system is holding. That is not nothing. Most people cannot say the same.',analysis:['Your scores across all three dimensions are low. Exhaustion, detachment, and loss of meaning are all within normal range.','This does not mean everything is perfect. It means you have not yet crossed into burnout territory.'],missing:'Vigilance. Burnout builds slowly and invisibly until it doesn\'t.',steps:['Identify one area of life you are quietly giving too much to. Adjust before it takes.','Notice if any relationship or responsibility is drawing more energy than it returns.','Build one recovery habit before you need it.'],videos:['People Who Forgot How to Rest','When Humans Forgot Nature']};}
-  else if(eL==='high'&&dL!=='high'&&mL!=='high'){r={type:'The Empty One',tagline:'The tank is empty. Everything else is a matter of time.',analysis:['Your exhaustion scores are the dominant pattern. You are running on fumes. Detachment and loss of meaning may follow if the exhaustion continues.','Exhaustion at this level is not solved by a weekend off. The recovery is slower than the depletion.'],missing:'Genuine rest. Not sleep. Not vacation. Real recovery.',steps:['Identify the single largest drain on your energy and reduce it by 20 percent this week.','Sleep before you feel tired. Rest before you collapse.','Say no to one thing you would normally say yes to today.'],videos:['People Who Forgot How to Rest','You Are Not Tired. You Are Disconnected.']};}
-  else if(mL==='high'&&eL!=='high'){r={type:'The Meaning Seeker',tagline:'You have the energy. You\'ve lost the reason.',analysis:['Your meaning scores are the primary concern. The exhaustion and detachment are lower, but the sense that what you do matters has significantly eroded.','This form of burnout is often invisible. You are still functioning. But the why has gone quiet.'],missing:'One thing that feels genuinely worth doing. Not productive. Worth it.',steps:['Ask yourself: when did I last do something that felt meaningful without needing to justify it?','Identify one activity that used to feel purposeful. Bring it back for 30 minutes this week.','Consider whether your current work or life direction actually reflects what you care about.'],videos:['The Hidden Reason You Feel Empty Even When Life Looks Good','What They Saw in the Mirror at 40']};}
-  else if(dL==='high'&&eL!=='high'){r={type:'The Detached Observer',tagline:'You closed the door before the fire could reach you. But now you\'re locked inside.',analysis:['Detachment is your primary pattern. You have pulled back from people and things that used to matter. The caring has gone quiet, and the distance has become default.','Detachment is the mind\'s protection against feeling too much for too long. The problem is that it does not discriminate.'],missing:'One genuine connection this week. Not a performance. Contact.',steps:['Identify one person you have been avoiding or going through the motions with. Reach out honestly.','Notice when you are physically present but emotionally elsewhere. Just notice, without judgment.','Reduce one obligation that you are only meeting on autopilot.'],videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']};}
-  else{r={type:'The Burned Out',tagline:'All three dimensions. This is not a warning. This is the result.',analysis:['Your scores are elevated across exhaustion, detachment, and loss of meaning. This is full burnout, not the edge of it.','Recovery from this level requires more than rest. It requires honest evaluation of what you have been sustaining and whether it is actually worth sustaining.'],missing:'Honesty. About what you have been carrying and what it has cost.',steps:['Stop adding things. Recovery cannot happen under continued load.','Identify one obligation you have been fulfilling out of obligation rather than choice. Remove or reduce it.','Consider speaking to someone. A therapist, a trusted person. Not to fix it. To say it out loud.'],videos:['People Who Forgot How to Rest','The Hidden Reason You Feel Empty Even When Life Looks Good']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
-  const card=document.getElementById('shareCard');card.style.display='block';
-  document.getElementById('shareCardInner').style.background=col.bg;
-  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+ex+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Exhaustion</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+de+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Detachment</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+me+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Meaning</div></div>';
-  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+  document.getElementById('cardScores').innerHTML=
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+ex+'</div><div class="card-score-label">Exhaustion / 16</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+de+'</div><div class="card-score-label">Detachment / 12</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+me+'</div><div class="card-score-label">Meaning / 12</div></div>';
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
 }
-function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-burnout-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
-function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-burnout-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
 </script>
 </body>
 </html>
