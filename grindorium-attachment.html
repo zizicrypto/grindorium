@@ -74,8 +74,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
-.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
+
+/* SHARE CARD */
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:14px 0 10px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);}
+.card-char{width:36px;height:36px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -135,19 +154,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="share-card-inner" id="shareCardInner">
-        <div>
-          <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;margin-bottom:6px;">Grindorium &middot; Attachment Style</div>
-          <div id="cardBadge" style="display:inline-block;font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);margin-bottom:10px;"></div>
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Attachment Style<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
         </div>
-        <div>
-          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
-          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,32px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:7px;"></div>
-          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
+        <div class="card-middle">
+          <div id="cardBadge2" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.6);display:inline-block;margin-bottom:12px;"></div>
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
-          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
         </div>
       </div>
     </div>
@@ -176,49 +204,173 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}d
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-const COLORS={
-  'Anxious Attachment':{bg:'linear-gradient(135deg,#0d0a12,#1a1030)',ac:'#b87ee8'},
-  'Avoidant Attachment':{bg:'linear-gradient(135deg,#070f0a,#0d1f12)',ac:'#7eb88a'},
-  'Secure Attachment':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},
-  'Disorganized Attachment':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'}
+
+const RESULTS={
+  'A':{
+    label:'Anxious Attachment',
+    type:'The One Who Holds On',
+    tagline:'You love fully. And the fear of losing it ruins the having of it.',
+    ac:'#c87ee8',
+    bg:'linear-gradient(135deg,#0d0810 0%,#1a0d30 50%,#0d0816 100%)',
+    analysis:["Your dominant pattern is anxious attachment. You want closeness intensely — but the closeness itself activates fear. Fear of abandonment, of not being enough, of the person eventually leaving.",'This is not weakness. It is a learned response. At some point the people you needed were inconsistent or unreliable enough that your system learned to treat closeness as a threat rather than a safe place.'],
+    missing:'The belief — not just the knowledge — that you are allowed to be loved without earning it daily.',
+    steps:['Notice when you are seeking reassurance and ask what you are actually afraid of in that moment.','Practice staying with the discomfort of uncertainty — a delayed reply, a quiet evening — without acting on the anxiety.','Consider therapy specifically focused on attachment. This pattern responds well to the right support.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'A_D':{
+    label:'Anxious-Disorganized',
+    type:'The One Who Wants and Fears',
+    tagline:'You reach for connection with one hand and brace for impact with the other.',
+    ac:'#d07eb8',
+    bg:'linear-gradient(135deg,#0f0810 0%,#200d20 50%,#150810 100%)',
+    analysis:["Your pattern combines anxious and disorganized elements. You want closeness intensely — and you also fear it. The longing and the dread arrive together, often in the same moment.",'This combination usually develops when connection was associated with pain. The nervous system learned to want and fear the same thing at the same time.'],
+    missing:'An experience of closeness that stays safe long enough for the fear to differentiate from the longing.',
+    steps:['Name both pulls: I want to get closer. I also want to run. Both are real. Neither has to win immediately.','Do not try to force the fear away. Observe it. Ask: what does it think is going to happen?','Professional support is particularly useful here. This pattern is hard to navigate alone.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'B':{
+    label:'Avoidant Attachment',
+    type:'The One Who Keeps Distance',
+    tagline:'You want connection. You just want it at a range where it cannot hurt you.',
+    ac:'#7eb88a',
+    bg:'linear-gradient(135deg,#070f0a 0%,#0a1f10 50%,#070e09 100%)',
+    analysis:["Your dominant pattern is avoidant attachment. Closeness activates discomfort. Independence feels safer. You tend to minimize your own need for connection — but the need is there.",'This pattern usually develops when emotional needs were consistently unmet, or when depending on others produced disappointment. The self-sufficiency is a solution, not a preference.'],
+    missing:'The experience of depending on someone and not being punished for it.',
+    steps:['Identify one relationship where you have been keeping more distance than you actually want.','Practice one small act of vulnerability this week — sharing something real, asking for help with something minor.','When you feel the pull to withdraw, ask: is this because I want space, or because closeness feels unsafe?'],
+    videos:['Why You Keep Choosing the Wrong Person','The Glass Border']
+  },
+  'B_D':{
+    label:'Avoidant-Disorganized',
+    type:'The One Who Built Walls and Hates Them',
+    tagline:'The distance keeps you safe. It also keeps you alone. You know this.',
+    ac:'#7eb8a0',
+    bg:'linear-gradient(135deg,#060f0a 0%,#0a1a14 50%,#060e0a 100%)',
+    analysis:["You tend toward avoidance but with disorganized elements underneath. You pull away from closeness — and part of you resents the pulling.",'The walls were built for a reason. At some point closeness and danger arrived together. Distance became the solution. The problem is that the solution now costs more than what it was protecting.'],
+    missing:'Permission to want connection without that wanting feeling like a liability.',
+    steps:['Notice when the withdrawal feels automatic versus when it feels chosen. The automatic ones are the pattern to examine.','Identify one person you have been managing at a distance. Try one more degree of honesty with them.','Consider whether the self-sufficiency you present is what you actually want, or what you decided was safer.'],
+    videos:['The Glass Border','Why You Keep Choosing the Wrong Person']
+  },
+  'C':{
+    label:'Secure Attachment',
+    type:'The One Who Can Be Close',
+    tagline:'You know how to let people in. That is not common. Do not take it for granted.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#07120a 0%,#0c2014 50%,#071510 100%)',
+    analysis:['Your responses suggest secure attachment. You can be close without losing yourself, depend without fear, and let relationships end without it defining your worth.','Secure attachment is not the absence of difficulty in relationships. It is the ability to navigate difficulty without the relationship becoming the central threat.'],
+    missing:'Nothing critical. The risk for securely attached people is complacency — taking the capacity for granted and drifting into less intentional relating.',
+    steps:['Continue choosing relationships that match your capacity for reciprocity.','Notice if any current relationship consistently pulls you into anxious or avoidant dynamics.','Consider how you can be a stabilizing presence for people whose attachment is less settled.'],
+    videos:['What They Saw in the Mirror at 40','Why You Keep Choosing the Wrong Person']
+  },
+  'D':{
+    label:'Disorganized Attachment',
+    type:'The One Pulled in Two Directions',
+    tagline:'You want connection and you fear it equally. The wanting and the fearing came from the same place.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#130606 0%,#2a0a0a 50%,#180606 100%)',
+    analysis:["Disorganized attachment is the most complex pattern. You want closeness and fear it simultaneously. Intimacy triggers both longing and threat at the same time.",'This pattern typically develops in early environments where the source of safety was also the source of danger. The nervous system learned that love and threat arrive together.'],
+    missing:'The experience of closeness that does not eventually feel dangerous.',
+    steps:['This pattern is most effectively addressed with professional support. A therapist familiar with attachment trauma can offer what self-reflection alone cannot.','Start by naming the pull in each direction without trying to resolve it: I want to get closer, and I want to run. Both are here.','Build safety in very small increments. One honest conversation. One moment of allowing someone to actually be there.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'D_A':{
+    label:'Disorganized-Anxious',
+    type:'The One Who Reaches and Retreats',
+    tagline:'You pull people close, then push them away before they can leave. The timing is not random.',
+    ac:'#e87eb8',
+    bg:'linear-gradient(135deg,#130608 0%,#2a0a18 50%,#180610 100%)',
+    analysis:["Your disorganized pattern has a strong anxious component. You want deep connection — and you also move in ways that destabilize it. Often right when it gets real.",'The pattern makes sense if you understand where it came from: closeness felt dangerous. The anxiety is about the closeness. The disruption is the escape hatch.'],
+    missing:'The lived experience that closeness can be survived. Not just understood intellectually. Experienced.',
+    steps:['Notice the moments when you create distance in relationships that are actually going well. What triggered it?','Do not try to stop the pattern through willpower. Try to get curious about it instead.','Professional support — particularly with someone who understands attachment trauma — is the most direct path here.'],
+    videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']
+  },
+  'D_B':{
+    label:'Disorganized-Avoidant',
+    type:'The One Who Disappears',
+    tagline:'When it gets close enough to matter, you find a way to make it not matter. The method changes. The result does not.',
+    ac:'#7eb8e8',
+    bg:'linear-gradient(135deg,#060810 0%,#0a1020 50%,#06080f 100%)',
+    analysis:["Your disorganized pattern leans avoidant. You pull back from closeness — not just as a preference, but as a response to something that feels threatening at a level below conscious decision.",'The avoidance is a defense. It is working. The question is what it is costing.'],
+    missing:'The belief that the thing being avoided — genuine closeness — would not actually destroy you.',
+    steps:['Identify the last time you withdrew from something that was actually going well. What happened internally just before?','One experiment: stay in one uncomfortable relational moment this week instead of exiting it.','Consider speaking to a professional. This combination is genuinely hard to untangle alone.'],
+    videos:['The Glass Border','Why You Keep Choosing the Wrong Person']
+  }
 };
+
+function getResultKey(counts){
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const first=sorted[0][0], firstCount=sorted[0][1];
+  const second=sorted[1][0], secondCount=sorted[1][1];
+  // If D is dominant
+  if(first==='D'){
+    if(secondCount>=3&&second==='A') return 'D_A';
+    if(secondCount>=3&&second==='B') return 'D_B';
+    return 'D';
+  }
+  // If A dominant with D secondary
+  if(first==='A'&&second==='D'&&secondCount>=3) return 'A_D';
+  // If B dominant with D secondary
+  if(first==='B'&&second==='D'&&secondCount>=3) return 'B_D';
+  // Pure types
+  if(first==='A') return 'A';
+  if(first==='B') return 'B';
+  if(first==='C') return 'C';
+  return 'C'; // default fallback
+}
+
 function showResult(){
   const counts={A:0,B:0,C:0,D:0};
   answers.forEach(v=>{if(v)counts[v]++;});
-  const max=Math.max(counts.A,counts.B,counts.C,counts.D);
-  let style;
-  if(counts.D===max)style='Disorganized Attachment';
-  else if(counts.A===max)style='Anxious Attachment';
-  else if(counts.B===max)style='Avoidant Attachment';
-  else style='Secure Attachment';
+  const key=getResultKey(counts);
+  const r=RESULTS[key];
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   document.getElementById('progressFill').style.width='100%';
-  document.getElementById('attBadge').textContent=style;
-  const RESULTS={
-    'Anxious Attachment':{type:'The One Who Holds On',tagline:'You love fully. And the fear of losing it ruins the having of it.',analysis:["Your pattern is anxious attachment. You want closeness intensely but the closeness itself activates fear — of abandonment, of not being enough, of the person eventually leaving.",'This is not weakness. It is a learned response. At some point, the people you needed were inconsistent or unreliable enough that your system learned to treat closeness as a threat rather than a safe place.'],missing:'The belief, not just the knowledge, that you are allowed to be loved without earning it daily.',steps:['Notice when you are seeking reassurance and ask what you are actually afraid of in that moment.','Practice staying with discomfort in small relational moments — a delayed reply, a quiet evening — without taking action on the anxiety.','Consider therapy specifically focused on attachment patterns. This one responds well to the right support.'],videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']},
-    'Avoidant Attachment':{type:'The One Who Keeps Distance',tagline:'You want connection. You just want it at a range where it cannot hurt you.',analysis:["Your pattern is avoidant attachment. Closeness activates discomfort. Independence feels safer. You tend to minimize your own need for connection while experiencing it clearly.",'This pattern usually develops when emotional needs were consistently unmet or when depending on others produced disappointment. The self-sufficiency is a solution, not a preference.'],missing:'The experience of depending on someone and not being punished for it.',steps:['Identify one relationship in your life where you have been keeping more distance than you actually want.','Practice one small act of vulnerability this week — sharing something real, asking for help with something minor.','Notice when you are pulling away and ask: is this because I want space, or because closeness feels unsafe?'],videos:['Why You Keep Choosing the Wrong Person','The Glass Border']},
-    'Secure Attachment':{type:'The One Who Can Be Close',tagline:'You know how to let people in. That is not common. Do not take it for granted.',analysis:['Your responses suggest secure attachment. You can be close without losing yourself, depend without fear, and let relationships end without it defining your worth.','Secure attachment is not the absence of difficulty in relationships. It is the ability to navigate difficulty without the relationship becoming the central threat.'],missing:'Nothing critical. The risk for securely attached people is taking their capacity for granted and drifting into less intentional relating.',steps:['Continue choosing relationships that match your capacity for reciprocity.','Notice if any current relationship is consistently pulling you into anxious or avoidant dynamics.','Consider how you might be a stabilizing presence for people who are less securely attached.'],videos:['What They Saw in the Mirror at 40','Why You Keep Choosing the Wrong Person']},
-    'Disorganized Attachment':{type:'The One Pulled in Two Directions',tagline:'You want connection and you fear it equally. The wanting and the fearing came from the same place.',analysis:["Disorganized attachment is the most complex pattern. You want closeness and fear it simultaneously. Intimacy triggers both longing and threat.",'This pattern typically develops in early environments where the source of safety was also the source of danger. The nervous system learned that love and threat arrive together.'],missing:'The experience of closeness that does not eventually feel dangerous.',steps:['This pattern is most effectively addressed with professional support. A therapist familiar with attachment trauma can offer what self-reflection alone cannot.','Start by naming the pull in each direction. Not fixing it. Naming it: I want to get closer, and I want to run. Both are here.','Build safety in small increments. One honest conversation. One moment of allowing someone to be there.'],videos:['Why You Keep Choosing the Wrong Person','The Cost of Always Being the Strong One']}
-  };
-  const r=RESULTS[style];
+  document.getElementById('attBadge').textContent=r.label;
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const col=COLORS[style]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
-  const card=document.getElementById('shareCard');card.style.display='block';
-  document.getElementById('shareCardInner').style.background=col.bg;
-  document.getElementById('cardBadge').textContent=style;
-  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
+  // Card
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardBadge2').textContent=r.label;
+  document.getElementById('cardBadge2').style.borderColor='rgba(255,255,255,0.2)';
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
 }
-function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-attachment-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
-function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-attachment-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
 </script>
 </body>
 </html>
