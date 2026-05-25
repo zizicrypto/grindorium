@@ -75,31 +75,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 .share-section-top{margin-bottom:38px;}
-
-/* SHARE CARD */
-#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
-.card-bg{position:absolute;inset:0;z-index:0;}
-.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
-.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
-.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
-.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
-.card-user-row{display:flex;align-items:center;gap:7px;}
-.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
-.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
-.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
-.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
-.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
-.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
-.card-score-item{}
-.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
-.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
-.card-footer{display:flex;justify-content:space-between;align-items:center;}
-.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
-.card-site{text-align:right;}
-.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
-.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
-
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 12px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:32px 36px;display:flex;flex-direction:column;justify-content:space-between;}
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -107,7 +84,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </style>
 </head>
 <body>
-<nav><a href="/" lass="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
+<nav><a href="/" class="nav-logo">Grindorium</a><a href="/" class="nav-back">Back</a></nav>
 <div class="container">
 <div id="profileScreen">
   <div class="test-label">Loneliness Assessment</div>
@@ -154,28 +131,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="card-bg" id="cardBg"></div>
-      <div class="card-grain"></div>
-      <div class="card-vignette"></div>
-      <div class="share-card-inner">
-        <div class="card-header">
-          <div class="card-header-label">Grindorium &middot; Loneliness Assessment<br>My Result</div>
-          <div class="card-user-row" id="cardUserRow" style="display:none;">
-            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
-            <span class="card-user-name" id="cardUserName"></span>
-          </div>
+      <div class="share-card-inner" id="shareCardInner">
+        <div style="font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;color:#fff;">Grindorium &middot; Loneliness Assessment</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:7px;"><img id="cardUserPhoto" style="width:20px;height:20px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/><span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span></div>
+          <div id="cardType" style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,34px);font-weight:300;color:#fff;line-height:1.1;margin:10px 0 7px;"></div>
+          <div id="cardTagline" style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;"></div>
         </div>
-        <div class="card-middle">
-          <div class="card-type-text" id="cardType"></div>
-          <div class="card-tagline-text" id="cardTagline"></div>
-        </div>
-        <div class="card-scores-row" id="cardScores"></div>
-        <div class="card-footer">
-          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
-          <div class="card-site">
-            <div class="card-site-url">grindorium.org</div>
-            <div class="card-site-cta">Take the test</div>
-          </div>
+        <div id="cardScores" style="display:flex;gap:16px;margin-top:8px;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <img id="cardCharImg" src="grindorium-character.png" style="width:40px;height:40px;object-fit:cover;border-radius:50%;opacity:0.8;" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div style="font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;">grindorium.org</div><div style="font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;margin-top:2px;">Take the test</div></div>
         </div>
       </div>
     </div>
@@ -196,6 +162,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
+  function applyUser(){const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}}
+
 const answers=new Array(10).fill(null);let cQ=0;
 let userPhoto=null;
 function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
@@ -206,161 +174,42 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}do
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s){return s<=7?'low':s<=13?'mid':'high';}
-
-const RESULTS={
-  'low_low':{
-    type:'Connected',
-    tagline:'You feel known. That is the whole thing. Most people do not have that.',
-    ac:'#7ee8a0',
-    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
-    analysis:['Your scores suggest genuine connection in both dimensions. Not just social contact but actual mutual recognition — people who know you and whom you know.','This is worth protecting consciously. Connection erodes through busyness, screens, and the quiet drift of unexamined life.'],
-    missing:'Nothing critical. Connection maintained passively tends to thin out over years. Stay intentional.',
-    steps:['Name the two or three relationships with the most genuine depth. Invest in them deliberately this month.','Notice if screen use is replacing the quality of in-person interaction.','Reach out to someone you have been meaning to contact for months. Today, not later.'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','When Humans Forgot Nature']
-  },
-  'low_mid':{
-    type:'The Quietly Unseen',
-    tagline:'The social fabric is there. Something deeper is still waiting to be found.',
-    ac:'#8ab8e8',
-    bg:'linear-gradient(135deg,#070a12 0%,#0c1222 50%,#07090f 100%)',
-    analysis:['Social connection is adequate but there is a growing sense of not being fully known. The people are present. The depth is not quite there yet.','This is often a transitional state — either toward genuine connection or toward a deeper withdrawal from it.'],
-    missing:'One more degree of honesty in an existing relationship. Not a new person. More truth with someone already there.',
-    steps:['Identify one person in your life with whom you could be slightly more real than you normally are.','In one conversation this week, say something you actually think instead of the managed version.','Notice the gap between how you present yourself and who you actually are. Ask when that gap opened.'],
-    videos:['The Mirror Man He Had No Face of His Own','Why Most Men Feel Empty and Lonely in 2026']
-  },
-  'low_high':{
-    type:'Surrounded and Alone',
-    tagline:'The room is full. You are still invisible. And you have been for a long time.',
-    ac:'#b87ee8',
-    bg:'linear-gradient(135deg,#0d0812 0%,#1a0d30 50%,#0d0816 100%)',
-    analysis:['Social loneliness is low — you have people around you, possibly many. But existential loneliness is high. You do not feel truly known by them.','This pattern develops gradually. You show people the acceptable version. They respond to it. Slowly the real version becomes harder to locate even for yourself.'],
-    missing:'Being genuinely seen. Not helped, not fixed. Seen.',
-    steps:['Identify one person with whom you could be 10 percent more honest than usual. Start there.','Practice saying something you actually think today — not the managed version.','Ask yourself: when did I start hiding the real version? What made it feel necessary?'],
-    videos:['The Mirror Man He Had No Face of His Own','What They Saw in the Mirror at 40']
-  },
-  'mid_low':{
-    type:'The Quiet Distance',
-    tagline:'The people are there. The connection is not as close as you need it to be.',
-    ac:'#7eb8a8',
-    bg:'linear-gradient(135deg,#060f0a 0%,#0a1c14 50%,#070f0a 100%)',
-    analysis:['Social loneliness is moderate while existential loneliness is lower. You feel known at a deeper level but the practical social fabric is thinner than you need.','This is the most actionable form of loneliness. It responds well to deliberate, specific effort.'],
-    missing:'Proximity and frequency. Connection does not maintain itself without investment.',
-    steps:['Pick one person you have been wanting to spend real time with. Make a specific plan this week.','Reduce one social obligation that is not meaningful and replace it with something real.','Send a message to someone you have been meaning to reconnect with. Not a long one. Just: I have been thinking about you.'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']
-  },
-  'mid_mid':{
-    type:'The Drifting One',
-    tagline:'Connection exists. It is not as close or as real as you need it to be. Both dimensions are building.',
-    ac:'#8ab0c8',
-    bg:'linear-gradient(135deg,#070a12 0%,#0c1020 50%,#070810 100%)',
-    analysis:['Both social and existential loneliness are in the moderate range. The connection exists but it is thinning. Neither dimension is critical yet but both are present.','Moderate loneliness in both dimensions tends to compound slowly. The drift is gradual and easy to normalize.'],
-    missing:'Deliberate investment before the drift becomes the default.',
-    steps:['Identify which dimension feels most prominent — lack of social contact or lack of being known. Start there.','One real conversation this week — not logistics, not small talk. Something that matters.','Ask: is there a relationship I have been neglecting that still has the potential for depth?'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','When Humans Forgot Nature']
-  },
-  'mid_high':{
-    type:'The Performing One',
-    tagline:'You show up. You connect. None of it reaches the part that needs reaching.',
-    ac:'#c07ee8',
-    bg:'linear-gradient(135deg,#0d080f 0%,#1e0d28 50%,#0f0812 100%)',
-    analysis:['Moderate social connection but high existential loneliness. You are present in social situations but the version of you that shows up is not the full one.','This pattern is particularly painful because connection is within reach. The gap is not absence of people but absence of permission to be fully present with them.'],
-    missing:'Permission to be less acceptable and more real. Even once.',
-    steps:['Choose one person in your life and have one conversation where you say something true that you would normally edit out.','Notice the version of yourself you perform in social situations. Ask what it is protecting.','Consider what it would cost to be more known. Then ask whether the protection is worth that price.'],
-    videos:['The Mirror Man He Had No Face of His Own','What They Saw in the Mirror at 40']
-  },
-  'high_low':{
-    type:'The Isolated One',
-    tagline:'You feel known in principle. But the people who know you are not around enough.',
-    ac:'#7ea8c8',
-    bg:'linear-gradient(135deg,#060810 0%,#0a1020 50%,#07080f 100%)',
-    analysis:['High social loneliness but low existential loneliness. You have a sense of being fundamentally understood — perhaps by one or two people — but the day-to-day social fabric is thin.','This is often a structural problem: distance, life transitions, or the erosion of routine proximity with the people who matter.'],
-    missing:'Access. The connection exists. The distance is the problem.',
-    steps:['Identify the one or two people who genuinely know you. How often are you actually in contact? Increase it.','Create a recurring point of contact — a weekly call, a regular plan — with someone who matters.','Consider whether your current environment supports the social connection you need, or whether something structural needs to change.'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']
-  },
-  'high_mid':{
-    type:'The One Who Stopped Reaching',
-    tagline:'You have stopped expecting connection. The expectation left before the loneliness did.',
-    ac:'#e8a87e',
-    bg:'linear-gradient(135deg,#100906 0%,#221408 50%,#160c05 100%)',
-    analysis:['High social loneliness with moderate existential loneliness. The social fabric is thin and there is a growing sense of not quite being fully seen.','This combination often reflects a quiet withdrawal that happened gradually — enough disappointments, enough effort unreturned, until reaching out started to feel pointless.'],
-    missing:'The willingness to try again. Not optimism. Just one attempt.',
-    steps:['Identify one place or context where connection is possible for you. A class, a group, a recurring event. Show up once.','Reach out to one person you have been meaning to contact and stopped expecting to hear from. Not to fix anything. Just contact.','Notice whether the withdrawal is protecting you from something real or from something that has not happened yet.'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']
-  },
-  'high_high':{
-    type:'The Invisible One',
-    tagline:'You are not alone because no one is there. You are alone because no one is reaching you.',
-    ac:'#e87e7e',
-    bg:'linear-gradient(135deg,#130606 0%,#2a0a0a 50%,#180606 100%)',
-    analysis:['Both social and existential loneliness are high. You lack the quantity of connection and the quality of being truly known.','Loneliness at this level is not just an emotional experience. It is consistently linked to significant health effects and tends to be self-reinforcing — the lonelier the person, the harder connection becomes.'],
-    missing:'One real thing. Not a social network. One person, one conversation, one moment of actual contact. That is how it starts.',
-    steps:['Start smaller than you think you need to. One message. One yes to an invitation. One genuine moment in a conversation.','Reduce screen-based social substitutes. Passive consumption creates the feeling of contact without the nourishment.','Consider whether therapy might provide a starting point — not as a replacement for connection but as a space to be known while you build toward the real thing.'],
-    videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']
-  }
-};
-
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+const COLORS={'Connected':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'The Quiet Distance':{bg:'linear-gradient(135deg,#0a0a0f,#14141f)',ac:'#8aa0c8'},'Surrounded and Alone':{bg:'linear-gradient(135deg,#0d070f,#1a0d2a)',ac:'#b87ee8'},'The Invisible One':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'}};
 function showResult(){
   const soc=answers[0]+answers[2]+answers[3]+answers[4]+answers[7];
   const ex=answers[1]+answers[5]+answers[6]+answers[8]+answers[9];
-  const sL=lv(soc),eL=lv(ex);
-  const key=sL+'_'+eL;
-  const r=RESULTS[key]||RESULTS['mid_mid'];
+  const sL=lv(soc,20),eL=lv(ex,20);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   document.getElementById('socScore').textContent=soc;
   document.getElementById('exScore').textContent=ex;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};
-  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   const sl=document.getElementById('socLevel');sl.textContent=lb[sL];sl.className='score-card-level '+cs[sL];
   const el=document.getElementById('exLevel');el.textContent=lb[eL];el.className='score-card-level '+cs[eL];
+  let r;
+  if(sL==='low'&&eL==='low'){r={type:'Connected',tagline:'You feel known. That is the whole thing. Most people do not have that.',analysis:['Your scores suggest genuine connection in your life. Not just social contact but actual mutual recognition.','This is worth protecting consciously. Modern life consistently erodes connection through busyness, screens, and surface-level interaction.'],missing:'Nothing critical. Connection can be disrupted by life transitions or the slow drift of unchecked busyness. Stay intentional.',steps:['Name the two or three relationships in your life that have the most genuine depth. Invest in them deliberately.','Notice if your screen use is reducing the quality of your in-person interactions.','Reach out to someone you have been meaning to reach out to for months. Today.'],videos:['Why Most Men Feel Empty and Lonely in 2026','When Humans Forgot Nature']};}
+  else if(sL==='high'&&eL==='low'){r={type:'The Quiet Distance',tagline:'The people are there. The connection is not. That gap is lonelier than being alone.',analysis:['Your social loneliness is significant but your existential loneliness is lower. You have some sense of being known at a deeper level but the practical social fabric is thinner than you need it to be.','This is the most actionable form of loneliness. It responds well to deliberate effort.'],missing:'Proximity and frequency. Connection does not maintain itself without investment.',steps:['Pick one person you have been wanting to spend real time with and make a specific plan.','Reduce one social obligation that is not meaningful and replace it with something more real.','Send a message to someone you have been meaning to reconnect with. Not a long one. Just: I have been thinking about you.'],videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']};}
+  else if(sL==='low'&&eL==='high'){r={type:'Surrounded and Alone',tagline:'The room is full. You are still invisible. And you have been for a long time.',analysis:['Your existential loneliness is high but your social loneliness is lower. You have people around you. Possibly many. But you do not feel truly known by them.','This pattern usually develops gradually. You show people the acceptable version. They respond to it. And slowly the real version becomes harder to locate even for yourself.'],missing:'Being genuinely seen. Not fixed. Not helped. Seen.',steps:['Identify one person in your life with whom you could be 10 percent more honest than you normally are. Start there.','Practice saying something you actually think in a conversation today, not the managed version.','Ask yourself: when did I start hiding the real version? What made it feel necessary?'],videos:['The Mirror Man He Had No Face of His Own','What They Saw in the Mirror at 40']};}
+  else{r={type:'The Invisible One',tagline:'You are not alone because no one is there. You are alone because no one is reaching you.',analysis:['Both your social and existential loneliness scores are high. You lack the quantity of connection and the quality of being known.','Loneliness at this level is not just an emotional experience. Research consistently shows it has significant physical effects. It is also self-reinforcing.'],missing:'One real thing. Not a social network. One person, one conversation, one moment of actual contact. That is how it starts.',steps:['Start smaller than you think you need to. One message. One yes to an invitation. One genuine moment in a conversation.','Reduce screen-based social substitutes. Passive social media consumption creates the feeling of contact without the nourishment.','Consider whether therapy might provide a starting point. Not as a replacement for connection but as a space to be known while you build the real thing.'],videos:['Why Most Men Feel Empty and Lonely in 2026','The Glass Border']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
-  const card=document.getElementById('shareCard');
-  card.style.display='block';
-  document.getElementById('cardBg').style.background=r.bg;
-  document.getElementById('cardType').textContent=r.type;
-  document.getElementById('cardType').style.color=r.ac;
+  const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
+  const card=document.getElementById('shareCard');card.style.display='block';
+  document.getElementById('shareCardInner').style.background=col.bg;
+  document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
   document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML=
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+soc+'</div><div class="card-score-label">Social / 20</div></div>'+
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+ex+'</div><div class="card-score-label">Existential / 20</div></div>';
-  const name=document.getElementById('profileName').value.trim();
-  const row=document.getElementById('cardUserRow');
-  const nm=document.getElementById('cardUserName');
-  const ph=document.getElementById('cardUserPhoto');
-  const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){
-    row.style.display='flex';
-    if(name)nm.textContent=name;
-    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
-    if(userPhoto&&ch)ch.src=userPhoto;
-  }
+  document.getElementById('cardScores').innerHTML='<div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+soc+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Social</div></div><div><div style="font-family:Space Mono,sans-serif;font-size:16px;color:'+col.ac+'">'+ex+'</div><div style="font-family:Space Mono,sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-top:2px;">Existential</div></div>';
+  const name=document.getElementById('profileName').value.trim();const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch)ch.src=userPhoto;}
 }
-function downloadCard(){
-  const card=document.getElementById('shareCard');
-  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
-    const link=document.createElement('a');
-    link.download='grindorium-loneliness-result.png';
-    link.href=canvas.toDataURL('image/png');
-    link.click();
-  });
-}
-function retakeTest(){
-  answers.fill(null);cQ=0;
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  document.getElementById('resultScreen').style.display='none';
-  document.getElementById('profileScreen').style.display='block';
-  document.getElementById('startScreen').style.display='none';
-  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
-  document.getElementById('shareCard').style.display='none';
-}
+function downloadCard(){const card=document.getElementById('shareCard');html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{const link=document.createElement('a');link.download='grindorium-loneliness-result.png';link.href=canvas.toDataURL('image/png');link.click();});}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
