@@ -83,31 +83,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
 /* share */
 .share-top{margin-bottom:44px;}
-
-/* SHARE CARD */
-#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
-.card-bg{position:absolute;inset:0;z-index:0;}
-.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
-.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
-.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
-.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
-.card-user-row{display:flex;align-items:center;gap:7px;}
-.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
-.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
-.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
-.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
-.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
-.card-scores-row{display:flex;gap:20px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:12px;}
-.card-score-item{}
-.card-score-value{font-family:'Space Mono',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
-.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);}
-.card-footer{display:flex;justify-content:space-between;align-items:center;}
-.card-char{width:34px;height:34px;border-radius:50%;object-fit:cover;opacity:0.75;}
-.card-site{text-align:right;}
-.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
-.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
-
+#shareCard{width:100%;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;margin:0 auto 14px;display:none;}
+.share-card-inner{width:100%;height:100%;padding:34px 38px;display:flex;flex-direction:column;justify-content:space-between;}
+.sc-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.4;color:#fff;}
+.sc-type{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin:12px 0 8px;}
+.sc-tagline{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.5;}
+.sc-scores{display:flex;gap:18px;margin-top:10px;}
+.sc-score-val{font-family:'Space Mono',sans-serif;font-size:17px;}
+.sc-score-lbl{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:2px;}
+.sc-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+.sc-char{width:44px;height:44px;object-fit:cover;border-radius:50%;opacity:0.8;}
+.sc-domain{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;}
+.sc-domain-sub{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-top:2px;}
 .share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
 .share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:13px 26px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
 .share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
@@ -115,7 +102,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </style>
 </head>
 <body>
-<nav><a href="/" class="nav-logo">Grindorium</a><a href="index.html#tests" class="nav-back">Back</a></nav>
+<nav><a href="/" class="nav-logo">Grindorium</a><a href="/" class="nav-back">Back</a></nav>
 <div class="container">
 
 <div id="profileScreen">
@@ -165,31 +152,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </div>
 
 <div id="resultScreen" style="display:none">
-  <div class="share-section-top">
+  <div class="share-top">
     <div class="result-label">Your Result</div>
     <div id="shareCard">
-      <div class="card-bg" id="cardBg"></div>
-      <div class="card-grain"></div>
-      <div class="card-vignette"></div>
-      <div class="share-card-inner">
-        <div class="card-header">
-          <div class="card-header-label">Grindorium &middot; Perfectionism Assessment<br>My Result</div>
-          <div class="card-user-row" id="cardUserRow" style="display:none;">
-            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
-            <span class="card-user-name" id="cardUserName"></span>
+      <div class="share-card-inner" id="shareCardInner">
+        <div class="sc-label" id="cardLabel">Grindorium &middot; Perfectionism Assessment</div>
+        <div>
+          <div id="cardUserRow" style="display:none;align-items:center;gap:8px;margin-bottom:8px;">
+            <img id="cardUserPhoto" style="width:22px;height:22px;border-radius:50%;object-fit:cover;display:none;" src="" alt=""/>
+            <span id="cardUserName" style="font-family:Space Mono,sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);"></span>
           </div>
+          <div class="sc-type" id="cardType"></div>
+          <div class="sc-tagline" id="cardTagline"></div>
         </div>
-        <div class="card-middle">
-          <div class="card-type-text" id="cardType"></div>
-          <div class="card-tagline-text" id="cardTagline"></div>
-        </div>
-        <div class="card-scores-row" id="cardScores"></div>
-        <div class="card-footer">
-          <img class="card-char" id="cardCharImg" src="grindorium-character.png" onerror="this.style.display='none'"/>
-          <div class="card-site">
-            <div class="card-site-url">grindorium.org</div>
-            <div class="card-site-cta">Take the test</div>
-          </div>
+        <div class="sc-scores" id="cardScores"></div>
+        <div class="sc-bottom">
+          <img id="cardCharImg" src="grindorium-character.png" class="sc-char" onerror="this.style.display='none'">
+          <div style="text-align:right;"><div class="sc-domain">grindorium.org</div><div class="sc-domain-sub">Take the test</div></div>
         </div>
       </div>
     </div>
@@ -197,13 +176,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   </div>
   <h1 class="result-type" id="resultType"></h1>
   <p class="result-tagline" id="resultTagline"></p>
-  <div class="score-grid" style="grid-template-columns:1fr 1fr 1fr;">
+  <div class="score-grid">
     <div class="score-card"><div class="score-card-label">Self-Oriented</div><div class="score-card-value" id="selfScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="selfLevel"></div></div>
     <div class="score-card"><div class="score-card-label">Social</div><div class="score-card-value" id="socScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="socLevel"></div></div>
     <div class="score-card"><div class="score-card-label">Cost</div><div class="score-card-value" id="costScore"></div><div class="score-card-max">out of 16</div><div class="score-card-level" id="costLevel"></div></div>
   </div>
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
-  <div class="result-section"><div class="result-section-title">What is driving it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What it is costing you</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
   <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
@@ -222,196 +201,55 @@ function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}d
 function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
 function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
 function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
-function lv(s){return s<=5?'low':s<=10?'mid':'high';}
-
-/*
-3 boyut — her biri 4 soru x 4 = max 16:
-Self-Oriented (iç standartlar): q0,q1,q3,q9
-  q0: cant do unless can do well
-  q1: finishing good enough feels like failure
-  q3: mistake feels like reflection of who I am
-  q9: self-worth tied to performance
-
-Social (sosyal baskı/onay): q2,q5,q6,q10
-  q2: concerned about what others think
-  q5: hold others to same standards, disappointed
-  q6: feel others expect more than I can deliver
-  q10: cant ask for help
-
-Cost (psikolojik bedel): q4,q7,q8,q11
-  q4: procrastinate because afraid result wont be good enough
-  q7: replay past mistakes long after
-  q8: cant celebrate because already thinking about what's next
-  q11: gap between who I am and should be causes low-level distress
-*/
-
-const RESULTS={
-  'low_low_low':{
-    type:'The High Achiever',
-    tagline:'You have standards without the suffering. That is rarer than it sounds.',
-    ac:'#7ee8a0',
-    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
-    analysis:['Your scores suggest genuine standards without the self-punishment that comes with perfectionism. You care about quality. But you are not defined by your output, and failure does not destroy you.','This is the healthy version of high standards. High achievers grow. Perfectionists stall. The difference is the relationship to imperfection.'],
-    missing:'Nothing critical. Maintain the distinction between caring about quality and tying your worth to results.',
-    steps:['Check in periodically on whether your standards still feel internally motivated or if external pressure has crept in.','Notice how you respond to mistakes. The response is the signal.','Protect your ability to do imperfect things for enjoyment without needing them to be good.'],
-    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
-  },
-  'high_low_low':{
-    type:'The Driven Perfectionist',
-    tagline:'The standards are high. The suffering is still manageable. For now.',
-    ac:'#e8a07e',
-    bg:'linear-gradient(135deg,#0f0907 0%,#201207 50%,#0f0907 100%)',
-    analysis:['You hold yourself to high internal standards and care deeply about quality. The social and cost dimensions are lower — you are not primarily driven by others\'s expectations and the psychological cost is still contained.','This balance is fragile. High self-oriented perfectionism without cost tends to shift over time, especially under sustained pressure or when external rewards stop arriving.'],
-    missing:'Tolerance for imperfection. Not lower standards. The ability to produce work that is 80 percent done without it threatening your sense of who you are.',
-    steps:['Practice finishing something to 80 percent and releasing it. Notice what actually happens.','Build in deliberate rest between high-effort projects. Not earned rest. Scheduled.','Identify one area where you can do something badly on purpose. Something low-stakes.'],
-    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
-  },
-  'low_high_low':{
-    type:'The Approval Seeker',
-    tagline:'The standards are not really yours. You inherited them from the audience.',
-    ac:'#a07ee8',
-    bg:'linear-gradient(135deg,#0a0812 0%,#14101f 50%,#0a0812 100%)',
-    analysis:['Social perfectionism is the dominant pattern. You are not primarily driven by internal standards. You are driven by the perceived expectations of others and by the fear of falling short in their eyes.','This is one of the most exhausting forms of perfectionism because the bar is always moving. You are chasing something that was never clearly defined.'],
-    missing:'Standards that come from inside. Work you would do even if no one were watching.',
-    steps:['Identify the specific person or group whose approval you are performing for. Name them explicitly.','Ask yourself about one current goal: would I still want this if no one would ever know I achieved it?','Practice doing one thing this week that earns no external recognition.'],
-    videos:['Why Most Men Wake Up at 30','What They Saw in the Mirror at 40']
-  },
-  'low_low_high':{
-    type:'The Paralyzed Perfectionist',
-    tagline:'You are not lazy. You are afraid the result will not be good enough before you even begin.',
-    ac:'#c8c8c8',
-    bg:'linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 50%,#0f0f0f 100%)',
-    analysis:['The cost dimension is primary — procrastination, rumination, the inability to celebrate, and the chronic gap between who you are and who you think you should be. Internal and social drivers are lower.','This pattern often develops as a protective mechanism: if you do not try fully, you cannot fail properly. The avoidance looks like procrastination. From the inside it feels like stuckness.'],
-    missing:'Permission to start badly. The first draft is not the final draft. The first attempt is not the verdict.',
-    steps:['Use a time limit, not a quality limit. Give yourself 25 minutes to start something without judgment.','Separate starting from finishing. You do not have to finish today. You just have to begin.','Write down what you are afraid the result will look like. Usually the fear is exaggerated.'],
-    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
-  },
-  'high_high_low':{
-    type:'The Overachiever',
-    tagline:'You are trying to meet your own standards and everyone else\'s simultaneously. Neither is ever fully met.',
-    ac:'#e8c07e',
-    bg:'linear-gradient(135deg,#100d06 0%,#201808 50%,#100d06 100%)',
-    analysis:['Both self-oriented and social perfectionism are high. You hold yourself to internal standards and are simultaneously monitoring external expectations. The cost is still moderate — but carrying both at once is exhausting.','The internal and external pressures often conflict. What you think is good enough is not what others seem to expect, or vice versa.'],
-    missing:'Clarity about which standards are actually yours. A clear separation between what you want and what you think is required.',
-    steps:['For one project this week, decide in advance whose standard you are aiming for — yours or someone else\'s. Not both.','Notice when you are revising work: are you revising because you want it better, or because you are imagining someone\'s reaction?','Identify the standard you hold yourself to that you have never clearly chosen. Where did it come from?'],
-    videos:['Hard Means It\'s Right','What They Saw in the Mirror at 40']
-  },
-  'high_low_high':{
-    type:'The Self-Critical One',
-    tagline:'The standard you hold yourself to was never designed to be met.',
-    ac:'#e87e7e',
-    bg:'linear-gradient(135deg,#120606 0%,#260a0a 50%,#180606 100%)',
-    analysis:['High self-oriented perfectionism and high psychological cost. You set high internal standards, tie your worth to meeting them, and when you fall short the internal response is not a course correction. It is an attack.','The perfectionism that once pushed you to do well has turned inward and is now working against you.'],
-    missing:'Self-compassion as a strategy, not softness. People who treat themselves with more kindness when they fail actually perform better over time.',
-    steps:['When something goes wrong, write what you would say to a close friend in the same situation. Then say that to yourself.','Identify the internal voice that tells you what you should be. Ask where it came from.','Consider speaking to a therapist who works with perfectionism and self-criticism.'],
-    videos:['The Cost of Always Being the Strong One','Why Most Men Wake Up at 30']
-  },
-  'low_high_high':{
-    type:'The Exhausted Pleaser',
-    tagline:'You are trying to meet standards that were never yours, and paying for it every day.',
-    ac:'#e87eb8',
-    bg:'linear-gradient(135deg,#120608 0%,#2a0a18 50%,#180610 100%)',
-    analysis:['Social perfectionism is high and the psychological cost is high. Your perfectionism is primarily externally driven — and it is taking a significant toll.','You are not chasing your own standards. You are chasing a moving target set by the expectations of others. The exhaustion is the natural result of that.'],
-    missing:'The discovery that the bar is not fixed and was never yours to meet in the first place.',
-    steps:['Identify the specific source of the external standard. A parent, a peer group, a profession. Name it.','For one week, track how often you imagine someone\'s reaction before deciding whether something is good enough.','Ask: if I knew no one would ever evaluate this, what would I actually do?'],
-    videos:['The Cost of Always Being the Strong One','Why Most Men Wake Up at 30']
-  },
-  'high_high_high':{
-    type:'The Burning Perfectionist',
-    tagline:'You are holding yourself to every standard from every direction. Something will break.',
-    ac:'#e87e60',
-    bg:'linear-gradient(135deg,#150606 0%,#300a08 50%,#1e0606 100%)',
-    analysis:['All three dimensions are high. Internal standards, social expectations, and psychological cost are all elevated. You are managing perfectionism from every direction simultaneously.','This combination is not sustainable. The internal drive, the external monitoring, and the cost of falling short are all running at the same time. The question is not whether something breaks. It is what.'],
-    missing:'One area of deliberate imperfection. Not as failure. As proof that you can survive it.',
-    steps:['Stop adding things. Recovery cannot begin under continued load from every direction.','Identify the single most costly perfectionist behavior you have right now. Address only that one.','Consider speaking to a therapist. This combination responds well to the right support.'],
-    videos:['The Cost of Always Being the Strong One','Hard Means It\'s Right']
-  },
-  'mid_all':{
-    type:'The Recovering Perfectionist',
-    tagline:'You have been here long enough to know the cost. Now comes the harder work.',
-    ac:'#7eb8e8',
-    bg:'linear-gradient(135deg,#07090f 0%,#0c1020 50%,#07090f 100%)',
-    analysis:['Your scores are moderate across all three dimensions. You have enough self-awareness to recognize the perfectionism, and enough wear from it to want something different. But the patterns are still active.','Moderate across all dimensions often means the costs are being normalized as they accumulate.'],
-    missing:'Consistency in the alternative. You know perfectionism is costing you. The work now is building habits that reward completion over correctness.',
-    steps:['For one week, track how often you revise something after it is already good enough.','Set one rule: when something is done, it is done. No further revision without a clear and specific reason.','Identify which of the three dimensions is most dominant and address that one first.'],
-    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
-  }
-};
-
-function getResultKey(sL,soL,cL){
-  if(sL==='high'&&soL==='high'&&cL==='high') return 'high_high_high';
-  if(sL==='low'&&soL==='low'&&cL==='low') return 'low_low_low';
-  if(sL==='high'&&soL==='low'&&cL==='low') return 'high_low_low';
-  if(sL==='low'&&soL==='high'&&cL==='low') return 'low_high_low';
-  if(sL==='low'&&soL==='low'&&cL==='high') return 'low_low_high';
-  if(sL==='high'&&soL==='high'&&cL!=='high') return 'high_high_low';
-  if(sL==='high'&&cL==='high'&&soL!=='high') return 'high_low_high';
-  if(soL==='high'&&cL==='high'&&sL!=='high') return 'low_high_high';
-  return 'mid_all';
-}
-
+function lv(s,m){const p=s/m;return p<=0.35?'low':p<=0.65?'mid':'high';}
+const TYPE_COLORS={'The High Achiever':{bg:'linear-gradient(135deg,#07120a,#0d2014)',ac:'#7ee8a0'},'The Driven Perfectionist':{bg:'linear-gradient(135deg,#0f0907,#201207)',ac:'#e8a07e'},'The Approval Seeker':{bg:'linear-gradient(135deg,#0a080f,#14101f)',ac:'#a07ee8'},'The Self-Critical One':{bg:'linear-gradient(135deg,#0f0707,#200d0d)',ac:'#e87e7e'},'The Paralyzed Perfectionist':{bg:'linear-gradient(135deg,#0f0f0f,#1a1a1a)',ac:'#c8c8c8'},'The Recovering Perfectionist':{bg:'linear-gradient(135deg,#07090f,#0a1020)',ac:'#7eb8e8'}};
 function showResult(){
   const self=answers[0]+answers[1]+answers[3]+answers[9];
   const soc=answers[2]+answers[5]+answers[6]+answers[10];
   const cost=answers[4]+answers[7]+answers[8]+answers[11];
-  const sL=lv(self),soL=lv(soc),cL=lv(cost);
-  const key=getResultKey(sL,soL,cL);
-  const r=RESULTS[key];
+  const sL=lv(self,16),soL=lv(soc,16),cL=lv(cost,16);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   document.getElementById('selfScore').textContent=self;
   document.getElementById('socScore').textContent=soc;
   document.getElementById('costScore').textContent=cost;
   document.getElementById('progressFill').style.width='100%';
-  const lb={low:'Low',mid:'Moderate',high:'High'};
-  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
   [['self',sL],['soc',soL],['cost',cL]].forEach(([k,l])=>{const el=document.getElementById(k+'Level');el.textContent=lb[l];el.className='score-card-level '+cs[l];});
+  let r;
+  if(sL==='low'&&soL==='low'&&cL==='low'){r={type:'The High Achiever',tagline:'You have standards without the suffering. That is rarer than it sounds.',analysis:['Your scores suggest you have genuine standards without the self-punishment that comes with perfectionism. You care about quality. You work hard. But you are not defined by your output, and failure does not destroy you.','This is the healthy version of caring about what you do. It is the result of standards that come from inside rather than from fear.','The distinction matters. High achievers grow. Perfectionists stall.'],missing:'Nothing critical. Maintain the distinction between caring about quality and tying your worth to results.',steps:['Check in periodically on whether your standards still feel internally motivated or if external pressure has crept in.','Notice how you respond to mistakes. The response is the signal.','Protect your ability to do imperfect things for enjoyment without needing them to be good.'],videos:['Hard Means It\'s Right','How to Actually Change Your Life']};}
+  else if(sL==='high'&&cL==='low'){r={type:'The Driven Perfectionist',tagline:'The standards are high. The suffering is still manageable. For now.',analysis:['You hold yourself to high internal standards and care deeply about doing things well. The cost to your wellbeing is still relatively low, which means the perfectionism has not yet crossed into self-destructive territory.','But this balance is fragile. High self-oriented perfectionism without psychological cost tends to shift over time, especially under pressure, failure, or when external rewards stop coming.'],missing:'Tolerance for imperfection. Not lower standards. The ability to produce imperfect work without it threatening who you are.',steps:['Practice finishing something to 80 percent and shipping it. Notice what happens.','Build in deliberate rest between high-effort projects. Not earned rest. Scheduled rest.','Identify one area where you can do something badly on purpose. Something low-stakes.'],videos:['The Comfortable Trap','Hard Means It\'s Right']};}
+  else if(soL==='high'){r={type:'The Approval Seeker',tagline:'The standards are not really yours. You inherited them from the audience.',analysis:['Your socially prescribed perfectionism is the dominant pattern. You are not primarily driven by internal standards. You are driven by the perceived expectations of others, and by the fear of falling short in their eyes.','This is one of the most exhausting forms of perfectionism because the bar is always moving. You are chasing something that was never clearly defined.'],missing:'Standards that come from inside. Work you would do even if no one were watching. The ability to disappoint someone and still feel okay.',steps:['Identify the specific person or group whose approval you are performing for. Name them explicitly.','Ask yourself about one current goal: would I still want this if no one would ever know I achieved it?','Practice doing one thing this week that earns no external recognition.'],videos:['Why Most Men Feel Empty and Lonely in 2026','What They Saw in the Mirror at 40']};}
+  else if(sL==='high'&&cL==='high'){r={type:'The Self-Critical One',tagline:'The standard you hold yourself to was never designed to be met.',analysis:['Your perfectionism is both internally driven and psychologically costly. You set high standards for yourself, you tie your worth to how well you meet them, and when you fall short, the internal response is not a course correction. It is an attack.','The perfectionism that once pushed you to do well has turned inward and is now working against you.'],missing:'Self-compassion as a strategy, not as softness. People who treat themselves with more kindness when they fail actually perform better over time, not worse.',steps:['When something goes wrong, write down what you would say to a friend in the same situation. Then say that to yourself.','Identify the voice that tells you what you should be. Ask where it came from.','Consider speaking to a therapist who works with perfectionism.'],videos:['The Cost of Always Being the Strong One','Why Most Men Wake Up at 30']};}
+  else if(cL==='high'){r={type:'The Paralyzed Perfectionist',tagline:'You are not lazy. You are afraid the result will not be good enough before you even begin.',analysis:['Your scores show high cost from perfectionism. This pattern often develops as a protective mechanism: if you do not try, you cannot fail properly. The avoidance looks like procrastination. From the inside it feels like stuckness.','Instead of driving you to produce better work, perfectionism is preventing you from producing any work at all.'],missing:'Permission to start badly. The first draft is not the final draft. The first attempt is not the verdict.',steps:['Use a time limit, not a quality limit. Give yourself 25 minutes to start something without judgment.','Separate starting from finishing. You do not have to finish today. You just have to begin.','Write down what you are afraid the result will look like. Usually the fear is exaggerated.'],videos:['How to Actually Change Your Life','Hard Means It\'s Right']};}
+  else{r={type:'The Recovering Perfectionist',tagline:'You have been here long enough to know the cost. Now comes the harder work.',analysis:['Your scores are moderate across multiple dimensions. You have enough self-awareness to recognize the perfectionism, and enough wear from it to want something different. But the patterns are still running.'],missing:'Consistency in the alternative. You know perfectionism is costing you. The work now is building habits that reward completion over correctness.',steps:['For one week, track how often you revise something after it is already good enough. The number will surprise you.','Set a rule for one project: when it is done, it is done. No further revision.','Identify what good enough looks like before you start, not after.'],videos:['The Hidden Reason You\'re Exhausted All the Time','The Comfortable Trap']};}
   document.getElementById('resultType').textContent=r.type;
   document.getElementById('resultTagline').textContent=r.tagline;
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
   document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+  buildCard(r.type,r.tagline,self,soc,cost);
+}
+function buildCard(type,tagline,self,soc,cost){
+  const col=TYPE_COLORS[type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
   const card=document.getElementById('shareCard');
   card.style.display='block';
-  document.getElementById('cardBg').style.background=r.bg;
-  document.getElementById('cardType').textContent=r.type;
-  document.getElementById('cardType').style.color=r.ac;
-  document.getElementById('cardTagline').textContent=r.tagline;
-  document.getElementById('cardScores').innerHTML=
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+self+'</div><div class="card-score-label">Self / 16</div></div>'+
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+soc+'</div><div class="card-score-label">Social / 16</div></div>'+
-    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+cost+'</div><div class="card-score-label">Cost / 16</div></div>';
+  document.getElementById('shareCardInner').style.background=col.bg;
+  document.getElementById('cardType').textContent=type;document.getElementById('cardType').style.color=col.ac;
+  document.getElementById('cardTagline').textContent=tagline;
+  document.getElementById('cardScores').innerHTML='<div><div class="sc-score-val" style="color:'+col.ac+'">'+self+'</div><div class="sc-score-lbl">Self</div></div><div><div class="sc-score-val" style="color:'+col.ac+'">'+soc+'</div><div class="sc-score-lbl">Social</div></div><div><div class="sc-score-val" style="color:'+col.ac+'">'+cost+'</div><div class="sc-score-lbl">Cost</div></div>';
   const name=document.getElementById('profileName').value.trim();
-  const row=document.getElementById('cardUserRow');
-  const nm=document.getElementById('cardUserName');
-  const ph=document.getElementById('cardUserPhoto');
-  const ch=document.getElementById('cardCharImg');
-  if(name||userPhoto){
-    row.style.display='flex';
-    if(name)nm.textContent=name;
-    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
-    if(userPhoto&&ch)ch.src=userPhoto;
-  }
+  const row=document.getElementById('cardUserRow');const nm=document.getElementById('cardUserName');const ph=document.getElementById('cardUserPhoto');const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){if(row)row.style.display='flex';if(name&&nm)nm.textContent=name;if(userPhoto&&ph){ph.src=userPhoto;ph.style.display='block';}if(userPhoto&&ch){ch.src=userPhoto;}}
 }
 function downloadCard(){
   const card=document.getElementById('shareCard');
-  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
-    const link=document.createElement('a');
-    link.download='grindorium-perfectionism-result.png';
-    link.href=canvas.toDataURL('image/png');
-    link.click();
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#070b12'}).then(canvas=>{
+    const link=document.createElement('a');link.download='grindorium-perfectionism-result.png';link.href=canvas.toDataURL('image/png');link.click();
   });
 }
-function retakeTest(){
-  answers.fill(null);cQ=0;
-  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-  document.getElementById('resultScreen').style.display='none';
-  document.getElementById('profileScreen').style.display='block';
-  document.getElementById('startScreen').style.display='none';
-  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
-  document.getElementById('shareCard').style.display='none';
-}
+function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
 </script>
 </body>
 </html>
