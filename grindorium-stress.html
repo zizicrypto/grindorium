@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Stress Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<meta property="og:url" content="https://grindorium.org/stress"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px;}
+.score-card{background:var(--bg2);padding:18px 14px;text-align:center;}
+.score-card-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--dim);text-transform:uppercase;margin-bottom:9px;}
+.score-card-value{font-size:28px;font-weight:300;color:var(--white);margin-bottom:3px;}
+.score-card-max{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.score-card-level{font-family:'Space Mono',monospace;font-size:8px;margin-top:5px;text-transform:uppercase;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-scores-row{display:flex;gap:24px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:14px;}
+.card-score-value{font-family:'Space Mono',sans-serif;font-size:22px;line-height:1;margin-bottom:4px;}
+.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-char{width:36px;height:36px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}.score-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-logo">Grindorium</a><a href="/" class="nav-back">Back</a></nav>
+<div class="container">
+
+<div id="profileScreen">
+  <div class="test-label">Stress Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
+  </div>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
+  </div>
+</div>
+
+<div id="startScreen" style="display:none">
+  <div class="test-label">Stress Assessment</div>
+  <h1 class="test-title">How stressed are you, really?</h1>
+  <p class="test-desc">Stress is not just feeling overwhelmed. It is what happens when the demands on your system consistently exceed its capacity to recover. This assessment measures two dimensions: load — how much pressure you are carrying — and resilience — how much capacity you have left to absorb it.</p>
+  <p class="test-note">10 questions &middot; 3&ndash;4 minutes &middot; Based on PSS and allostatic load research &middot; Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="question-block active" id="q0">
+    <div class="question-number">01 / 10</div>
+    <div class="question-text">In the past month, how often have you felt that things were out of your control?</div>
+    <div class="options">
+      <div class="option" onclick="sa(0,0)"><span class="option-key">Never</span>I generally feel in control of my life.</div>
+      <div class="option" onclick="sa(0,1)"><span class="option-key">Rarely</span>Occasional moments, but not a pattern.</div>
+      <div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>I notice the loss of control more than I should.</div>
+      <div class="option" onclick="sa(0,3)"><span class="option-key">Often</span>Control feels like something I am always trying to recover.</div>
+      <div class="option" onclick="sa(0,4)"><span class="option-key">Always</span>My life feels like it is happening to me, not with me.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q1">
+    <div class="question-number">02 / 10</div>
+    <div class="question-text">How often do you feel unable to handle the things you have to do?</div>
+    <div class="options">
+      <div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>I generally feel capable of what is in front of me.</div>
+      <div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Occasionally overwhelmed but I recover.</div>
+      <div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>The load exceeds my capacity more often than I would like.</div>
+      <div class="option" onclick="sa(1,3)"><span class="option-key">Often</span>I regularly feel like I am not enough for what is being asked of me.</div>
+      <div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>Everything feels like too much.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q2">
+    <div class="question-number">03 / 10</div>
+    <div class="question-text">How often do you feel angry or irritable because of things outside your control?</div>
+    <div class="options">
+      <div class="option" onclick="sa(2,0)"><span class="option-key">Never</span>External frustrations rarely affect my internal state significantly.</div>
+      <div class="option" onclick="sa(2,1)"><span class="option-key">Rarely</span>Sometimes irritated but it passes quickly.</div>
+      <div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>I notice irritability building in response to circumstances.</div>
+      <div class="option" onclick="sa(2,3)"><span class="option-key">Often</span>Low-level frustration is a near-constant background state.</div>
+      <div class="option" onclick="sa(2,4)"><span class="option-key">Always</span>I am frequently reactive in ways I later regret.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q3">
+    <div class="question-number">04 / 10</div>
+    <div class="question-text">How often have you felt that difficulties were piling up so high that you could not overcome them?</div>
+    <div class="options">
+      <div class="option" onclick="sa(3,0)"><span class="option-key">Never</span>Problems feel manageable.</div>
+      <div class="option" onclick="sa(3,1)"><span class="option-key">Rarely</span>Occasionally heavy but I find a way through.</div>
+      <div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>I notice the accumulation more than I can process.</div>
+      <div class="option" onclick="sa(3,3)"><span class="option-key">Often</span>There is a backlog of unresolved things that weighs on me constantly.</div>
+      <div class="option" onclick="sa(3,4)"><span class="option-key">Always</span>The pile never gets smaller. It only grows.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q4">
+    <div class="question-number">05 / 10</div>
+    <div class="question-text">How well do you sleep? Do you wake rested, or does your body carry the previous day into the next?</div>
+    <div class="options">
+      <div class="option" onclick="sa(4,0)"><span class="option-key">Well</span>I generally wake feeling recovered.</div>
+      <div class="option" onclick="sa(4,1)"><span class="option-key">Mostly</span>Sleep is okay, occasional rough nights.</div>
+      <div class="option" onclick="sa(4,2)"><span class="option-key">Poorly</span>I rarely wake feeling genuinely rested.</div>
+      <div class="option" onclick="sa(4,3)"><span class="option-key">Very poorly</span>Sleep does not restore me. I wake already tired.</div>
+      <div class="option" onclick="sa(4,4)"><span class="option-key">Not at all</span>Sleep feels like a pause in exhaustion, not recovery.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q5">
+    <div class="question-number">06 / 10</div>
+    <div class="question-text">When something stressful happens, how quickly do you return to baseline?</div>
+    <div class="options">
+      <div class="option" onclick="sa(5,0)"><span class="option-key">Quickly</span>I bounce back relatively fast.</div>
+      <div class="option" onclick="sa(5,1)"><span class="option-key">Within hours</span>Takes some time but I recover the same day.</div>
+      <div class="option" onclick="sa(5,2)"><span class="option-key">Days</span>Stressful events take days to fully metabolize.</div>
+      <div class="option" onclick="sa(5,3)"><span class="option-key">Weeks</span>My baseline has shifted. Recovery is slow and incomplete.</div>
+      <div class="option" onclick="sa(5,4)"><span class="option-key">Never</span>I am not sure I have a baseline anymore.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q6">
+    <div class="question-number">07 / 10</div>
+    <div class="question-text">How often do you experience physical symptoms that are likely stress-related? Headaches, tight muscles, digestive issues, a persistent sense of bracing.</div>
+    <div class="options">
+      <div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>My body feels generally at ease.</div>
+      <div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>Occasional physical tension but not a pattern.</div>
+      <div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>I notice my body carrying stress more than it should.</div>
+      <div class="option" onclick="sa(6,3)"><span class="option-key">Often</span>My body is regularly signaling that something is wrong.</div>
+      <div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>My body is in near-constant physical protest.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q7">
+    <div class="question-number">08 / 10</div>
+    <div class="question-text">How much genuine recovery time do you allow yourself? Not passive consumption. Actual rest.</div>
+    <div class="options">
+      <div class="option" onclick="sa(7,0)"><span class="option-key">Enough</span>I protect real rest and it shows.</div>
+      <div class="option" onclick="sa(7,1)"><span class="option-key">Some</span>I get some recovery but not as much as I need.</div>
+      <div class="option" onclick="sa(7,2)"><span class="option-key">Little</span>Most of my downtime is not genuinely restorative.</div>
+      <div class="option" onclick="sa(7,3)"><span class="option-key">Almost none</span>I am either working or collapsing. Nothing in between.</div>
+      <div class="option" onclick="sa(7,4)"><span class="option-key">None</span>Rest feels like something I have to earn and never quite do.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q8">
+    <div class="question-number">09 / 10</div>
+    <div class="question-text">How often do you feel that you have no one to turn to when things get hard?</div>
+    <div class="options">
+      <div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>I have people I can genuinely reach out to.</div>
+      <div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Support exists but I do not always use it.</div>
+      <div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>I often navigate difficult things alone by default.</div>
+      <div class="option" onclick="sa(8,3)"><span class="option-key">Often</span>I feel largely alone in what I am carrying.</div>
+      <div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>There is no one. The weight is entirely mine.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q9">
+    <div class="question-number">10 / 10</div>
+    <div class="question-text">How much of your stress comes from situations you have genuine control over, versus things you cannot affect?</div>
+    <div class="options">
+      <div class="option" onclick="sa(9,0)"><span class="option-key">Mostly controllable</span>Most of my stress is from things I can actually change.</div>
+      <div class="option" onclick="sa(9,1)"><span class="option-key">Mixed</span>Some I can change, some I cannot.</div>
+      <div class="option" onclick="sa(9,2)"><span class="option-key">Mostly uncontrollable</span>Much of what stresses me is outside my influence.</div>
+      <div class="option" onclick="sa(9,3)"><span class="option-key">Almost all uncontrollable</span>I am stressed by things I have almost no power over.</div>
+      <div class="option" onclick="sa(9,4)"><span class="option-key">All uncontrollable</span>Everything that stresses me is beyond my control.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
+  </div>
+</div>
+
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
+    <div class="result-label">Your Result</div>
+    <div id="shareCard">
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Stress Assessment<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
+        </div>
+        <div class="card-middle">
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
+        </div>
+        <div class="card-scores-row" id="cardScores"></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="/grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
+  </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-card-label">Load</div><div class="score-card-value" id="loadScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="loadLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Resilience</div><div class="score-card-value" id="resScore"></div><div class="score-card-max">out of 20</div><div class="score-card-level" id="resLevel"></div></div>
+  </div>
+  <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+  <div class="result-section"><div class="result-section-title">What is underneath it</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const answers=new Array(10).fill(null);let cQ=0;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===9){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 10';document.getElementById('progressFill').style.width=((cQ/10)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===9?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s){return s<=6?'low':s<=13?'mid':'high';}
+
+/*
+Load (stres yükü): q0,q1,q2,q3,q9 — algılanan baskı, kontrol kaybı, birikim
+Resilience (toparlanma kapasitesi — ters puanlı): q4,q5,q6,q7,q8
+Resilience'da yüksek puan = düşük kapasite
+Her ikisi de 0-20 arası. Yüksek load + yüksek resilience skoru = en kötü durum.
+*/
+
+const RESULTS={
+  'low_low':{
+    type:'The Steady One',
+    tagline:'The load is manageable and you have the capacity to carry it. That is not nothing.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
+    analysis:['Your stress load is low and your resilience capacity is intact. You are not carrying more than you can handle, and your system has genuine recovery mechanisms working.','This is not the absence of difficulty. It is the presence of proportion. The demands are real but they are not overwhelming the resources you have to meet them.'],
+    missing:'Awareness of drift. This balance can shift gradually without you noticing until it has already moved.',
+    steps:['Notice what is currently maintaining your resilience. Name it specifically. Protect it deliberately.','Identify the conditions that would increase your load significantly. Have a plan before they arrive.','One thing you can do now to strengthen your recovery capacity before you need it.'],
+    videos:['When Humans Forgot Nature','People Who Forgot How to Rest']
+  },
+  'low_mid':{
+    type:'The Quietly Depleted',
+    tagline:'The load is low but the recovery is not keeping up. You are spending more than you are restoring.',
+    ac:'#8ab8e8',
+    bg:'linear-gradient(135deg,#07090f 0%,#0c1222 50%,#07090f 100%)',
+    analysis:['Your stress load is not high, but your resilience is compromised. The problem is not what you are carrying. It is that you are not recovering between carries.','This pattern develops gradually. The load is tolerable so you keep going. But without real recovery the system slowly loses its capacity to absorb anything, even things that used to feel easy.'],
+    missing:'Genuine recovery. Not rest as reward. Rest as maintenance.',
+    steps:['Identify what is consuming your recovery capacity. Is it poor sleep, constant stimulation, social obligation, lack of alone time?','This week, protect one period of genuine rest. Not passive consumption. Actual stillness.','Ask: what would I need to stop doing in order to actually recover?'],
+    videos:['People Who Forgot How to Rest','The Silence You Avoid']
+  },
+  'low_high':{
+    type:'The One Running on Empty',
+    tagline:'The load is low but the tank is empty. You are surviving on reserves that are almost gone.',
+    ac:'#a0b4e8',
+    bg:'linear-gradient(135deg,#070810 0%,#0d1030 50%,#08090f 100%)',
+    analysis:['Your stress load is not severe but your resilience is significantly depleted. You may not be under enormous external pressure right now, but something has drained the system over time.','Resilience is not just about willpower. It is sleep, recovery time, social support, physical health, a sense of control. When these erode, even modest stress becomes difficult to absorb.'],
+    missing:'A sustained period of genuine recovery. Not a single good night. A structural change in how you are living.',
+    steps:['Stop adding things. The problem is depletion, not load. More effort makes it worse.','Identify the single most important thing you could restore right now — sleep, movement, genuine connection, solitude.','Consider whether what is depleting you is something you can step back from, even temporarily.'],
+    videos:['People Who Forgot How to Rest','When Humans Forgot Nature']
+  },
+  'mid_low':{
+    type:'The Pressured One',
+    tagline:'The load is real and you are still absorbing it. But this cannot continue indefinitely.',
+    ac:'#e8d87e',
+    bg:'linear-gradient(135deg,#0f0d06 0%,#1e1808 50%,#120f05 100%)',
+    analysis:['Your stress load is moderate and your resilience is holding. You are managing. The system is under pressure but not yet failing.','This is the most dangerous zone in a specific way: you are functional enough to keep going, which means you may not address the load until it gets worse.'],
+    missing:'Intervention before functional becomes depleted. The window to act is now, not when it gets harder.',
+    steps:['Identify the two or three sources of load that are most significant. Are any of them addressable?','Protect your recovery capacity actively. Do not let it erode while you are still managing.','Ask: what is one thing I could stop doing that would reduce the load without catastrophic consequences?'],
+    videos:['Hard Means It\'s Right','People Who Forgot How to Rest']
+  },
+  'mid_mid':{
+    type:'The One Holding On',
+    tagline:'You are carrying a real load with diminishing capacity. Both are moving in the wrong direction.',
+    ac:'#e8b87e',
+    bg:'linear-gradient(135deg,#100c07 0%,#221508 50%,#160e05 100%)',
+    analysis:['Moderate stress load and moderate resilience depletion. You are neither in crisis nor fully okay. The problem is that both dimensions are in a range where decline is likely without deliberate intervention.','When load increases and resilience decreases simultaneously, the gap widens faster than either would suggest on its own.'],
+    missing:'A clear decision to address one of the two. Not both at once. Pick the most urgent.',
+    steps:['Decide: is the priority reducing the load or restoring the resilience? One will be more accessible right now.','Identify one concrete thing that would reduce your stress load this week.','Protect sleep. At this stress level, sleep degradation accelerates everything else.'],
+    videos:['Hard Means It\'s Right','People Who Forgot How to Rest']
+  },
+  'mid_high':{
+    type:'The One Past Their Limit',
+    tagline:'The load is significant and the capacity is gone. You are running a deficit that compounds daily.',
+    ac:'#e8a07e',
+    bg:'linear-gradient(135deg,#100906 0%,#251005 50%,#180805 100%)',
+    analysis:['Moderate to high load combined with significantly depleted resilience. The system is in deficit. You are not recovering between stressors.','When resilience is this low, stress that would otherwise be manageable becomes genuinely difficult to absorb. The problem is not weakness. It is that the buffer is gone.'],
+    missing:'Emergency recovery. Not optimization. Basic restoration of what has been depleted.',
+    steps:['Sleep is the first thing. Whatever you think you cannot sacrifice, sleep is not it.','Identify one commitment you can reduce or eliminate this week. Not permanently. Just this week.','Tell someone what you are carrying. Isolation compounds depletion faster than almost anything else.'],
+    videos:['People Who Forgot How to Rest','Hard Means It\'s Right']
+  },
+  'high_low':{
+    type:'The One Under Real Pressure',
+    tagline:'The load is high but you still have capacity. Use it to reduce the load before that changes.',
+    ac:'#e8c87e',
+    bg:'linear-gradient(135deg,#0f0c06 0%,#241a06 50%,#180f04 100%)',
+    analysis:['Your stress load is high but your resilience is relatively intact. You are carrying a lot, and your system is currently absorbing it. The risk is that high load over time depletes resilience — and once that goes, the same load becomes much harder to carry.','You have a window. The question is whether you use it to reduce the load or wait until both dimensions become a problem.'],
+    missing:'Reduction, not management. The load is genuinely high. Some of it needs to come off, not just be coped with.',
+    steps:['Map everything you are currently carrying. All of it. Then ask: what on this list is not actually required?','Identify the load source that is consuming the most without returning the most. Address that first.','Protect your recovery capacity deliberately. Do not let it erode while the load is high.'],
+    videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']
+  },
+  'high_mid':{
+    type:'The One Carrying Too Much',
+    tagline:'The load is high and the capacity is fading. Something has to change before it changes for you.',
+    ac:'#e89060',
+    bg:'linear-gradient(135deg,#120806 0%,#2a1008 50%,#1a0906 100%)',
+    analysis:['High stress load with compromised resilience. You are carrying more than your system can sustainably absorb and the recovery mechanisms are no longer keeping up.','This combination — high load, diminishing resilience — is where chronic stress moves from a temporary state to a structural one. The body and mind adapt to overload in ways that become increasingly hard to reverse.'],
+    missing:'An honest reckoning with what is on your plate and what is not actually required to be there.',
+    steps:['Something has to come off. This is not about managing better. It is about carrying less.','Identify the single most draining commitment in your life right now. What would happen if you stepped back from it?','Rest is not a reward for completing the load. It is a condition for continuing to carry anything at all.'],
+    videos:['Hard Means It\'s Right','People Who Forgot How to Rest']
+  },
+  'high_high':{
+    type:'The Overloaded System',
+    tagline:'The load is at its limit and the capacity to absorb it is gone. This is not sustainable and you know it.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#130606 0%,#2a0a0a 50%,#180606 100%)',
+    analysis:['Both dimensions are elevated. You are carrying a high load with depleted resilience. The system is in significant distress.','This is not about pushing through. Pushing through at this level produces diminishing returns and accelerating cost. The system needs real relief, not better management.'],
+    missing:'Permission to stop. Not forever. Long enough to actually recover.',
+    steps:['Something has to stop. Not pause. Stop. Identify what that is.','Sleep first, everything else second. Decisions made in this state compound the problem.','If the stress is significantly affecting your daily function, please consider speaking to a professional. This combination responds well to the right support.'],
+    videos:['People Who Forgot How to Rest','When Humans Forgot Nature']
+  }
+};
+
+function showResult(){
+  const load=answers[0]+answers[1]+answers[2]+answers[3]+answers[9];
+  const res=answers[4]+answers[5]+answers[6]+answers[7]+answers[8];
+  const lL=lv(load),rL=lv(res);
+  const key=lL+'_'+rL;
+  const r=RESULTS[key]||RESULTS['mid_mid'];
+
+  document.getElementById('testScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('loadScore').textContent=load;
+  document.getElementById('resScore').textContent=res;
+  document.getElementById('progressFill').style.width='100%';
+
+  const lb={low:'Low',mid:'Moderate',high:'High'};
+  const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
+  const loadEl=document.getElementById('loadLevel');loadEl.textContent=lb[lL];loadEl.className='score-card-level '+cs[lL];
+  const resEl=document.getElementById('resLevel');resEl.textContent=lb[rL];resEl.className='score-card-level '+cs[rL];
+
+  document.getElementById('resultType').textContent=r.type;
+  document.getElementById('resultTagline').textContent=r.tagline;
+  document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
+  document.getElementById('resultMissing').textContent=r.missing;
+  document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
+  document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
+  document.getElementById('cardTagline').textContent=r.tagline;
+  document.getElementById('cardScores').innerHTML=
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+load+'</div><div class="card-score-label">Load &middot; out of 20</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+res+'</div><div class="card-score-label">Resilience &middot; out of 20</div></div>';
+
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
+}
+
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-stress-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
+</script>
+</body>
+</html>
