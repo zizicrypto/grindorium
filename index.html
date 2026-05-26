@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grindorium — You Are Safe Here</title>
+  <title>Grindorium - You Are Safe Here</title>
   <meta name="description" content="Grindorium is a space for people who are burned out, overstimulated, and emotionally exhausted. Take a self-assessment. Read. Breathe. You are safe here."/>
-<meta property="og:title" content="Grindorium — You Are Safe Here"/>
+<meta property="og:title" content="Grindorium - You Are Safe Here"/>
 <meta property="og:description" content="Burned out? Overstimulated? Emotionally numb? Grindorium is a space to slow down, know yourself, and come back."/>
 <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
 <meta property="og:url" content="https://grindorium.org/"/>
@@ -101,7 +101,7 @@
     .footer-links{display:flex;flex-wrap:wrap;gap:20px;}
     .footer-links a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
     .footer-links a:hover{color:var(--white);}
-    /* FIXED BUTTONS — repositioned to not overlap footer */
+    /* FIXED BUTTONS - repositioned to not overlap footer */
     .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
     .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
     .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
@@ -131,6 +131,23 @@
       .sound-btn{bottom:70px;right:16px;width:36px;height:36px;}
     }
   </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Grindorium",
+  "url": "https://grindorium.org",
+  "description": "Grindorium is a self-awareness platform for mentally overwhelmed modern people. Burned out, overstimulated, comfort-addicted, emotionally drained. Take psychological self-assessments on burnout, anxiety, loneliness, discipline, and self-sabotage. Read essays on silence, dopamine, and the life most people are not living. Watch cinematic short films and mindset videos on YouTube. You already know.",
+  "author": {
+    "@type": "Organization",
+    "name": "Grindorium"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "mental wellness, self-awareness, discipline, emotional intelligence, burnout, overstimulation"
+  }
+}
+</script>
 </head>
 <body>
 <!-- MOBILE NAV -->
@@ -187,7 +204,7 @@
 <div style="max-width:800px;margin:0 auto;">
   <div class="quote-section">
     <p class="quote-text">"The silence you avoid knows everything about you."</p>
-    <span class="quote-source">— Grindorium</span>
+    <span class="quote-source">- Grindorium</span>
   </div>
 </div>
 <div class="section">
@@ -202,13 +219,13 @@
   </div>
 </div>
 <section id="breathe" class="breathe-section">
-  <div class="section-label" style="justify-content:center;max-width:300px;margin:0 auto 48px;">01 — Breathe</div>
+  <div class="section-label" style="justify-content:center;max-width:300px;margin:0 auto 48px;">01 - Breathe</div>
   <p style="font-size:17px;font-weight:300;color:var(--dim);max-width:480px;margin:0 auto;line-height:1.8;">Four seconds in. Seven seconds hold. Eight seconds out. Three rounds. That is all.</p>
   <div class="breath-big" onclick="startBreath()" id="breathCircle"><span class="breath-counter" id="breathCounter"></span></div>
   <p class="breath-instruction" id="breathInstruction">Click to begin</p>
 </section>
 <section id="tests" class="section">
-  <div class="section-label">02 — Know Yourself</div>
+  <div class="section-label">02 - Know Yourself</div>
   <div class="cards">
     <a href="/burnout" class="card"><div class="card-number">Burnout</div><div class="card-title">Are you burned out?</div><div class="card-desc">Not tired. Not lazy. Something deeper. 10 questions. Real analysis.</div><div class="card-arrow">↗</div></a>
     <a href="/numbness" class="card"><div class="card-number">Emotional Numbness</div><div class="card-title">How numb are you?</div><div class="card-desc">When feeling nothing starts to feel normal.</div><div class="card-arrow">↗</div></a>
@@ -226,7 +243,7 @@
   </div>
 </section>
 <section id="sounds" class="section">
-  <div class="section-label">03 — Sounds</div>
+  <div class="section-label">03 - Sounds</div>
   <div class="cards">
     <div class="card" onclick="playSound('rain')" style="user-select:none;"><div class="card-number">Rain</div><div class="card-title">Heavy Rain</div><div class="card-desc">Roof. Window. Nowhere to be.</div><div class="card-arrow" id="rain-arrow">▶</div></div>
     <div class="card" onclick="playSound('forest')" style="user-select:none;"><div class="card-number">Nature</div><div class="card-title">Forest</div><div class="card-desc">Wind. Leaves. Birds far away.</div><div class="card-arrow" id="forest-arrow">▶</div></div>
@@ -235,7 +252,7 @@
   </div>
 </section>
 <section id="habits" class="section">
-  <div class="section-label">04 — Habits</div>
+  <div class="section-label">04 - Habits</div>
   <div style="max-width:500px;">
     <p style="font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:40px;">Pick one thing. Do it today. Come back tomorrow. That is the whole system.</p>
     <div style="background:var(--bg2);padding:32px;border:1px solid rgba(126,184,232,0.1);">
@@ -247,7 +264,7 @@
   </div>
 </section>
 <section id="journal" class="journal-section">
-  <div class="section-label" style="max-width:760px;margin:0 auto 48px;">05 — Journal</div>
+  <div class="section-label" style="max-width:760px;margin:0 auto 48px;">05 - Journal</div>
   <p style="font-size:17px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:32px;max-width:480px;">No likes. No audience. Just you and what you actually think.</p>
   <textarea class="journal-textarea" id="journalInput" placeholder="What's actually on your mind right now?"></textarea>
   <br>
@@ -255,7 +272,7 @@
   <div class="journal-entries" id="journalEntries"></div>
 </section>
 <section id="videos" class="video-section">
-  <div class="section-label">06 — Latest Videos</div>
+  <div class="section-label">06 - Latest Videos</div>
   <div class="yt-grid" id="ytGrid">
     <p class="yt-loading">Loading videos...</p>
   </div>
