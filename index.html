@@ -60,12 +60,12 @@
     .section-label::after{content:'';flex:1;height:1px;background:rgba(126,184,232,0.15);}
     /* CARDS */
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;}
-    .card{background:var(--bg2);padding:40px 32px;cursor:pointer;transition:background 0.3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;border:1px solid transparent;}
+    .card{background:var(--bg2);padding:28px 24px;cursor:pointer;transition:background 0.3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;border:1px solid transparent;}
     .card:hover{background:#111d2c;border-color:rgba(126,184,232,0.15);}
-    .card-number{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:24px;}
-    .card-title{font-size:24px;font-weight:300;color:var(--white);margin-bottom:12px;line-height:1.2;}
-    .card-desc{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
-    .card-arrow{position:absolute;bottom:32px;right:32px;font-family:'Space Mono',monospace;font-size:16px;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+    .card-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;}
+    .card-title{font-size:18px;font-weight:300;color:var(--white);margin-bottom:8px;line-height:1.2;}
+    .card-desc{font-size:13px;font-weight:300;color:var(--dim);line-height:1.6;}
+    .card-arrow{position:absolute;bottom:20px;right:20px;font-family:'Space Mono',monospace;font-size:14px;color:var(--dim);transition:color 0.3s,transform 0.3s;}
     .card:hover .card-arrow{color:var(--accent);transform:translate(4px,-4px);}
     /* BREATHE SECTION */
     .breathe-section{padding:80px 24px;text-align:center;}
@@ -220,6 +220,9 @@
     <a href="/loneliness" class="card"><div class="card-number">Loneliness</div><div class="card-title">Are you lonely in a full room?</div><div class="card-desc">Loneliness is not about how many people are around you. It is about whether any of them know you.</div><div class="card-arrow">↗</div></a>
     <a href="/self-sabotage" class="card"><div class="card-number">Self-Sabotage</div><div class="card-title">Are you your own worst enemy?</div><div class="card-desc">You know what to do. You do not do it. Or you get close and then destroy it. Find out why.</div><div class="card-arrow">↗</div></a>
     <a href="/emotional-maturity" class="card"><div class="card-number">Emotional Maturity</div><div class="card-title">How mature are you, really?</div><div class="card-desc">Age is not emotional maturity. You can be 40 and still respond like you are 14. Find out.</div><div class="card-arrow">↗</div></a>
+    <a href="/stress" class="card"><div class="card-number">Stress</div><div class="card-title">How stressed are you?</div><div class="card-desc">Not just overwhelmed. How much are you carrying and how much capacity do you have left.</div><div class="card-arrow">↗</div></a>
+    <a href="/self-esteem" class="card"><div class="card-number">Self-Esteem</div><div class="card-title">What do you think of yourself?</div><div class="card-desc">Not what you perform. What you actually believe about your own worth.</div><div class="card-arrow">↗</div></a>
+    <a href="/procrastination" class="card"><div class="card-number">Procrastination</div><div class="card-title">Why do you keep not doing it?</div><div class="card-desc">It is not laziness. Something about starting feels more threatening than the cost of not doing it.</div><div class="card-arrow">↗</div></a>
   </div>
 </section>
 <section id="sounds" class="section">
