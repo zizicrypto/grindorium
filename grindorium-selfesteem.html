@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Self-Esteem Test, Grindorium</title>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<meta property="og:url" content="https://grindorium.org/self-esteem"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
+.test-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+.test-title{font-size:clamp(30px,6vw,54px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:16px;}
+.test-desc{font-size:16px;font-weight:300;color:var(--dim);line-height:1.8;margin-bottom:12px;}
+.test-note{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);opacity:0.5;margin-bottom:40px;}
+.progress-bar{width:100%;height:1px;background:rgba(126,184,232,0.1);margin-bottom:20px;}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--dim);margin-bottom:12px;}
+.question-block{display:none;animation:fu 0.3s ease forwards;}
+.question-block.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-number{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--accent);margin-bottom:7px;}
+.question-text{font-size:clamp(16px,2.2vw,21px);font-weight:300;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.options{display:flex;flex-direction:column;gap:6px;}
+.option{padding:10px 14px;border:1px solid rgba(126,184,232,0.12);background:var(--bg2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:300;color:var(--dim);}
+.option:hover{border-color:rgba(126,184,232,0.45);color:var(--white);background:#111d2c;}
+.option.selected{border-color:var(--accent);color:var(--white);background:#111d2c;}
+.option-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:52px;flex-shrink:0;}
+.nav-buttons{display:flex;gap:10px;margin-top:16px;}
+.btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.3);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.btn:hover{border-color:rgba(126,184,232,0.7);color:var(--white);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-primary{background:rgba(126,184,232,0.08);border-color:var(--accent);}
+.start-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 36px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.start-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+.profile-sub{font-size:15px;font-weight:300;color:var(--dim);line-height:1.7;margin-bottom:22px;}
+.profile-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.2);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;padding:9px 0;outline:none;transition:border-color 0.3s;margin-bottom:20px;display:block;}
+.profile-input:focus{border-bottom-color:rgba(126,184,232,0.5);}
+.profile-input::placeholder{color:rgba(138,160,184,0.3);}
+.profile-photo-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.profile-photo-preview{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(126,184,232,0.25);}
+.profile-photo-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);border:1px solid rgba(126,184,232,0.2);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-photo-label:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+.profile-skip{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(138,160,184,0.45);background:none;border:1px solid rgba(126,184,232,0.12);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.profile-skip:hover{color:var(--accent);border-color:rgba(126,184,232,0.35);}
+.profile-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:32px;}
+.score-card{background:var(--bg2);padding:18px 14px;text-align:center;}
+.score-card-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--dim);text-transform:uppercase;margin-bottom:9px;}
+.score-card-value{font-size:28px;font-weight:300;color:var(--white);margin-bottom:3px;}
+.score-card-max{font-family:'Space Mono',monospace;font-size:8px;color:var(--dim);}
+.score-card-level{font-family:'Space Mono',monospace;font-size:8px;margin-top:5px;text-transform:uppercase;}
+.lv-low{color:#6db88a;}.lv-mid{color:#e8c87e;}.lv-high{color:#e87e7e;}
+.result-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+.result-type{font-size:clamp(26px,5vw,46px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:10px;}
+.result-tagline{font-size:17px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:32px;line-height:1.5;}
+.result-section{margin-bottom:30px;}
+.result-section-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(126,184,232,0.1);}
+.result-text{font-size:15px;font-weight:300;color:var(--dim);line-height:1.9;margin-bottom:12px;}
+.steps{display:flex;flex-direction:column;gap:11px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--accent);min-width:18px;margin-top:3px;}
+.step-text{font-size:14px;font-weight:300;color:var(--dim);line-height:1.7;}
+.video-cards{display:flex;flex-direction:column;gap:8px;}
+.video-card{background:var(--bg2);padding:15px 18px;border:1px solid rgba(126,184,232,0.1);text-decoration:none;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
+.video-card:hover{border-color:rgba(126,184,232,0.4);background:#111d2c;}
+.video-card-title{font-size:14px;font-weight:300;color:var(--white);}
+.video-card-arrow{font-family:'Space Mono',monospace;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.video-card:hover .video-card-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.retake-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.3s;margin-top:32px;}
+.retake-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--white);}
+.share-section-top{margin-bottom:38px;}
+#shareCard{width:100%;max-width:460px;aspect-ratio:1;overflow:hidden;border-radius:3px;margin:0 auto 12px;display:none;position:relative;}
+.card-bg{position:absolute;inset:0;z-index:0;}
+.card-grain{position:absolute;inset:0;z-index:1;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+.card-vignette{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);}
+.share-card-inner{position:relative;z-index:3;width:100%;height:100%;padding:28px 30px;display:grid;grid-template-rows:auto 1fr auto auto;gap:0;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;}
+.card-header-label{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.38;color:#fff;line-height:1.6;}
+.card-user-row{display:flex;align-items:center;gap:7px;}
+.card-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.2);}
+.card-user-name{font-family:'Space Mono',sans-serif;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);}
+.card-middle{display:flex;flex-direction:column;justify-content:center;padding:16px 0 12px;}
+.card-type-text{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,36px);font-weight:300;color:#fff;line-height:1.1;margin-bottom:10px;}
+.card-tagline-text{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.55;max-width:340px;}
+.card-scores-row{display:flex;gap:24px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:14px;}
+.card-score-value{font-family:'Space Mono',sans-serif;font-size:22px;line-height:1;margin-bottom:4px;}
+.card-score-label{font-family:'Space Mono',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.card-footer{display:flex;justify-content:space-between;align-items:center;}
+.card-char{width:36px;height:36px;border-radius:50%;object-fit:cover;opacity:0.75;}
+.card-site{text-align:right;}
+.card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
+.card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+@media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}.score-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-logo">Grindorium</a><a href="/" class="nav-back">Back</a></nav>
+<div class="container">
+
+<div id="profileScreen">
+  <div class="test-label">Self-Esteem Assessment</div>
+  <h1 class="test-title" style="margin-bottom:12px;">Before you begin.</h1>
+  <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
+  <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
+  <div class="profile-photo-row">
+    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
+  </div>
+  <div class="profile-btns">
+    <button class="start-btn" onclick="goStart()">Begin Assessment</button>
+    <button class="profile-skip" onclick="goStart()">Skip</button>
+  </div>
+</div>
+
+<div id="startScreen" style="display:none">
+  <div class="test-label">Self-Esteem Assessment</div>
+  <h1 class="test-title">What do you actually think of yourself?</h1>
+  <p class="test-desc">Not what you say in interviews. Not what you perform on good days. What you actually believe about your own worth when no one is watching and nothing is going well.</p>
+  <p class="test-desc">This assessment measures two dimensions: self-worth — the baseline belief in your own value — and self-efficacy — your confidence in your ability to handle what life gives you.</p>
+  <p class="test-note">12 questions &middot; 4 minutes &middot; Based on Rosenberg Self-Esteem Scale and Bandura research &middot; Not a clinical diagnostic tool</p>
+  <button class="start-btn" onclick="startTest()">Begin Assessment</button>
+</div>
+
+<div id="testScreen" style="display:none">
+  <div class="progress-text" id="progressText">Question 1 of 12</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="question-block active" id="q0">
+    <div class="question-number">01 / 12</div>
+    <div class="question-text">I feel that I am a person of worth, at least on an equal plane with others.</div>
+    <div class="options">
+      <div class="option" onclick="sa(0,4)"><span class="option-key">Strongly agree</span>I genuinely believe I deserve to take up space.</div>
+      <div class="option" onclick="sa(0,3)"><span class="option-key">Agree</span>I mostly feel this, with occasional doubt.</div>
+      <div class="option" onclick="sa(0,2)"><span class="option-key">Sometimes</span>It depends heavily on how things are going.</div>
+      <div class="option" onclick="sa(0,1)"><span class="option-key">Disagree</span>I often feel less valuable than the people around me.</div>
+      <div class="option" onclick="sa(0,0)"><span class="option-key">Strongly disagree</span>I do not feel like I am worth much.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q1">
+    <div class="question-number">02 / 12</div>
+    <div class="question-text">When I fail at something, I can separate the failure from my worth as a person.</div>
+    <div class="options">
+      <div class="option" onclick="sa(1,4)"><span class="option-key">Always</span>Failure is information, not identity.</div>
+      <div class="option" onclick="sa(1,3)"><span class="option-key">Usually</span>I recover the separation relatively quickly.</div>
+      <div class="option" onclick="sa(1,2)"><span class="option-key">Sometimes</span>Failure often bleeds into how I feel about myself.</div>
+      <div class="option" onclick="sa(1,1)"><span class="option-key">Rarely</span>Failure confirms a negative story I already believe.</div>
+      <div class="option" onclick="sa(1,0)"><span class="option-key">Never</span>When I fail, I am the failure.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q2">
+    <div class="question-number">03 / 12</div>
+    <div class="question-text">I believe I am capable of handling difficult situations when they arise.</div>
+    <div class="options">
+      <div class="option" onclick="sa(2,4)"><span class="option-key">Strongly agree</span>I trust myself to find a way through hard things.</div>
+      <div class="option" onclick="sa(2,3)"><span class="option-key">Agree</span>Generally yes, though some situations shake me.</div>
+      <div class="option" onclick="sa(2,2)"><span class="option-key">Sometimes</span>My confidence in myself is inconsistent.</div>
+      <div class="option" onclick="sa(2,1)"><span class="option-key">Disagree</span>I often doubt whether I can manage what is coming.</div>
+      <div class="option" onclick="sa(2,0)"><span class="option-key">Strongly disagree</span>I expect to fail before I begin.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q3">
+    <div class="question-number">04 / 12</div>
+    <div class="question-text">I feel good about myself independent of what others think of me.</div>
+    <div class="options">
+      <div class="option" onclick="sa(3,4)"><span class="option-key">Strongly agree</span>My sense of worth does not depend on external approval.</div>
+      <div class="option" onclick="sa(3,3)"><span class="option-key">Agree</span>Mostly independent, occasionally susceptible.</div>
+      <div class="option" onclick="sa(3,2)"><span class="option-key">Sometimes</span>I notice how much others' opinions affect my self-image.</div>
+      <div class="option" onclick="sa(3,1)"><span class="option-key">Disagree</span>How others see me significantly shapes how I see myself.</div>
+      <div class="option" onclick="sa(3,0)"><span class="option-key">Strongly disagree</span>I need external validation to feel okay about who I am.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q4">
+    <div class="question-number">05 / 12</div>
+    <div class="question-text">When I set my mind to something, I believe I can accomplish it.</div>
+    <div class="options">
+      <div class="option" onclick="sa(4,4)"><span class="option-key">Strongly agree</span>I have confidence in my ability to achieve what I commit to.</div>
+      <div class="option" onclick="sa(4,3)"><span class="option-key">Agree</span>Usually yes, with some exceptions.</div>
+      <div class="option" onclick="sa(4,2)"><span class="option-key">Sometimes</span>My confidence in my own capability is unreliable.</div>
+      <div class="option" onclick="sa(4,1)"><span class="option-key">Disagree</span>I often expect not to succeed before I try.</div>
+      <div class="option" onclick="sa(4,0)"><span class="option-key">Strongly disagree</span>I rarely believe I will manage to do the things I want to.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q5">
+    <div class="question-number">06 / 12</div>
+    <div class="question-text">I take pride in what I do and who I am, even when things are not going perfectly.</div>
+    <div class="options">
+      <div class="option" onclick="sa(5,4)"><span class="option-key">Strongly agree</span>My sense of pride is not entirely contingent on outcomes.</div>
+      <div class="option" onclick="sa(5,3)"><span class="option-key">Agree</span>I can access some pride even in difficult periods.</div>
+      <div class="option" onclick="sa(5,2)"><span class="option-key">Sometimes</span>Pride is much harder to find when things are not working.</div>
+      <div class="option" onclick="sa(5,1)"><span class="option-key">Disagree</span>When things go wrong I struggle to see anything worth valuing in myself.</div>
+      <div class="option" onclick="sa(5,0)"><span class="option-key">Strongly disagree</span>I rarely feel pride in myself regardless of how things are going.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q6">
+    <div class="question-number">07 / 12</div>
+    <div class="question-text">When I face a new challenge, my first instinct is that I can figure it out.</div>
+    <div class="options">
+      <div class="option" onclick="sa(6,4)"><span class="option-key">Always</span>I approach new challenges with basic confidence.</div>
+      <div class="option" onclick="sa(6,3)"><span class="option-key">Usually</span>Generally confident with occasional hesitation.</div>
+      <div class="option" onclick="sa(6,2)"><span class="option-key">Sometimes</span>My reaction to new challenges is mixed.</div>
+      <div class="option" onclick="sa(6,1)"><span class="option-key">Rarely</span>My first instinct is usually doubt.</div>
+      <div class="option" onclick="sa(6,0)"><span class="option-key">Never</span>New challenges feel threatening before they feel manageable.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q7">
+    <div class="question-number">08 / 12</div>
+    <div class="question-text">I feel worthy of good things — good relationships, good opportunities, good treatment from others.</div>
+    <div class="options">
+      <div class="option" onclick="sa(7,4)"><span class="option-key">Strongly agree</span>I believe I deserve good things without needing to earn them first.</div>
+      <div class="option" onclick="sa(7,3)"><span class="option-key">Agree</span>Generally yes, with occasional doubt.</div>
+      <div class="option" onclick="sa(7,2)"><span class="option-key">Sometimes</span>I notice a feeling that good things are somehow not quite for me.</div>
+      <div class="option" onclick="sa(7,1)"><span class="option-key">Disagree</span>Good things often feel like something I need to justify.</div>
+      <div class="option" onclick="sa(7,0)"><span class="option-key">Strongly disagree</span>I do not feel like I deserve much.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q8">
+    <div class="question-number">09 / 12</div>
+    <div class="question-text">I can recover from criticism without it significantly altering my view of myself.</div>
+    <div class="options">
+      <div class="option" onclick="sa(8,4)"><span class="option-key">Always</span>Criticism lands and passes without destabilizing me.</div>
+      <div class="option" onclick="sa(8,3)"><span class="option-key">Usually</span>I recover relatively quickly from negative feedback.</div>
+      <div class="option" onclick="sa(8,2)"><span class="option-key">Sometimes</span>Criticism sticks longer than it should.</div>
+      <div class="option" onclick="sa(8,1)"><span class="option-key">Rarely</span>Criticism tends to confirm negative things I already believe about myself.</div>
+      <div class="option" onclick="sa(8,0)"><span class="option-key">Never</span>Criticism is hard to separate from evidence of fundamental inadequacy.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q9">
+    <div class="question-number">10 / 12</div>
+    <div class="question-text">I trust my own judgment and decisions, even when others disagree.</div>
+    <div class="options">
+      <div class="option" onclick="sa(9,4)"><span class="option-key">Always</span>I can hold my own position under external pressure.</div>
+      <div class="option" onclick="sa(9,3)"><span class="option-key">Usually</span>Generally trust myself with occasional wavering.</div>
+      <div class="option" onclick="sa(9,2)"><span class="option-key">Sometimes</span>Disagreement from others often makes me doubt myself.</div>
+      <div class="option" onclick="sa(9,1)"><span class="option-key">Rarely</span>Others' opinions regularly override my own.</div>
+      <div class="option" onclick="sa(9,0)"><span class="option-key">Never</span>I default to others' judgment over my own.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q10">
+    <div class="question-number">11 / 12</div>
+    <div class="question-text">I feel that I matter. That my presence, effort, and existence make a difference.</div>
+    <div class="options">
+      <div class="option" onclick="sa(10,4)"><span class="option-key">Strongly agree</span>I feel a genuine sense of my own significance.</div>
+      <div class="option" onclick="sa(10,3)"><span class="option-key">Agree</span>Mostly, with quieter moments of doubt.</div>
+      <div class="option" onclick="sa(10,2)"><span class="option-key">Sometimes</span>My sense of mattering is inconsistent.</div>
+      <div class="option" onclick="sa(10,1)"><span class="option-key">Disagree</span>I often feel easily replaceable.</div>
+      <div class="option" onclick="sa(10,0)"><span class="option-key">Strongly disagree</span>I rarely feel like I matter to anyone or anything.</div>
+    </div>
+  </div>
+
+  <div class="question-block" id="q11">
+    <div class="question-number">12 / 12</div>
+    <div class="question-text">When I look at my life and who I am becoming, I feel a basic sense of direction and adequacy.</div>
+    <div class="options">
+      <div class="option" onclick="sa(11,4)"><span class="option-key">Strongly agree</span>I feel generally okay about the person I am becoming.</div>
+      <div class="option" onclick="sa(11,3)"><span class="option-key">Agree</span>Mostly, with occasional uncertainty.</div>
+      <div class="option" onclick="sa(11,2)"><span class="option-key">Sometimes</span>I am often unsure whether I am becoming who I want to be.</div>
+      <div class="option" onclick="sa(11,1)"><span class="option-key">Disagree</span>I frequently feel inadequate or directionless.</div>
+      <div class="option" onclick="sa(11,0)"><span class="option-key">Strongly disagree</span>I do not feel good about who I am or where I am going.</div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" onclick="prevQ()" disabled>Back</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()" disabled>Next</button>
+  </div>
+</div>
+
+<div id="resultScreen" style="display:none">
+  <div class="share-section-top">
+    <div class="result-label">Your Result</div>
+    <div id="shareCard">
+      <div class="card-bg" id="cardBg"></div>
+      <div class="card-grain"></div>
+      <div class="card-vignette"></div>
+      <div class="share-card-inner">
+        <div class="card-header">
+          <div class="card-header-label">Grindorium &middot; Self-Esteem Assessment<br>My Result</div>
+          <div class="card-user-row" id="cardUserRow" style="display:none;">
+            <img class="card-user-photo" id="cardUserPhoto" src="" alt="" style="display:none;"/>
+            <span class="card-user-name" id="cardUserName"></span>
+          </div>
+        </div>
+        <div class="card-middle">
+          <div class="card-type-text" id="cardType"></div>
+          <div class="card-tagline-text" id="cardTagline"></div>
+        </div>
+        <div class="card-scores-row" id="cardScores"></div>
+        <div class="card-footer">
+          <img class="card-char" id="cardCharImg" src="/grindorium-character.png" onerror="this.style.display='none'"/>
+          <div class="card-site">
+            <div class="card-site-url">grindorium.org</div>
+            <div class="card-site-cta">Take the test</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
+  </div>
+  <h1 class="result-type" id="resultType"></h1>
+  <p class="result-tagline" id="resultTagline"></p>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-card-label">Self-Worth</div><div class="score-card-value" id="worthScore"></div><div class="score-card-max">out of 24</div><div class="score-card-level" id="worthLevel"></div></div>
+    <div class="score-card"><div class="score-card-label">Self-Efficacy</div><div class="score-card-value" id="effScore"></div><div class="score-card-max">out of 24</div><div class="score-card-level" id="effLevel"></div></div>
+  </div>
+  <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
+  <div class="result-section"><div class="result-section-title">Where it comes from</div><p class="result-text" id="resultMissing"></p></div>
+  <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
+  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <button class="retake-btn" onclick="retakeTest()">Take it again</button>
+</div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const answers=new Array(12).fill(null);let cQ=0;
+let userPhoto=null;
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
+function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
+function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
+function nextQ(){if(answers[cQ]===null)return;if(cQ===11){showResult();return;}document.getElementById('q'+cQ).classList.remove('active');cQ++;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function prevQ(){if(cQ===0)return;document.getElementById('q'+cQ).classList.remove('active');cQ--;document.getElementById('q'+cQ).classList.add('active');updateUI();}
+function updateUI(){document.getElementById('progressText').textContent='Question '+(cQ+1)+' of 12';document.getElementById('progressFill').style.width=((cQ/12)*100)+'%';document.getElementById('prevBtn').disabled=cQ===0;document.getElementById('nextBtn').disabled=answers[cQ]===null;document.getElementById('nextBtn').textContent=cQ===11?'See Results':'Next';}
+function yt(t){return'https://www.youtube.com/@Grindorium/search?query='+encodeURIComponent(t);}
+function lv(s){return s<=8?'low':s<=16?'mid':'high';}
+
+/*
+Self-Worth (öz değer): q0,q1,q3,q5,q7,q8 — temel değer hissi, onay bağımsızlığı, eleştiriye dayanıklılık
+Self-Efficacy (öz yeterlilik): q2,q4,q6,q9,q10,q11 — yetenek inancı, yargı güveni, anlam
+Her ikisi 0-24 arası. Düşük = sorun.
+*/
+
+const RESULTS={
+  'high_high':{
+    type:'Grounded',
+    tagline:'You know who you are. You trust what you can do. That combination is rare.',
+    ac:'#7ee8a0',
+    bg:'linear-gradient(135deg,#061209 0%,#0b2014 50%,#071510 100%)',
+    analysis:['Your self-worth and self-efficacy are both strong. You have a stable sense of your own value that does not depend entirely on outcomes or others\' approval, and you trust your ability to handle what comes.','This is not arrogance. It is the quiet version — the person who does not need to announce their confidence because it is simply present.'],
+    missing:'Maintenance. Healthy self-esteem erodes under sustained stress, significant failure, or chronic exposure to people who undermine it. Stay aware.',
+    steps:['Notice the conditions that tend to shake your sense of worth. They are telling you something about what is still conditional.','One relationship or environment where you feel consistently smaller. Ask whether that is worth the cost.','The thing you have been putting off because you are not sure you can do it. Try it.'],
+    videos:['Hard Means It\'s Right','What They Saw in the Mirror at 40']
+  },
+  'high_mid':{
+    type:'The Worthy but Hesitant',
+    tagline:'You know you matter. You are less sure you can do it.',
+    ac:'#8ab8e8',
+    bg:'linear-gradient(135deg,#07090f 0%,#0d1222 50%,#07090f 100%)',
+    analysis:['Your self-worth is solid but your self-efficacy is developing. You have a decent sense of your own value but you doubt your capability more than your worth deserves.','The disconnect is common: people who believe they are fundamentally okay as a person but still approach challenges with doubt rather than confidence.'],
+    missing:'Evidence from your own actions. Efficacy is built through doing, not through believing more. Small wins stack.',
+    steps:['Identify one specific domain where your self-doubt is highest. Start there, with something small.','Track what you complete this week. Not what you failed. What you did. The evidence of capability is already there.','Notice when your self-worth is talking versus when your efficacy doubt is. They are separate voices.'],
+    videos:['Hard Means It\'s Right','Starting Over Isn\'t Progress']
+  },
+  'high_low':{
+    type:'The One Who Knows Their Worth but Not Their Power',
+    tagline:'You believe you deserve good things. You are not sure you can make them happen.',
+    ac:'#7eb8a8',
+    bg:'linear-gradient(135deg,#060f0a 0%,#0a1c14 50%,#070f0a 100%)',
+    analysis:['Strong self-worth but significantly low self-efficacy. You feel fundamentally okay as a person — you do not believe you are worthless — but you have deep doubts about your ability to achieve, manage, or produce.','This pattern often develops when someone has had their worth affirmed but their competence consistently undermined, or when early environments were supportive emotionally but not developmentally.'],
+    missing:'The experience of doing hard things and surviving them. Efficacy cannot be thought into existence. It is built through action.',
+    steps:['Pick one difficult thing you have been avoiding. Do it badly. Done is the evidence.','Identify where the competence doubt started. Was it a specific person, failure, or environment that taught you that you could not?','Build a track record deliberately. Small, consistent actions over time override the belief that you cannot.'],
+    videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']
+  },
+  'mid_high':{
+    type:'The Capable but Uncertain',
+    tagline:'You can do things. You are not sure you deserve the results.',
+    ac:'#c8b87e',
+    bg:'linear-gradient(135deg,#0f0e06 0%,#1e1a08 50%,#0f0e06 100%)',
+    analysis:['Your self-efficacy is strong but your self-worth is developing. You trust your ability to execute — you have genuine competence and confidence in what you can do — but you struggle with the belief that you deserve what your capability earns.','This is the profile of high achievers who feel like impostors. They produce results. They do not feel entitled to them.'],
+    missing:'The separation of worth from output. You are not what you produce. The belief that you are has to be examined.',
+    steps:['Identify one area where you consistently discount your own results. What is the internal story there?','When something goes well this week, let it land. Resist the impulse to immediately find what you should have done better.','Ask yourself: if a close friend achieved exactly what I just achieved, would I tell them they did not deserve it?'],
+    videos:['What They Saw in the Mirror at 40','Why Most Men Wake Up at 30']
+  },
+  'mid_mid':{
+    type:'The Building One',
+    tagline:'Both dimensions are present and both have room to grow. You are not starting from zero.',
+    ac:'#a0a8b8',
+    bg:'linear-gradient(135deg,#080a10 0%,#0e1020 50%,#080a10 100%)',
+    analysis:['Moderate self-worth and moderate self-efficacy. You have enough of both to function, and not enough of either to feel fully grounded.','This is the most common profile. The work is not dramatic — it is the slow accumulation of evidence that you are worth something and that you can do things.'],
+    missing:'Consistency. Both dimensions build through repeated, small experiences of being okay and being capable. Not through insight alone.',
+    steps:['Pick one dimension to focus on this month. Either work on believing you are worth something or work on building evidence that you can do things. Not both.','Identify one belief about yourself that has been limiting you for a long time. Where did it come from? Is it still accurate?','Do one thing this week that requires trusting yourself.'],
+    videos:['Hard Means It\'s Right','What They Saw in the Mirror at 40']
+  },
+  'mid_low':{
+    type:'The One Who Doubts Their Capability',
+    tagline:'You feel okay about who you are. You do not trust what you can do.',
+    ac:'#e8c87e',
+    bg:'linear-gradient(135deg,#0f0d06 0%,#1e1808 50%,#0f0d06 100%)',
+    analysis:['Moderate self-worth with low self-efficacy. You do not feel fundamentally worthless, but you have significant doubts about your ability to manage challenges, achieve goals, or handle what comes.','This kind of efficacy doubt acts as a ceiling. You know you deserve things but you do not believe you can make them happen. So you stop before you start.'],
+    missing:'Action before confidence. Confidence in your capability comes from doing, not from feeling ready. The readiness comes after.',
+    steps:['Start smaller than feels meaningful. The goal is to create a data point that says "I can." The size does not matter.','List three things you have done that required capability. They are there. You have been ignoring them.','The next time you think "I probably can\'t do this," ask: what is the evidence for that belief?'],
+    videos:['Hard Means It\'s Right','No One Is Coming. Stop Waiting.']
+  },
+  'low_high':{
+    type:'The Capable One Who Does Not Feel Enough',
+    tagline:'You can do things. You do not believe you deserve to.',
+    ac:'#b87ee8',
+    bg:'linear-gradient(135deg,#0d0812 0%,#1a0d30 50%,#0d0816 100%)',
+    analysis:['Low self-worth with high self-efficacy. You are genuinely capable — you can execute, handle pressure, and produce results — but you carry a deep belief that you are not fundamentally worthy of what your capability earns.','This combination is quietly painful. You keep achieving. You never feel like you deserve it. The bar keeps moving because the problem was never about the results.'],
+    missing:'The belief that you are enough independent of what you produce. That is not built through more achievement. It requires something different.',
+    steps:['Notice the story you tell yourself after succeeding. Is it "I did something good" or "I got lucky" or "it was not enough"?','Identify where the unworthiness belief started. It did not come from nowhere. It was taught.','Consider speaking to a therapist. Low self-worth with high efficacy is a specific pattern that responds well to the right support.'],
+    videos:['Why Most Men Wake Up at 30','What They Saw in the Mirror at 40']
+  },
+  'low_mid':{
+    type:'The One Who Feels Small',
+    tagline:'Your sense of your own worth is low and your trust in your capability is shaky. Both are learnable.',
+    ac:'#e87e9e',
+    bg:'linear-gradient(135deg,#120608 0%,#2a0a18 50%,#180610 100%)',
+    analysis:['Low self-worth and moderate self-efficacy. You do not feel fundamentally valuable as a person, and your trust in your own capability is inconsistent.','The low worth tends to undermine the efficacy even when it is present. It is hard to trust what you can do when you do not believe you deserve for it to work out.'],
+    missing:'Safety. Both dimensions develop more easily when the environment is not actively undermining them. Who and what are around you right now?',
+    steps:['Identify the sources of your current self-worth. Are they internal or are they entirely dependent on performance and others\' approval?','One small action toward something you want. Not because it will fix everything. Because doing something builds evidence.','Consider whether there is a relationship or environment currently reinforcing the belief that you are not enough.'],
+    videos:['The Cost of Always Being the Strong One','Why Most Men Wake Up at 30']
+  },
+  'low_low':{
+    type:'The One Who Has Stopped Believing',
+    tagline:'You do not feel worth much and you do not trust yourself to do much. That story was written a long time ago.',
+    ac:'#e87e7e',
+    bg:'linear-gradient(135deg,#130606 0%,#2a0a0a 50%,#180606 100%)',
+    analysis:['Both self-worth and self-efficacy are low. You do not feel fundamentally valuable as a person and you do not trust your ability to handle challenges or achieve things.','This combination is the foundation for a lot of what makes life feel hard. It predates most of the strategies you have tried to use to manage it.'],
+    missing:'The recognition that this story was not yours originally. Someone or something taught you that you were not worth much and could not do much. That is not fact. It is history.',
+    steps:['This is worth addressing with support. A therapist who works with self-esteem and self-worth can help you understand where this came from and begin to build something different.','One small thing today that requires nothing except showing up. Not to prove anything. To create a single data point.','Notice the internal voice that says you cannot or do not deserve to. Ask: whose voice is that?'],
+    videos:['Why Most Men Wake Up at 30','What They Saw in the Mirror at 40']
+  }
+};
+
+function showResult(){
+  const worth=answers[0]+answers[1]+answers[3]+answers[5]+answers[7]+answers[8];
+  const eff=answers[2]+answers[4]+answers[6]+answers[9]+answers[10]+answers[11];
+  const wL=lv(worth),eL=lv(eff);
+  const key=wL+'_'+eL;
+  const r=RESULTS[key]||RESULTS['mid_mid'];
+
+  document.getElementById('testScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('worthScore').textContent=worth;
+  document.getElementById('effScore').textContent=eff;
+  document.getElementById('progressFill').style.width='100%';
+
+  const lb={low:'Low',mid:'Developing',high:'Strong'};
+  const cs={low:'lv-high',mid:'lv-mid',high:'lv-low'};
+  const wEl=document.getElementById('worthLevel');wEl.textContent=lb[wL];wEl.className='score-card-level '+cs[wL];
+  const eEl=document.getElementById('effLevel');eEl.textContent=lb[eL];eEl.className='score-card-level '+cs[eL];
+
+  document.getElementById('resultType').textContent=r.type;
+  document.getElementById('resultTagline').textContent=r.tagline;
+  document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
+  document.getElementById('resultMissing').textContent=r.missing;
+  document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
+  document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+
+  const card=document.getElementById('shareCard');
+  card.style.display='block';
+  document.getElementById('cardBg').style.background=r.bg;
+  document.getElementById('cardType').textContent=r.type;
+  document.getElementById('cardType').style.color=r.ac;
+  document.getElementById('cardTagline').textContent=r.tagline;
+  document.getElementById('cardScores').innerHTML=
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+worth+'</div><div class="card-score-label">Self-Worth &middot; out of 24</div></div>'+
+    '<div class="card-score-item"><div class="card-score-value" style="color:'+r.ac+'">'+eff+'</div><div class="card-score-label">Self-Efficacy &middot; out of 24</div></div>';
+
+  const name=document.getElementById('profileName').value.trim();
+  const row=document.getElementById('cardUserRow');
+  const nm=document.getElementById('cardUserName');
+  const ph=document.getElementById('cardUserPhoto');
+  const ch=document.getElementById('cardCharImg');
+  if(name||userPhoto){
+    row.style.display='flex';
+    if(name)nm.textContent=name;
+    if(userPhoto){ph.src=userPhoto;ph.style.display='block';}
+    if(userPhoto&&ch)ch.src=userPhoto;
+  }
+}
+
+function downloadCard(){
+  const card=document.getElementById('shareCard');
+  html2canvas(card,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='grindorium-selfesteem-result.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function retakeTest(){
+  answers.fill(null);cQ=0;
+  document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('profileScreen').style.display='block';
+  document.getElementById('startScreen').style.display='none';
+  document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));
+  document.getElementById('shareCard').style.display='none';
+}
+</script>
+</body>
+</html>
