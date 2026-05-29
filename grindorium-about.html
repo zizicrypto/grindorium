@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>About — Grindorium</title>
+<meta name="description" content="Grindorium is a self-awareness platform for people who are burned out, overstimulated, and emotionally exhausted. Psychological self-assessments, essays, and videos."/>
+<meta property="og:title" content="About Grindorium"/>
+<meta property="og:description" content="Not a productivity platform. A self-awareness platform. Built for the person who already knows something is wrong."/>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<meta property="og:url" content="https://grindorium.org/about"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+.nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+.nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:760px;margin:0 auto;padding:140px 48px 100px;}
+.page-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+.page-title{font-size:clamp(40px,6vw,72px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:60px;}
+.divider{width:100%;height:1px;background:rgba(126,184,232,0.1);margin:48px 0;}
+.body-text{font-size:19px;font-weight:300;color:var(--dim);line-height:2;margin-bottom:28px;}
+.body-text strong{color:var(--white);font-weight:400;}
+h2{font-size:28px;font-weight:300;color:var(--white);margin:56px 0 20px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;margin:48px 0;}
+.stat-card{background:var(--bg2);padding:28px 24px;}
+.stat-number{font-family:'Space Mono',monospace;font-size:32px;color:var(--accent);margin-bottom:8px;}
+.stat-label{font-size:14px;font-weight:300;color:var(--dim);line-height:1.6;}
+.test-list{display:flex;flex-direction:column;gap:2px;margin:32px 0;}
+.test-item{background:var(--bg2);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;text-decoration:none;border:1px solid transparent;transition:all 0.3s;}
+.test-item:hover{border-color:rgba(126,184,232,0.15);background:#111d2c;}
+.test-item-name{font-size:16px;font-weight:300;color:var(--white);}
+.test-item-arrow{font-family:'Space Mono',monospace;font-size:12px;color:var(--dim);transition:color 0.3s,transform 0.3s;}
+.test-item:hover .test-item-arrow{color:var(--accent);transform:translate(3px,-3px);}
+.cta-block{background:var(--bg2);padding:40px;border:1px solid rgba(126,184,232,0.1);margin-top:48px;text-align:center;}
+.cta-text{font-size:22px;font-weight:300;color:var(--white);line-height:1.6;margin-bottom:28px;}
+.cta-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);text-decoration:none;display:inline-block;transition:all 0.3s;}
+.cta-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .container{padding:100px 20px 80px;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" alt="Grindorium" class="nav-logo-img" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/" class="nav-back">← Home</a>
+</nav>
+
+<div class="container">
+
+  <div class="page-label">About</div>
+  <h1 class="page-title">What Grindorium is.</h1>
+
+  <p class="body-text">Most self-improvement content tells you to wake up earlier, do more, push harder. Grindorium does not.</p>
+
+  <p class="body-text">Grindorium is for the people who are already exhausted. The ones who are functional on the outside and running on empty on the inside. The ones who know what they should be doing and cannot make themselves do it. The ones who have read all the advice and still feel stuck.</p>
+
+  <p class="body-text"><strong>This is not a productivity platform. It is a self-awareness platform.</strong></p>
+
+  <div class="divider"></div>
+
+  <h2>The assessments</h2>
+
+  <p class="body-text">The tests here are built on psychological research - burnout, attachment theory, emotional regulation, self-esteem, procrastination. They are designed to tell you something true about yourself, not just give you a label. Each one measures two dimensions and gives you one of nine possible results, each with its own analysis and specific next steps.</p>
+
+  <div class="test-list">
+    <a href="/burnout" class="test-item"><span class="test-item-name">Burnout</span><span class="test-item-arrow">↗</span></a>
+    <a href="/numbness" class="test-item"><span class="test-item-name">Emotional Numbness</span><span class="test-item-arrow">↗</span></a>
+    <a href="/anxiety" class="test-item"><span class="test-item-name">Anxiety and Overstimulation</span><span class="test-item-arrow">↗</span></a>
+    <a href="/attachment" class="test-item"><span class="test-item-name">Attachment Style</span><span class="test-item-arrow">↗</span></a>
+    <a href="/discipline" class="test-item"><span class="test-item-name">Discipline</span><span class="test-item-arrow">↗</span></a>
+    <a href="/perfectionism" class="test-item"><span class="test-item-name">Perfectionism</span><span class="test-item-arrow">↗</span></a>
+    <a href="/people-pleasing" class="test-item"><span class="test-item-name">People Pleasing</span><span class="test-item-arrow">↗</span></a>
+    <a href="/loneliness" class="test-item"><span class="test-item-name">Loneliness</span><span class="test-item-arrow">↗</span></a>
+    <a href="/self-sabotage" class="test-item"><span class="test-item-name">Self-Sabotage</span><span class="test-item-arrow">↗</span></a>
+    <a href="/emotional-maturity" class="test-item"><span class="test-item-name">Emotional Maturity</span><span class="test-item-arrow">↗</span></a>
+    <a href="/stress" class="test-item"><span class="test-item-name">Stress</span><span class="test-item-arrow">↗</span></a>
+    <a href="/self-esteem" class="test-item"><span class="test-item-name">Self-Esteem</span><span class="test-item-arrow">↗</span></a>
+    <a href="/procrastination" class="test-item"><span class="test-item-name">Procrastination</span><span class="test-item-arrow">↗</span></a>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>The essays</h2>
+
+  <p class="body-text">The writings are for people who are tired of being told to optimize. They are about silence, about what drives avoidance, about the relationship you have with yourself when no one is watching. No listicles. No bullet points. No ten-step frameworks.</p>
+
+  <p class="body-text">Just honest writing about the things most people are experiencing but not talking about.</p>
+
+  <div class="divider"></div>
+
+  <h2>The videos</h2>
+
+  <p class="body-text">The YouTube channel follows the same principle. Cinematic, quiet, direct. No shouting. No hacks. No false promises. Short films and longer essays on the psychology of modern life - overstimulation, discipline, emotional numbness, self-sabotage.</p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">Grindorium was built for the person who already knows something is wrong. Who is looking not for motivation but for clarity.</p>
+
+  <p class="body-text"><strong>You are safe here.</strong></p>
+
+  <div class="cta-block">
+    <p class="cta-text">Not sure where to start? Take a test.</p>
+    <a href="/#tests" class="cta-btn">See all assessments</a>
+  </div>
+
+</div>
+</body>
+</html>
