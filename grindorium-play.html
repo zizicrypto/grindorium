@@ -206,7 +206,7 @@
     </div>
   </div>
 
-  <div class="game-card soon">
+  <div class="game-card" onclick="openStack();return false;">
     <div class="gc-visual">
       <div class="cost-visual">
         <div class="cv-row"><span class="cv-label">Energy</span><div class="cv-bar"><div class="cv-fill f0"></div></div></div>
@@ -216,10 +216,14 @@
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">04 — Coming soon</div>
-      <div class="gc-title">The Cost</div>
-      <div class="gc-tagline">Every habit has a trade-off. Map yours.</div>
-      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+      <div class="gc-tag">04 — Sorting</div>
+      <div class="gc-title">The Stack</div>
+      <div class="gc-tagline">Sort what you are carrying before it sorts you.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">20 words</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
     </div>
   </div>
 
@@ -279,6 +283,51 @@
         <p id="lpr-note" style="font-size:14px;color:#4a5568;line-height:1.85;font-family:'Cormorant Garamond',serif;margin-bottom:24px;"></p>
         <span id="lpr-path" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;margin-bottom:28px;display:block;line-height:1.8;"></span>
         <button class="g-btn primary" onclick="lpInit()">Play again ↗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GAME OVERLAY: THE STACK -->
+  <div class="game-overlay" id="stackOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Stack</span>
+      <button class="go-close" onclick="closeStack()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 80px;">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;">The Stack</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#8aa0b8;">Sort what you are carrying.</div>
+      </div>
+      <div id="st-info" style="font-size:10px;letter-spacing:0.12em;color:#4a5568;margin-bottom:10px;text-align:center;height:16px;">Drag each word to where it belongs.</div>
+      <div style="width:100%;max-width:520px;height:1px;background:rgba(126,184,232,0.06);margin-bottom:20px;"><div id="st-bar" style="height:100%;background:rgba(126,184,232,0.25);transition:width 0.4s;width:0%;"></div></div>
+      <div id="st-game" style="width:100%;max-width:520px;">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="font-size:8px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;padding:4px 10px;border:1px solid rgba(167,139,250,0.2);color:#a78bfa;">Carrying</div>
+            <div id="st-zone-0" style="width:100%;min-height:240px;border:1px solid rgba(126,184,232,0.06);background:rgba(10,15,24,0.5);display:flex;flex-direction:column-reverse;padding:6px;gap:4px;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="font-size:8px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;padding:4px 10px;border:1px solid rgba(126,184,232,0.2);color:#7eb8e8;">Avoiding</div>
+            <div id="st-zone-1" style="width:100%;min-height:240px;border:1px solid rgba(126,184,232,0.06);background:rgba(10,15,24,0.5);display:flex;flex-direction:column-reverse;padding:6px;gap:4px;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="font-size:8px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;padding:4px 10px;border:1px solid rgba(249,168,212,0.2);color:#f9a8d4;">Accepting</div>
+            <div id="st-zone-2" style="width:100%;min-height:240px;border:1px solid rgba(126,184,232,0.06);background:rgba(10,15,24,0.5);display:flex;flex-direction:column-reverse;padding:6px;gap:4px;"></div>
+          </div>
+        </div>
+        <div id="st-pool" style="display:flex;flex-wrap:wrap;gap:6px;width:100%;min-height:52px;padding:10px;border:1px solid rgba(126,184,232,0.06);background:rgba(10,15,24,0.3);margin-bottom:16px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="g-btn" onclick="stInit()">Reset</button>
+          <button class="g-btn primary" onclick="stSubmit()">See result ↗</button>
+        </div>
+      </div>
+      <div id="st-result" style="display:none;text-align:center;max-width:420px;">
+        <div id="str-title" style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#fff;margin-bottom:16px;"></div>
+        <div id="str-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;margin-bottom:12px;font-family:'Cormorant Garamond',serif;font-style:italic;"></div>
+        <div id="str-note" style="font-size:12px;color:#4a5568;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:20px;"></div>
+        <div id="st-tags" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:24px;"></div>
+        <button class="g-btn primary" onclick="stInit()">Play again ↗</button>
       </div>
     </div>
   </div>
@@ -531,6 +580,76 @@ c:[
     document.getElementById('lpr-desc').textContent=e.desc;
     document.getElementById('lpr-note').textContent=e.note;
     document.getElementById('lpr-path').textContent=e.path;
+  }
+
+
+  const ST_WORDS=["Exhausted","Numb","Anxious","Lonely","Guilty","Restless","Disconnected","Aching","Drained","Invisible","Overwhelmed","Hollow","Ashamed","Spiraling","Flat","Avoidant","Missing","Bracing","Stuck","Unheard"];
+  let stDragging=null,stPlacements={};
+  function openStack(){document.getElementById('stackOverlay').classList.add('active');document.body.style.overflow='hidden';stInit();}
+  function closeStack(){document.getElementById('stackOverlay').classList.remove('active');document.body.style.overflow='';}
+  function stInit(){
+    stPlacements={};
+    document.getElementById('st-result').style.display='none';
+    document.getElementById('st-game').style.display='block';
+    document.getElementById('st-bar').style.width='0%';
+    document.getElementById('st-info').textContent='Drag each word to where it belongs.';
+    for(let i=0;i<3;i++)document.getElementById('st-zone-'+i).innerHTML='';
+    const pool=document.getElementById('st-pool');
+    pool.innerHTML='';
+    [...ST_WORDS].sort(()=>Math.random()-0.5).forEach(w=>pool.appendChild(stTile(w,'uncat')));
+    stSetup(pool,-1);
+    for(let i=0;i<3;i++)stSetup(document.getElementById('st-zone-'+i),i);
+  }
+  function stTile(word,cls){
+    const bc={'uncat':'rgba(126,184,232,0.15)','c0':'rgba(167,139,250,0.3)','c1':'rgba(126,184,232,0.3)','c2':'rgba(249,168,212,0.3)'};
+    const tc={'uncat':'#8aa0b8','c0':'#a78bfa','c1':'#7eb8e8','c2':'#f9a8d4'};
+    const bg={'uncat':'#0a0f18','c0':'rgba(167,139,250,0.06)','c1':'rgba(126,184,232,0.06)','c2':'rgba(249,168,212,0.06)'};
+    const t=document.createElement('div');
+    t.style.cssText=`padding:8px 10px;border:1px solid ${bc[cls]};color:${tc[cls]};background:${bg[cls]};font-family:Space Mono,monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:grab;line-height:1.3;`;
+    t.textContent=word;t.draggable=true;t.dataset.word=word;t.dataset.cls=cls;
+    t.addEventListener('dragstart',()=>{stDragging=t;requestAnimationFrame(()=>t.style.opacity='0.3');});
+    t.addEventListener('dragend',()=>{t.style.opacity='1';stDragging=null;});
+    return t;
+  }
+  function stSetup(el,zoneId){
+    el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='rgba(126,184,232,0.3)';});
+    el.addEventListener('dragleave',()=>el.style.borderColor='');
+    el.addEventListener('drop',e=>{
+      e.preventDefault();el.style.borderColor='';
+      if(!stDragging)return;
+      const w=stDragging.dataset.word;
+      const cls=zoneId===0?'c0':zoneId===1?'c1':zoneId===2?'c2':'uncat';
+      stDragging.remove();
+      el.appendChild(stTile(w,cls));
+      if(zoneId===-1)delete stPlacements[w];
+      else stPlacements[w]=zoneId;
+      const n=Object.keys(stPlacements).length;
+      document.getElementById('st-bar').style.width=(n/ST_WORDS.length*100)+'%';
+      const r=ST_WORDS.length-n;
+      document.getElementById('st-info').textContent=r>0?r+' remaining':'All sorted. Ready when you are.';
+    });
+  }
+  function stSubmit(){
+    const c=[0,0,0];
+    Object.values(stPlacements).forEach(z=>c[z]++);
+    const unsorted=ST_WORDS.length-c[0]-c[1]-c[2];
+    let title,desc,note;
+    if(c[0]>=10){title="You are carrying a lot.";desc="More than half of these landed in carrying. That is not a judgment. It is a measurement. The question is not whether the weight is real — it is.";note="Which of these are you carrying by choice, and which because you have not yet found a way to set them down?";}
+    else if(c[1]>=8){title="There is a lot you are not facing.";desc="The avoiding column is heavy. That does not mean weak. It means there are things that do not feel safe to approach yet.";note="Avoidance works until the avoided things accumulate enough weight that they can no longer be held at a distance.";}
+    else if(c[2]>=7){title="You have done some work.";desc="A significant portion landed in accepting. That column is the hardest to fill honestly. Most people place things there because they feel they should.";note="If these are genuine, that is rare. If some are aspirational, that is also useful information.";}
+    else if(unsorted>=8){title="You are not sure yet.";desc="Most of the words stayed in the pool. That may be precision — you did not want to place things incorrectly.";note="Or the categories do not map cleanly onto your experience. That is also valid information.";}
+    else{title="A mixed weight.";desc="You distributed fairly evenly across all three. Some carrying, some avoiding, some accepting. That is probably the most accurate picture of what most people are doing.";note="The interesting part is not the totals. It is the specific words. Which ones surprised you by where they landed?";}
+    document.getElementById('st-game').style.display='none';
+    document.getElementById('st-bar').style.width='100%';
+    document.getElementById('st-info').textContent='';
+    document.getElementById('st-result').style.display='block';
+    document.getElementById('str-title').textContent=title;
+    document.getElementById('str-desc').textContent=desc;
+    document.getElementById('str-note').textContent=note;
+    const tags=document.getElementById('st-tags');tags.innerHTML='';
+    const bc=['rgba(167,139,250,0.2)','rgba(126,184,232,0.2)','rgba(249,168,212,0.2)'];
+    const tc=['#a78bfa','#7eb8e8','#f9a8d4'];
+    [0,1,2].forEach(z=>{Object.entries(stPlacements).filter(([,v])=>v===z).forEach(([w])=>{tags.innerHTML+=`<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid ${bc[z]};color:${tc[z]};">${w}</span>`;});});
   }
 
   const LEVELS=[
