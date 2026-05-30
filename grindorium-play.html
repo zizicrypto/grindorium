@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Play — Grindorium</title>
+  <meta name="description" content="Games that make you look inward. Sort feelings, spot patterns, understand yourself differently."/>
+  <meta property="og:title" content="Play — Grindorium"/>
+  <meta property="og:description" content="Not distractions. Games built around the same questions the tests ask — just differently."/>
+  <meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+  <meta property="og:url" content="https://grindorium.org/play"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+    .nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+    .nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+    .nav-back:hover{color:var(--white);}
+    .hero{padding:140px 48px 60px;}
+    .page-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,64px);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:16px;}
+    .page-desc{font-size:14px;color:var(--dim);line-height:1.9;max-width:460px;}
+    .divider{height:1px;background:rgba(126,184,232,0.07);margin:48px 48px;}
+    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2px;padding:0 48px 100px;}
+    .game-card{background:var(--bg2);cursor:pointer;transition:background 0.2s;overflow:hidden;text-decoration:none;display:block;color:inherit;}
+    .game-card:hover:not(.soon){background:#111d2c;}
+    .game-card.soon{opacity:0.35;cursor:default;pointer-events:none;}
+    .gc-visual{height:180px;display:flex;align-items:center;justify-content:center;padding:20px;border-bottom:1px solid rgba(126,184,232,0.06);}
+    .mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%;}
+    .mg-tile{height:36px;border:1px solid;border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.25s;}
+    .mg-tile.c0{border-color:rgba(167,139,250,0.3);color:#a78bfa;background:rgba(167,139,250,0.06);}
+    .mg-tile.c1{border-color:rgba(126,184,232,0.3);color:#7eb8e8;background:rgba(126,184,232,0.06);}
+    .mg-tile.c2{border-color:rgba(249,168,212,0.3);color:#f9a8d4;background:rgba(249,168,212,0.06);}
+    .mg-tile.c3{border-color:rgba(134,239,172,0.3);color:#86efac;background:rgba(134,239,172,0.06);}
+    .mg-tile.cleared{background:rgba(7,11,18,0.5);border-color:rgba(126,184,232,0.04);color:transparent;}
+    .mg-tile.selected{transform:scale(0.92);}
+    .mirror-visual{display:flex;flex-direction:column;gap:8px;width:100%;padding:8px;}
+    .mv-option{padding:10px 14px;border:1px solid rgba(126,184,232,0.07);font-size:12px;color:#4a5568;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.4;}
+    .mv-option.active{border-color:rgba(126,184,232,0.22);color:var(--dim);}
+    .pattern-visual{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;width:100%;padding:8px;}
+    .pv-node{height:28px;border:1px solid rgba(126,184,232,0.08);border-radius:1px;}
+    .pv-node.lit{background:rgba(126,184,232,0.07);border-color:rgba(126,184,232,0.22);}
+    .cost-visual{display:flex;flex-direction:column;gap:10px;width:100%;padding:12px;}
+    .cv-row{display:flex;align-items:center;gap:10px;}
+    .cv-label{font-size:8px;letter-spacing:0.12em;color:#4a5568;width:52px;text-transform:uppercase;}
+    .cv-bar{flex:1;height:10px;border:1px solid rgba(126,184,232,0.08);border-radius:1px;overflow:hidden;}
+    .cv-fill{height:100%;}
+    .cv-fill.f0{background:rgba(167,139,250,0.22);width:75%;}
+    .cv-fill.f1{background:rgba(249,168,212,0.22);width:45%;}
+    .cv-fill.f2{background:rgba(134,239,172,0.22);width:62%;}
+    .cv-fill.f3{background:rgba(126,184,232,0.22);width:30%;}
+    .gc-body{padding:24px 28px 28px;}
+    .gc-tag{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:10px;}
+    .gc-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--white);margin-bottom:6px;}
+    .gc-tagline{font-size:13px;color:var(--dim);font-style:italic;margin-bottom:18px;font-family:'Cormorant Garamond',serif;line-height:1.5;}
+    .gc-footer{display:flex;gap:8px;align-items:center;}
+    .gc-badge{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(126,184,232,0.18);color:var(--accent);}
+    .gc-badge.dim{border-color:rgba(138,160,184,0.12);color:#4a5568;}
+    .gc-arrow{font-size:13px;color:#4a5568;margin-left:auto;transition:all 0.2s;}
+    .game-card:not(.soon):hover .gc-arrow{color:var(--accent);transform:translate(3px,-3px);}
+    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
+    .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
+    .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
+    .sound-btn:hover .sound-icon{color:var(--accent);}
+
+    /* GAME OVERLAY */
+    .game-overlay{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow-y:auto;}
+    .game-overlay.active{display:block;}
+    .go-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 48px;border-bottom:1px solid rgba(126,184,232,0.07);}
+    .go-close{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:transparent;border:none;cursor:pointer;font-family:'Space Mono',monospace;transition:color 0.2s;}
+    .go-close:hover{color:var(--white);}
+    .go-title{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);}
+    .go-inner{max-width:640px;margin:0 auto;padding:48px 24px 80px;}
+    #g-header{text-align:center;margin-bottom:40px;}
+    #g-header p{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+    #g-header h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--white);margin-bottom:6px;}
+    #g-header small{font-size:11px;color:#4a5568;letter-spacing:0.1em;}
+    #g-level-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+    #g-level-info span{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);}
+    #g-score{font-size:10px;letter-spacing:0.15em;color:var(--accent);}
+    #g-progress{height:1px;background:rgba(126,184,232,0.08);margin-bottom:28px;}
+    #g-progress-fill{height:100%;background:var(--accent);transition:width 0.5s;}
+    #g-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:20px;}
+    .g-tile{aspect-ratio:1;border:1px solid rgba(126,184,232,0.08);background:rgba(14,21,32,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;border-radius:1px;padding:4px;}
+    .g-tile:hover:not(.empty):not(.cleared){border-color:rgba(126,184,232,0.3);}
+    .g-tile.selected{transform:scale(0.94);}
+    .g-tile.clearing{animation:gclear 0.4s forwards;}
+    .g-tile.empty,.g-tile.cleared{background:rgba(7,11,18,0.4);border-color:rgba(126,184,232,0.03);cursor:default;}
+    .g-tile-word{font-size:8px;letter-spacing:0.06em;text-align:center;line-height:1.3;text-transform:uppercase;pointer-events:none;}
+    .g-tile.cat-0{border-color:rgba(167,139,250,0.15);} .g-tile.cat-0 .g-tile-word{color:#a78bfa;}
+    .g-tile.cat-1{border-color:rgba(126,184,232,0.15);} .g-tile.cat-1 .g-tile-word{color:#7eb8e8;}
+    .g-tile.cat-2{border-color:rgba(249,168,212,0.15);} .g-tile.cat-2 .g-tile-word{color:#f9a8d4;}
+    .g-tile.cat-3{border-color:rgba(134,239,172,0.15);} .g-tile.cat-3 .g-tile-word{color:#86efac;}
+    .g-tile.selected.cat-0{background:rgba(167,139,250,0.12);border-color:rgba(167,139,250,0.45);}
+    .g-tile.selected.cat-1{background:rgba(126,184,232,0.12);border-color:rgba(126,184,232,0.45);}
+    .g-tile.selected.cat-2{background:rgba(249,168,212,0.12);border-color:rgba(249,168,212,0.45);}
+    .g-tile.selected.cat-3{background:rgba(134,239,172,0.12);border-color:rgba(134,239,172,0.45);}
+    @keyframes gclear{0%{opacity:1;transform:scale(1);}50%{opacity:0.3;transform:scale(1.08);}100%{opacity:0;transform:scale(0.8);}}
+    #g-cats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:18px;}
+    .g-cat{padding:10px 14px;border:1px solid;border-radius:1px;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;}
+    .g-cat.cat-0{border-color:rgba(167,139,250,0.2);color:#a78bfa;}
+    .g-cat.cat-1{border-color:rgba(126,184,232,0.2);color:#7eb8e8;}
+    .g-cat.cat-2{border-color:rgba(249,168,212,0.2);color:#f9a8d4;}
+    .g-cat.cat-3{border-color:rgba(134,239,172,0.2);color:#86efac;}
+    .g-cat p{font-size:12px;font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,0.45);margin-top:3px;text-transform:none;letter-spacing:0;}
+    #g-msg{text-align:center;min-height:28px;font-size:11px;letter-spacing:0.1em;color:var(--dim);margin-bottom:14px;}
+    #g-msg.ok{color:#86efac;}
+    #g-msg.err{color:#f9a8d4;}
+    #g-btns{display:flex;gap:8px;justify-content:center;}
+    .g-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(126,184,232,0.18);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;border-radius:1px;}
+    .g-btn:hover{border-color:rgba(126,184,232,0.45);color:var(--white);}
+    .g-btn.primary{border-color:rgba(126,184,232,0.35);color:var(--accent);}
+    #g-win{display:none;text-align:center;padding:40px 24px;}
+    #g-win h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:12px;}
+    #g-win p{font-size:15px;color:var(--dim);line-height:1.9;max-width:380px;margin:0 auto 28px;font-family:'Cormorant Garamond',serif;}
+
+    @media(max-width:600px){
+      nav,#go-nav{padding:16px 20px;}
+      .hero{padding:110px 20px 48px;}
+      .divider{margin:40px 20px;}
+      .game-grid{padding:0 20px 80px;grid-template-columns:1fr;}
+      .go-inner{padding:32px 16px 60px;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" class="nav-logo-img" alt="Grindorium" onerror="this.style.display='none'"/>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/" class="nav-back">← Home</a>
+</nav>
+
+<div class="hero">
+  <div class="page-label">Play</div>
+  <h1 class="page-title">Games that make<br>you look inward.</h1>
+  <p class="page-desc">Not distractions. Each game is built around the same questions the tests ask — just differently.</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="game-grid">
+
+  <a href="#" class="game-card" onclick="openGame();return false;">
+    <div class="gc-visual">
+      <div class="mini-grid" id="preview-grid"></div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">01 — Sorting</div>
+      <div class="gc-title">The Weight</div>
+      <div class="gc-tagline">Sort the feelings before they sort you.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">3 levels</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <div class="game-card soon">
+    <div class="gc-visual">
+      <div class="mirror-visual">
+        <div class="mv-option">I am protecting myself from something.</div>
+        <div class="mv-option active">I am overwhelmed and cannot say it.</div>
+        <div class="mv-option">I do not actually want to be there.</div>
+        <div class="mv-option">I do not know. That is the honest answer.</div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">02 — Coming soon</div>
+      <div class="gc-title">The Mirror</div>
+      <div class="gc-tagline">A scenario. Four responses. No right answer.</div>
+      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+    </div>
+  </div>
+
+  <div class="game-card soon">
+    <div class="gc-visual">
+      <div class="pattern-visual">
+        <div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div>
+        <div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div>
+        <div class="pv-node lit"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node"></div><div class="pv-node lit"></div>
+        <div class="pv-node"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node lit"></div><div class="pv-node"></div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">03 — Coming soon</div>
+      <div class="gc-title">The Pattern</div>
+      <div class="gc-tagline">Ten decisions. See what you are optimizing for.</div>
+      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+    </div>
+  </div>
+
+  <div class="game-card soon">
+    <div class="gc-visual">
+      <div class="cost-visual">
+        <div class="cv-row"><span class="cv-label">Energy</span><div class="cv-bar"><div class="cv-fill f0"></div></div></div>
+        <div class="cv-row"><span class="cv-label">Time</span><div class="cv-bar"><div class="cv-fill f1"></div></div></div>
+        <div class="cv-row"><span class="cv-label">Focus</span><div class="cv-bar"><div class="cv-fill f2"></div></div></div>
+        <div class="cv-row"><span class="cv-label">Peace</span><div class="cv-bar"><div class="cv-fill f3"></div></div></div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">04 — Coming soon</div>
+      <div class="gc-title">The Cost</div>
+      <div class="gc-tagline">Every habit has a trade-off. Map yours.</div>
+      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- GAME OVERLAY -->
+<div class="game-overlay" id="gameOverlay">
+  <div class="go-nav">
+    <span class="go-title">The Weight</span>
+    <button class="go-close" onclick="closeGame()">← Back to games</button>
+  </div>
+  <div class="go-inner">
+    <div id="g-header">
+      <p>Grindorium</p>
+      <h1 id="g-level-name">Burnout</h1>
+      <small>Select four tiles that belong together.</small>
+    </div>
+    <div id="g-progress"><div id="g-progress-fill" style="width:0%"></div></div>
+    <div id="g-level-info">
+      <span id="g-level-label">Level 1 of 3</span>
+      <span id="g-score">0 cleared</span>
+    </div>
+    <div id="g-grid"></div>
+    <div id="g-cats"></div>
+    <div id="g-msg">Select four tiles that belong together.</div>
+    <div id="g-btns">
+      <button class="g-btn" onclick="gDeselect()">Deselect</button>
+      <button class="g-btn primary" onclick="gCheck()">Submit ↗</button>
+    </div>
+    <div id="g-win">
+      <h2 id="g-win-title"></h2>
+      <p id="g-win-msg"></p>
+      <button class="g-btn primary" onclick="gNext()">Continue ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
+
+<script>
+const LEVELS=[
+  {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
+    {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
+    {id:1,label:"Avoidance",desc:"Can't face it",words:["Avoiding","Hiding","Postponing","Escaping"]},
+    {id:2,label:"Disconnection",desc:"Not really here",words:["Detached","Absent","Distant","Flatlined"]},
+    {id:3,label:"Physical signs",desc:"The body knows",words:["Heavy","Tense","Exhausted","Wired"]},
+  ]},
+  {name:"Anxiety",insight:"Your nervous system is not broken. It is doing exactly what it was designed to do. In a world it was never designed for.",categories:[
+    {id:0,label:"Anticipation",desc:"Always bracing",words:["What if","Dreading","Bracing","Expecting"]},
+    {id:1,label:"Overthinking",desc:"Can't stop the loop",words:["Looping","Ruminating","Replaying","Spiraling"]},
+    {id:2,label:"Body signals",desc:"Felt before thought",words:["Racing","Tight","Shallow","Restless"]},
+    {id:3,label:"Control",desc:"Need certainty",words:["Planning","Checking","Needing","Controlling"]},
+  ]},
+  {name:"Loneliness",insight:"You can be surrounded by people and still feel completely unseen. That is not a people problem. It is a depth problem.",categories:[
+    {id:0,label:"Unseen",desc:"No one really knows",words:["Unknown","Invisible","Unheard","Hidden"]},
+    {id:1,label:"Surface life",desc:"All performance",words:["Performing","Curating","Managing","Filtering"]},
+    {id:2,label:"Missing",desc:"Something's not there",words:["Hollow","Longing","Aching","Missing"]},
+    {id:3,label:"Connection",desc:"What you actually want",words:["Witnessed","Known","Reached","Present"]},
+  ]}
+];
+
+let gLevel=0,gSelected=[],gCleared=[],gTotalCleared=0;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function openGame(){
+  document.getElementById('gameOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+  gLevel=0;gTotalCleared=0;
+  gInitLevel();
+}
+function closeGame(){
+  document.getElementById('gameOverlay').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function gInitLevel(){
+  gSelected=[];gCleared=[];
+  const L=LEVELS[gLevel];
+  document.getElementById('g-level-name').textContent=L.name;
+  document.getElementById('g-level-label').textContent='Level '+(gLevel+1)+' of '+LEVELS.length;
+  document.getElementById('g-win').style.display='none';
+  document.getElementById('g-grid').style.display='grid';
+  document.getElementById('g-cats').style.display='grid';
+  document.getElementById('g-btns').style.display='flex';
+  document.getElementById('g-msg').textContent='Select four tiles that belong together.';
+  document.getElementById('g-msg').className='';
+
+  const cats=document.getElementById('g-cats');
+  cats.innerHTML='';
+  L.categories.forEach(c=>{
+    cats.innerHTML+=`<div class="g-cat cat-${c.id}"><span>${c.label}</span><p>${c.desc}</p></div>`;
+  });
+
+  const allWords=[];
+  L.categories.forEach(c=>c.words.forEach(w=>allWords.push({word:w,cat:c.id})));
+  const shuffled=shuffle(allWords);
+  const grid=document.getElementById('g-grid');
+  grid.innerHTML='';
+  shuffled.forEach((item)=>{
+    const tile=document.createElement('div');
+    tile.className=`g-tile cat-${item.cat}`;
+    tile.dataset.cat=item.cat;
+    tile.innerHTML=`<span class="g-tile-word">${item.word}</span>`;
+    tile.onclick=()=>gToggle(tile);
+    grid.appendChild(tile);
+  });
+  gUpdateProgress();
+}
+
+function gToggle(tile){
+  if(tile.classList.contains('cleared'))return;
+  if(tile.classList.contains('selected')){
+    tile.classList.remove('selected');
+    gSelected=gSelected.filter(t=>t!==tile);
+  } else {
+    if(gSelected.length>=4)return;
+    tile.classList.add('selected');
+    gSelected.push(tile);
+  }
+  if(gSelected.length===4)gCheck();
+}
+
+function gDeselect(){
+  gSelected.forEach(t=>t.classList.remove('selected'));
+  gSelected=[];
+}
+
+function gCheck(){
+  if(gSelected.length!==4){gShowMsg('Select exactly four tiles.','err');return;}
+  const cats=gSelected.map(t=>t.dataset.cat);
+  if(cats.every(c=>c===cats[0])){
+    const catId=parseInt(cats[0]);
+    const catName=LEVELS[gLevel].categories[catId].label;
+    gSelected.forEach(t=>{
+      t.classList.add('clearing');
+      setTimeout(()=>{t.innerHTML='';t.classList.remove('clearing','selected');t.classList.add('cleared');t.onclick=null;},400);
+    });
+    gCleared.push(catId);
+    gTotalCleared++;
+    gSelected=[];
+    setTimeout(()=>{
+      gShowMsg('"'+catName+'" — correct.','ok');
+      gUpdateProgress();
+      if(gCleared.length===4)setTimeout(gShowWin,700);
+    },450);
+  } else {
+    gShowMsg('These do not belong together.','err');
+    gSelected.forEach(t=>t.classList.remove('selected'));
+    gSelected=[];
+  }
+}
+
+function gShowMsg(text,cls){
+  const m=document.getElementById('g-msg');
+  m.textContent=text;m.className=cls||'';
+}
+
+function gUpdateProgress(){
+  const total=LEVELS.length*4;
+  const pct=(gTotalCleared/total)*100;
+  document.getElementById('g-progress-fill').style.width=pct+'%';
+  document.getElementById('g-score').textContent=gTotalCleared+' cleared';
+}
+
+function gShowWin(){
+  const L=LEVELS[gLevel];
+  document.getElementById('g-grid').style.display='none';
+  document.getElementById('g-cats').style.display='none';
+  document.getElementById('g-btns').style.display='none';
+  document.getElementById('g-msg').textContent='';
+  const w=document.getElementById('g-win');
+  w.style.display='block';
+  document.getElementById('g-win-title').textContent=L.name+'.';
+  document.getElementById('g-win-msg').textContent=L.insight;
+  const btn=document.querySelector('#g-win .g-btn');
+  if(gLevel>=LEVELS.length-1){btn.textContent='Play again ↗';btn.onclick=()=>{gLevel=0;gTotalCleared=0;gInitLevel();};}
+  else{btn.textContent='Continue ↗';btn.onclick=gNext;}
+}
+
+function gNext(){gLevel++;gInitLevel();}
+
+// PREVIEW ANIMATION
+(function(){
+  const words=[["Empty","Hollow","Drained","Numb"],["Avoiding","Hiding","Bracing","Escaping"],["Detached","Absent","Distant","Racing"],["Heavy","Tense","Restless","Wired"]];
+  const cats=[0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3];
+  const shuffled=cats.slice().sort(()=>Math.random()-0.5);
+  const wIdx=[0,0,0,0];
+  const pg=document.getElementById('preview-grid');
+  if(!pg)return;
+  shuffled.forEach(c=>{
+    const w=words[c][wIdx[c]++];
+    const t=document.createElement('div');
+    t.className='mg-tile c'+c;
+    t.textContent=w;
+    pg.appendChild(t);
+  });
+  let sel=null;
+  setInterval(()=>{
+    const tiles=[...pg.querySelectorAll('.mg-tile:not(.cleared)')];
+    if(!tiles.length)return;
+    if(sel){sel.classList.remove('selected');sel=null;}
+    const t=tiles[Math.floor(Math.random()*tiles.length)];
+    t.classList.add('selected');sel=t;
+    const cat=t.className.match(/c(\d)/)?.[1];
+    const same=[...pg.querySelectorAll(`.mg-tile.c${cat}:not(.cleared):not(.selected)`)];
+    if(same.length>=3&&Math.random()>0.55){
+      setTimeout(()=>{[t,...same.slice(0,3)].forEach(x=>{x.classList.remove('selected');x.classList.add('cleared');x.textContent='';});sel=null;},700);
+    }
+  },1800);
+})();
+
+let ambientAudio=null,ambientOn=false;
+function toggleAmbient(){
+  if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById('soundIcon').style.color='var(--dim)';}
+  else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;document.getElementById('soundIcon').style.color='var(--accent)';}
+}
+</script>
+</body>
+</html>
