@@ -164,7 +164,7 @@
     </div>
   </a>
 
-  <div class="game-card soon">
+  <div class="game-card" onclick="openDrift();return false;">
     <div class="gc-visual">
       <div class="mirror-visual">
         <div class="mv-option">I am protecting myself from something.</div>
@@ -174,10 +174,14 @@
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">02 — Coming soon</div>
-      <div class="gc-title">The Mirror</div>
-      <div class="gc-tagline">A scenario. Four responses. No right answer.</div>
-      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+      <div class="gc-tag">02 — Swipe</div>
+      <div class="gc-title">The Drift</div>
+      <div class="gc-tagline">Does this define you? Swipe to find out.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">20 words</span>
+        <span class="gc-badge">3 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
     </div>
   </div>
 
@@ -217,6 +221,37 @@
 
 </div>
 
+
+  <!-- GAME OVERLAY: THE DRIFT -->
+  <div class="game-overlay" id="driftOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Drift</span>
+      <button class="go-close" onclick="closeDrift()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:48px 24px;">
+      <div id="dr-label" style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">The Drift</div>
+      <div id="dr-title" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:48px;">Does this define you?</div>
+      <div id="dr-arena" style="position:relative;width:340px;height:260px;margin-bottom:40px;">
+        <div id="dr-card" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:280px;padding:48px 32px;text-align:center;cursor:grab;border:1px solid rgba(126,184,232,0.1);background:#0d1420;transition:transform 0.15s,border-color 0.15s,opacity 0.15s;">
+          <div id="dr-word" style="font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:#ffffff;line-height:1.1;margin-bottom:12px;"></div>
+          <div id="dr-sub" style="font-size:9px;letter-spacing:0.15em;color:#2d3f52;text-transform:uppercase;"></div>
+        </div>
+      </div>
+      <div id="dr-hints" style="display:flex;justify-content:space-between;width:280px;margin-bottom:8px;">
+        <span id="dr-hl" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;transition:color 0.15s;">← not me</span>
+        <span id="dr-hr" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;transition:color 0.15s;">that's me →</span>
+      </div>
+      <div id="dr-bar" style="width:280px;height:1px;background:rgba(126,184,232,0.06);"><div id="dr-fill" style="height:100%;background:rgba(126,184,232,0.3);transition:width 0.3s;width:0%"></div></div>
+
+      <div id="dr-result" style="display:none;text-align:center;max-width:320px;padding-top:20px;">
+        <h2 id="dr-r-title" style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:#ffffff;margin-bottom:16px;"></h2>
+        <p id="dr-r-desc" style="font-size:16px;color:#8aa0b8;line-height:1.9;margin-bottom:24px;font-family:'Cormorant Garamond',serif;font-style:italic;"></p>
+        <div id="dr-yes-words" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:28px;"></div>
+        <button class="g-btn primary" onclick="drInit()">Again ↗</button>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -252,7 +287,114 @@
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 
 <script>
-const LEVELS=[
+
+  const DR_WORDS=[
+    {w:"Exhausted",s:"how you feel"},{w:"Avoidant",s:"how you move"},{w:"Hollow",s:"what's inside"},
+    {w:"Overthinking",s:"how your mind works"},{w:"Invisible",s:"how you exist"},{w:"Driven",s:"what pushes you"},
+    {w:"Numb",s:"what you feel"},{w:"Restless",s:"your baseline"},{w:"Disconnected",s:"how you relate"},
+    {w:"Disciplined",s:"how you operate"},{w:"Aching",s:"what's underneath"},{w:"Depleted",s:"your reserves"},
+    {w:"Spiraling",s:"your pattern"},{w:"Performing",s:"what you show"},{w:"Focused",s:"your state"},
+    {w:"Drained",s:"your energy"},{w:"Bracing",s:"your default"},{w:"Unseen",s:"how you feel"},
+    {w:"Consistent",s:"your practice"},{w:"Flatlined",s:"your feeling"}
+  ];
+  const DR_PROFILES=[
+    {max:4,title:"Lighter than most.",desc:"You are carrying less than the average person who plays this. That is either genuine peace or careful management. Worth knowing which."},
+    {max:9,title:"Something is building.",desc:"Not crisis. Not fine either. You are in the middle place where things accumulate quietly without announcing themselves."},
+    {max:14,title:"You are holding a lot.",desc:"More than you probably say out loud. The weight is real even when it is invisible to everyone around you."},
+    {max:20,title:"This is heavy.",desc:"You recognized yourself in most of these. That recognition matters. So does what you do with it."}
+  ];
+  function drShuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[j],b[i]]=[b[i],b[j]];}return b;}
+  let drWords,drIdx,drYes=[],drDragging=false,drStartX=0,drCurrentX=0;
+  const drCard=document.getElementById('dr-card');
+  function drInit(){
+    drWords=drShuffle(DR_WORDS);drIdx=0;drYes=[];
+    document.getElementById('dr-result').style.display='none';
+    document.getElementById('dr-arena').style.display='block';
+    document.getElementById('dr-hints').style.display='flex';
+    document.getElementById('dr-bar').style.display='block';
+    document.getElementById('dr-label').style.display='block';
+    document.getElementById('dr-title').style.display='block';
+    drShow();
+  }
+  function drShow(){
+    if(drIdx>=drWords.length){drFinish();return;}
+    const w=drWords[drIdx];
+    document.getElementById('dr-word').textContent=w.w;
+    document.getElementById('dr-sub').textContent=w.s;
+    document.getElementById('dr-fill').style.width=(drIdx/drWords.length*100)+'%';
+    drCard.style.transition='transform 0.15s,opacity 0.15s,border-color 0.15s';
+    drCard.style.transform='translate(-50%,-50%) rotate(0deg)';
+    drCard.style.opacity='1';
+    drCard.style.borderColor='rgba(126,184,232,0.1)';
+    drCurrentX=0;
+    document.getElementById('dr-hl').style.color='#2d3f52';
+    document.getElementById('dr-hr').style.color='#2d3f52';
+  }
+  function drSwipe(dir){
+    const tx=dir==='right'?'320px':'-320px';
+    const rot=dir==='right'?'18deg':'-18deg';
+    drCard.style.transition='transform 0.28s,opacity 0.28s';
+    drCard.style.transform=`translate(calc(-50% + ${tx}),-50%) rotate(${rot})`;
+    drCard.style.opacity='0';
+    if(dir==='right') drYes.push(drWords[drIdx].w);
+    drIdx++;
+    setTimeout(drShow,290);
+  }
+  function drFinish(){
+    document.getElementById('dr-arena').style.display='none';
+    document.getElementById('dr-hints').style.display='none';
+    document.getElementById('dr-bar').style.display='none';
+    document.getElementById('dr-label').style.display='none';
+    document.getElementById('dr-title').style.display='none';
+    const r=document.getElementById('dr-result');
+    r.style.display='block';
+    const p=DR_PROFILES.find(x=>drYes.length<=x.max)||DR_PROFILES[DR_PROFILES.length-1];
+    document.getElementById('dr-r-title').textContent=p.title;
+    document.getElementById('dr-r-desc').textContent=p.desc;
+    const yw=document.getElementById('dr-yes-words');
+    yw.innerHTML='';
+    drYes.slice(0,8).forEach(w=>yw.innerHTML+=`<span style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(134,239,172,0.2);color:#86efac;">${w}</span>`);
+  }
+  function openDrift(){document.getElementById('driftOverlay').classList.add('active');document.body.style.overflow='hidden';drInit();}
+  function closeDrift(){document.getElementById('driftOverlay').classList.remove('active');document.body.style.overflow='';}
+  drCard.addEventListener('mousedown',e=>{drDragging=true;drStartX=e.clientX;drCard.style.transition='none';});
+  document.addEventListener('mousemove',e=>{
+    if(!drDragging)return;
+    drCurrentX=e.clientX-drStartX;
+    drCard.style.transform=`translate(calc(-50% + ${drCurrentX}px),-50%) rotate(${drCurrentX*0.07}deg)`;
+    drCard.style.borderColor=drCurrentX>50?'rgba(134,239,172,0.35)':drCurrentX<-50?'rgba(249,168,212,0.35)':'rgba(126,184,232,0.1)';
+    document.getElementById('dr-hl').style.color=drCurrentX<-50?'#f9a8d4':'#2d3f52';
+    document.getElementById('dr-hr').style.color=drCurrentX>50?'#86efac':'#2d3f52';
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!drDragging)return;drDragging=false;
+    if(drCurrentX>80)drSwipe('right');
+    else if(drCurrentX<-80)drSwipe('left');
+    else drShow();
+  });
+  drCard.addEventListener('touchstart',e=>{drDragging=true;drStartX=e.touches[0].clientX;drCard.style.transition='none';},{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(!drDragging)return;
+    drCurrentX=e.touches[0].clientX-drStartX;
+    drCard.style.transform=`translate(calc(-50% + ${drCurrentX}px),-50%) rotate(${drCurrentX*0.07}deg)`;
+    drCard.style.borderColor=drCurrentX>50?'rgba(134,239,172,0.35)':drCurrentX<-50?'rgba(249,168,212,0.35)':'rgba(126,184,232,0.1)';
+    document.getElementById('dr-hl').style.color=drCurrentX<-50?'#f9a8d4':'#2d3f52';
+    document.getElementById('dr-hr').style.color=drCurrentX>50?'#86efac':'#2d3f52';
+  },{passive:true});
+  document.addEventListener('touchend',()=>{
+    if(!drDragging)return;drDragging=false;
+    if(drCurrentX>80)drSwipe('right');
+    else if(drCurrentX<-80)drSwipe('left');
+    else drShow();
+  });
+  document.addEventListener('keydown',e=>{
+    if(document.getElementById('driftOverlay').classList.contains('active')){
+      if(e.key==='ArrowRight')drSwipe('right');
+      else if(e.key==='ArrowLeft')drSwipe('left');
+    }
+  });
+
+  const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
     {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
     {id:1,label:"Avoidance",desc:"Can't face it",words:["Avoiding","Hiding","Postponing","Escaping"]},
