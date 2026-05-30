@@ -185,7 +185,7 @@
     </div>
   </div>
 
-  <div class="game-card soon">
+  <div class="game-card" onclick="openLoop();return false;">
     <div class="gc-visual">
       <div class="pattern-visual">
         <div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div>
@@ -195,10 +195,14 @@
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">03 — Coming soon</div>
-      <div class="gc-title">The Pattern</div>
-      <div class="gc-tagline">Ten decisions. See what you are optimizing for.</div>
-      <div class="gc-footer"><span class="gc-badge dim">In development</span></div>
+      <div class="gc-tag">03 — Branching</div>
+      <div class="gc-title">The Loop</div>
+      <div class="gc-tagline">Every choice leads somewhere. Follow yours.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">10 levels deep</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
     </div>
   </div>
 
@@ -248,6 +252,33 @@
         <p id="dr-r-desc" style="font-size:16px;color:#8aa0b8;line-height:1.9;margin-bottom:24px;font-family:'Cormorant Garamond',serif;font-style:italic;"></p>
         <div id="dr-yes-words" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:28px;"></div>
         <button class="g-btn primary" onclick="drInit()">Again ↗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GAME OVERLAY: THE LOOP -->
+  <div class="game-overlay" id="loopOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Loop</span>
+      <button class="go-close" onclick="closeLoop()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 80px;">
+      <div style="text-align:center;margin-bottom:36px;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;">The Loop</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#8aa0b8;">Every choice reveals something.</div>
+      </div>
+      <div id="lp-trail" style="display:flex;gap:5px;margin-bottom:24px;min-height:10px;flex-wrap:wrap;max-width:480px;justify-content:center;"></div>
+      <div id="lp-context" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-bottom:16px;min-height:14px;text-align:center;"></div>
+      <div id="lp-scenario" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#fff;line-height:1.6;max-width:500px;text-align:center;margin-bottom:32px;transition:opacity 0.25s;"></div>
+      <div id="lp-choices" style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:480px;"></div>
+      <div id="lp-result" style="display:none;text-align:center;max-width:440px;">
+        <div style="font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;">Your pattern</div>
+        <div id="lpr-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;margin-bottom:20px;line-height:1.2;"></div>
+        <p id="lpr-desc" style="font-size:16px;color:#8aa0b8;line-height:1.95;margin-bottom:16px;font-family:'Cormorant Garamond',serif;font-style:italic;"></p>
+        <p id="lpr-note" style="font-size:14px;color:#4a5568;line-height:1.85;font-family:'Cormorant Garamond',serif;margin-bottom:24px;"></p>
+        <span id="lpr-path" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;margin-bottom:28px;display:block;line-height:1.8;"></span>
+        <button class="g-btn primary" onclick="lpInit()">Play again ↗</button>
       </div>
     </div>
   </div>
@@ -393,6 +424,114 @@
       else if(e.key==='ArrowLeft')drSwipe('left');
     }
   });
+
+
+  const LP_TREE = {
+t:"Someone you trusted disappoints you. Not dramatically. Just enough to matter. What is the first thing you feel?",
+c:[
+  {l:"Anger. Fast and clear.",nx:{t:"You feel the anger. Where does it go?",ctx:"You felt anger.",c:[
+    {l:"I express it. I say something directly.",nx:{t:"You speak. They become defensive. Now you are managing their reaction on top of your own. What do you do?",ctx:"You spoke. They defended.",c:[
+      {l:"I stay with what I said. Their discomfort is not my problem to fix.",nx:{t:"They go quiet. Hours later they reach out as if nothing happened. How do you respond?",ctx:"You held. They went quiet.",c:[
+        {l:"I meet them where they are. I let it go.",nx:{t:"You let it go. Three days later the original anger surfaces again. What does that tell you?",ctx:"You let go. It returned.",c:[
+          {l:"That I didn't actually process it. I just deferred it.",e:{title:"The Deferred One.",desc:"You are practiced at releasing things that are not finished. The release feels clean in the moment. The return is the evidence that something was left unresolved.",note:"Letting go and processing are not the same thing. One ends the discomfort. The other ends the thing that caused it. You have been doing the first when you needed the second.",path:"Anger → Spoke → Held → Released → Returned → Recognized deferral"}},
+          {l:"That the issue was larger than I realized.",e:{title:"The Underestimator.",desc:"You tend to assess hurt by its surface area and miss its depth. The return is telling you the original wound was bigger than your first measurement.",note:"This is not a failure of self-awareness. It is a calibration problem. You are now recalibrating. That is the work.",path:"Anger → Spoke → Held → Released → Returned → Reassessed depth"}}
+        ]}},
+        {l:"I bring it back up. The conversation is not over.",nx:{t:"You reopen it. They seem surprised you are still on it. You feel — what?",ctx:"You reopened. They're surprised.",c:[
+          {l:"Embarrassed. Like I'm too much.",e:{title:"The One Who Apologizes for Having Needs.",desc:"You advocated for yourself and then felt ashamed of the advocacy. The need was real. The shame is learned.",note:"The surprise on their face is not evidence that you are too much. It is evidence that they are not used to being held accountable. Those are different things.",path:"Anger → Spoke → Held → Reopened → Shame"}},
+          {l:"Resolved. I needed them to know it mattered.",e:{title:"The Completer.",desc:"You cannot close something until it has been witnessed. You know this about yourself and you act on it even when it is uncomfortable.",note:"This requires a tolerance for tension that most people do not have. You have it. It costs you something but it also keeps you honest.",path:"Anger → Spoke → Held → Reopened → Resolved"}}
+        ]}}
+      ]}},
+      {l:"I absorb their reaction. I start managing the situation.",nx:{t:"The original hurt is now buried under the management of their feelings. When does it resurface?",ctx:"You managed their reaction.",c:[
+        {l:"It doesn't. I lose track of it.",nx:{t:"You lost the original feeling. What pattern do you recognize?",ctx:"Feeling disappeared.",c:[
+          {l:"I tend to disappear into other people's emotional states.",e:{title:"The One Who Gets Absorbed.",desc:"Your emotional experience is real and present until someone else's becomes louder. Then yours recedes.",note:"This is not empathy. Empathy holds both. What you are describing is displacement. Your feeling does not matter less because someone else is also having one.",path:"Anger → Spoke → Managed them → Lost feeling → Recognized absorption"}},
+          {l:"I'm good at containing myself until I'm not.",e:{title:"The Containment System.",desc:"You hold things under pressure until the container reaches capacity. The break, when it comes, seems disproportionate because people have not seen what was building.",note:"The problem is not the break. It is the system that requires a break because nothing was released along the way.",path:"Anger → Spoke → Managed them → Lost feeling → Recognized threshold"}}
+        ]}},
+        {l:"Later. When I'm alone and the management is over.",e:{title:"The Delayed Processor.",desc:"Your emotional experience runs on a time lag. You feel things fully only once the social performance is complete and you can be alone with them.",note:"This is not coldness. It is a coping structure. The feelings are real. They are just queued. The question is whether the queue ever fully clears.",path:"Anger → Spoke → Managed them → Delayed processing"}}
+      ]}}
+    ]}},
+    {l:"I contain it. I don't let it show.",nx:{t:"You contain the anger. What do you do with it privately?",ctx:"You contained the anger.",c:[
+      {l:"I work through it alone. Write, think, move.",nx:{t:"You process privately. Do you eventually address it with them?",ctx:"You processed alone.",c:[
+        {l:"Yes. Once I'm clear, I bring it up.",e:{title:"The Deliberate One.",desc:"You do not speak from the heat of the feeling. You wait until you understand what you actually want to say and then you say it.",note:"The cost is timing. By the time you are ready to speak, the other person may have moved on. The gap between their timeline and yours is where misunderstandings live.",path:"Anger → Contained → Processed → Spoke"}}  ,
+        {l:"No. By then it feels pointless to bring up.",e:{title:"The Silent Resolver.",desc:"You resolve things internally that were created externally. The other person never knows the thing happened or that it cost you something.",note:"Relationships require both people to know what happened between them. Internal resolution protects you from conflict but also from being known.",path:"Anger → Contained → Processed → Stayed silent"}}
+      ]}},
+      {l:"I don't. It just sits there.",nx:{t:"It sits. Weeks pass. The person does something you would normally appreciate. You feel — what?",ctx:"Anger sitting unprocessed.",c:[
+        {l:"Nothing. The warmth has been replaced by something flat.",e:{title:"The One Who Went Flat.",desc:"Unprocessed anger does not stay as anger. It converts into distance, numbness, a flatness you cannot easily reverse.",note:"The flatness is protective. It is also the beginning of disconnection. Not because you stopped caring but because caring became too costly without any way to address what happened.",path:"Anger → Contained → Sat unprocessed → Flatness"}},
+        {l:"Complicated. I want to feel the warmth but the original thing is still there.",e:{title:"The Conflicted One.",desc:"You have not lost the capacity for warmth. You are just carrying something that has not been addressed, and it complicates every interaction that follows.",note:"The complication is information. It is telling you that the original thing mattered and that something in you requires it to be acknowledged before the relationship can be uncomplicated again.",path:"Anger → Contained → Sat unprocessed → Conflict"}}
+      ]}}
+    ]}}
+  ]}},
+  {l:"Hurt. Underneath everything else.",nx:{t:"The hurt is there. Do you let yourself feel it fully?",ctx:"You felt hurt first.",c:[
+    {l:"No. I move past it quickly.",nx:{t:"You move past it. Where does the hurt go?",ctx:"You moved past the hurt.",c:[
+      {l:"Into a kind of low-level withdrawal from them.",nx:{t:"You withdraw slightly. They notice and ask if something is wrong. What do you say?",ctx:"You withdrew. They noticed.",c:[
+        {l:"Nothing is wrong.",e:{title:"The Denier.",desc:"You are hurt. You withdrew. You were asked. You said nothing is wrong. The gap between what is happening inside you and what you report becomes its own kind of loneliness.",note:"The denial is not dishonesty. It is protection. The question is who you are protecting and from what.",path:"Hurt → Bypassed → Withdrew → Denied"}},
+        {l:"Something is wrong but I can't explain it.",e:{title:"The Inarticulate Wounded.",desc:"The hurt exists below the level where language lives. You cannot translate it, so you report it honestly as untranslatable.",note:"This is more courageous than it sounds. Most people either deny or perform clarity they do not have. You are doing neither.",path:"Hurt → Bypassed → Withdrew → Reported honestly"}}
+      ]}},
+      {l:"Nowhere I can find. It just disappears.",e:{title:"The One Who Loses Things.",desc:"Your emotional experience has a bypass function that activates under stress. The hurt registers and then routes somewhere inaccessible.",note:"The feelings are not gone. They are stored somewhere below the accessible layer. They surface indirectly, in ways that seem unrelated to their origin.",path:"Hurt → Bypassed → Disappeared"}}
+    ]}},
+    {l:"Yes. I stay with it.",nx:{t:"You stay with the hurt. What does it feel like underneath the initial layer?",ctx:"You stayed with the hurt.",c:[
+      {l:"Old. Like this has happened before.",nx:{t:"The hurt connects to older hurt. Do you let that connection form?",ctx:"Hurt feels old.",c:[
+        {l:"Yes. I follow it back.",e:{title:"The Archaeologist.",desc:"You do not experience hurt in isolation. You feel its genealogy. Each disappointment connects to earlier ones and you follow the thread back rather than cutting it.",note:"This gives you depth of understanding but it also means every present hurt carries the weight of its ancestors.",path:"Hurt → Stayed → Old feeling → Followed back"}},
+        {l:"No. I close it before it pulls me under.",e:{title:"The One Who Knows the Edge.",desc:"You have learned where the feeling goes if you let it run fully and you have made a decision not to go there. That decision is not avoidance. It is boundary-setting with your own inner landscape.",note:"The question is whether this is temporary protection or permanent closure. Some things need to be followed back eventually.",path:"Hurt → Stayed → Old feeling → Closed at edge"}}
+      ]}},
+      {l:"Specific. It is about this person, this moment.",e:{title:"The Present One.",desc:"You experience hurt without it immediately generalizing. You can stay with this specific disappointment without it becoming a referendum on all disappointments.",note:"This capacity to stay present with the specific is a form of emotional precision that most people develop only through significant work.",path:"Hurt → Stayed → Specific and present"}}
+    ]}}
+  ]}},
+  {l:"Nothing at first. A kind of blankness.",nx:{t:"Blankness. How long does it last?",ctx:"You felt nothing first.",c:[
+    {l:"Hours. Sometimes days.",nx:{t:"The blankness persists. What eventually breaks it?",ctx:"Blankness lasted days.",c:[
+      {l:"Something unrelated. A song. A conversation.",nx:{t:"When the feeling finally surfaces, what is it?",ctx:"Something unrelated broke through.",c:[
+        {l:"Sadness, mostly. The anger has already passed.",e:{title:"The Late Feeler.",desc:"Your emotional timeline runs significantly behind real time. The anger that would have been appropriate in the moment arrives as sadness much later, stripped of its urgency.",note:"This delay is not weakness. It is a nervous system that learned to slow-roll emotional responses, possibly because fast ones were not safe at some point.",path:"Blank → Days → Broke through → Sadness"}},
+        {l:"Anger. Cleaner and more certain than it would have been at the time.",e:{title:"The Slow Burner.",desc:"Your anger is not impulsive. It is considered. By the time it arrives it has been processed into something precise. The cost is that it arrives when the moment for it has passed.",note:"The precision is valuable. The timing is the problem.",path:"Blank → Days → Broke through → Delayed anger"}}
+      ]}},
+      {l:"Nothing breaks it. I rationalize my way through.",e:{title:"The Intellectualizer.",desc:"Feeling is dangerous, so thinking is the alternative. You analyze the situation with real clarity and arrive at a position without ever actually feeling the thing that happened.",note:"The analysis is usually accurate. It is also incomplete. Understanding why someone disappointed you does not process the experience of being disappointed.",path:"Blank → Days → Rationalized through"}}
+    ]}},
+    {l:"Minutes. Then I locate the feeling.",nx:{t:"You locate the feeling quickly despite the initial blank. What is the feeling under the blankness?",ctx:"Blankness lifted quickly.",c:[
+      {l:"Disappointment. Quiet and specific.",e:{title:"The Precise One.",desc:"You have direct access to your emotional experience once the initial buffer clears. You do not catastrophize, generalize, or suppress. You feel what is actually there.",note:"The blank is not avoidance. It is a small gap between the event and the processing that you close quickly and accurately.",path:"Blank → Quick lift → Disappointment"}},
+      {l:"Loneliness. Which surprised me.",e:{title:"The One Who Finds the Deeper Layer.",desc:"Under the surface feeling is the real one. You surprised yourself. The disappointment was real but what it opened was something older and larger about not being seen.",note:"The loneliness is not about this moment. It is about a recurring experience of being in connection and still feeling alone.",path:"Blank → Quick lift → Loneliness beneath"}}
+    ]}}
+  ]}}
+]};
+
+  let lpDepth=0, lpPath=[];
+  function openLoop(){document.getElementById('loopOverlay').classList.add('active');document.body.style.overflow='hidden';lpInit();}
+  function closeLoop(){document.getElementById('loopOverlay').classList.remove('active');document.body.style.overflow='';}
+  function lpInit(){
+    lpDepth=0;lpPath=[];
+    document.getElementById('lp-result').style.display='none';
+    document.getElementById('lp-scenario').style.display='block';
+    document.getElementById('lp-choices').style.display='flex';
+    document.getElementById('lp-context').textContent='';
+    lpRender(LP_TREE);
+  }
+  function lpRender(node){
+    const sc=document.getElementById('lp-scenario');
+    sc.style.opacity='0';
+    setTimeout(()=>{sc.textContent=node.t;sc.style.opacity='1';document.getElementById('lp-context').textContent=node.ctx||'';},200);
+    const trail=document.getElementById('lp-trail');
+    trail.innerHTML='';
+    for(let i=0;i<=lpDepth;i++){const d=document.createElement('div');d.style.cssText='width:6px;height:6px;flex-shrink:0;border:1px solid '+(i<lpDepth?'rgba(126,184,232,0.3)':'rgba(126,184,232,0.15)');d.style.background=i<lpDepth?'rgba(126,184,232,0.2)':'transparent';trail.appendChild(d);}
+    const ch=document.getElementById('lp-choices');
+    ch.innerHTML='';
+    node.c.forEach(c=>{
+      const btn=document.createElement('div');
+      btn.style.cssText='padding:16px 22px;border:1px solid rgba(126,184,232,0.08);background:#0a0f18;cursor:pointer;font-family:Cormorant Garamond,serif;font-size:16px;font-style:italic;color:#6a8090;line-height:1.5;margin-bottom:8px;transition:all 0.18s;';
+      btn.textContent=c.l;
+      btn.onmouseover=()=>{btn.style.borderColor='rgba(126,184,232,0.28)';btn.style.color='#c8d8e8';btn.style.background='#0d1520';};
+      btn.onmouseout=()=>{btn.style.borderColor='rgba(126,184,232,0.08)';btn.style.color='#6a8090';btn.style.background='#0a0f18';};
+      btn.onclick=()=>{lpPath.push(c.l);lpDepth++;if(c.e)lpEnd(c.e);else lpRender(c.nx);};
+      ch.appendChild(btn);
+    });
+  }
+  function lpEnd(e){
+    document.getElementById('lp-scenario').style.display='none';
+    document.getElementById('lp-choices').style.display='none';
+    document.getElementById('lp-trail').innerHTML='';
+    document.getElementById('lp-context').textContent='';
+    document.getElementById('lp-result').style.display='block';
+    document.getElementById('lpr-title').textContent=e.title;
+    document.getElementById('lpr-desc').textContent=e.desc;
+    document.getElementById('lpr-note').textContent=e.note;
+    document.getElementById('lpr-path').textContent=e.path;
+  }
 
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
