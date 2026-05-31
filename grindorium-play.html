@@ -169,6 +169,17 @@
   
     @keyframes rrPulse2{0%,100%{opacity:0.4;transform:translateY(-50%) scale(1);}50%{opacity:0.8;transform:translateY(-50%) scale(1.4);}}
 
+  
+    .daily-challenge-banner{width:100%;max-width:900px;margin:0 auto 32px;padding:20px 32px;border:1px solid rgba(253,224,71,0.2);background:rgba(253,224,71,0.03);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+    .dc-left{}
+    .dc-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(253,224,71,0.6);margin-bottom:6px;}
+    .dc-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#fff;margin-bottom:4px;}
+    .dc-sub{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#4a5568;}
+    .dc-right{display:flex;align-items:center;gap:12px;}
+    .dc-done-badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(134,239,172,0.8);border:1px solid rgba(134,239,172,0.25);padding:6px 14px;display:none;}
+    .dc-play-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(253,224,71,0.3);background:transparent;color:rgba(253,224,71,0.8);cursor:pointer;transition:all 0.2s;}
+    .dc-play-btn:hover{border-color:rgba(253,224,71,0.6);color:#fde047;}
+    @media(max-width:600px){.daily-challenge-banner{padding:16px 20px;}}
   </style>
 </head>
 <body>
@@ -196,6 +207,19 @@
       <div class="zen-banner-sub">After 23:00, only calm games are available. The others return at 05:00.</div>
     </div>
     <div style="font-size:9px;letter-spacing:0.1em;color:#4a5568;">The Breath. The Feeling. The Nothing Room. Micro Journal.</div>
+  </div>
+
+
+  <div id="dc-banner" class="daily-challenge-banner">
+    <div class="dc-left">
+      <div class="dc-label">Today's challenge</div>
+      <div class="dc-title" id="dc-game-name"></div>
+      <div class="dc-sub" id="dc-game-desc"></div>
+    </div>
+    <div class="dc-right">
+      <div class="dc-done-badge" id="dc-done-badge">Done today</div>
+      <button class="dc-play-btn" id="dc-play-btn" onclick="dcPlay()">Play now ↗</button>
+    </div>
   </div>
 
 <div class="game-grid">
@@ -2530,6 +2554,60 @@ c:[
     }
   }
 
+
+  // DAILY CHALLENGE
+  const DC_GAMES=[
+    {name:'The Wait',fn:'openWait',desc:'How long can you hold before taking the reward?'},
+    {name:'The Resistance',fn:'openResistance',desc:'Urges will appear. Watch them. Let them pass.'},
+    {name:'Trigger Map',fn:'openTrigger',desc:'Map what happened right before you lost focus.'},
+    {name:'The Saboteur',fn:'openSaboteur',desc:'Make every wrong decision. Then see the pattern.'},
+    {name:'The Nothing Room',fn:'openNothing',desc:'Do nothing for 5 minutes. The forest grows.'},
+    {name:'Evening Court',fn:'openCourt',desc:'Three questions from the Stoics. Tonight.'},
+    {name:'The Resistance Room',fn:'openResistanceRoom',desc:'Your excuses arrive. Reject them in 8 seconds.'},
+    {name:'The Chaos Button',fn:'openChaos',desc:'Press when it is too much. Wait for the storm to pass.'},
+    {name:'Micro Journal',fn:'openJournal',desc:'Three words. What is present right now?'},
+    {name:'The Drift',fn:'openDrift',desc:'Impulse or intention? Twenty words, two seconds each.'},
+    {name:'The Feeling',fn:'openFeeling',desc:'Name what is here. Hang it on the tree.'},
+    {name:'The Loop',fn:'openLoop',desc:'A day unfolds. Every choice leads somewhere.'},
+    {name:'The Void',fn:'openVoid',desc:'Complete emptiness. Once per week.'},
+  ];
+  const DC_KEY='grindorium_dc_done';
+  function dcGetTodayKey(){
+    const d=new Date();
+    return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+  }
+  function dcGetGame(){
+    const start=new Date('2026-01-01');
+    const now=new Date();
+    const diff=Math.floor((now-start)/(1000*60*60*24));
+    return DC_GAMES[diff%DC_GAMES.length];
+  }
+  function dcInit(){
+    const game=dcGetGame();
+    const banner=document.getElementById('dc-banner');
+    if(!banner)return;
+    document.getElementById('dc-game-name').textContent=game.name;
+    document.getElementById('dc-game-desc').textContent=game.desc;
+    const todayKey=dcGetTodayKey();
+    const doneDays=JSON.parse(localStorage.getItem(DC_KEY)||'{}');
+    if(doneDays[todayKey]){
+      document.getElementById('dc-done-badge').style.display='block';
+      document.getElementById('dc-play-btn').style.opacity='0.4';
+      document.getElementById('dc-play-btn').textContent='Completed today';
+    }
+  }
+  function dcPlay(){
+    const game=dcGetGame();
+    const todayKey=dcGetTodayKey();
+    const doneDays=JSON.parse(localStorage.getItem(DC_KEY)||'{}');
+    doneDays[todayKey]=game.name;
+    localStorage.setItem(DC_KEY,JSON.stringify(doneDays));
+    document.getElementById('dc-done-badge').style.display='block';
+    document.getElementById('dc-play-btn').style.opacity='0.4';
+    document.getElementById('dc-play-btn').textContent='Completed today';
+    if(typeof window[game.fn]==='function') window[game.fn]();
+  }
+
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
     {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
@@ -2740,6 +2818,7 @@ function toggleAmbient(){
   })();
 
   zenCheck();
+  dcInit();
 
   (function(){
     const c=document.getElementById('chaos-preview');
