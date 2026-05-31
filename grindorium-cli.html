@@ -100,6 +100,7 @@ const COMMANDS = {
   breathe: cmdBreathe,
   quote: cmdQuote,
   stats: cmdStats,
+  focus: cmdFocus,
 };
 
 function cmdHelp(){
@@ -115,6 +116,7 @@ function cmdHelp(){
     ['quote',      'A Grindorium quote'],
     ['now',        'What time and day it is'],
     ['play',       'Go to the play page'],
+    ['focus',      'Open the focus timer'],
     ['writings',   'Go to writings'],
     ['wall',       'Go to the wall'],
     ['about',      'About Grindorium'],
@@ -287,17 +289,24 @@ function cmdAbout(){
   br();
 }
 
+function cmdFocus(){
+  br();
+  print('Opening focus timer...', 'dim');
+  setTimeout(()=>{ window.location.href='/focus'; }, 400);
+}
+
 function cmdLs(){
   br();
   print('PAGES', 'accent');
   print('─'.repeat(40), 'dim');
   const pages = [
     ['/', 'Home'],
-    ['/play', 'Play. 16 games'],
+    ['/play', 'Play. 18 games'],
     ['/writings', 'Writings. 21 essays'],
     ['/journal', 'Micro Journal'],
     ['/evening-court', 'Evening Court'],
     ['/wall', 'The Wall'],
+    ['/focus', 'Focus Timer'],
     ['/about', 'About'],
     ['/privacy', 'Privacy Policy'],
     ['/cli', 'CLI Mode (you are here)'],
