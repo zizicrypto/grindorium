@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grindorium CLI</title>
+  <meta name="description" content="Grindorium in terminal mode. No color. No distraction. Just you and the words."/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:#000;color:#fff;font-family:'Courier New',Courier,monospace;min-height:100vh;overflow-x:hidden;}
+    #cli{max-width:680px;margin:0 auto;padding:40px 24px 80px;}
+    .line{font-size:14px;line-height:1.7;margin-bottom:2px;white-space:pre-wrap;word-break:break-word;}
+    .dim{color:#444;}
+    .bright{color:#fff;}
+    .accent{color:#7eb8e8;}
+    .green{color:#86efac;}
+    .pink{color:#f9a8d4;}
+    .yellow{color:#fde047;}
+    .cursor{display:inline-block;width:8px;height:14px;background:#fff;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;}
+    @keyframes blink{50%{opacity:0;}}
+    #input-line{display:flex;align-items:center;margin-top:8px;}
+    #input-line span{color:#7eb8e8;margin-right:8px;font-size:14px;}
+    #cli-input{background:transparent;border:none;outline:none;color:#fff;font-family:'Courier New',Courier,monospace;font-size:14px;flex:1;caret-color:#fff;}
+    .section-break{border:none;border-top:1px solid #1a1a1a;margin:20px 0;}
+    a{color:#7eb8e8;text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    #cli-menu{margin:16px 0;}
+    .menu-item{font-size:14px;line-height:1.7;cursor:pointer;transition:color 0.15s;}
+    .menu-item:hover .menu-cmd{color:#fff;}
+    .menu-cmd{color:#7eb8e8;}
+    .menu-desc{color:#444;}
+    #cli-output{margin-top:8px;}
+  </style>
+</head>
+<body>
+<div id="cli">
+  <div id="cli-output"></div>
+  <div id="input-line">
+    <span>grindorium &gt;</span>
+    <input id="cli-input" type="text" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="type a command..." />
+  </div>
+</div>
+
+<script>
+const out = document.getElementById('cli-output');
+const input = document.getElementById('cli-input');
+
+const JOURNAL_KEY = 'grindorium_journal';
+const COURT_KEY = 'grindorium_court';
+const TRIGGER_KEY = 'grindorium_triggers';
+
+function loadJ(){try{return JSON.parse(localStorage.getItem(JOURNAL_KEY)||'[]');}catch(e){return[];}}
+function loadC(){try{return JSON.parse(localStorage.getItem(COURT_KEY)||'[]');}catch(e){return[];}}
+function loadT(){try{return JSON.parse(localStorage.getItem(TRIGGER_KEY)||'[]');}catch(e){return[];}}
+
+function print(text, cls='bright'){
+  const el = document.createElement('div');
+  el.className = 'line ' + cls;
+  el.textContent = text;
+  out.appendChild(el);
+}
+function printHTML(html){
+  const el = document.createElement('div');
+  el.className = 'line bright';
+  el.innerHTML = html;
+  out.appendChild(el);
+}
+function br(){out.appendChild(document.createElement('div')).className='line';}
+function hr(){out.appendChild(Object.assign(document.createElement('hr'),{className:'section-break'}));}
+
+function printBoot(){
+  print('', 'dim');
+  print('GRINDORIUM CLI v1.0', 'accent');
+  print('A space to think. Without the noise.', 'dim');
+  br();
+  print('Type  help  to see available commands.', 'dim');
+  print('Type  exit  to return to the main site.', 'dim');
+  br();
+}
+
+const COMMANDS = {
+  help: cmdHelp,
+  journal: cmdJournal,
+  court: cmdCourt,
+  triggers: cmdTriggers,
+  play: cmdPlay,
+  writings: cmdWritings,
+  wall: cmdWall,
+  about: cmdAbout,
+  clear: cmdClear,
+  exit: cmdExit,
+  ls: cmdLs,
+  now: cmdNow,
+  breathe: cmdBreathe,
+  quote: cmdQuote,
+  stats: cmdStats,
+};
+
+function cmdHelp(){
+  br();
+  print('Available commands:', 'accent');
+  br();
+  const cmds = [
+    ['journal',    'Open your micro journal'],
+    ['court',      'Evening court — three questions from the Stoics'],
+    ['triggers',   'View your trigger history'],
+    ['stats',      'Your usage summary'],
+    ['breathe',    'A simple breathing prompt'],
+    ['quote',      'A Grindorium quote'],
+    ['now',        'What time and day it is'],
+    ['play',       'Go to the play page'],
+    ['writings',   'Go to writings'],
+    ['wall',       'Go to the wall'],
+    ['about',      'About Grindorium'],
+    ['ls',         'List all pages'],
+    ['clear',      'Clear terminal'],
+    ['exit',       'Return to main site'],
+  ];
+  cmds.forEach(([cmd, desc]) => {
+    const el = document.createElement('div');
+    el.className = 'line menu-item';
+    el.innerHTML = `  <span class="menu-cmd">${cmd.padEnd(14)}</span><span class="menu-desc">${desc}</span>`;
+    el.onclick = () => { print('grindorium > ' + cmd, 'dim'); COMMANDS[cmd](); scrollDown(); };
+    out.appendChild(el);
+  });
+  br();
+}
+
+function cmdJournal(){
+  const entries = loadJ();
+  br();
+  print('MICRO JOURNAL', 'accent');
+  print('─'.repeat(40), 'dim');
+  if(entries.length === 0){
+    print('No entries yet.', 'dim');
+    print('Visit /journal to write your first entry.', 'dim');
+  } else {
+    entries.slice(0, 15).forEach(e => {
+      print(e.display + '   ' + e.text, 'bright');
+    });
+    br();
+    print(entries.length + ' total entries.', 'dim');
+  }
+  br();
+}
+
+function cmdCourt(){
+  const entries = loadC();
+  br();
+  print('EVENING COURT', 'accent');
+  print('─'.repeat(40), 'dim');
+  if(entries.length === 0){
+    print('No sessions yet.', 'dim');
+    print('Visit /evening-court to begin.', 'dim');
+  } else {
+    entries.slice(0, 3).forEach(e => {
+      print(e.display, 'yellow');
+      const qs = ['What was outside my control?', 'Which impulse did I follow?', 'Where did I act below my standard?'];
+      qs.forEach((q, i) => {
+        if(e.answers[i]){
+          print('  ' + q, 'dim');
+          print('  ' + e.answers[i], 'bright');
+        }
+      });
+      br();
+    });
+    print(entries.length + ' total sessions.', 'dim');
+  }
+  br();
+}
+
+function cmdTriggers(){
+  const entries = loadT();
+  br();
+  print('TRIGGER MAP', 'accent');
+  print('─'.repeat(40), 'dim');
+  if(entries.length === 0){
+    print('No trigger sessions yet.', 'dim');
+    print('Visit /play to use the Trigger Map.', 'dim');
+  } else {
+    const counts = {};
+    entries.forEach(e => {
+      const f = e.feeling || 'unknown';
+      counts[f] = (counts[f]||0) + 1;
+    });
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    print('Most common internal states:', 'dim');
+    br();
+    sorted.slice(0,6).forEach(([name, count]) => {
+      const bar = '█'.repeat(count) + '░'.repeat(Math.max(0,8-count));
+      print('  ' + bar + '  ' + name + ' (' + count + ')', 'bright');
+    });
+    br();
+    print(entries.length + ' total sessions.', 'dim');
+  }
+  br();
+}
+
+function cmdStats(){
+  const j = loadJ().length;
+  const c = loadC().length;
+  const t = loadT().length;
+  br();
+  print('YOUR STATS', 'accent');
+  print('─'.repeat(40), 'dim');
+  print('Journal entries    ' + j, 'bright');
+  print('Evening court      ' + c, 'bright');
+  print('Trigger sessions   ' + t, 'bright');
+  br();
+  const total = j + c + t;
+  if(total === 0) print('Nothing recorded yet.', 'dim');
+  else if(total < 5) print('A beginning.', 'dim');
+  else if(total < 15) print('The practice is forming.', 'dim');
+  else if(total < 30) print('You are showing up.', 'dim');
+  else print('Something real is being built here.', 'green');
+  br();
+}
+
+function cmdBreathe(){
+  br();
+  print('BREATHE', 'accent');
+  print('─'.repeat(40), 'dim');
+  br();
+  print('Inhale  ·  4 counts', 'dim');
+  print('Hold    ·  4 counts', 'dim');
+  print('Exhale  ·  4 counts', 'dim');
+  print('Hold    ·  4 counts', 'dim');
+  br();
+  print('Do it once before you continue.', 'dim');
+  br();
+}
+
+const QUOTES = [
+  'The silence you avoid knows everything about you.',
+  'Burnout is not a character flaw. It is the predictable outcome of sustained effort without recovery.',
+  'You are not behind. You are on a different timeline.',
+  'Rest is not a reward. It is a requirement.',
+  'The version of you nobody sees is running the show.',
+  'Stopping is not always quitting. Sometimes it is the most honest thing you can do.',
+  'The voice that tells you that you are not enough is not your conscience. It is a habit.',
+  'You do not need more motivation. You need a smaller ask.',
+  'Grief does not follow a schedule and you were never behind in it.',
+  'The anger is not the enemy. It is a messenger.',
+];
+
+function cmdQuote(){
+  br();
+  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  print('"' + q + '"', 'bright');
+  print('— Grindorium', 'dim');
+  br();
+}
+
+function cmdNow(){
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  br();
+  print(days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate(), 'bright');
+  print(now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0'), 'accent');
+  br();
+}
+
+function cmdPlay(){ br(); print('Opening /play...', 'dim'); br(); setTimeout(()=>window.location.href='/play', 800); }
+function cmdWritings(){ br(); print('Opening /writings...', 'dim'); br(); setTimeout(()=>window.location.href='/writings', 800); }
+function cmdWall(){ br(); print('Opening /wall...', 'dim'); br(); setTimeout(()=>window.location.href='/wall', 800); }
+function cmdExit(){ br(); print('Returning to main site...', 'dim'); br(); setTimeout(()=>window.location.href='/', 800); }
+
+function cmdAbout(){
+  br();
+  print('GRINDORIUM', 'accent');
+  print('─'.repeat(40), 'dim');
+  br();
+  print('A behavioral laboratory for the examined life.', 'bright');
+  br();
+  print('Not a productivity app.', 'dim');
+  print('Not a wellness platform.', 'dim');
+  print('A place to understand what is actually happening.', 'dim');
+  br();
+  print('grindorium.org', 'accent');
+  br();
+}
+
+function cmdLs(){
+  br();
+  print('PAGES', 'accent');
+  print('─'.repeat(40), 'dim');
+  const pages = [
+    ['/', 'Home'],
+    ['/play', 'Play — 16 games'],
+    ['/writings', 'Writings — 21 essays'],
+    ['/journal', 'Micro Journal'],
+    ['/evening-court', 'Evening Court'],
+    ['/wall', 'The Wall'],
+    ['/about', 'About'],
+    ['/privacy', 'Privacy Policy'],
+    ['/cli', 'CLI Mode (you are here)'],
+  ];
+  pages.forEach(([path, desc]) => {
+    print('  ' + path.padEnd(20) + desc, 'bright');
+  });
+  br();
+}
+
+function cmdClear(){
+  out.innerHTML = '';
+  printBoot();
+}
+
+function cmdUnknown(cmd){
+  br();
+  print('command not found: ' + cmd, 'pink');
+  print('Type  help  to see available commands.', 'dim');
+  br();
+}
+
+function scrollDown(){
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+input.addEventListener('keydown', e => {
+  if(e.key === 'Enter'){
+    const val = input.value.trim().toLowerCase();
+    if(!val) return;
+    print('grindorium > ' + val, 'dim');
+    input.value = '';
+    if(COMMANDS[val]) COMMANDS[val]();
+    else cmdUnknown(val);
+    scrollDown();
+  }
+});
+
+// Focus input on click anywhere
+document.addEventListener('click', () => input.focus());
+
+// Boot
+printBoot();
+input.focus();
+</script>
+</body>
+</html>
