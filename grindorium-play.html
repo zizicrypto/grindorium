@@ -670,6 +670,55 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="triggerOverlay">
+    <div class="go-nav">
+      <span class="go-title">Trigger Map</span>
+      <button class="go-close" onclick="closeTrigger()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:40px 24px 80px;">
+      <div id="tm-header" style="text-align:center;margin-bottom:32px;max-width:480px;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">Trigger Map</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#8aa0b8;margin-bottom:8px;">What was happening right before?</div>
+        <div style="font-size:10px;letter-spacing:0.08em;color:#2d3f52;line-height:1.8;">When you lose focus, avoid something, or act against your own values, there is always something underneath. This maps it.</div>
+      </div>
+      <div style="width:100%;max-width:520px;height:1px;background:rgba(126,184,232,0.06);margin-bottom:24px;"><div id="tm-prog-fill" style="height:100%;background:rgba(126,184,232,0.3);transition:width 0.4s;width:0%;"></div></div>
+      <div id="tm-step-wrap" style="width:100%;max-width:520px;">
+        <div id="tm-s-label" style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;"></div>
+        <div id="tm-s-q" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#fff;margin-bottom:6px;line-height:1.5;"></div>
+        <div id="tm-s-hint" style="font-size:9px;letter-spacing:0.08em;color:#2d3f52;margin-bottom:20px;line-height:1.7;"></div>
+        <div id="tm-s-opts" style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px;"></div>
+        <input id="tm-s-other" type="text" placeholder="or write it yourself..." maxlength="80" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#8aa0b8;padding:8px 0;outline:none;"/>
+        <div style="display:flex;gap:8px;margin-top:20px;">
+          <button class="g-btn" onclick="tmBack()">← Back</button>
+          <button class="g-btn primary" onclick="tmNext()">Continue ↗</button>
+        </div>
+      </div>
+      <div id="tm-result-wrap" style="display:none;width:100%;max-width:520px;">
+        <div style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:10px;">Your trigger pattern</div>
+        <div id="tm-r-title" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#fff;margin-bottom:10px;line-height:1.3;"></div>
+        <div id="tm-r-desc" style="font-size:14px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:24px;"></div>
+        <div id="tm-r-chain" style="margin-bottom:24px;"></div>
+        <div style="padding:16px;border:1px solid rgba(126,184,232,0.1);background:rgba(126,184,232,0.03);margin-bottom:20px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#7eb8e8;margin-bottom:10px;">What this suggests</div>
+          <div id="tm-r-insight" style="font-size:13px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;"></div>
+        </div>
+        <div id="tm-r-science" style="font-size:11px;color:#2d3f52;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:6px;"></div>
+        <div id="tm-r-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#1e2d3a;margin-bottom:24px;display:block;"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="g-btn primary" onclick="tmAgain()">Map another ↗</button>
+          <button class="g-btn" onclick="tmShowHist()">See patterns</button>
+        </div>
+      </div>
+      <div id="tm-hist-wrap" style="display:none;width:100%;max-width:520px;">
+        <div style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;">Your trigger history</div>
+        <div id="tm-h-bars"></div>
+        <div id="tm-h-list"></div>
+        <div style="margin-top:20px;"><button class="g-btn" onclick="tmHideHist()">Close</button></div>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -1781,6 +1830,112 @@ c:[
     document.getElementById('void-done-msg').textContent='You were here.';
     document.getElementById('void-done-sub').textContent=voidNext();
   }
+
+
+  const TM_KEY='grindorium_triggers';
+  const TM_STEPS=[
+    {id:'situation',label:'A — Antecedent',q:'What were you doing right before it happened?',hint:'The antecedent is the trigger context. Research shows 80% of avoidance behaviors are preceded by a specific situational pattern.',opts:['Working on something difficult','In a conversation or meeting','Alone with nothing to do','Scrolling or consuming content','About to start something important','After receiving feedback or criticism'],other:true},
+    {id:'feeling',label:'B — Internal State',q:'What were you feeling right before?',hint:'Dr. Susan Albers (Cleveland Clinic) identifies that triggers operate below conscious awareness. Naming the physical sensation is the first step to intercepting the pattern.',opts:['Anxious or tense','Bored or understimulated','Tired or low energy','Overwhelmed or scattered','Inadequate or not enough','Restless and unable to settle'],other:true},
+    {id:'behavior',label:'B — Behavior',q:'What did you actually do?',hint:'Not what you intended. What actually happened.',opts:['Avoided the task entirely','Opened social media or phone','Switched to an easier task','Ate or reached for something','Gave up or told myself tomorrow','Became irritable or withdrawn'],other:true},
+    {id:'consequence',label:'C — Consequence',q:'How did you feel immediately after?',hint:'The consequence reinforces the pattern. If avoidance relieves tension even briefly, the brain learns to repeat it.',opts:['Relieved but guilty','Numb, nothing changed','More anxious than before','Disappointed in myself','Temporarily distracted, then worse','Empty, like time was lost'],other:true},
+    {id:'need',label:'Underlying Need',q:'What do you think you were actually needing?',hint:'Every avoidance behavior is a misrouted need. Identifying the real need separates behavioral archaeology from surface-level self-criticism.',opts:['Rest or genuine recovery','To feel competent and capable','Connection or to be seen','Certainty or safety','Permission to not be perfect','Something to make the discomfort stop'],other:true}
+  ];
+  const TM_INSIGHTS={
+    'Anxious or tense':{title:"Anxiety-driven avoidance.",desc:"The behavior is not laziness. It is a nervous system response to perceived threat. The task became associated with threat, not its actual difficulty.",insight:"Anxiety-triggered avoidance is one of the most documented patterns in behavioral psychology. The brain learns that avoidance temporarily reduces the anxiety signal, which reinforces the loop. The intervention is not willpower. It is reducing the perceived threat of beginning.",science:"Gray (1982) shows that anxiety activates a behavioral inhibition system that overrides goal-directed behavior. The loop strengthens with each successful avoidance.",source:"Gray, J.A. (1982). The Neuropsychology of Anxiety. Oxford University Press."},
+    'Bored or understimulated':{title:"Stimulation-seeking avoidance.",desc:"The brain was running below its preferred activation level and sought relief. This is not a discipline failure. It is a dopamine regulation pattern.",insight:"Boredom-triggered impulsivity is increasingly recognized as a distinct behavioral pattern. The brain's default mode network, when understimulated, generates a drive to seek novelty. Highly stimulating alternatives exploit this directly.",science:"Eastwood et al. (2012) identify that boredom is a failure of attentional engagement, not absence of stimulation. The intervention is reducing the gap between current and desired activation.",source:"Eastwood, J.D. et al. (2012). The Unengaged Mind. Perspectives on Psychological Science."},
+    'Tired or low energy':{title:"Depletion-driven avoidance.",desc:"The resource was not available. This is ego depletion, not character weakness. The system sought the path of lowest resistance because higher paths were temporarily closed.",insight:"Baumeister's ego depletion research established that self-regulatory resources are finite and domain-general. Recognizing the depletion state is the intervention.",science:"Baumeister et al. (1998) demonstrated that acts of self-control draw on a shared resource. Subsequent tasks after depletion show significantly worse performance regardless of motivation.",source:"Baumeister, R.F. et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
+    'Overwhelmed or scattered':{title:"Cognitive overload avoidance.",desc:"The working memory was at capacity. When the system cannot hold all competing demands simultaneously, it collapses to the lowest-effort available option.",insight:"Miller's Law and cognitive load theory establish that the human system has a hard limit on simultaneous processing. Overwhelm is a system at capacity, not a person failing.",science:"Sweller (1988) identifies that high cognitive load reliably degrades executive function and self-regulation, regardless of effort.",source:"Sweller, J. (1988). Cognitive Load During Problem Solving. Cognitive Science."},
+    'Inadequate or not enough':{title:"Threat-to-self-concept avoidance.",desc:"The task became a test of worth. Avoidance protected against finding out something that felt too costly to discover.",insight:"When performance is tied to self-esteem, the threat of failure activates avoidance rather than approach. The intervention is decoupling the outcome from the identity.",science:"Crocker and Park (2004) demonstrated that contingent self-worth creates disproportionate avoidance of self-esteem-threatening tasks.",source:"Crocker, J., Park, L.E. (2004). The Costly Pursuit of Self-Esteem. Psychological Bulletin."},
+    'Restless and unable to settle':{title:"Emotional dysregulation avoidance.",desc:"The nervous system could not find a resting state and sought movement as regulation. Restlessness is an unprocessed internal state seeking discharge.",insight:"Restlessness often precedes impulsive behavior because of an unprocessed internal state, not external stimulation. The body seeks movement or sensation as a regulatory strategy.",science:"Linehan (1993) identifies that impulsive avoidance behaviors are often regulatory strategies for an overwhelmed nervous system, not failures of motivation.",source:"Linehan, M.M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder. Guilford Press."}
+  };
+  const TM_DEFAULT={title:"A pattern worth understanding.",desc:"The specific combination you mapped falls outside standard trigger categories. That means your pattern has its own signature.",insight:"The ABC model identifies not just what happened but the chain of conditions that made it happen. The most important element is the antecedent. Understanding what consistently precedes the behavior gives you the point of intervention.",science:"Functional behavioral assessment research shows that identifying antecedents is more effective for behavior change than addressing the behavior itself.",source:"Cooper, J.O. et al. (2020). Applied Behavior Analysis. Pearson."};
+  let tmAns={},tmStep=0;
+  function tmFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+  function tmLoadAll(){try{return JSON.parse(localStorage.getItem(TM_KEY)||'[]');}catch(e){return [];}}
+  function tmSaveAll(e){try{localStorage.setItem(TM_KEY,JSON.stringify(e));}catch(e){}}
+  function openTrigger(){document.getElementById('triggerOverlay').classList.add('active');document.body.style.overflow='hidden';tmAns={};tmStep=0;tmRender();}
+  function closeTrigger(){document.getElementById('triggerOverlay').classList.remove('active');document.body.style.overflow='';}
+  function tmRender(){
+    const s=TM_STEPS[tmStep];
+    document.getElementById('tm-step-wrap').style.display='block';
+    document.getElementById('tm-result-wrap').style.display='none';
+    document.getElementById('tm-hist-wrap').style.display='none';
+    document.getElementById('tm-prog-fill').style.width=(tmStep/TM_STEPS.length*100)+'%';
+    document.getElementById('tm-s-label').textContent=s.label;
+    document.getElementById('tm-s-q').textContent=s.q;
+    document.getElementById('tm-s-hint').textContent=s.hint;
+    const opts=document.getElementById('tm-s-opts');
+    opts.innerHTML='';
+    s.opts.forEach(o=>{
+      const btn=document.createElement('div');
+      btn.style.cssText='padding:12px 14px;border:1px solid rgba(126,184,232,0.08);background:#0a0f18;cursor:pointer;transition:all 0.18s;font-family:Cormorant Garamond,serif;font-size:15px;font-weight:300;color:#6a8090;line-height:1.4;text-align:left;';
+      btn.textContent=o;
+      if(tmAns[s.id]===o){btn.style.borderColor='rgba(126,184,232,0.4)';btn.style.color='#fff';btn.style.background='rgba(126,184,232,0.06)';}
+      btn.onmouseover=()=>{if(tmAns[s.id]!==o){btn.style.borderColor='rgba(126,184,232,0.25)';btn.style.color='#c8d8e8';btn.style.background='#0d1520';}};
+      btn.onmouseout=()=>{if(tmAns[s.id]!==o){btn.style.borderColor='rgba(126,184,232,0.08)';btn.style.color='#6a8090';btn.style.background='#0a0f18';}};
+      btn.onclick=()=>{
+        tmAns[s.id]=o;
+        document.getElementById('tm-s-other').value='';
+        tmRender();
+      };
+      opts.appendChild(btn);
+    });
+    const other=document.getElementById('tm-s-other');
+    other.style.display=s.other?'block':'none';
+    if(tmAns[s.id]&&!s.opts.includes(tmAns[s.id]))other.value=tmAns[s.id];
+    else if(!tmAns[s.id])other.value='';
+    other.oninput=()=>{if(other.value.trim()){tmAns[s.id]=other.value.trim();opts.querySelectorAll('div').forEach(b=>{b.style.borderColor='rgba(126,184,232,0.08)';b.style.color='#6a8090';b.style.background='#0a0f18';});}};
+  }
+  function tmNext(){
+    const s=TM_STEPS[tmStep];
+    if(!tmAns[s.id]){const ov=document.getElementById('tm-s-other').value.trim();if(ov)tmAns[s.id]=ov;else return;}
+    if(tmStep<TM_STEPS.length-1){tmStep++;tmRender();}
+    else tmShowResult();
+  }
+  function tmBack(){if(tmStep>0){tmStep--;tmRender();}}
+  function tmShowResult(){
+    document.getElementById('tm-step-wrap').style.display='none';
+    document.getElementById('tm-result-wrap').style.display='block';
+    document.getElementById('tm-prog-fill').style.width='100%';
+    const ins=TM_INSIGHTS[tmAns['feeling']]||TM_DEFAULT;
+    document.getElementById('tm-r-title').textContent=ins.title;
+    document.getElementById('tm-r-desc').textContent=ins.desc;
+    document.getElementById('tm-r-insight').textContent=ins.insight;
+    document.getElementById('tm-r-science').textContent=ins.science;
+    document.getElementById('tm-r-source').textContent=ins.source;
+    const chain=document.getElementById('tm-r-chain');
+    chain.innerHTML='<div style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;">Your ABC Pattern</div>';
+    const labels={situation:'Antecedent',feeling:'Internal state',behavior:'Behavior',consequence:'Consequence',need:'Underlying need'};
+    const letters={situation:'A',feeling:'B1',behavior:'B2',consequence:'C',need:'N'};
+    Object.entries(tmAns).forEach(([k,v])=>{
+      chain.innerHTML+=`<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;padding:12px 14px;border:1px solid rgba(126,184,232,0.06);background:#0a0f18;"><div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;min-width:20px;margin-top:2px;">${letters[k]||'?'}</div><div><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:3px;">${labels[k]||k}</div><div style="font-family:Cormorant Garamond,serif;font-size:16px;font-weight:300;color:#8aa0b8;">${v}</div></div></div>`;
+    });
+    const entries=tmLoadAll();
+    entries.unshift({date:new Date().toISOString(),display:tmFmt(new Date()),answers:{...tmAns},feeling:tmAns['feeling']});
+    if(entries.length>60)entries.pop();
+    tmSaveAll(entries);
+  }
+  function tmAgain(){tmAns={};tmStep=0;tmRender();}
+  function tmShowHist(){
+    document.getElementById('tm-result-wrap').style.display='none';
+    document.getElementById('tm-hist-wrap').style.display='block';
+    const entries=tmLoadAll();
+    const counts={};
+    entries.forEach(e=>{const f=e.feeling||'Unknown';counts[f]=(counts[f]||0)+1;});
+    const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const max=sorted[0]?.[1]||1;
+    const bars=document.getElementById('tm-h-bars');
+    bars.innerHTML='<div style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:14px;">Most common internal states</div>';
+    sorted.slice(0,6).forEach(([name,count])=>{
+      bars.innerHTML+=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#4a5568;width:90px;flex-shrink:0;">${name.split(' ')[0].toLowerCase()}</div><div style="flex:1;height:4px;background:rgba(126,184,232,0.06);border-radius:2px;"><div style="height:100%;border-radius:2px;background:rgba(126,184,232,0.3);width:${Math.round(count/max*100)}%;"></div></div><div style="font-size:9px;color:#4a5568;min-width:20px;">${count}</div></div>`;
+    });
+    const list=document.getElementById('tm-h-list');
+    list.innerHTML='<div style="font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin:20px 0 12px;">Recent entries</div>';
+    entries.slice(0,6).forEach(e=>{
+      list.innerHTML+=`<div style="display:flex;align-items:flex-start;gap:10px;border-top:1px solid rgba(126,184,232,0.05);padding:12px 0;"><div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.2);margin-top:5px;flex-shrink:0;"></div><div><div style="font-family:Cormorant Garamond,serif;font-size:16px;font-weight:300;color:#6a8090;">${e.answers?.feeling||'?'}</div><div style="font-size:8px;letter-spacing:0.1em;color:#2d3f52;margin-top:2px;">${e.display}</div></div></div>`;
+    });
+  }
+  function tmHideHist(){document.getElementById('tm-hist-wrap').style.display='none';document.getElementById('tm-result-wrap').style.display='block';}
 
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
