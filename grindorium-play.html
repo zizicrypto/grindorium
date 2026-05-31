@@ -163,6 +163,9 @@
     .zen-banner-sub{font-size:9px;letter-spacing:0.1em;color:#4a5568;margin-top:2px;}
     @media(max-width:600px){.zen-mode-banner{padding:12px 20px;}}
 
+  
+    @keyframes wallFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
   </style>
 </head>
 <body>
@@ -619,6 +622,27 @@
         <div id="ec-past-list"></div>
         <div id="ec-empty" style="font-size:11px;letter-spacing:0.1em;color:#2d3f52;padding:24px 0;">No past sessions yet.</div>
       </div>
+    </div>
+  </div>
+
+
+  <div class="game-overlay" id="wallOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Wall</span>
+      <button class="go-close" onclick="closeWall()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 80px;position:relative;overflow:hidden;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;position:relative;z-index:10;">The Wall</div>
+      <div style="font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;position:relative;z-index:10;">One word. Right now.</div>
+      <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:40px;text-align:center;position:relative;z-index:10;">What is present for you in this moment. Anonymous. Shared with everyone here.</div>
+      <div style="display:flex;gap:0;width:100%;max-width:440px;margin-bottom:40px;position:relative;z-index:10;">
+        <input id="wall-input" type="text" placeholder="one word..." maxlength="20" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.15);font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#fff;padding:8px 0;outline:none;letter-spacing:0.05em;" onkeydown="if(event.key===\'Enter\')wallSubmit()" oninput="this.value=this.value.replace(/\\s/g,\'\')"/>
+        <button onclick="wallSubmit()" style="font-family:\'Space Mono\',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 16px;border:none;border-bottom:1px solid rgba(126,184,232,0.15);background:transparent;color:#7eb8e8;cursor:pointer;white-space:nowrap;">Share</button>
+      </div>
+      <div id="wall-cloud" style="position:relative;width:100%;max-width:560px;min-height:260px;z-index:10;"></div>
+      <div id="wall-count" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-top:20px;text-align:center;position:relative;z-index:10;"></div>
+      <div id="wall-msg" style="font-size:10px;letter-spacing:0.1em;color:#4a5568;min-height:16px;text-align:center;position:relative;z-index:10;margin-top:8px;transition:opacity 0.3s;"></div>
+      <div id="wall-loading" style="font-size:10px;letter-spacing:0.1em;color:#4a5568;text-align:center;position:relative;z-index:10;margin-top:16px;">Loading...</div>
     </div>
   </div>
 
@@ -1584,6 +1608,97 @@ c:[
       });
       el.innerHTML=h;list.appendChild(el);
     });
+  }
+
+
+  const WALL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
+  const WALL_KEY="sb_publishable_hlQR5Dh_A3NHxTHbDKvawA_DN23psUV";
+  const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
+  let wallWords=[],wallYours=null,wallRefreshTimer=null;
+
+  async function wallFetch(){
+    try{
+      const res=await fetch(WALL_URL+"/rest/v1/words?select=word&created_at=gte."+new Date(Date.now()-86400000).toISOString(),{
+        headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
+      });
+      const data=await res.json();
+      const counts={};
+      data.forEach(r=>{counts[r.word]=(counts[r.word]||0)+1;});
+      wallWords=Object.entries(counts).map(([word,count])=>{return {word,count};}).sort((a,b)=>b.count-a.count);
+      document.getElementById("wall-loading").style.display="none";
+      wallRender();
+    }catch(e){
+      document.getElementById("wall-loading").textContent="Could not load. Try again.";
+    }
+  }
+
+  function wallRender(){
+    const cloud=document.getElementById("wall-cloud");
+    if(!cloud)return;
+    cloud.innerHTML="";
+    const cw=cloud.offsetWidth||520;
+    const ch=260;
+    const maxCount=wallWords.length>0?Math.max(...wallWords.map(w=>w.count)):1;
+    wallWords.slice(0,30).forEach((item,i)=>{
+      const el=document.createElement("div");
+      el.style.position="absolute";
+      const size=14+(item.count/maxCount)*24;
+      el.style.fontSize=size+"px";
+      el.style.fontFamily="Cormorant Garamond,serif";
+      el.style.fontWeight="300";
+      el.style.whiteSpace="nowrap";
+      el.style.cursor="default";
+      el.style.transition="color 0.3s";
+      const color=WALL_COLORS[i%WALL_COLORS.length];
+      const opacity=0.25+(item.count/maxCount)*0.6;
+      el.style.color=item.word===wallYours?"rgba(134,239,172,0.9)":color+opacity+")";
+      el.textContent=item.word;
+      el.style.left=Math.random()*(cw-140)+"px";
+      el.style.top=Math.random()*(ch-30)+"px";
+      cloud.appendChild(el);
+    });
+    const total=wallWords.reduce((s,w)=>s+w.count,0);
+    document.getElementById("wall-count").textContent=total+" word"+(total===1?"":"s")+" shared in the last 24 hours";
+  }
+
+  async function wallSubmit(){
+    const val=document.getElementById("wall-input").value.trim().toLowerCase();
+    if(!val||val.length<2)return;
+    if(!/^[a-zA-Z]+$/.test(val)){wallSetMsg("One word. Letters only.");return;}
+    wallYours=val;
+    document.getElementById("wall-input").value="";
+    try{
+      await fetch(WALL_URL+"/rest/v1/words",{
+        method:"POST",
+        headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+        body:JSON.stringify({word:val})
+      });
+      wallSetMsg('"'+val+'" is now on the wall.');
+      setTimeout(()=>wallSetMsg(""),4000);
+      await wallFetch();
+    }catch(e){wallSetMsg("Something went wrong. Try again.");}
+  }
+
+  function wallSetMsg(txt){
+    const m=document.getElementById("wall-msg");
+    if(!m)return;
+    m.style.opacity="0";
+    setTimeout(()=>{m.textContent=txt;m.style.opacity="1";},200);
+  }
+
+  function openWall(){
+    document.getElementById("wallOverlay").classList.add("active");
+    document.body.style.overflow="hidden";
+    document.getElementById("wall-loading").style.display="block";
+    document.getElementById("wall-cloud").innerHTML="";
+    document.getElementById("wall-count").textContent="";
+    wallFetch();
+    wallRefreshTimer=setInterval(wallFetch,15000);
+  }
+  function closeWall(){
+    document.getElementById("wallOverlay").classList.remove("active");
+    document.body.style.overflow="";
+    clearInterval(wallRefreshTimer);
   }
 
   const LEVELS=[
