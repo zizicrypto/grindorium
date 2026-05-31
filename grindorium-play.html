@@ -489,6 +489,37 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="journalOverlay">
+    <div class="go-nav">
+      <span class="go-title">Micro Journal</span>
+      <button class="go-close" onclick="closeJournal()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 80px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">Micro Journal</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;">Three words. Right now.</div>
+      <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:40px;text-align:center;">No sentences. No explanation. Just what is present.</div>
+      <div style="width:100%;max-width:420px;margin-bottom:28px;">
+        <div id="mj-date" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;"></div>
+        <input id="mj-input" type="text" placeholder="type here..." maxlength="60" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.12);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;padding:8px 0;outline:none;letter-spacing:0.05em;" oninput="mjCount()" onkeydown="if(event.key==='Enter')mjSave()"/>
+        <div id="mj-word-count" style="font-size:9px;letter-spacing:0.12em;color:#2d3f52;margin-top:8px;text-align:right;">0 words</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:40px;">
+        <button class="g-btn primary" onclick="mjSave()">Save</button>
+        <button class="g-btn" onclick="mjClear()">Clear all</button>
+      </div>
+      <div style="width:100%;max-width:420px;">
+        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;">Past entries</div>
+        <div id="mj-list" style="display:flex;flex-direction:column;gap:1px;"></div>
+        <div id="mj-empty" style="font-size:12px;letter-spacing:0.1em;color:#2d3f52;text-align:center;padding:24px 0;">No entries yet. Start with today.</div>
+      </div>
+      <div style="width:100%;max-width:420px;margin-top:32px;">
+        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;">This month</div>
+        <div id="mj-dots" style="display:flex;flex-wrap:wrap;gap:4px;"></div>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -1165,6 +1196,58 @@ c:[
     document.getElementById('rsr-rate').textContent=rate+'%';
     document.getElementById('rsr-total').textContent=rs2Resisted;
   }
+
+
+  const MJ_KEY='grindorium_journal';
+  function mjLoad(){try{return JSON.parse(localStorage.getItem(MJ_KEY)||'[]');}catch(e){return [];}}
+  function mjSave2(e){try{localStorage.setItem(MJ_KEY,JSON.stringify(e));}catch(e){}}
+  function mjCount(){const v=document.getElementById('mj-input').value.trim();const w=v?v.split(/\s+/).filter(x=>x.length>0):[];document.getElementById('mj-word-count').textContent=w.length+' word'+(w.length===1?'':'s');}
+  function mjSave(){
+    const v=document.getElementById('mj-input').value.trim();if(!v)return;
+    const entries=mjLoad();const now=new Date();
+    entries.unshift({text:v,date:now.toISOString(),display:mjFmt(now)});
+    if(entries.length>60)entries.pop();
+    mjSave2(entries);document.getElementById('mj-input').value='';document.getElementById('mj-word-count').textContent='0 words';mjRender();
+  }
+  function mjClear(){if(confirm('Clear all journal entries?')){mjSave2([]);mjRender();}}
+  function mjFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+  function mjRender(){
+    const entries=mjLoad();
+    const list=document.getElementById('mj-list');
+    const empty=document.getElementById('mj-empty');
+    if(!list)return;
+    list.innerHTML='';
+    if(entries.length===0){empty.style.display='block';}
+    else{
+      empty.style.display='none';
+      entries.slice(0,20).forEach(e=>{
+        const row=document.createElement('div');
+        row.style.cssText='display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(126,184,232,0.04);';
+        row.innerHTML=`<span style="font-family:Cormorant Garamond,serif;font-size:18px;font-weight:300;color:#8aa0b8;">${e.text}</span><span style="font-size:8px;letter-spacing:0.1em;color:#2d3f52;">${e.display}</span>`;
+        list.appendChild(row);
+      });
+    }
+    const now=new Date();
+    const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+    const dots=document.getElementById('mj-dots');
+    if(!dots)return;
+    dots.innerHTML='';
+    const daysWithEntry=new Set();
+    entries.forEach(e=>{const d=new Date(e.date);if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())daysWithEntry.add(d.getDate());});
+    for(let i=1;i<=daysInMonth;i++){
+      const dot=document.createElement('div');
+      dot.style.cssText=`width:10px;height:10px;border-radius:50%;background:${daysWithEntry.has(i)?'rgba(126,184,232,0.2)':'rgba(126,184,232,0.06)'};border:1px solid ${daysWithEntry.has(i)?'rgba(126,184,232,0.25)':'rgba(126,184,232,0.08)'};`;
+      dot.title=i+'';
+      dots.appendChild(dot);
+    }
+  }
+  function openJournal(){
+    document.getElementById('journalOverlay').classList.add('active');
+    document.body.style.overflow='hidden';
+    document.getElementById('mj-date').textContent=mjFmt(new Date());
+    mjRender();
+  }
+  function closeJournal(){document.getElementById('journalOverlay').classList.remove('active');document.body.style.overflow='';}
 
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
