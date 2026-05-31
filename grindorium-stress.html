@@ -120,8 +120,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <p class="profile-sub">Optional. Your name and photo will appear on the result card.</p>
   <input class="profile-input" id="profileName" type="text" placeholder="Your name (optional)" maxlength="28"/>
   <div class="profile-photo-row">
-    <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
-    <label class="profile-photo-label" for="profilePhotoInput">Upload photo</label>
+    <div style="position:relative;display:inline-block;">
+      <img id="profilePhotoPreview" class="profile-photo-preview" src="" alt="" style="display:none;"/>
+      <button id="photoRemoveBtn" onclick="removePhoto()" style="display:none;position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:rgba(7,11,18,0.9);border:1px solid rgba(249,168,212,0.4);color:rgba(249,168,212,0.8);font-size:11px;line-height:1;cursor:pointer;z-index:10;">×</button>
+    </div>
+    <label class="profile-photo-label" for="profilePhotoInput" id="photoUploadLabel">Upload photo</label>
     <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
   </div>
   <div class="profile-btns">
@@ -318,7 +321,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <script>
 const answers=new Array(10).fill(null);let cQ=0;
 let userPhoto=null;
-function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';};r.readAsDataURL(inp.files[0]);}
+function handlePhoto(inp){if(!inp.files||!inp.files[0])return;const r=new FileReader();r.onload=function(e){userPhoto=e.target.result;const p=document.getElementById('profilePhotoPreview');p.src=userPhoto;p.style.display='block';const rb=document.getElementById('photoRemoveBtn');if(rb)rb.style.display='block';const lb=document.getElementById('photoUploadLabel');if(lb)lb.textContent='Change photo';};r.readAsDataURL(inp.files[0]);}
+function removePhoto(){userPhoto=null;const p=document.getElementById('profilePhotoPreview');p.src='';p.style.display='none';const rb=document.getElementById('photoRemoveBtn');if(rb)rb.style.display='none';const lb=document.getElementById('photoUploadLabel');if(lb)lb.textContent='Upload photo';const inp=document.getElementById('profilePhotoInput');if(inp)inp.value='';}
 function goStart(){document.getElementById('profileScreen').style.display='none';document.getElementById('startScreen').style.display='block';}
 function startTest(){document.getElementById('startScreen').style.display='none';document.getElementById('testScreen').style.display='block';updateUI();}
 function sa(q,v){answers[q]=v;document.querySelectorAll('#q'+q+' .option').forEach(o=>o.classList.remove('selected'));event.currentTarget.classList.add('selected');document.getElementById('nextBtn').disabled=false;}
