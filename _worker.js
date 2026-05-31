@@ -39,12 +39,16 @@ export default {
     };
     
     if (routes[cleanPath]) {
-      const newUrl = new URL(request.url);
-      newUrl.pathname = routes[cleanPath];
-      return env.ASSETS.fetch(new Request(newUrl.toString(), request));
+      // Yeni bir Request olustur, orijinal request yerine
+      const assetUrl = new URL(routes[cleanPath], url.origin);
+      const assetRequest = new Request(assetUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+      });
+      return env.ASSETS.fetch(assetRequest);
     }
     
-    // MP3, PNG vs diger dosyalar
+    // MP3, PNG vs diger dosyalar - direkt serve et
     return env.ASSETS.fetch(request);
   }
 }
