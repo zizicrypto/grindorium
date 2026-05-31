@@ -428,6 +428,7 @@
         <div id="wtr-science" style="font-size:12px;color:#4a5568;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:8px;"></div>
         <div id="wtr-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;display:block;margin-bottom:24px;"></div>
         <button class="g-btn primary" onclick="wtInit()">Try again</button>
+        <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('The Wait', document.getElementById('wtr-title').textContent, document.getElementById('wtr-time').textContent+'s waited')" style="margin-top:8px;">Share result</button>
       </div>
     </div>
   </div>
@@ -520,6 +521,7 @@
         <div id="rsr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;"></div>
         <div id="rsr-note" style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:24px;"></div>
         <button class="g-btn primary" onclick="rsInit()">Try again</button>
+        <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('The Resistance', document.getElementById('rsr-title').textContent, document.getElementById('rsr-score').textContent+' pts')" style="margin-top:8px;">Share result</button>
       </div>
     </div>
   </div>
@@ -710,6 +712,7 @@
         <div id="tm-r-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#1e2d3a;margin-bottom:24px;display:block;"></div>
         <div style="display:flex;gap:8px;">
           <button class="g-btn primary" onclick="tmAgain()">Map another ↗</button>
+        <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('Trigger Map', document.getElementById('tm-r-title').textContent, null)" style="margin-top:8px;">Share result</button>
           <button class="g-btn" onclick="tmShowHist()">See patterns</button>
         </div>
       </div>
@@ -906,6 +909,7 @@
         <div id="rrr2-science" style="font-size:11px;color:#2d3f52;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:6px;"></div>
         <div id="rrr2-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#1e2d3a;display:block;margin-bottom:24px;"></div>
         <button class="g-btn primary" onclick="rroomReset()">Play again ↗</button>
+        <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('The Resistance Room', document.getElementById('rrr2-title').textContent, document.getElementById('rrr2-big').textContent+' rejected')" style="margin-top:8px;">Share result</button>
       </div>
     </div>
   </div>
@@ -2504,6 +2508,27 @@ c:[
     });
   }
   function rroomReset(){document.getElementById('rroom-result').style.display='none';document.getElementById('rroom-intro').style.display='flex';}
+
+
+  // UNIVERSAL SHARE
+  function grindShare(gameName, result, score){
+    let text = 'Grindorium — ' + gameName;
+    if(score !== undefined && score !== null) text += ' | Score: ' + score;
+    if(result) text += ' | ' + result;
+    text += '\ngrindorium.org/play';
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(()=>{
+        const btns = document.querySelectorAll('.gs-share-btn');
+        btns.forEach(b=>{
+          if(b.dataset.active==='1') return;
+          b.dataset.active='1';
+          const orig=b.textContent;
+          b.textContent='Copied.';
+          setTimeout(()=>{b.textContent=orig;b.dataset.active='0';},2000);
+        });
+      });
+    }
+  }
 
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
