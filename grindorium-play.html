@@ -520,6 +520,32 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="nothingOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Nothing Room</span>
+      <button class="go-close" onclick="closeNothing()">← Back to games</button>
+    </div>
+    <div style="position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;cursor:none;">
+      <canvas id="nr-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      <div id="nr-ui" style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 24px;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;">The Nothing Room</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;">Just be here.</div>
+        <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:48px;text-align:center;">Do not touch anything. The forest grows while you stay still.</div>
+        <div id="nr-timer" style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:rgba(255,255,255,0.15);margin-bottom:12px;transition:color 1s;letter-spacing:0.02em;">0:00</div>
+        <div id="nr-phase" style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;margin-bottom:48px;min-height:14px;transition:color 1s;"></div>
+        <div id="nr-msg" style="font-size:11px;letter-spacing:0.1em;color:#2d3f52;text-align:center;min-height:18px;transition:opacity 0.5s;max-width:320px;">Click begin. Then do nothing.</div>
+        <button id="nr-btn" onclick="nrBegin()" class="g-btn" style="margin-top:40px;">Begin</button>
+      </div>
+      <div id="nr-result" style="display:none;text-align:center;max-width:380px;position:absolute;inset:0;z-index:10;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;">
+        <div id="nrr-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;margin-bottom:14px;"></div>
+        <div id="nrr-time" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#8aa0b8;margin-bottom:20px;"></div>
+        <div id="nrr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:24px;max-width:360px;"></div>
+        <button class="g-btn primary" onclick="nrReset()">Try again</button>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -1248,6 +1274,134 @@ c:[
     mjRender();
   }
   function closeJournal(){document.getElementById('journalOverlay').classList.remove('active');document.body.style.overflow='';}
+
+
+  let nrCanvas,nrCtx,nrW,nrH,nrTrees=[],nrParticles=[],nrRunning=false,nrSec=0,nrTimer=null,nrAnimFrame,nrBroken=false;
+  const NR_MAX=300;
+  const NR_PHASES=[
+    {sec:0,label:'',msg:'',tc:'rgba(255,255,255,0.1)'},
+    {sec:10,label:'settling',msg:'The mind will want to move. Let it settle.',tc:'rgba(255,255,255,0.2)'},
+    {sec:30,label:'present',msg:'Something is beginning to grow.',tc:'rgba(126,184,232,0.3)'},
+    {sec:60,label:'still',msg:'You are still here.',tc:'rgba(134,239,172,0.35)'},
+    {sec:120,label:'deep',msg:'Most people have left by now.',tc:'rgba(134,239,172,0.5)'},
+    {sec:180,label:'very deep',msg:'',tc:'rgba(134,239,172,0.65)'},
+    {sec:240,label:'rare',msg:'This is rare.',tc:'rgba(253,224,71,0.5)'},
+  ];
+  const NR_RESULTS=[
+    {maxSec:5,title:"Almost.",desc:"Five seconds. The stillness arrived and something moved before the forest had time to begin. Not a failure. Just a measurement of where the threshold currently is."},
+    {maxSec:20,title:"A beginning.",desc:"Long enough to feel the pull toward movement. Short enough that the forest was just starting. The resistance is real. So is the capacity to work with it."},
+    {maxSec:60,title:"One minute.",desc:"Sixty seconds of nothing. The forest had started to grow. The discomfort of stillness is its own kind of information about how rarely you sit in it."},
+    {maxSec:120,title:"The forest was growing.",desc:"Two minutes. Something was visibly changing while you did nothing to cause it. That experience, of change without effort, is what this room is built around."},
+    {maxSec:240,title:"Deep stillness.",desc:"Four minutes. Most people are long gone. The discomfort of stillness had transformed into something closer to rest. That transformation is what you came for."},
+    {maxSec:300,title:"The full room.",desc:"Five minutes. The forest reached its fullness while you remained completely still. The capacity to inhabit silence without filling it is one of the rarer human abilities."},
+  ];
+  class NrTree{
+    constructor(x,w,h){
+      this.x=x;this.targetH=Math.random()*80+40;this.currentH=0;
+      this.trunkW=Math.random()*3+1.5;this.W=w;this.H=h;
+      this.cr=`rgba(${Math.floor(Math.random()*20+5)},${Math.floor(Math.random()*40+30)},${Math.floor(Math.random()*20+10)},`;
+      this.lr=`rgba(${Math.floor(Math.random()*30+10)},${Math.floor(Math.random()*60+40)},${Math.floor(Math.random()*30+15)},`;
+    }
+    update(p){if(this.currentH<this.targetH*p)this.currentH=Math.min(this.targetH*p,this.targetH);}
+    draw(ctx,H){
+      const base=H-20,top=base-this.currentH;
+      ctx.strokeStyle=this.cr+'0.6)';ctx.lineWidth=this.trunkW;
+      ctx.beginPath();ctx.moveTo(this.x,base);ctx.lineTo(this.x,top);ctx.stroke();
+      if(this.currentH>20){
+        const ls=(this.currentH/this.targetH)*18+8;
+        ctx.fillStyle=this.lr+'0.3)';ctx.beginPath();ctx.arc(this.x,top,ls,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle=this.lr+'0.15)';
+        ctx.beginPath();ctx.arc(this.x-ls*0.5,top+ls*0.3,ls*0.7,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(this.x+ls*0.5,top+ls*0.3,ls*0.7,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+  class NrParticle{
+    constructor(w,h){this.W=w;this.H=h;this.reset();}
+    reset(){this.x=Math.random()*this.W;this.y=this.H+10;this.s=Math.random()*2+0.5;this.sp=Math.random()*0.3+0.1;this.o=Math.random()*0.3+0.1;this.d=(Math.random()-0.5)*0.3;}
+    update(){this.y-=this.sp;this.x+=this.d;if(this.y<-10)this.reset();}
+    draw(ctx){ctx.fillStyle=`rgba(134,239,172,${this.o})`;ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fill();}
+  }
+  function nrInitForest(){
+    nrCanvas=document.getElementById('nr-canvas');
+    nrCtx=nrCanvas.getContext('2d');
+    nrW=nrCanvas.offsetWidth;nrH=nrCanvas.offsetHeight;
+    nrCanvas.width=nrW;nrCanvas.height=nrH;
+    nrTrees=[];nrParticles=[];
+    const count=Math.floor(nrW/28);
+    for(let i=0;i<count;i++)nrTrees.push(new NrTree(20+Math.random()*(nrW-40),nrW,nrH));
+    for(let i=0;i<15;i++)nrParticles.push(new NrParticle(nrW,nrH));
+  }
+  function nrDrawFrame(){
+    nrCtx.clearRect(0,0,nrW,nrH);
+    const progress=nrSec/NR_MAX;
+    const gg=nrCtx.createLinearGradient(0,nrH-30,0,nrH);
+    gg.addColorStop(0,`rgba(5,20,8,${Math.min(progress*0.8,0.4)})`);
+    gg.addColorStop(1,`rgba(3,12,5,${Math.min(progress*0.6,0.3)})`);
+    nrCtx.fillStyle=gg;nrCtx.fillRect(0,nrH-30,nrW,30);
+    nrTrees.forEach(t=>{t.update(progress);t.draw(nrCtx,nrH);});
+    if(progress>0.2)nrParticles.forEach(p=>{p.update();p.draw(nrCtx);});
+    if(progress>0.1){
+      const fg=nrCtx.createLinearGradient(0,nrH-80,0,nrH);
+      fg.addColorStop(0,'transparent');fg.addColorStop(1,`rgba(7,11,18,${progress*0.4})`);
+      nrCtx.fillStyle=fg;nrCtx.fillRect(0,nrH-80,nrW,80);
+    }
+  }
+  function nrAnimate(){if(!nrRunning&&!nrBroken)return;nrDrawFrame();nrAnimFrame=requestAnimationFrame(nrAnimate);}
+  function openNothing(){document.getElementById('nothingOverlay').classList.add('active');document.body.style.overflow='hidden';nrReset();}
+  function closeNothing(){document.getElementById('nothingOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);nrRunning=false;}
+  function nrBegin(){
+    document.getElementById('nr-btn').style.display='none';
+    document.getElementById('nr-msg').textContent='';
+    nrRunning=true;nrSec=0;nrBroken=false;
+    nrInitForest();nrAnimate();
+    nrTimer=setInterval(()=>{
+      nrSec++;
+      const min=Math.floor(nrSec/60),sec=(nrSec%60).toString().padStart(2,'0');
+      document.getElementById('nr-timer').textContent=min+':'+sec;
+      const phase=NR_PHASES.slice().reverse().find(p=>nrSec>=p.sec)||NR_PHASES[0];
+      document.getElementById('nr-phase').textContent=phase.label;
+      document.getElementById('nr-timer').style.color=phase.tc;
+      if(phase.msg){const m=document.getElementById('nr-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=phase.msg;m.style.opacity='1';},300);}
+      if(nrSec>=NR_MAX){nrEnd(false);}
+    },1000);
+    const overlay=document.getElementById('nothingOverlay');
+    overlay.addEventListener('click',nrBreak);
+    overlay.addEventListener('touchstart',nrBreak,{passive:true});
+  }
+  function nrBreak(e){
+    if(!nrRunning)return;
+    if(e.target===document.getElementById('nr-btn')||e.target===document.querySelector('#nr-btn span')||e.target.closest('.go-nav'))return;
+    nrEnd(true);
+  }
+  function nrEnd(broken){
+    nrRunning=false;nrBroken=broken;
+    clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);
+    const overlay=document.getElementById('nothingOverlay');
+    overlay.removeEventListener('click',nrBreak);
+    overlay.removeEventListener('touchstart',nrBreak);
+    document.getElementById('nr-ui').style.display='none';
+    nrDrawFrame();
+    const r=NR_RESULTS.find(x=>nrSec<=x.maxSec)||NR_RESULTS[NR_RESULTS.length-1];
+    const min=Math.floor(nrSec/60),sec=(nrSec%60).toString().padStart(2,'0');
+    document.getElementById('nrr-title').textContent=broken?'The forest stopped growing.':r.title;
+    document.getElementById('nrr-time').textContent='You held for '+min+':'+sec;
+    document.getElementById('nrr-desc').textContent=broken?'Something moved. The forest stops the moment contact is made. Start again and see how far the stillness can reach.':r.desc;
+    const res=document.getElementById('nr-result');
+    res.style.display='flex';
+  }
+  function nrReset(){
+    clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);
+    nrRunning=false;nrSec=0;nrBroken=false;
+    if(nrCtx)nrCtx.clearRect(0,0,nrW,nrH);
+    document.getElementById('nr-ui').style.display='flex';
+    document.getElementById('nr-result').style.display='none';
+    document.getElementById('nr-timer').textContent='0:00';
+    document.getElementById('nr-timer').style.color='rgba(255,255,255,0.15)';
+    document.getElementById('nr-phase').textContent='';
+    document.getElementById('nr-msg').textContent='Click begin. Then do nothing.';
+    document.getElementById('nr-btn').style.display='block';
+  }
 
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
