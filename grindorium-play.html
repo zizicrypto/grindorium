@@ -1578,7 +1578,7 @@ c:[
         wtCurTier=WT_TIERS.indexOf(tier);
       }
 
-      const msgs={5:'It will keep growing.',15:'Still growing.',25:'Most people have already pressed.',35:'You are still here.',45:'The discomfort usually peaks around now.',55:'Five more seconds to reach maximum.',WT_MAX-5:'Almost at maximum.'};
+      const msgs={5:'It will keep growing.',15:'Still growing.',25:'Most people have already pressed.',35:'You are still here.',45:'The discomfort usually peaks around now.',55:'Five more seconds to reach maximum.',[WT_MAX-5]:'Almost at maximum.'};
       if(msgs[wtSec])wtSetMsg(msgs[wtSec]);
 
       if(wtSec>=WT_MAX){clearInterval(wtTimer);wtRunning=false;wtShow(WT_MAX);}
