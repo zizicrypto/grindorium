@@ -12,7 +12,11 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
-.nav-logo{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;text-decoration:none;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+.nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.1em;}
+.nav-back:hover{color:var(--white);}
 .nav-back{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);text-decoration:none;text-transform:uppercase;}
 .nav-back:hover{color:var(--white);}
 .container{max-width:660px;margin:0 auto;padding:94px 20px 80px;}
