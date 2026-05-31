@@ -153,6 +153,16 @@
     .zen-banner-sub{font-size:9px;letter-spacing:0.1em;color:#2d3f52;}
     @media(max-width:600px){.zen-mode-banner{padding:10px 20px;flex-direction:column;gap:4px;text-align:center;}}
 
+  
+    .zen-locked{opacity:0.3;pointer-events:none;position:relative;}
+    .zen-locked::after{content:'';position:absolute;inset:0;z-index:20;}
+    .zen-badge{position:absolute;top:12px;right:12px;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(134,239,172,0.2);color:#86efac;background:rgba(7,11,18,0.9);z-index:21;}
+    .zen-mode-banner{width:100%;max-width:900px;margin:0 auto 0;padding:12px 48px;display:none;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(134,239,172,0.08);}
+    .zen-mode-banner.active{display:flex;}
+    .zen-banner-text{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#86efac;}
+    .zen-banner-sub{font-size:9px;letter-spacing:0.1em;color:#4a5568;margin-top:2px;}
+    @media(max-width:600px){.zen-mode-banner{padding:12px 20px;}}
+
   </style>
 </head>
 <body>
@@ -172,6 +182,15 @@
 </div>
 
 <div class="divider"></div>
+
+
+  <div id="zen-banner" class="zen-mode-banner">
+    <div>
+      <div class="zen-banner-text">Zen mode is active</div>
+      <div class="zen-banner-sub">After 23:00, only calm games are available. The others return at 05:00.</div>
+    </div>
+    <div style="font-size:9px;letter-spacing:0.1em;color:#4a5568;">The Breath. The Feeling. The Nothing Room. Micro Journal.</div>
+  </div>
 
 <div class="game-grid">
 
@@ -1413,6 +1432,40 @@ c:[
     document.getElementById('nr-btn').style.display='block';
   }
 
+
+  const ZEN_LOCKED_GAMES=['gameOverlay','driftOverlay','loopOverlay','stackOverlay','waitOverlay','resistanceOverlay'];
+  const ZEN_LOCKED_CARDS=[0,1,2,3,4,7]; // indices of game cards to lock
+
+  function zenCheck(){
+    const hour=new Date().getHours();
+    const isZen=hour>=23||hour<5;
+    const banner=document.getElementById('zen-banner');
+
+    if(isZen){
+      if(banner)banner.classList.add('active');
+      document.querySelectorAll('.game-card').forEach((card,i)=>{
+        if(ZEN_LOCKED_CARDS.includes(i)){
+          card.classList.add('zen-locked');
+          if(!card.querySelector('.zen-badge')){
+            const b=document.createElement('div');
+            b.className='zen-badge';
+            b.textContent='Zen mode';
+            card.appendChild(b);
+          }
+        }
+      });
+      // Override open functions for locked games
+      ['openGame','openDrift','openLoop','openStack','openWait','openResistance'].forEach(fn=>{
+        window[fn]=()=>{
+          const m=document.getElementById('zen-banner');
+          if(m){m.style.animation='none';setTimeout(()=>{m.style.animation='';},200);}
+        };
+      });
+    } else {
+      if(banner)banner.classList.remove('active');
+    }
+  }
+
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
     {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
@@ -1622,6 +1675,7 @@ function toggleAmbient(){
     document.body.style.filter = 'brightness(0.92)';
   })();
 
+  zenCheck();
 </script>
 </body>
 </html>
