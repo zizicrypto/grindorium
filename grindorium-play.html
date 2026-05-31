@@ -805,6 +805,47 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="chaosOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Chaos Button</span>
+      <button class="go-close" onclick="closeChaos()">← Back to games</button>
+    </div>
+    <div style="position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#070b12;">
+      <div id="ch-intro" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;height:100%;max-width:440px;margin:0 auto;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">The Chaos Button</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#8aa0b8;margin-bottom:16px;">Press when it is too much.</div>
+        <div style="font-size:13px;color:#2d3f52;line-height:1.9;margin-bottom:12px;">When you are overwhelmed, flooded, or cannot think. Press the button. The storm arrives. You do nothing but wait for it to pass.</div>
+        <div style="font-size:11px;color:#1e2d3a;line-height:1.8;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:40px;">Every emotion peaks and then subsides. DBT research identifies this window as approximately 90 seconds to 3 minutes. You are not waiting for the feeling to go away. You are waiting for it to reach its natural end.</div>
+        <button onclick="chEnter()" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 40px;border:1px solid rgba(126,184,232,0.15);background:transparent;color:#4a5568;cursor:pointer;">Press when ready</button>
+      </div>
+      <div id="ch-storm" style="display:none;position:absolute;inset:0;background:#000;flex-direction:column;align-items:center;justify-content:center;">
+        <canvas id="ch-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+        <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px;">
+          <div style="width:280px;height:60px;margin-bottom:24px;">
+            <svg id="ch-wave-svg" viewBox="0 0 280 60" style="width:100%;height:100%;" preserveAspectRatio="none">
+              <path id="ch-wave-path" d="" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div id="ch-storm-msg" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:rgba(255,255,255,0.2);margin-bottom:12px;transition:opacity 0.5s;min-height:28px;"></div>
+          <div id="ch-timer-text" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.1);transition:color 1s;">0:00</div>
+          <div id="ch-phase-label" style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.08);margin-top:8px;transition:color 1s;"></div>
+        </div>
+      </div>
+      <div id="ch-after" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;height:100%;max-width:440px;margin:0 auto;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#fff;margin-bottom:16px;">It passed.</div>
+        <div id="ch-after-waited" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#6a8090;margin-bottom:20px;"></div>
+        <div id="ch-after-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:14px;"></div>
+        <div id="ch-after-science" style="font-size:12px;color:#4a5568;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:6px;"></div>
+        <div id="ch-after-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;display:block;margin-bottom:24px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="g-btn" onclick="chReset()">Back</button>
+          <button class="g-btn primary" onclick="chAgain()">Again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -2177,6 +2218,115 @@ c:[
     sbPath.forEach(p=>{path.innerHTML+=`<div style="padding:8px 12px;border-left:2px solid rgba(249,168,212,0.2);margin-bottom:6px;font-family:Cormorant Garamond,serif;font-size:15px;font-weight:300;color:#6a8090;line-height:1.5;">${p.text}<span style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;margin-left:8px;">${p.tag}</span></div>`;});
   }
 
+
+  let chCtx2,chW2,chH2,chDrops2=[],chAF2,chRun2=false;
+  let chSec2=0,chTmr2=null,chMaxSec2=180,chWT2=0;
+  let chACtx=null,chRainSrc=null;
+  const CH_PHASES2=[
+    {sec:0,  bg:'#000000',mc:'rgba(255,255,255,0.15)',tc:'rgba(255,255,255,0.08)',pl:'',ro:0.3,rs:1.2,vol:0.3},
+    {sec:15, bg:'#020205',mc:'rgba(255,255,255,0.25)',tc:'rgba(255,255,255,0.12)',pl:'building',ro:0.5,rs:1.8,vol:0.5},
+    {sec:35, bg:'#040408',mc:'rgba(255,255,255,0.35)',tc:'rgba(255,255,255,0.18)',pl:'peak',ro:0.85,rs:3.0,vol:0.9},
+    {sec:55, bg:'#050508',mc:'rgba(255,255,255,0.28)',tc:'rgba(255,255,255,0.15)',pl:'beginning to ease',ro:0.65,rs:2.2,vol:0.7},
+    {sec:80, bg:'#040406',mc:'rgba(255,255,255,0.2)', tc:'rgba(255,255,255,0.12)',pl:'easing',ro:0.4,rs:1.5,vol:0.5},
+    {sec:110,bg:'#030305',mc:'rgba(255,255,255,0.15)',tc:'rgba(255,255,255,0.1)', pl:'settling',ro:0.25,rs:1.0,vol:0.3},
+    {sec:145,bg:'#020203',mc:'rgba(255,255,255,0.12)',tc:'rgba(255,255,255,0.08)',pl:'passing',ro:0.12,rs:0.6,vol:0.15},
+  ];
+  const CH_MSGS2={0:"You do not have to do anything.",15:"Stay here.",30:"This is the peak.",45:"The wave is high. Ride it.",60:"You are still here.",75:"It is beginning to ease.",90:"Ninety seconds. The peak is behind you.",110:"You are on the other side of it.",130:"Almost through.",150:"The storm is finishing.",165:"The feeling has passed through you."};
+  function chStartAudio2(){
+    try{
+      chACtx=new(window.AudioContext||window.webkitAudioContext)();
+      const bufSize=chACtx.sampleRate*2;
+      const nb=chACtx.createBuffer(1,bufSize,chACtx.sampleRate);
+      const nd=nb.getChannelData(0);
+      for(let i=0;i<bufSize;i++)nd[i]=(Math.random()*2-1);
+      chRainSrc=chACtx.createBufferSource();
+      chRainSrc.buffer=nb;chRainSrc.loop=true;
+      const bp=chACtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1200;bp.Q.value=0.4;
+      const lp=chACtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2500;
+      const gn=chACtx.createGain();gn.gain.value=0.08;
+      chRainSrc.connect(bp);bp.connect(lp);lp.connect(gn);gn.connect(chACtx.destination);
+      chRainSrc.start();chRainSrc._gn=gn;
+      [38,52,67].forEach(t=>setTimeout(()=>{if(!chRun2)return;try{chThunder2(0.25);}catch(e){}},t*1000));
+    }catch(e){}
+  }
+  function chThunder2(vol){
+    if(!chACtx)return;
+    const o=chACtx.createOscillator();const g=chACtx.createGain();const d=chACtx.createWaveShaper();
+    const c=new Float32Array(256);for(let i=0;i<256;i++){const x=i*2/256-1;c[i]=x*0.9;}d.curve=c;
+    o.type='sawtooth';o.frequency.setValueAtTime(80,chACtx.currentTime);o.frequency.exponentialRampToValueAtTime(25,chACtx.currentTime+1.8);
+    g.gain.setValueAtTime(0,chACtx.currentTime);g.gain.linearRampToValueAtTime(vol,chACtx.currentTime+0.05);g.gain.exponentialRampToValueAtTime(0.001,chACtx.currentTime+2.2);
+    o.connect(d);d.connect(g);g.connect(chACtx.destination);o.start(chACtx.currentTime);o.stop(chACtx.currentTime+2.5);
+  }
+  function chUpdateVol2(phase){
+    if(!chRainSrc||!chRainSrc._gn)return;
+    try{chRainSrc._gn.gain.setTargetAtTime(0.04+phase.vol*0.14,chACtx.currentTime,2);}catch(e){}
+  }
+  function chStopAudio2(){
+    try{if(chRainSrc){chRainSrc.stop();chRainSrc=null;}if(chACtx){chACtx.close();chACtx=null;}}catch(e){}
+  }
+  function openChaos(){document.getElementById('chaosOverlay').classList.add('active');document.body.style.overflow='hidden';}
+  function closeChaos(){document.getElementById('chaosOverlay').classList.remove('active');document.body.style.overflow='';chStopAudio2();clearInterval(chTmr2);cancelAnimationFrame(chAF2);chRun2=false;document.getElementById('ch-intro').style.display='flex';document.getElementById('ch-storm').style.display='none';document.getElementById('ch-after').style.display='none';}
+  function chEnter(){
+    document.getElementById('ch-intro').style.display='none';
+    const storm=document.getElementById('ch-storm');storm.style.display='flex';
+    chRun2=true;chSec2=0;chWT2=0;
+    const canvas=document.getElementById('ch-canvas');
+    chW2=canvas.offsetWidth;chH2=canvas.offsetHeight;canvas.width=chW2;canvas.height=chH2;
+    chCtx2=canvas.getContext('2d');
+    chDrops2=[];
+    for(let i=0;i<150;i++)chDrops2.push({x:Math.random()*chW2,y:Math.random()*chH2,len:Math.random()*18+8,speed:Math.random()*2+1,op:Math.random()*0.3+0.1,angle:Math.random()*0.25+0.05});
+    chStartAudio2();chDrawRain2();
+    document.getElementById('ch-storm-msg').textContent='You do not have to do anything.';
+    document.getElementById('ch-storm-msg').style.opacity='1';
+    chTmr2=setInterval(()=>{
+      chSec2++;
+      const min=Math.floor(chSec2/60),sec=(chSec2%60).toString().padStart(2,'0');
+      document.getElementById('ch-timer-text').textContent=min+':'+sec;
+      const phase=[...CH_PHASES2].reverse().find(p=>chSec2>=p.sec)||CH_PHASES2[0];
+      document.getElementById('ch-storm').style.background=phase.bg;
+      document.getElementById('ch-storm-msg').style.color=phase.mc;
+      document.getElementById('ch-timer-text').style.color=phase.tc;
+      document.getElementById('ch-phase-label').textContent=phase.pl;
+      document.getElementById('ch-phase-label').style.color=phase.tc;
+      chUpdateVol2(phase);chUpdateWave2(phase);
+      if(CH_MSGS2[chSec2]){const m=document.getElementById('ch-storm-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=CH_MSGS2[chSec2];m.style.opacity='1';},300);}
+      if(chSec2>=chMaxSec2){clearInterval(chTmr2);chEnd2();}
+    },1000);
+  }
+  function chUpdateWave2(phase){
+    chWT2+=0.06;const progress=chSec2/chMaxSec2;
+    const amp=4+Math.sin(progress*Math.PI)*20;const freq=0.035+progress*0.015;
+    let d='M 0 30';
+    for(let x=0;x<=280;x+=3){const y=30+Math.sin(x*freq+chWT2)*amp;d+=` L ${x} ${y}`;}
+    const op=0.04+Math.sin(progress*Math.PI)*0.2;
+    document.getElementById('ch-wave-path').setAttribute('d',d);
+    document.getElementById('ch-wave-path').style.stroke=`rgba(255,255,255,${op})`;
+  }
+  function chDrawRain2(){
+    if(!chRun2)return;
+    const phase=[...CH_PHASES2].reverse().find(p=>chSec2>=p.sec)||CH_PHASES2[0];
+    chCtx2.clearRect(0,0,chW2,chH2);
+    chDrops2.forEach(d=>{
+      chCtx2.beginPath();chCtx2.moveTo(d.x,d.y);chCtx2.lineTo(d.x+d.angle*d.len,d.y+d.len);
+      chCtx2.strokeStyle=`rgba(180,200,220,${d.op*phase.ro})`;chCtx2.lineWidth=0.7;chCtx2.stroke();
+      d.y+=d.speed*phase.rs;d.x+=d.angle*d.speed*phase.rs*0.4;
+      if(d.y>chH2){d.y=-d.len;d.x=Math.random()*chW2;}
+    });
+    chAF2=requestAnimationFrame(chDrawRain2);
+  }
+  function chEnd2(){
+    chRun2=false;cancelAnimationFrame(chAF2);chStopAudio2();
+    document.getElementById('ch-storm').style.display='none';
+    const after=document.getElementById('ch-after');after.style.display='flex';
+    const min=Math.floor(chSec2/60),sec=(chSec2%60).toString().padStart(2,'0');
+    document.getElementById('ch-after-waited').textContent='You stayed for '+min+':'+sec+'.';
+    document.getElementById('ch-after-desc').textContent='The storm passed. Not because you fixed anything. Not because you escaped it. Because you let it move through you without acting on it. That is the whole skill.';
+    document.getElementById('ch-after-science').textContent='DBT research by Marsha Linehan identifies that emotional intensity follows a wave pattern. Every emotion, even the most overwhelming one, peaks and then subsides naturally if you do not act on it or suppress it. Most people act at the peak, when the urge feels unbearable. The ones who wait learn that the peak always ends.';
+    document.getElementById('ch-after-source').textContent='Linehan, M.M. (1993). DBT Skills Training Manual. Guilford Press. Bowen and Marlatt (2009). Surfing the Urge. Psychology of Addictive Behaviors.';
+  }
+  function chReset(){chRun2=false;clearInterval(chTmr2);cancelAnimationFrame(chAF2);chStopAudio2();chSec2=0;document.getElementById('ch-after').style.display='none';document.getElementById('ch-storm').style.display='none';document.getElementById('ch-intro').style.display='flex';}
+  function chAgain(){chRun2=false;clearInterval(chTmr2);cancelAnimationFrame(chAF2);chStopAudio2();document.getElementById('ch-after').style.display='none';chEnter();}
+
   const LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
     {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
@@ -2387,6 +2537,30 @@ function toggleAmbient(){
   })();
 
   zenCheck();
+
+  (function(){
+    const c=document.getElementById('chaos-preview');
+    if(!c)return;
+    const ctx=c.getContext('2d');
+    let drops=[];
+    function init(){
+      c.width=c.offsetWidth;c.height=c.offsetHeight;
+      drops=[];
+      for(let i=0;i<60;i++)drops.push({x:Math.random()*c.width,y:Math.random()*c.height,len:Math.random()*14+6,speed:Math.random()*1.5+0.8,op:Math.random()*0.2+0.05,angle:0.1});
+    }
+    function draw(){
+      ctx.clearRect(0,0,c.width,c.height);
+      drops.forEach(d=>{
+        ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d.x+d.angle*d.len,d.y+d.len);
+        ctx.strokeStyle=`rgba(180,200,220,${d.op})`;ctx.lineWidth=0.6;ctx.stroke();
+        d.y+=d.speed;d.x+=d.angle*d.speed*0.3;
+        if(d.y>c.height){d.y=-d.len;d.x=Math.random()*c.width;}
+      });
+      requestAnimationFrame(draw);
+    }
+    init();draw();
+  })();
+
 </script>
 </body>
 </html>
