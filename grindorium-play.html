@@ -983,7 +983,7 @@
   <div class="game-overlay" id="voidOverlay">
     <div class="go-nav" style="background:#000;border-bottom:1px solid rgba(255,255,255,0.05);">
       <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);">The Void</span>
-      <button onclick="closeVoid()" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);background:transparent;border:none;cursor:pointer;">← Back</button>
+      <button class="go-close" onclick="closeVoid()" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);background:transparent;border:none;cursor:pointer;">← Back</button>
     </div>
     <div style="background:#000;min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;position:relative;">
       <div id="void-intro" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px;">
@@ -2058,7 +2058,7 @@ c:[
 
 
   const ZEN_LOCKED_GAMES=['gameOverlay','driftOverlay','loopOverlay','stackOverlay','waitOverlay','resistanceOverlay'];
-  const ZEN_LOCKED_CARDS=[0,1,2,3,4,7]; // indices of game cards to lock
+  const ZEN_LOCKED_CARDS=[0,1,2,3,7,8]; // indices of game cards to lock
 
   function zenCheck(){
     const hour=new Date().getHours();
