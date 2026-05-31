@@ -575,6 +575,8 @@
   quoteRender();
 
   function quoteDownload(){
+    document.fonts.ready.then(()=>{
+
     const q=DAILY_QUOTES[quoteDayIndex()];
     const canvas=document.createElement('canvas');
     const W=1080,H=1080;
@@ -587,7 +589,8 @@
     ctx.strokeStyle='rgba(126,184,232,0.12)';
     ctx.lineWidth=1;
     ctx.strokeRect(48,48,W-96,H-96);
-    // Grindorium logosu
+    // Grindorium logosu - Space Mono font yuklu oldugundan emin ol
+    ctx.font='600 14px monospace';
     ctx.font='600 14px "Space Mono", monospace';
     ctx.fillStyle='rgba(126,184,232,0.5)';
     ctx.letterSpacing='0.2em';
@@ -635,6 +638,8 @@
     a.download='grindorium-quote.png';
     a.href=canvas.toDataURL('image/png');
     a.click();
+  
+    });
   }
 
 </script>
