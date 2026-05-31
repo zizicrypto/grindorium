@@ -10,7 +10,7 @@ Live at [grindorium.org](https://grindorium.org)
 
 ## What it is
 
-17 interactive games built on peer-reviewed psychology research. Each one targets a specific pattern: impulse control, delayed gratification, self-sabotage, emotional dysregulation, procrastination, avoidance. The games do not reward you for winning. They show you something about how you operate.
+18 interactive games built on peer-reviewed psychology research. Each one targets a specific pattern: impulse control, delayed gratification, self-sabotage, emotional dysregulation, procrastination, avoidance. The games do not reward you for winning. They show you something about how you operate.
 
 Supporting that: 21 long-form essays, a micro journal, an evening court based on Stoic practice, a live collective word wall, CLI mode, and a Zen Mode that locks competitive games after 23:00.
 
