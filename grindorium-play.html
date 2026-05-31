@@ -646,6 +646,30 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="voidOverlay">
+    <div class="go-nav" style="background:#000;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);">The Void</span>
+      <button onclick="closeVoid()" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);background:transparent;border:none;cursor:pointer;">← Back</button>
+    </div>
+    <div style="background:#000;min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;position:relative;">
+      <div id="void-intro" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px;">
+        <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px;">The Void</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:rgba(255,255,255,0.5);margin-bottom:8px;">Nothing here.</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.08em;color:rgba(255,255,255,0.2);margin-bottom:48px;max-width:300px;line-height:1.8;">No buttons. No score. No output. Five minutes of complete emptiness.</div>
+        <div id="void-avail" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:28px;">Available now. Once per week.</div>
+        <button id="void-enter-btn" onclick="voidEnter()" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 28px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.4);cursor:pointer;">Enter</button>
+      </div>
+      <div id="void-active" style="display:none;position:absolute;inset:0;background:#000;align-items:center;justify-content:center;">
+        <div id="void-timer" style="font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:300;color:#ffffff;letter-spacing:0.05em;">0:00</div>
+      </div>
+      <div id="void-done" style="display:none;flex-direction:column;align-items:center;text-align:center;padding:40px 24px;">
+        <div id="void-done-msg" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:rgba(255,255,255,0.3);margin-bottom:8px;"></div>
+        <div id="void-done-sub" style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.15);"></div>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -1699,6 +1723,63 @@ c:[
     document.getElementById("wallOverlay").classList.remove("active");
     document.body.style.overflow="";
     clearInterval(wallRefreshTimer);
+  }
+
+
+  const VOID_KEY='grindorium_void_last';
+  let voidT=null,voidS=0;
+  function voidCheck(){const l=localStorage.getItem(VOID_KEY);if(!l)return true;return Date.now()-parseInt(l)>7*24*60*60*1000;}
+  function voidNext(){
+    const l=localStorage.getItem(VOID_KEY);if(!l)return '';
+    const n=new Date(parseInt(l)+7*24*60*60*1000);
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return 'Returns '+days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate();
+  }
+  function openVoid(){
+    document.getElementById('voidOverlay').classList.add('active');
+    document.body.style.overflow='hidden';
+    document.getElementById('void-intro').style.display='flex';
+    document.getElementById('void-active').style.display='none';
+    document.getElementById('void-done').style.display='none';
+    if(!voidCheck()){
+      document.getElementById('void-avail').textContent='Already visited this week.';
+      document.getElementById('void-enter-btn').style.display='none';
+      document.getElementById('void-done-msg').textContent='The Void has already been visited this week.';
+      document.getElementById('void-done-sub').textContent=voidNext();
+      document.getElementById('void-intro').style.display='none';
+      document.getElementById('void-done').style.display='flex';
+    }
+  }
+  function closeVoid(){
+    document.getElementById('voidOverlay').classList.remove('active');
+    document.body.style.overflow='';
+    clearInterval(voidT);voidT=null;
+  }
+  function voidEnter(){
+    if(!voidCheck())return;
+    document.getElementById('void-intro').style.display='none';
+    const active=document.getElementById('void-active');
+    active.style.display='flex';
+    voidS=0;
+    localStorage.setItem(VOID_KEY,Date.now().toString());
+    const t=document.getElementById('void-timer');
+    t.style.color='#ffffff';
+    voidT=setInterval(()=>{
+      voidS++;
+      const min=Math.floor(voidS/60);
+      const sec=(voidS%60).toString().padStart(2,'0');
+      t.textContent=min+':'+sec;
+      const op=Math.max(0.12,1-(voidS/300)*0.88);
+      t.style.color='rgba(255,255,255,'+op.toFixed(3)+')';
+      if(voidS>=300){clearInterval(voidT);voidEnd();}
+    },1000);
+  }
+  function voidEnd(){
+    document.getElementById('void-active').style.display='none';
+    document.getElementById('void-done').style.display='flex';
+    document.getElementById('void-done-msg').textContent='You were here.';
+    document.getElementById('void-done-sub').textContent=voidNext();
   }
 
   const LEVELS=[
