@@ -575,6 +575,53 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="courtOverlay">
+    <div class="go-nav">
+      <span class="go-title">Evening Court</span>
+      <button class="go-close" onclick="closeCourt()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 80px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">Evening Court</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;">Examine the day.</div>
+      <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:8px;text-align:center;">Three questions. From the Stoics. No judgment. Just honesty.</div>
+      <div id="ec-date" style="font-size:9px;letter-spacing:0.15em;color:#4a5568;margin-bottom:40px;"></div>
+      <div style="width:100%;max-width:520px;">
+        <div style="margin-bottom:32px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">I</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;margin-bottom:8px;line-height:1.5;">What was outside my control today that I treated as though it were within it?</div>
+          <div style="font-size:8px;letter-spacing:0.12em;color:#2d3f52;margin-bottom:10px;font-style:italic;">Epictetus, Enchiridion, 1.1</div>
+          <textarea id="ec-q1" placeholder="write here..." rows="2" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#8aa0b8;padding:8px 0;outline:none;resize:none;min-height:52px;line-height:1.6;"></textarea>
+        </div>
+        <div style="margin-bottom:32px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">II</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;margin-bottom:8px;line-height:1.5;">Which impulse did I follow that I wish I had not?</div>
+          <div style="font-size:8px;letter-spacing:0.12em;color:#2d3f52;margin-bottom:10px;font-style:italic;">Marcus Aurelius, Meditations, 7.2</div>
+          <textarea id="ec-q2" placeholder="write here..." rows="2" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#8aa0b8;padding:8px 0;outline:none;resize:none;min-height:52px;line-height:1.6;"></textarea>
+        </div>
+        <div style="margin-bottom:32px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">III</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;margin-bottom:8px;line-height:1.5;">Where did I act below the standard I hold for myself?</div>
+          <div style="font-size:8px;letter-spacing:0.12em;color:#2d3f52;margin-bottom:10px;font-style:italic;">Seneca, Letters, 83.2</div>
+          <textarea id="ec-q3" placeholder="write here..." rows="2" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#8aa0b8;padding:8px 0;outline:none;resize:none;min-height:52px;line-height:1.6;"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:32px;">
+        <button class="g-btn primary" onclick="ecSave()">Submit for tonight</button>
+        <button class="g-btn" onclick="ecTogglePast()">Past entries</button>
+      </div>
+      <div id="ec-saved" style="display:none;text-align:center;margin-bottom:24px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#8aa0b8;margin-bottom:8px;">Submitted.</div>
+        <div id="ec-closing" style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;font-style:italic;"></div>
+      </div>
+      <div id="ec-past" style="display:none;width:100%;max-width:520px;">
+        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:20px;">Past sessions</div>
+        <div id="ec-past-list"></div>
+        <div id="ec-empty" style="font-size:11px;letter-spacing:0.1em;color:#2d3f52;padding:24px 0;">No past sessions yet.</div>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -1464,6 +1511,79 @@ c:[
     } else {
       if(banner)banner.classList.remove('active');
     }
+  }
+
+
+  const EC_KEY='grindorium_court';
+  const EC_QUESTIONS=[
+    {q:"What was outside my control today that I treated as though it were within it?",src:"Epictetus, Enchiridion, 1.1"},
+    {q:"Which impulse did I follow that I wish I had not?",src:"Marcus Aurelius, Meditations, 7.2"},
+    {q:"Where did I act below the standard I hold for myself?",src:"Seneca, Letters, 83.2"},
+  ];
+  const EC_CLOSING=[
+    "The unexamined life is not worth living.",
+    "Waste no more time arguing what a good man should be. Be one.",
+    "You have power over your mind, not outside events.",
+    "He who fears death will never do anything worthy of a living man.",
+    "The impediment to action advances action. What stands in the way becomes the way.",
+    "Begin at once to live, and count each day as a separate life.",
+    "It is not that I am brave, but that I know what is not worth fearing.",
+  ];
+  function ecLoad(){try{return JSON.parse(localStorage.getItem(EC_KEY)||'[]');}catch(e){return [];}}
+  function ecSave2(e){try{localStorage.setItem(EC_KEY,JSON.stringify(e));}catch(e){}}
+  function ecFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
+  function openCourt(){
+    document.getElementById('courtOverlay').classList.add('active');
+    document.body.style.overflow='hidden';
+    const now=new Date();
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('ec-date').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+  }
+  function closeCourt(){document.getElementById('courtOverlay').classList.remove('active');document.body.style.overflow='';}
+  function ecSave(){
+    const a1=document.getElementById('ec-q1').value.trim();
+    const a2=document.getElementById('ec-q2').value.trim();
+    const a3=document.getElementById('ec-q3').value.trim();
+    if(!a1&&!a2&&!a3)return;
+    const entries=ecLoad();const now=new Date();
+    entries.unshift({date:now.toISOString(),display:ecFmt(now),answers:[a1,a2,a3]});
+    if(entries.length>60)entries.pop();
+    ecSave2(entries);
+    document.getElementById('ec-q1').value='';
+    document.getElementById('ec-q2').value='';
+    document.getElementById('ec-q3').value='';
+    const closing=EC_CLOSING[Math.floor(Math.random()*EC_CLOSING.length)];
+    document.getElementById('ec-closing').textContent='"'+closing+'"';
+    const saved=document.getElementById('ec-saved');
+    saved.style.display='block';
+    setTimeout(()=>saved.style.display='none',5000);
+  }
+  function ecTogglePast(){
+    const past=document.getElementById('ec-past');
+    if(past.style.display==='none'||!past.style.display){
+      ecRenderPast();past.style.display='block';
+    } else {past.style.display='none';}
+  }
+  function ecRenderPast(){
+    const entries=ecLoad();
+    const list=document.getElementById('ec-past-list');
+    const empty=document.getElementById('ec-empty');
+    list.innerHTML='';
+    if(entries.length===0){empty.style.display='block';return;}
+    empty.style.display='none';
+    entries.slice(0,10).forEach(e=>{
+      const el=document.createElement('div');
+      el.style.cssText='border-top:1px solid rgba(126,184,232,0.05);padding:20px 0;';
+      let h=`<div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;">${e.display}</div>`;
+      EC_QUESTIONS.forEach((q,i)=>{
+        if(e.answers[i]){
+          h+=`<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-weight:300;color:#4a5568;margin-bottom:4px;font-style:italic;">${q.q}</div>`;
+          h+=`<div style="font-family:Cormorant Garamond,serif;font-size:17px;font-weight:300;color:#6a8090;line-height:1.6;margin-bottom:12px;">${e.answers[i]}</div>`;
+        }
+      });
+      el.innerHTML=h;list.appendChild(el);
+    });
   }
 
   const LEVELS=[
