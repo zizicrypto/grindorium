@@ -167,6 +167,9 @@
     .quote-daily-dot{width:6px;height:6px;border-radius:50%;background:rgba(126,184,232,0.3);}
     .quote-daily-share{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(126,184,232,0.12);background:transparent;color:#4a5568;cursor:pointer;transition:all 0.2s;margin-left:auto;}
     .quote-daily-share:hover{border-color:rgba(126,184,232,0.3);color:#7eb8e8;}
+  
+    .quote-download{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(126,184,232,0.12);background:transparent;color:#4a5568;cursor:pointer;transition:all 0.2s;}
+    .quote-download:hover{border-color:rgba(126,184,232,0.3);color:#7eb8e8;}
   </style>
 <script type="application/ld+json">
 {
@@ -248,6 +251,7 @@
       <div class="quote-daily-dot"></div>
       Today's quote
       <button class="quote-daily-share" id="quoteShareBtn" onclick="quoteShare()">Copy ↗</button>
+      <button class="quote-download" onclick="quoteDownload()">Download ↓</button>
     </div>
     <p class="quote-text" id="dailyQuoteText"></p>
     <span class="quote-source" id="dailyQuoteSource"></span>
@@ -568,6 +572,70 @@
     });}
   }
   quoteRender();
+
+  function quoteDownload(){
+    const q=DAILY_QUOTES[quoteDayIndex()];
+    const canvas=document.createElement('canvas');
+    const W=1080,H=1080;
+    canvas.width=W;canvas.height=H;
+    const ctx=canvas.getContext('2d');
+    // Arkaplan
+    ctx.fillStyle='#070b12';
+    ctx.fillRect(0,0,W,H);
+    // Ince cerceve
+    ctx.strokeStyle='rgba(126,184,232,0.12)';
+    ctx.lineWidth=1;
+    ctx.strokeRect(48,48,W-96,H-96);
+    // Grindorium logosu
+    ctx.font='600 14px "Space Mono", monospace';
+    ctx.fillStyle='rgba(126,184,232,0.5)';
+    ctx.letterSpacing='0.2em';
+    ctx.fillText('GRINDORIUM', 96, 120);
+    // Tarih etiketi
+    ctx.font='400 11px "Space Mono", monospace';
+    ctx.fillStyle='rgba(126,184,232,0.25)';
+    ctx.fillText('Today\'s quote', 96, 155);
+    // Ince cizgi
+    ctx.strokeStyle='rgba(126,184,232,0.1)';
+    ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(96,175);ctx.lineTo(W-96,175);ctx.stroke();
+    // Tirnak
+    ctx.font='300 72px "Cormorant Garamond", serif';
+    ctx.fillStyle='rgba(126,184,232,0.2)';
+    ctx.fillText('"',96,280);
+    // Alinti metni - satir sarma
+    ctx.font='300 42px "Cormorant Garamond", serif';
+    ctx.fillStyle='rgba(255,255,255,0.85)';
+    const text=q.text;
+    const maxWidth=W-192;
+    const lineHeight=60;
+    const words=text.split(' ');
+    let line='';let y=320;
+    for(let i=0;i<words.length;i++){
+      const testLine=line+words[i]+' ';
+      const metrics=ctx.measureText(testLine);
+      if(metrics.width>maxWidth&&i>0){ctx.fillText(line,96,y);line=words[i]+' ';y+=lineHeight;}
+      else{line=testLine;}
+    }
+    ctx.fillText(line,96,y);
+    // Kaynak
+    ctx.font='400 18px "Space Mono", monospace';
+    ctx.fillStyle='rgba(126,184,232,0.5)';
+    ctx.fillText('— '+q.source,96,y+70);
+    // Alt cizgi
+    ctx.strokeStyle='rgba(126,184,232,0.1)';
+    ctx.beginPath();ctx.moveTo(96,H-140);ctx.lineTo(W-96,H-140);ctx.stroke();
+    // URL
+    ctx.font='400 13px "Space Mono", monospace';
+    ctx.fillStyle='rgba(126,184,232,0.3)';
+    ctx.fillText('grindorium.org',96,H-100);
+    // Indir
+    const a=document.createElement('a');
+    a.download='grindorium-quote.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  }
+
 </script>
 </body>
 </html>
