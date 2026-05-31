@@ -1096,7 +1096,109 @@
   </div>
 
 
-  <!-- GAME OVERLAY -->
+  
+  <div class="game-overlay" id="chaosOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Chaos Button</span>
+      <button class="go-close" onclick="closeChaos()">← Back to games</button>
+    </div>
+    <div style="position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#070b12;">
+      <div id="ch-intro" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;height:100%;max-width:440px;margin:0 auto;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">The Chaos Button</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#8aa0b8;margin-bottom:16px;">Press when it is too much.</div>
+        <div style="font-size:13px;color:#2d3f52;line-height:1.9;margin-bottom:12px;">When you are overwhelmed, flooded, or cannot think. Press the button. The storm arrives. You do nothing but wait for it to pass.</div>
+        <div style="font-size:11px;color:#1e2d3a;line-height:1.8;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:40px;">Every emotion peaks and then subsides. DBT research identifies this window as approximately 90 seconds to 3 minutes. You are not waiting for the feeling to go away. You are waiting for it to reach its natural end.</div>
+        <button onclick="chEnter()" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 40px;border:1px solid rgba(126,184,232,0.15);background:transparent;color:#4a5568;cursor:pointer;">Press when ready</button>
+      </div>
+      <div id="ch-storm" style="display:none;position:absolute;inset:0;background:#000;flex-direction:column;align-items:center;justify-content:center;">
+        <canvas id="ch-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+        <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px;">
+          <div style="width:280px;height:60px;margin-bottom:24px;">
+            <svg id="ch-wave-svg" viewBox="0 0 280 60" style="width:100%;height:100%;" preserveAspectRatio="none">
+              <path id="ch-wave-path" d="" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div id="ch-storm-msg" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:rgba(255,255,255,0.2);margin-bottom:12px;transition:opacity 0.5s;min-height:28px;"></div>
+          <div id="ch-timer-text" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.1);transition:color 1s;">0:00</div>
+          <div id="ch-phase-label" style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.08);margin-top:8px;transition:color 1s;"></div>
+        </div>
+      </div>
+      <div id="ch-after" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;height:100%;max-width:440px;margin:0 auto;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#fff;margin-bottom:16px;">It passed.</div>
+        <div id="ch-after-waited" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#6a8090;margin-bottom:20px;"></div>
+        <div id="ch-after-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:14px;"></div>
+        <div id="ch-after-science" style="font-size:12px;color:#4a5568;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:6px;"></div>
+        <div id="ch-after-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;display:block;margin-bottom:24px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="g-btn" onclick="chReset()">Back</button>
+          <button class="g-btn primary" onclick="chAgain()">Again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="game-overlay" id="resistanceRoomOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Resistance Room</span>
+      <button class="go-close" onclick="closeResistanceRoom()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:40px 24px 80px;position:relative;overflow:hidden;">
+      <canvas id="rroom-bg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+      <div id="rroom-intro" style="display:flex;flex-direction:column;align-items:center;text-align:center;max-width:440px;position:relative;z-index:10;">
+        <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">The Resistance Room</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#8aa0b8;margin-bottom:14px;">Your excuses are waiting.</div>
+        <div style="font-size:13px;color:#2d3f52;line-height:1.9;margin-bottom:12px;">The system will present you with reasons not to act. Each one sounds convincing. Each one is a defense mechanism in disguise. Your only job is to see through them and reject them.</div>
+        <div style="font-size:11px;color:#1e2d3a;line-height:1.8;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:40px;">Festinger's cognitive dissonance theory shows that when our actions conflict with our values, the mind generates plausible justifications faster than conscious thought can evaluate them. The excuse arrives before you can examine it. This game trains the examination.</div>
+        <button onclick="rroomStart()" class="g-btn primary">Enter the room</button>
+      </div>
+      <div id="rroom-game" style="display:none;width:100%;max-width:520px;position:relative;z-index:10;">
+        <div style="height:1px;background:rgba(126,184,232,0.06);margin-bottom:8px;"><div id="rroom-prog" style="height:100%;background:rgba(126,184,232,0.25);transition:width 0.4s;width:0%;"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:24px;">
+          <div id="rroom-round" style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;">Round 1 / 10</div>
+          <div id="rroom-score" style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#7eb8e8;">Rejected: 0</div>
+        </div>
+        <div id="rroom-streak" style="display:flex;gap:4px;justify-content:center;margin-bottom:20px;"></div>
+        <div style="margin-bottom:28px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:10px;">The voice inside says:</div>
+          <div style="padding:28px 24px;border:1px solid rgba(249,168,212,0.15);background:rgba(249,168,212,0.03);position:relative;overflow:hidden;">
+            <div style="position:absolute;left:0;top:0;width:3px;height:100%;background:rgba(249,168,212,0.25);"></div>
+            <div id="rroom-text" style="font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;color:#e8b0c0;line-height:1.6;font-style:italic;"></div>
+            <div id="rroom-type" style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-top:10px;"></div>
+            <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:rgba(249,168,212,0.4);animation:rrPulse2 2s ease-in-out infinite;"></div>
+          </div>
+        </div>
+        <div style="margin-bottom:24px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;margin-bottom:8px;text-align:center;">You have 8 seconds to decide</div>
+          <div style="height:2px;background:rgba(126,184,232,0.06);"><div id="rroom-timer" style="height:100%;background:rgba(249,168,212,0.35);transition:width 0.1s linear;width:100%;"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+          <div onclick="rroomChoice('reject')" style="padding:16px 20px;border:1px solid rgba(134,239,172,0.25);background:rgba(134,239,172,0.04);cursor:pointer;transition:all 0.2s;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#86efac;text-align:center;" onmouseover="this.style.borderColor='rgba(134,239,172,0.5)'" onmouseout="this.style.borderColor='rgba(134,239,172,0.25)'">Reject it</div>
+          <div onclick="rroomChoice('accept')" style="padding:16px 20px;border:1px solid rgba(249,168,212,0.15);background:rgba(249,168,212,0.03);cursor:pointer;transition:all 0.2s;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#6a8090;text-align:center;" onmouseover="this.style.borderColor='rgba(249,168,212,0.3)'" onmouseout="this.style.borderColor='rgba(249,168,212,0.15)'">Accept it</div>
+        </div>
+        <div id="rroom-fb" style="min-height:48px;text-align:center;font-size:13px;color:#4a5568;transition:opacity 0.3s;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.6;"></div>
+      </div>
+      <div id="rroom-result" style="display:none;width:100%;max-width:520px;position:relative;z-index:10;">
+        <div id="rrr2-big" style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:#fff;text-align:center;margin-bottom:4px;line-height:1;"></div>
+        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;text-align:center;margin-bottom:24px;">excuses rejected</div>
+        <div id="rrr2-title" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#fff;margin-bottom:12px;line-height:1.2;"></div>
+        <div id="rrr2-desc" style="font-size:14px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:16px;"></div>
+        <div id="rrr2-types" style="margin-bottom:16px;"></div>
+        <div style="padding:14px;border:1px solid rgba(126,184,232,0.08);background:#0a0f18;margin-bottom:14px;">
+          <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">Your resistance pattern</div>
+          <div id="rrr2-pattern" style="font-size:13px;color:#6a8090;line-height:1.8;font-family:'Cormorant Garamond',serif;"></div>
+        </div>
+        <div id="rrr2-science" style="font-size:11px;color:#2d3f52;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:6px;"></div>
+        <div id="rrr2-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#1e2d3a;display:block;margin-bottom:24px;"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="g-btn primary" onclick="rroomReset()">Play again</button>
+          <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('The Resistance Room',document.getElementById('rrr2-title').textContent,document.getElementById('rrr2-big').textContent+' rejected')" style="margin-top:0;">Share result</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
     <span class="go-title">The Weight</span>
