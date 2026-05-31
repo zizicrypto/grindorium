@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Focus Timer — Grindorium</title>
+  <meta name="description" content="A minimal focus timer. 25 minutes of work. 5 minutes of rest. No noise, no distraction."/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;--green:#86efac;--yellow:#fde047;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+    .nav-logo-text{font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+    .nav-back{font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+    .nav-back:hover{color:var(--white);}
+
+    .container{max-width:640px;margin:0 auto;padding:120px 48px 100px;display:flex;flex-direction:column;align-items:center;}
+    .page-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:var(--white);margin-bottom:8px;text-align:center;}
+    .page-sub{font-size:12px;letter-spacing:0.08em;color:#2d3f52;margin-bottom:56px;text-align:center;line-height:1.8;}
+
+    .timer-modes{display:flex;gap:0;margin-bottom:48px;border:1px solid rgba(126,184,232,0.1);}
+    .mode-btn{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;background:transparent;border:none;color:#4a5568;cursor:pointer;transition:all 0.2s;}
+    .mode-btn.active{background:rgba(126,184,232,0.08);color:var(--accent);}
+    .mode-btn:hover:not(.active){color:var(--dim);}
+
+    .timer-ring-wrap{position:relative;width:280px;height:280px;margin-bottom:40px;}
+    .timer-ring-svg{width:280px;height:280px;transform:rotate(-90deg);}
+    .timer-bg-circle{fill:none;stroke:rgba(126,184,232,0.05);stroke-width:2;}
+    .timer-progress{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-dasharray:753;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear, stroke 0.5s;}
+    .timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .timer-display{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--white);line-height:1;letter-spacing:0.02em;}
+    .timer-phase{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-top:8px;}
+    .timer-session{font-size:9px;letter-spacing:0.15em;color:#2d3f52;margin-top:4px;}
+
+    .task-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.12);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--white);padding:10px 0;outline:none;margin-bottom:32px;text-align:center;letter-spacing:0.03em;}
+    .task-input::placeholder{color:#2d3f52;}
+
+    .controls{display:flex;gap:12px;margin-bottom:48px;}
+    .ctrl-btn{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 28px;border:1px solid rgba(126,184,232,0.18);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.2s;}
+    .ctrl-btn:hover{border-color:rgba(126,184,232,0.45);color:var(--white);}
+    .ctrl-btn.primary{border-color:rgba(126,184,232,0.35);background:rgba(126,184,232,0.06);}
+    .ctrl-btn.primary:hover{background:rgba(126,184,232,0.12);}
+    .ctrl-btn.secondary{border-color:rgba(126,184,232,0.1);color:#4a5568;}
+    .ctrl-btn.secondary:hover{border-color:rgba(126,184,232,0.25);color:var(--dim);}
+
+    .sessions-row{display:flex;gap:6px;margin-bottom:48px;}
+    .session-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(126,184,232,0.15);transition:all 0.3s;}
+    .session-dot.done{background:rgba(126,184,232,0.3);border-color:rgba(126,184,232,0.4);}
+    .session-dot.current{border-color:rgba(253,224,71,0.5);background:rgba(253,224,71,0.1);}
+
+    .log-section{width:100%;}
+    .log-label{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;}
+    .log-empty{font-size:11px;letter-spacing:0.1em;color:#2d3f52;padding:16px 0;}
+    .log-entry{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(126,184,232,0.04);}
+    .log-task{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#6a8090;}
+    .log-time{font-size:8px;letter-spacing:0.1em;color:#2d3f52;}
+
+    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;font-size:14px;color:var(--dim);transition:color 0.2s;}
+    .sound-btn:hover{color:var(--accent);}
+
+    @media(max-width:600px){nav{padding:16px 20px;}.container{padding:100px 20px 80px;}.timer-ring-wrap{width:240px;height:240px;}.timer-ring-svg{width:240px;height:240px;}.timer-display{font-size:52px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" class="nav-logo-img" alt="Grindorium" onerror="this.style.display='none'"/>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/play" class="nav-back">← Play</a>
+</nav>
+
+<div class="container">
+  <div class="page-label">Focus Timer</div>
+  <h1 class="page-title">One thing.<br>Right now.</h1>
+  <p class="page-sub">25 minutes of work. 5 minutes of rest. No noise.</p>
+
+  <div class="timer-modes">
+    <button class="mode-btn active" id="mode-pomodoro" onclick="setMode('pomodoro')">25 / 5</button>
+    <button class="mode-btn" id="mode-long" onclick="setMode('long')">50 / 10</button>
+    <button class="mode-btn" id="mode-short" onclick="setMode('short')">15 / 3</button>
+  </div>
+
+  <div class="timer-ring-wrap">
+    <svg class="timer-ring-svg" viewBox="0 0 280 280">
+      <circle class="timer-bg-circle" cx="140" cy="140" r="120"/>
+      <circle class="timer-progress" id="timerProgress" cx="140" cy="140" r="120"/>
+    </svg>
+    <div class="timer-center">
+      <div class="timer-display" id="timerDisplay">25:00</div>
+      <div class="timer-phase" id="timerPhase">ready</div>
+      <div class="timer-session" id="timerSession">Session 1 of 4</div>
+    </div>
+  </div>
+
+  <input class="task-input" id="taskInput" type="text" placeholder="What are you working on?" maxlength="80"/>
+
+  <div class="controls">
+    <button class="ctrl-btn primary" id="startBtn" onclick="timerToggle()">Start</button>
+    <button class="ctrl-btn secondary" onclick="timerReset()">Reset</button>
+    <button class="ctrl-btn secondary" onclick="timerSkip()">Skip</button>
+  </div>
+
+  <div class="sessions-row" id="sessionsRow"></div>
+
+  <div class="log-section">
+    <div class="log-label">Today's sessions</div>
+    <div id="logList"></div>
+    <div id="logEmpty" class="log-empty">No sessions yet.</div>
+  </div>
+</div>
+
+<button class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Toggle ambient sound">♪</button>
+
+<script>
+const MODES={
+  pomodoro:{work:25,rest:5,label:'25 / 5'},
+  long:{work:50,rest:10,label:'50 / 10'},
+  short:{work:15,rest:3,label:'15 / 3'},
+};
+const LOG_KEY='grindorium_pomodoro_log';
+const CIRCUMFERENCE=2*Math.PI*120; // 753.98
+
+let currentMode='pomodoro';
+let isWork=true;
+let totalSeconds=25*60;
+let remaining=25*60;
+let running=false;
+let intervalId=null;
+let sessionCount=0;
+let completedSessions=0;
+let maxSessions=4;
+let audioCtx=null;
+let ambientNode=null;
+let ambientOn=false;
+
+function fmt(s){const m=Math.floor(s/60);const sec=(s%60).toString().padStart(2,'0');return m+':'+sec;}
+
+function setMode(mode){
+  if(running)return;
+  currentMode=mode;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mode-'+mode).classList.add('active');
+  isWork=true;
+  remaining=MODES[mode].work*60;
+  totalSeconds=MODES[mode].work*60;
+  sessionCount=0;completedSessions=0;
+  updateDisplay();updateRing();updateSessions();
+  document.getElementById('timerPhase').textContent='ready';
+}
+
+function updateDisplay(){
+  document.getElementById('timerDisplay').textContent=fmt(remaining);
+}
+
+function updateRing(){
+  const pct=remaining/totalSeconds;
+  const offset=CIRCUMFERENCE*(1-pct);
+  const prog=document.getElementById('timerProgress');
+  prog.style.strokeDashoffset=offset;
+  prog.style.stroke=isWork?'var(--accent)':'var(--green)';
+}
+
+function updateSessions(){
+  const row=document.getElementById('sessionsRow');
+  row.innerHTML='';
+  for(let i=0;i<maxSessions;i++){
+    const d=document.createElement('div');
+    d.className='session-dot'+(i<completedSessions?' done':i===Math.floor(completedSessions/1)&&isWork&&running?' current':'');
+    row.appendChild(d);
+  }
+  document.getElementById('timerSession').textContent='Session '+(completedSessions+1)+' of '+maxSessions;
+}
+
+function timerToggle(){
+  if(running){
+    running=false;clearInterval(intervalId);
+    document.getElementById('startBtn').textContent='Resume';
+    document.getElementById('timerPhase').textContent=isWork?'paused':'break paused';
+  } else {
+    running=true;
+    document.getElementById('startBtn').textContent='Pause';
+    document.getElementById('timerPhase').textContent=isWork?'working':'resting';
+    intervalId=setInterval(tick,1000);
+  }
+}
+
+function tick(){
+  remaining--;
+  updateDisplay();updateRing();
+  if(remaining<=0){
+    clearInterval(intervalId);running=false;
+    playBell();
+    if(isWork){
+      const task=document.getElementById('taskInput').value.trim();
+      logSession(task);
+      completedSessions++;
+      if(completedSessions>=maxSessions){
+        // Tum seanslar tamamlandi
+        document.getElementById('timerPhase').textContent='all done. well done.';
+        document.getElementById('startBtn').textContent='Start';
+        document.getElementById('timerDisplay').textContent='done';
+        updateSessions();return;
+      }
+      // Mola
+      isWork=false;
+      remaining=MODES[currentMode].rest*60;
+      totalSeconds=MODES[currentMode].rest*60;
+      document.getElementById('timerPhase').textContent='rest. breathe.';
+      document.getElementById('startBtn').textContent='Start rest';
+    } else {
+      // Calisma
+      isWork=true;
+      remaining=MODES[currentMode].work*60;
+      totalSeconds=MODES[currentMode].work*60;
+      document.getElementById('timerPhase').textContent='ready';
+      document.getElementById('startBtn').textContent='Start';
+    }
+    updateDisplay();updateRing();updateSessions();
+  }
+}
+
+function timerReset(){
+  clearInterval(intervalId);running=false;
+  isWork=true;completedSessions=0;
+  remaining=MODES[currentMode].work*60;
+  totalSeconds=MODES[currentMode].work*60;
+  document.getElementById('startBtn').textContent='Start';
+  document.getElementById('timerPhase').textContent='ready';
+  document.getElementById('timerDisplay').textContent=fmt(remaining);
+  updateDisplay();updateRing();updateSessions();
+}
+
+function timerSkip(){
+  clearInterval(intervalId);running=false;
+  if(isWork){completedSessions++;isWork=false;remaining=MODES[currentMode].rest*60;totalSeconds=MODES[currentMode].rest*60;document.getElementById('timerPhase').textContent='rest. breathe.';document.getElementById('startBtn').textContent='Start rest';}
+  else{isWork=true;remaining=MODES[currentMode].work*60;totalSeconds=MODES[currentMode].work*60;document.getElementById('timerPhase').textContent='ready';document.getElementById('startBtn').textContent='Start';}
+  if(completedSessions>=maxSessions){timerReset();return;}
+  updateDisplay();updateRing();updateSessions();
+}
+
+function playBell(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();const g=ctx.createGain();
+    osc.type='sine';osc.frequency.value=880;
+    g.gain.setValueAtTime(0.3,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.5);
+    osc.connect(g);g.connect(ctx.destination);
+    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+1.5);
+  }catch(e){}
+}
+
+function logSession(task){
+  const log=JSON.parse(localStorage.getItem(LOG_KEY)||'[]');
+  const now=new Date();
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  log.unshift({task:task||'Untitled session',date:months[now.getMonth()]+' '+now.getDate()+', '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0'),mode:MODES[currentMode].label});
+  if(log.length>30)log.pop();
+  localStorage.setItem(LOG_KEY,JSON.stringify(log));
+  renderLog();
+}
+
+function renderLog(){
+  const log=JSON.parse(localStorage.getItem(LOG_KEY)||'[]');
+  const list=document.getElementById('logList');
+  const empty=document.getElementById('logEmpty');
+  list.innerHTML='';
+  if(log.length===0){empty.style.display='block';return;}
+  empty.style.display='none';
+  const today=new Date().toDateString();
+  const todaySessions=log.filter(e=>{
+    const d=new Date(e.date);
+    return true; // tumu goster
+  });
+  log.slice(0,10).forEach(e=>{
+    const el=document.createElement('div');
+    el.className='log-entry';
+    el.innerHTML='<span class="log-task">'+e.task+'</span><span class="log-time">'+e.date+' ('+e.mode+')</span>';
+    list.appendChild(el);
+  });
+}
+
+function toggleSound(){
+  if(ambientOn){
+    if(ambientNode){try{ambientNode.stop();}catch(e){}ambientNode=null;}
+    if(audioCtx){try{audioCtx.close();}catch(e){}audioCtx=null;}
+    ambientOn=false;
+    document.getElementById('soundBtn').style.color='var(--dim)';
+  } else {
+    try{
+      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      const bufSize=audioCtx.sampleRate*3;
+      const buf=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
+      const data=buf.getChannelData(0);
+      for(let i=0;i<bufSize;i++)data[i]=(Math.random()*2-1);
+      ambientNode=audioCtx.createBufferSource();
+      ambientNode.buffer=buf;ambientNode.loop=true;
+      const lp=audioCtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=400;
+      const g=audioCtx.createGain();g.gain.value=0.06;
+      ambientNode.connect(lp);lp.connect(g);g.connect(audioCtx.destination);
+      ambientNode.start();ambientOn=true;
+      document.getElementById('soundBtn').style.color='var(--accent)';
+    }catch(e){}
+  }
+}
+
+// Page visibility - zamanlayici sekme kapaninca durmaz, sadece bildirir
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&running){
+    document.title='⏱ '+fmt(remaining)+' — Grindorium';
+  } else {
+    document.title='Focus Timer — Grindorium';
+  }
+});
+
+// Init
+updateSessions();
+renderLog();
+</script>
+</body>
+</html>
