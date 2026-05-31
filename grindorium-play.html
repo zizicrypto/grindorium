@@ -27,7 +27,7 @@
     .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,64px);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:16px;}
     .page-desc{font-size:14px;color:var(--dim);line-height:1.9;max-width:460px;}
     .divider{height:1px;background:rgba(126,184,232,0.07);margin:48px 48px;}
-    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2px;padding:0 0 100px;}
+    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;padding:0 48px 100px;}
     .game-card{background:var(--bg2);cursor:pointer;transition:background 0.2s,border-color 0.2s;overflow:hidden;text-decoration:none;display:block;color:inherit;border:1px solid rgba(126,184,232,0.08);}
     .game-card:hover:not(.soon){background:#111d2c;}
     .game-card.soon{opacity:0.35;cursor:default;pointer-events:none;}
@@ -175,8 +175,8 @@
     .dc-play-btn:hover{border-color:rgba(253,224,71,0.6);color:#fde047;}
     @media(max-width:600px){.daily-challenge-banner{padding:16px 20px;}}
   
-    .game-section-label{grid-column:1/-1;padding:32px 28px 16px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;border-top:1px solid rgba(126,184,232,0.06);}
-    .game-section-label:first-child{border-top:none;padding-top:24px;}
+    .game-section-label{grid-column:1/-1;padding:40px 0 20px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:#4a5568;border-top:1px solid rgba(126,184,232,0.1);margin-top:8px;}
+    .game-section-label:first-of-type{border-top:none;padding-top:24px;}
   </style>
 </head>
 <body>
@@ -3043,8 +3043,22 @@ function gNext(){gLevel++;gInitLevel();}
 
 let ambientAudio=null,ambientOn=false;
 function toggleAmbient(){
-  if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById('soundIcon').style.color='var(--dim)';}
-  else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;document.getElementById('soundIcon').style.color='var(--accent)';}
+  if(ambientOn){
+    if(ambientAudio){ambientAudio.pause();ambientAudio=null;}
+    ambientOn=false;
+    document.getElementById('soundIcon').style.color='var(--dim)';
+  } else {
+    ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');
+    ambientAudio.loop=true;
+    ambientAudio.volume=0.15;
+    ambientAudio.play().then(()=>{
+      ambientOn=true;
+      document.getElementById('soundIcon').style.color='var(--accent)';
+    }).catch(e=>{
+      ambientAudio=null;
+      document.getElementById('soundIcon').style.color='var(--dim)';
+    });
+  }
 }
 
   (function(){
