@@ -102,7 +102,7 @@ function cmdHelp(){
   br();
   const cmds = [
     ['journal',    'Open your micro journal'],
-    ['court',      'Evening court — three questions from the Stoics'],
+    ['court',      'Evening court. Three questions from the Stoics'],
     ['triggers',   'View your trigger history'],
     ['stats',      'Your usage summary'],
     ['breathe',    'A simple breathing prompt'],
@@ -247,7 +247,7 @@ function cmdQuote(){
   br();
   const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
   print('"' + q + '"', 'bright');
-  print('— Grindorium', 'dim');
+  print('Grindorium', 'dim');
   br();
 }
 
@@ -287,7 +287,7 @@ function cmdLs(){
   print('─'.repeat(40), 'dim');
   const pages = [
     ['/', 'Home'],
-    ['/play', 'Play — 16 games'],
+    ['/play', 'Play. 16 games'],
     ['/writings', 'Writings — 21 essays'],
     ['/journal', 'Micro Journal'],
     ['/evening-court', 'Evening Court'],
