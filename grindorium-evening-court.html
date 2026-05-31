@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evening Court — Grindorium</title>
+  <meta name="description" content="Three questions from the Stoics. Every evening. Examine the day without judgment."/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;min-height:100vh;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+    .nav-logo-text{font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+    .nav-back{font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+    .nav-back:hover{color:var(--white);}
+    .container{max-width:600px;margin:0 auto;padding:140px 48px 100px;}
+    .page-label{font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:12px;}
+    .page-sub{font-size:13px;color:var(--dim);line-height:1.9;margin-bottom:8px;}
+    .page-date{font-size:9px;letter-spacing:0.15em;color:#4a5568;margin-bottom:48px;}
+    .divider{height:1px;background:rgba(126,184,232,0.08);margin-bottom:48px;}
+    .question{margin-bottom:40px;}
+    .q-num{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;}
+    .q-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--white);margin-bottom:8px;line-height:1.5;}
+    .q-source{font-size:8px;letter-spacing:0.12em;color:#2d3f52;margin-bottom:12px;font-style:italic;}
+    .q-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--dim);padding:8px 0;outline:none;resize:none;min-height:56px;line-height:1.6;transition:border-color 0.2s;}
+    .q-input::placeholder{color:#2d3f52;}
+    .q-input:focus{border-bottom-color:rgba(126,184,232,0.25);}
+    .btn-row{display:flex;gap:8px;margin-bottom:48px;}
+    .btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(126,184,232,0.18);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.2s;}
+    .btn:hover{border-color:rgba(126,184,232,0.45);color:var(--white);}
+    .btn.secondary{color:var(--dim);border-color:rgba(126,184,232,0.1);}
+    .saved-msg{display:none;margin-bottom:32px;text-align:center;}
+    .saved-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--dim);margin-bottom:8px;}
+    .saved-quote{font-size:10px;letter-spacing:0.1em;color:#2d3f52;font-style:italic;}
+    .past-section{margin-top:16px;}
+    .past-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:20px;}
+    .entry{border-top:1px solid rgba(126,184,232,0.05);padding:24px 0;}
+    .entry-date{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:14px;}
+    .entry-q{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:#4a5568;margin-bottom:4px;font-style:italic;}
+    .entry-a{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#6a8090;line-height:1.7;margin-bottom:14px;}
+    .empty{font-size:11px;letter-spacing:0.1em;color:#2d3f52;padding:24px 0;}
+    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;}
+    .sound-icon{font-size:14px;color:var(--dim);}
+    @media(max-width:600px){nav{padding:16px 20px;}.container{padding:110px 20px 80px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" class="nav-logo-img" alt="Grindorium" onerror="this.style.display='none'"/>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/play" class="nav-back">← Play</a>
+</nav>
+
+<div class="container">
+  <div class="page-label">Evening Court</div>
+  <h1 class="page-title">Examine the day.</h1>
+  <p class="page-sub">Three questions. From the Stoics. Every evening. No judgment. Just honesty.</p>
+  <div class="page-date" id="page-date"></div>
+  <div class="divider"></div>
+
+  <div class="question">
+    <div class="q-num">I</div>
+    <div class="q-text">What was outside my control today that I treated as though it were within it?</div>
+    <div class="q-source">Epictetus, Enchiridion, 1.1</div>
+    <textarea class="q-input" id="q1" placeholder="write here..." rows="2"></textarea>
+  </div>
+
+  <div class="question">
+    <div class="q-num">II</div>
+    <div class="q-text">Which impulse did I follow that I wish I had not?</div>
+    <div class="q-source">Marcus Aurelius, Meditations, 7.2</div>
+    <textarea class="q-input" id="q2" placeholder="write here..." rows="2"></textarea>
+  </div>
+
+  <div class="question">
+    <div class="q-num">III</div>
+    <div class="q-text">Where did I act below the standard I hold for myself?</div>
+    <div class="q-source">Seneca, Letters, 83.2</div>
+    <textarea class="q-input" id="q3" placeholder="write here..." rows="2"></textarea>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="doSave()">Submit for tonight</button>
+    <button class="btn secondary" onclick="togglePast()">Past entries</button>
+  </div>
+
+  <div class="saved-msg" id="saved-msg">
+    <div class="saved-title">Submitted.</div>
+    <div class="saved-quote" id="saved-quote"></div>
+  </div>
+
+  <div class="past-section" id="past-section" style="display:none;">
+    <div class="past-label">Past sessions</div>
+    <div id="past-list"></div>
+    <div class="empty" id="past-empty">No past sessions yet.</div>
+  </div>
+</div>
+
+<div class="sound-btn" onclick="toggleAmbient()"><span class="sound-icon" id="soundIcon">♪</span></div>
+
+<script>
+const KEY='grindorium_court';
+const QS=[
+  {q:"What was outside my control today that I treated as though it were within it?"},
+  {q:"Which impulse did I follow that I wish I had not?"},
+  {q:"Where did I act below the standard I hold for myself?"},
+];
+const CLOSING=[
+  "The unexamined life is not worth living.",
+  "Waste no more time arguing what a good man should be. Be one.",
+  "You have power over your mind, not outside events.",
+  "The impediment to action advances action. What stands in the way becomes the way.",
+  "Begin at once to live, and count each day as a separate life.",
+  "It is not that I am brave, but that I know what is not worth fearing.",
+  "He suffers more than necessary who suffers before it is necessary.",
+];
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+function save(e){try{localStorage.setItem(KEY,JSON.stringify(e));}catch(e){}}
+function fmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
+function doSave(){
+  const a1=document.getElementById('q1').value.trim();
+  const a2=document.getElementById('q2').value.trim();
+  const a3=document.getElementById('q3').value.trim();
+  if(!a1&&!a2&&!a3)return;
+  const entries=load();const now=new Date();
+  entries.unshift({date:now.toISOString(),display:fmt(now),answers:[a1,a2,a3]});
+  if(entries.length>90)entries.pop();
+  save(entries);
+  document.getElementById('q1').value='';
+  document.getElementById('q2').value='';
+  document.getElementById('q3').value='';
+  const c=CLOSING[Math.floor(Math.random()*CLOSING.length)];
+  document.getElementById('saved-quote').textContent='"'+c+'"';
+  const msg=document.getElementById('saved-msg');
+  msg.style.display='block';
+  setTimeout(()=>msg.style.display='none',5000);
+}
+function togglePast(){
+  const p=document.getElementById('past-section');
+  if(p.style.display==='none'){renderPast();p.style.display='block';}
+  else p.style.display='none';
+}
+function renderPast(){
+  const entries=load();
+  const list=document.getElementById('past-list');
+  const empty=document.getElementById('past-empty');
+  list.innerHTML='';
+  if(entries.length===0){empty.style.display='block';return;}
+  empty.style.display='none';
+  entries.slice(0,15).forEach(e=>{
+    const el=document.createElement('div');
+    el.className='entry';
+    let h=`<div class="entry-date">${e.display}</div>`;
+    QS.forEach((q,i)=>{
+      if(e.answers[i]){
+        h+=`<div class="entry-q">${q.q}</div>`;
+        h+=`<div class="entry-a">${e.answers[i]}</div>`;
+      }
+    });
+    el.innerHTML=h;list.appendChild(el);
+  });
+}
+const now=new Date();
+const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+document.getElementById('page-date').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+let ambientAudio=null,ambientOn=false;
+function toggleAmbient(){
+  if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById('soundIcon').style.color='var(--dim)';}
+  else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;document.getElementById('soundIcon').style.color='var(--accent)';}
+}
+</script>
+</body>
+</html>
