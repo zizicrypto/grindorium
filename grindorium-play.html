@@ -26,11 +26,11 @@
     .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,64px);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:16px;}
     .page-desc{font-size:14px;color:var(--dim);line-height:1.9;max-width:460px;}
     .divider{height:1px;background:rgba(126,184,232,0.07);margin:48px 48px;}
-    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2px;padding:0 48px 100px;}
-    .game-card{background:var(--bg2);cursor:pointer;transition:background 0.2s;overflow:hidden;text-decoration:none;display:block;color:inherit;}
+    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;padding:0 0 100px;}
+    .game-card{background:var(--bg2);cursor:pointer;transition:background 0.2s,border-color 0.2s;overflow:hidden;text-decoration:none;display:block;color:inherit;border:1px solid rgba(126,184,232,0.04);}
     .game-card:hover:not(.soon){background:#111d2c;}
     .game-card.soon{opacity:0.35;cursor:default;pointer-events:none;}
-    .gc-visual{height:180px;display:flex;align-items:center;justify-content:center;padding:20px;border-bottom:1px solid rgba(126,184,232,0.06);}
+    .gc-visual{height:160px;display:flex;align-items:center;justify-content:center;padding:20px;border-bottom:1px solid rgba(126,184,232,0.06);position:relative;overflow:hidden;}
     .mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%;}
     .mg-tile{height:36px;border:1px solid;border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:7px;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.25s;}
     .mg-tile.c0{border-color:rgba(167,139,250,0.3);color:#a78bfa;background:rgba(167,139,250,0.06);}
@@ -180,6 +180,9 @@
     .dc-play-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(253,224,71,0.3);background:transparent;color:rgba(253,224,71,0.8);cursor:pointer;transition:all 0.2s;}
     .dc-play-btn:hover{border-color:rgba(253,224,71,0.6);color:#fde047;}
     @media(max-width:600px){.daily-challenge-banner{padding:16px 20px;}}
+  
+    .game-section-label{grid-column:1/-1;padding:32px 28px 16px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;border-top:1px solid rgba(126,184,232,0.06);}
+    .game-section-label:first-child{border-top:none;padding-top:24px;}
   </style>
 </head>
 <body>
@@ -213,104 +216,64 @@
   <div id="dc-banner" class="daily-challenge-banner">
     <div class="dc-left">
       <div class="dc-label">Today's challenge</div>
-      <div class="dc-title" id="dc-game-name"></div>
-      <div class="dc-sub" id="dc-game-desc"></div>
-    </div>
-    <div class="dc-right">
-      <div class="dc-done-badge" id="dc-done-badge">Done today</div>
-      <button class="dc-play-btn" id="dc-play-btn" onclick="dcPlay()">Play now ↗</button>
-    </div>
-  </div>
+      <div class="dc-title" i<div class="game-grid">
 
-<div class="game-grid">
+  <div class="game-section-label">Begin here</div>
 
-  <a href="#" class="game-card" onclick="openGame();return false;">
-    <div class="gc-visual">
-      <div class="mini-grid" id="preview-grid"></div>
+  <a href="#" class="game-card" onclick="openResistance();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:200px;">
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(249,168,212,0.08);border:1px solid rgba(249,168,212,0.25);display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(249,168,212,0.6);">scroll</div>
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(253,224,71,0.06);border:1px solid rgba(253,224,71,0.2);display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(253,224,71,0.5);">check it</div>
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(167,139,250,0.5);">just once</div>
+      </div>
+      <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;">do not touch</div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">01. Sorting</div>
-      <div class="gc-title">The Weight</div>
-      <div class="gc-tagline">Sort the feelings before they sort you.</div>
+      <div class="gc-tag">08 — Impulse control</div>
+      <div class="gc-title">The Resistance</div>
+      <div class="gc-tagline">Urges appear on screen. Watch them. Let them pass without touching.</div>
       <div class="gc-footer">
-        <span class="gc-badge">3 levels</span>
-        <span class="gc-badge">5 min</span>
+        <span class="gc-badge">60 / 90 / 120s</span>
+        <span class="gc-badge">4 phases</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
   </a>
 
-  <div class="game-card" onclick="openDrift();return false;">
-    <div class="gc-visual">
-      <div class="mirror-visual">
-        <div class="mv-option">I am protecting myself from something.</div>
-        <div class="mv-option active">I am overwhelmed and cannot say it.</div>
-        <div class="mv-option">I do not actually want to be there.</div>
-        <div class="mv-option">I do not know. That is the honest answer.</div>
+  <a href="#" class="game-card" onclick="openResistanceRoom();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(249,168,212,0.5);font-style:italic;text-align:center;line-height:1.6;">"You worked hard today.<br>You deserve a break."</div>
+      <div style="display:flex;gap:10px;">
+        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 14px;border:1px solid rgba(134,239,172,0.3);color:#86efac;">Reject</div>
+        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 14px;border:1px solid rgba(249,168,212,0.15);color:#4a5568;">Accept</div>
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">02. Swipe</div>
-      <div class="gc-title">The Drift</div>
-      <div class="gc-tagline">Does this define you? Swipe to find out.</div>
+      <div class="gc-tag">17 — Rationalization</div>
+      <div class="gc-title">The Resistance Room</div>
+      <div class="gc-tagline">Your excuses sound convincing. Reject them before 8 seconds run out.</div>
       <div class="gc-footer">
-        <span class="gc-badge">20 words</span>
-        <span class="gc-badge">3 min</span>
+        <span class="gc-badge">10 rounds</span>
+        <span class="gc-badge">8 seconds each</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
-  </div>
-
-  <div class="game-card" onclick="openLoop();return false;">
-    <div class="gc-visual">
-      <div class="pattern-visual">
-        <div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div>
-        <div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node"></div>
-        <div class="pv-node lit"></div><div class="pv-node lit"></div><div class="pv-node"></div><div class="pv-node"></div><div class="pv-node lit"></div>
-        <div class="pv-node"></div><div class="pv-node"></div><div class="pv-node lit"></div><div class="pv-node lit"></div><div class="pv-node"></div>
-      </div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">03. Branching</div>
-      <div class="gc-title">The Loop</div>
-      <div class="gc-tagline">Every choice leads somewhere. Follow yours.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">10 levels deep</span>
-        <span class="gc-badge">5 min</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="game-card" onclick="openStack();return false;">
-    <div class="gc-visual">
-      <div class="cost-visual">
-        <div class="cv-row"><span class="cv-label">Energy</span><div class="cv-bar"><div class="cv-fill f0"></div></div></div>
-        <div class="cv-row"><span class="cv-label">Time</span><div class="cv-bar"><div class="cv-fill f1"></div></div></div>
-        <div class="cv-row"><span class="cv-label">Focus</span><div class="cv-bar"><div class="cv-fill f2"></div></div></div>
-        <div class="cv-row"><span class="cv-label">Peace</span><div class="cv-bar"><div class="cv-fill f3"></div></div></div>
-      </div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">04. Sorting</div>
-      <div class="gc-title">The Stack</div>
-      <div class="gc-tagline">Sort what you are carrying before it sorts you.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">20 words</span>
-        <span class="gc-badge">5 min</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </div>
+  </a>
 
   <a href="#" class="game-card" onclick="openWait();return false;">
     <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:rgba(126,184,232,0.25);line-height:1;">1</div>
-      <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;">points</div>
-      <div style="width:120px;height:1px;background:rgba(126,184,232,0.08);position:relative;"><div style="position:absolute;left:0;top:0;height:100%;width:5%;background:rgba(126,184,232,0.3);"></div></div>
+      <div style="position:relative;width:80px;height:80px;">
+        <svg viewBox="0 0 80 80" style="width:80px;height:80px;transform:rotate(-90deg);">
+          <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(126,184,232,0.06)" stroke-width="1.5"/>
+          <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(167,139,250,0.35)" stroke-width="1.5" stroke-dasharray="213" stroke-dashoffset="150"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:rgba(167,139,250,0.6);">1</div>
+      </div>
+      <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;">points grow as you hold</div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">05. Patience</div>
+      <div class="gc-tag">05 — Delayed gratification</div>
       <div class="gc-title">The Wait</div>
       <div class="gc-tagline">Hold until it is worth it. The longer you wait, the more you earn.</div>
       <div class="gc-footer">
@@ -321,21 +284,119 @@
     </div>
   </a>
 
-  <a href="#" class="game-card" onclick="openBreath();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;">
-      <div style="width:80px;height:80px;border-radius:50%;border:1px solid rgba(126,184,232,0.15);display:flex;align-items:center;justify-content:center;">
-        <div style="width:50px;height:50px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);display:flex;align-items:center;justify-content:center;">
-          <div style="width:24px;height:24px;border-radius:50%;background:rgba(126,184,232,0.1);"></div>
-        </div>
+  <a href="#" class="game-card" onclick="openSaboteur();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:rgba(249,168,212,0.4);font-style:italic;">Check email first. Just to clear my head.</div>
+      <div style="font-size:7px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;align-self:flex-end;">classic delay ↓</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:rgba(249,168,212,0.3);font-style:italic;">I work better under pressure.</div>
+      <div style="font-size:7px;letter-spacing:0.15em;text-transform:uppercase;color:#1e2d3a;align-self:flex-end;">rationalization ↓</div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">15 — Self-sabotage</div>
+      <div class="gc-title">The Saboteur</div>
+      <div class="gc-tagline">Make every wrong choice. At the end, the mirror shows you the pattern.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">10 endings</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <div class="game-section-label">Go deeper</div>
+
+  <a href="#" class="game-card" onclick="openTrigger();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:24px;">
+      <div style="width:100%;max-width:220px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;width:18px;">A</div><div style="height:1px;flex:1;background:rgba(126,184,232,0.1);"></div><div style="font-size:10px;color:#4a5568;font-family:'Cormorant Garamond',serif;">something difficult</div></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;width:18px;">B</div><div style="height:1px;flex:1;background:rgba(249,168,212,0.15);"></div><div style="font-size:10px;color:#4a5568;font-family:'Cormorant Garamond',serif;">anxious or tense</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;width:18px;">C</div><div style="height:1px;flex:1;background:rgba(134,239,172,0.1);"></div><div style="font-size:10px;color:#4a5568;font-family:'Cormorant Garamond',serif;">avoided entirely</div></div>
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">06. Breathing</div>
-      <div class="gc-title">The Breath</div>
-      <div class="gc-tagline">4-7-8. Box. Simple. Three modes. Start with one breath.</div>
+      <div class="gc-tag">14 — Behavioral archaeology</div>
+      <div class="gc-title">Trigger Map</div>
+      <div class="gc-tagline">Map what was happening right before you lost focus. Find the pattern.</div>
       <div class="gc-footer">
-        <span class="gc-badge">3 modes</span>
-        <span class="gc-badge">Guided</span>
+        <span class="gc-badge">5 steps</span>
+        <span class="gc-badge">ABC model</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="game-card" onclick="openGame();return false;">
+    <div class="gc-visual">
+      <div class="mini-grid" id="preview-grid"></div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">01 — Sorting</div>
+      <div class="gc-title">The Weight</div>
+      <div class="gc-tagline">Sort the feelings before they sort you.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">3 levels</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="game-card" onclick="openDrift();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(126,184,232,0.35);font-style:italic;">Overwhelmed</div>
+      <div style="display:flex;gap:20px;">
+        <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;">← impulse</div>
+        <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;">intention →</div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">02 — Swipe</div>
+      <div class="gc-title">The Drift</div>
+      <div class="gc-tagline">Does this define you? Swipe to find out.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">20 words</span>
+        <span class="gc-badge">3 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="game-card" onclick="openLoop();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:130px;">
+        <div style="height:32px;background:rgba(126,184,232,0.08);border:1px solid rgba(126,184,232,0.1);"></div>
+        <div style="height:32px;background:rgba(126,184,232,0.12);border:1px solid rgba(126,184,232,0.15);"></div>
+        <div style="height:32px;background:rgba(126,184,232,0.06);border:1px solid rgba(126,184,232,0.08);"></div>
+        <div style="height:32px;background:rgba(126,184,232,0.1);border:1px solid rgba(126,184,232,0.12);"></div>
+        <div style="height:32px;background:rgba(126,184,232,0.15);border:1px solid rgba(126,184,232,0.2);"></div>
+        <div style="height:32px;background:rgba(126,184,232,0.06);border:1px solid rgba(126,184,232,0.08);"></div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">03 — Branching</div>
+      <div class="gc-title">The Loop</div>
+      <div class="gc-tagline">Every choice leads somewhere. Follow yours.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">10 levels deep</span>
+        <span class="gc-badge">5 min</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="#" class="game-card" onclick="openStack();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;gap:16px;padding:20px;">
+      <div style="text-align:center;"><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;">Carrying</div><div style="width:60px;height:60px;border:1px solid rgba(126,184,232,0.15);background:rgba(126,184,232,0.04);"></div></div>
+      <div style="text-align:center;"><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;">Avoiding</div><div style="width:60px;height:60px;border:1px solid rgba(249,168,212,0.15);background:rgba(249,168,212,0.04);"></div></div>
+      <div style="text-align:center;"><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;">Accepting</div><div style="width:60px;height:60px;border:1px solid rgba(134,239,172,0.15);background:rgba(134,239,172,0.04);"></div></div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">04 — Sorting</div>
+      <div class="gc-title">The Stack</div>
+      <div class="gc-tagline">Sort what you are carrying before it sorts you.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">20 words</span>
+        <span class="gc-badge">5 min</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
@@ -343,15 +404,16 @@
 
   <a href="#" class="game-card" onclick="openFeeling();return false;">
     <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;max-width:200px;justify-content:center;">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(249,168,212,0.5);border:1px solid rgba(249,168,212,0.15);padding:3px 10px;">anxious</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(134,239,172,0.5);border:1px solid rgba(134,239,172,0.15);padding:3px 10px;">present</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(126,184,232,0.5);border:1px solid rgba(126,184,232,0.15);padding:3px 10px;">tired</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(167,139,250,0.5);border:1px solid rgba(167,139,250,0.15);padding:3px 10px;">numb</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;max-width:220px;justify-content:center;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(249,168,212,0.55);border:1px solid rgba(249,168,212,0.2);padding:4px 12px;">anxious</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(134,239,172,0.55);border:1px solid rgba(134,239,172,0.2);padding:4px 12px;">present</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(126,184,232,0.55);border:1px solid rgba(126,184,232,0.2);padding:4px 12px;">tired</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(167,139,250,0.55);border:1px solid rgba(167,139,250,0.2);padding:4px 12px;">numb</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(253,224,71,0.45);border:1px solid rgba(253,224,71,0.15);padding:4px 12px;">heavy</span>
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">07. Awareness</div>
+      <div class="gc-tag">07 — Emotional awareness</div>
       <div class="gc-title">The Feeling</div>
       <div class="gc-tagline">18 emotions. Hang the ones that are present right now.</div>
       <div class="gc-footer">
@@ -362,86 +424,19 @@
     </div>
   </a>
 
-  <a href="#" class="game-card" onclick="openResistance();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
-      <div style="width:50px;height:50px;border-radius:50%;background:rgba(249,168,212,0.08);border:1px solid rgba(249,168,212,0.2);display:flex;align-items:center;justify-content:center;">
-        <div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(249,168,212,0.5);">scroll</div>
-      </div>
-      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;">do not touch</div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">08. Impulse</div>
-      <div class="gc-title">The Resistance</div>
-      <div class="gc-tagline">Urges appear. Observe them. Let them pass without touching.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">60 / 90 / 120s</span>
-        <span class="gc-badge">4 phases</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </a>
-
-  <a href="#" class="game-card" onclick="openJournal();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(126,184,232,0.4);font-style:italic;">restless.</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(167,139,250,0.4);font-style:italic;">present.</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(134,239,172,0.4);font-style:italic;">okay.</div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">09. Journal</div>
-      <div class="gc-title">Micro Journal</div>
-      <div class="gc-tagline">Three words. Every day. No explanation required.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">Daily</span>
-        <span class="gc-badge">30 sec</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </a>
-
-  <a href="#" class="game-card" onclick="openNothing();return false;" style="background:#050810;">
-    <div class="gc-visual" style="background:#050810;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;overflow:hidden;position:relative;">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center bottom,rgba(10,30,15,0.4) 0%,transparent 70%);"></div>
-      <div style="display:flex;align-items:flex-end;gap:6px;padding-bottom:4px;position:relative;z-index:2;">
-        <div style="width:3px;background:rgba(20,60,25,0.7);height:30px;border-radius:1px 1px 0 0;"></div>
-        <div style="width:4px;background:rgba(20,60,25,0.7);height:50px;border-radius:1px 1px 0 0;"></div>
-        <div style="width:3px;background:rgba(20,60,25,0.7);height:38px;border-radius:1px 1px 0 0;"></div>
-        <div style="width:5px;background:rgba(20,60,25,0.7);height:65px;border-radius:1px 1px 0 0;"></div>
-        <div style="width:3px;background:rgba(20,60,25,0.7);height:42px;border-radius:1px 1px 0 0;"></div>
-      </div>
-    </div>
-    <div class="gc-body" style="background:#050810;">
-      <div class="gc-tag" style="color:rgba(134,239,172,0.4);">10. Stillness</div>
-      <div class="gc-title">The Nothing Room</div>
-      <div class="gc-tagline">Do nothing. The forest grows while you stay still.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">5 minutes</span>
-        <span class="gc-badge">No touch</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </a>
+  <div class="game-section-label">Daily practice</div>
 
   <a href="#" class="game-card" onclick="openCourt();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
       <div style="display:flex;flex-direction:column;gap:10px;width:200px;">
-        <div style="display:flex;align-items:baseline;gap:12px;">
-          <span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:14px;">I</span>
-          <div style="height:1px;flex:1;background:rgba(126,184,232,0.08);"></div>
-        </div>
-        <div style="display:flex;align-items:baseline;gap:12px;">
-          <span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:14px;">II</span>
-          <div style="height:1px;flex:1;background:rgba(126,184,232,0.06);"></div>
-        </div>
-        <div style="display:flex;align-items:baseline;gap:12px;">
-          <span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:14px;">III</span>
-          <div style="height:1px;flex:1;background:rgba(126,184,232,0.04);"></div>
-        </div>
+        <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">I</span><div style="height:1px;flex:1;background:rgba(126,184,232,0.1);"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">II</span><div style="height:1px;flex:1;background:rgba(126,184,232,0.07);"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">III</span><div style="height:1px;flex:1;background:rgba(126,184,232,0.04);"></div></div>
       </div>
       <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;">Epictetus. Marcus Aurelius. Seneca.</div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">11. Reflection</div>
+      <div class="gc-tag">11 — Stoic reflection</div>
       <div class="gc-title">Evening Court</div>
       <div class="gc-tagline">Three questions from the Stoics. Every evening. No judgment.</div>
       <div class="gc-footer">
@@ -452,89 +447,39 @@
     </div>
   </a>
 
-  <a href="#" class="game-card" onclick="openWall();return false;">
-    <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-      <div style="position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;max-width:260px;justify-content:center;padding:8px;">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(249,168,212,0.5);">exhausted</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(134,239,172,0.4);">hopeful</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:rgba(126,184,232,0.45);">anxious</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(167,139,250,0.4);">calm</span>
-      </div>
+  <a href="#" class="game-card" onclick="openJournal();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(126,184,232,0.35);font-style:italic;">restless.</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(167,139,250,0.3);font-style:italic;">present.</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(134,239,172,0.25);font-style:italic;">okay.</div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">12. Collective</div>
-      <div class="gc-title">The Wall</div>
-      <div class="gc-tagline">One word. Anonymous. Shared with everyone here right now.</div>
+      <div class="gc-tag">09 — Journal</div>
+      <div class="gc-title">Micro Journal</div>
+      <div class="gc-tagline">Three words. Every day. No explanation required.</div>
       <div class="gc-footer">
-        <span class="gc-badge">Live</span>
-        <span class="gc-badge">Anonymous</span>
+        <span class="gc-badge">Daily</span>
+        <span class="gc-badge">30 sec</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
   </a>
 
-  <a href="#" class="game-card" onclick="openVoid();return false;" style="background:#000;">
-    <div class="gc-visual" style="background:#000;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(255,255,255,0.08);">○</div>
-    </div>
-    <div class="gc-body" style="background:#000;">
-      <div class="gc-tag" style="color:rgba(255,255,255,0.2);">13. Emptiness</div>
-      <div class="gc-title" style="color:rgba(255,255,255,0.35);">The Void</div>
-      <div class="gc-tagline" style="color:rgba(255,255,255,0.2);">Nothing. Once per week. Five minutes.</div>
-      <div class="gc-footer">
-        <span class="gc-badge" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1);">Weekly</span>
-        <span class="gc-badge" style="color:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.1);">5 min</span>
-        <span class="gc-arrow" style="color:rgba(255,255,255,0.15);">↗</span>
-      </div>
-    </div>
-  </a>
-
-  <a href="#" class="game-card" onclick="openTrigger();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:20px;">
-      <div style="width:100%;max-width:220px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">A</div>
-          <div style="height:1px;flex:1;background:rgba(126,184,232,0.1);"></div>
-          <div style="font-size:9px;color:#4a5568;font-family:'Cormorant Garamond',serif;">something difficult</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">B</div>
-          <div style="height:1px;flex:1;background:rgba(249,168,212,0.15);"></div>
-          <div style="font-size:9px;color:#4a5568;font-family:'Cormorant Garamond',serif;">anxious</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;width:16px;">C</div>
-          <div style="height:1px;flex:1;background:rgba(134,239,172,0.1);"></div>
-          <div style="font-size:9px;color:#4a5568;font-family:'Cormorant Garamond',serif;">avoided</div>
-        </div>
+  <a href="#" class="game-card" onclick="openBreath();return false;">
+    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;">
+      <div style="position:relative;width:90px;height:90px;">
+        <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(126,184,232,0.12);"></div>
+        <div style="position:absolute;inset:12px;border-radius:50%;border:1px solid rgba(126,184,232,0.18);"></div>
+        <div style="position:absolute;inset:24px;border-radius:50%;background:rgba(126,184,232,0.06);border:1px solid rgba(126,184,232,0.2);"></div>
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">14. Archaeology</div>
-      <div class="gc-title">Trigger Map</div>
-      <div class="gc-tagline">Map what was happening right before. Find the pattern underneath.</div>
+      <div class="gc-tag">06 — Breathing</div>
+      <div class="gc-title">The Breath</div>
+      <div class="gc-tagline">4-7-8. Box. Simple. Three modes. Start with one breath.</div>
       <div class="gc-footer">
-        <span class="gc-badge">5 steps</span>
-        <span class="gc-badge">ABC model</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </a>
-
-  <a href="#" class="game-card" onclick="openSaboteur();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(249,168,212,0.4);font-style:italic;">Check email first.</div>
-      <div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#2d3f52;">classic delay</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(249,168,212,0.3);font-style:italic;">I work better under pressure.</div>
-      <div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#1e2d3a;">rationalization</div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">15. Self-Sabotage</div>
-      <div class="gc-title">The Saboteur</div>
-      <div class="gc-tagline">Make every wrong choice. Then see what they add up to.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">10 endings</span>
-        <span class="gc-badge">5 min</span>
+        <span class="gc-badge">3 modes</span>
+        <span class="gc-badge">Guided</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
@@ -542,12 +487,12 @@
 
   <a href="#" class="game-card" onclick="openChaos();return false;" style="background:#050810;">
     <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(255,255,255,0.12);font-style:italic;text-align:center;line-height:1.6;">press when it is too much</div>
-      <div style="width:40px;height:1px;background:rgba(255,255,255,0.06);"></div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:rgba(255,255,255,0.15);font-style:italic;text-align:center;line-height:1.6;">press when it is too much</div>
+      <div style="width:48px;height:1px;background:rgba(255,255,255,0.06);"></div>
       <div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.06);">wait for it to pass</div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">16. Distress</div>
+      <div class="gc-tag">16 — Distress tolerance</div>
       <div class="gc-title">The Chaos Button</div>
       <div class="gc-tagline">The storm arrives. You wait for it to pass. That is all.</div>
       <div class="gc-footer">
@@ -558,41 +503,99 @@
     </div>
   </a>
 
-  <a href="#" class="game-card" onclick="openResistanceRoom();return false;">
-    <div class="gc-visual" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:20px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:rgba(249,168,212,0.45);font-style:italic;text-align:center;line-height:1.6;">You are tired. You will do<br>better work when rested.</div>
-      <div style="display:flex;gap:12px;margin-top:4px;">
-        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(134,239,172,0.25);color:#86efac;">Reject</div>
-        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(249,168,212,0.15);color:#4a5568;">Accept</div>
+  <div class="game-section-label">Stillness</div>
+
+  <a href="#" class="game-card" onclick="openNothing();return false;" style="background:#050810;">
+    <div class="gc-visual" style="background:#050810;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;overflow:hidden;position:relative;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center bottom,rgba(10,30,15,0.5) 0%,transparent 70%);"></div>
+      <div style="display:flex;align-items:flex-end;gap:5px;padding-bottom:4px;position:relative;z-index:2;">
+        <div style="width:3px;background:rgba(20,60,25,0.8);height:28px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:4px;background:rgba(20,60,25,0.8);height:48px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:3px;background:rgba(20,60,25,0.8);height:36px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:5px;background:rgba(20,60,25,0.8);height:62px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:3px;background:rgba(20,60,25,0.8);height:40px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:4px;background:rgba(20,60,25,0.8);height:52px;border-radius:1px 1px 0 0;"></div>
+        <div style="width:3px;background:rgba(20,60,25,0.8);height:34px;border-radius:1px 1px 0 0;"></div>
       </div>
     </div>
-    <div class="gc-body">
-      <div class="gc-tag">17. Rationalization</div>
-      <div class="gc-title">The Resistance Room</div>
-      <div class="gc-tagline">Your excuses arrive. Reject them before the 8 seconds run out.</div>
+    <div class="gc-body" style="background:#050810;">
+      <div class="gc-tag" style="color:rgba(134,239,172,0.4);">10 — Stillness</div>
+      <div class="gc-title">The Nothing Room</div>
+      <div class="gc-tagline">Do nothing. The forest grows while you stay still.</div>
       <div class="gc-footer">
-        <span class="gc-badge">10 rounds</span>
-        <span class="gc-badge">8s each</span>
+        <span class="gc-badge">5 minutes</span>
+        <span class="gc-badge">No touch</span>
         <span class="gc-arrow">↗</span>
       </div>
     </div>
   </a>
 
-  <a href="/focus" class="game-card">
-    <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(126,184,232,0.2);line-height:1;">25</div>
-      <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;">minutes</div>
-      <div style="display:flex;gap:5px;margin-top:4px;">
-        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.3);"></div>
-        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.15);"></div>
-        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.08);"></div>
-        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.05);"></div>
+  <a href="#" class="game-card" onclick="openVoid();return false;" style="background:#000;">
+    <div class="gc-visual" style="background:#000;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:rgba(255,255,255,0.07);">○</div>
+    </div>
+    <div class="gc-body" style="background:#000;">
+      <div class="gc-tag" style="color:rgba(255,255,255,0.2);">13 — Emptiness</div>
+      <div class="gc-title" style="color:rgba(255,255,255,0.3);">The Void</div>
+      <div class="gc-tagline" style="color:rgba(255,255,255,0.18);">Nothing. Once per week. Five minutes.</div>
+      <div class="gc-footer">
+        <span class="gc-badge" style="color:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.08);">Weekly</span>
+        <span class="gc-badge" style="color:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.08);">5 min</span>
+        <span class="gc-arrow" style="color:rgba(255,255,255,0.12);">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <div class="game-section-label">Collective</div>
+
+  <a href="#" class="game-card" onclick="openWall();return false;">
+    <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;max-width:260px;justify-content:center;padding:12px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(249,168,212,0.55);">exhausted</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(134,239,172,0.45);">hopeful</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:rgba(126,184,232,0.5);">anxious</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(167,139,250,0.45);">present</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(253,224,71,0.4);">calm</span>
       </div>
     </div>
     <div class="gc-body">
-      <div class="gc-tag">18. Focus</div>
+      <div class="gc-tag">12 — Collective</div>
+      <div class="gc-title">The Wall</div>
+      <div class="gc-tagline">One word. Anonymous. Shared with everyone here right now.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">Live</span>
+        <span class="gc-badge">Anonymous</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <div class="game-section-label">Focus</div>
+
+  <a href="/focus" class="game-card">
+    <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:rgba(126,184,232,0.18);line-height:1;">25</div>
+      <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#2d3f52;">minutes</div>
+      <div style="display:flex;gap:5px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.3);"></div>
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.15);"></div>
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.08);"></div>
+        <div style="width:8px;height:8px;border-radius:50%;background:rgba(126,184,232,0.04);"></div>
+      </div>
+    </div>
+    <div class="gc-body">
+      <div class="gc-tag">18 — Focus</div>
       <div class="gc-title">Focus Timer</div>
       <div class="gc-tagline">25 minutes of work. 5 minutes of rest. One thing at a time.</div>
+      <div class="gc-footer">
+        <span class="gc-badge">Pomodoro</span>
+        <span class="gc-badge">Ambient sound</span>
+        <span class="gc-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+   <div class="gc-tagline">25 minutes of work. 5 minutes of rest. One thing at a time.</div>
       <div class="gc-footer">
         <span class="gc-badge">Pomodoro</span>
         <span class="gc-badge">Ambient sound</span>
