@@ -502,14 +502,26 @@
   // YOUTUBE VIDEOS
   (function(){
     const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
-    const RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID) + '&count=6';
-    fetch(RSS_URL)
+    // allorigins proxy ile YouTube RSS'i cek
+    const RSS = encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID);
+    const PROXY_URL = 'https://api.allorigins.win/get?url=' + RSS;
+    fetch(PROXY_URL)
       .then(r=>r.json())
       .then(data=>{
         const grid = document.getElementById('ytGrid');
-        if(!data.items||!data.items.length){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
-        grid.innerHTML = data.items.map(item=>{
-          const vid = item.link.split('v=')[1];
+        if(!data.contents){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
+        // XML parse
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, 'text/xml');
+        const entries = Array.from(xml.querySelectorAll('entry')).slice(0,6);
+        if(!entries.length){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
+        const items = entries.map(e=>({
+          title: e.querySelector('title')?.textContent || '',
+          link: e.querySelector('link')?.getAttribute('href') || '',
+          pubDate: e.querySelector('published')?.textContent || ''
+        }));
+        grid.innerHTML = items.map(item=>{
+          const vid = (item.link.split('v=')[1]||'').split('&')[0];
           const thumb = 'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg';
           const date = new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
           return '<a href="'+item.link+'" target="_blank" class="yt-card"><img src="'+thumb+'" class="yt-thumb" alt=""><div class="yt-info"><div class="yt-title">'+item.title+'</div><div class="yt-date">'+date+'</div></div></a>';
