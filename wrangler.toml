@@ -5,5 +5,3 @@ main = "_worker.js"
 [assets]
 directory = "./"
 binding = "ASSETS"
-html_handling = "drop-html-extension"
-not_found_handling = "404-page"
