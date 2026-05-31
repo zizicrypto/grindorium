@@ -126,6 +126,12 @@
       .game-grid{padding:0 20px 80px;grid-template-columns:1fr;}
       .go-inner{padding:32px 16px 60px;}
     }
+  
+    .br-mode{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(126,184,232,0.1);color:#4a5568;cursor:pointer;transition:all 0.2s;}
+    .br-mode.active{border-color:rgba(126,184,232,0.35);color:#7eb8e8;}
+
+  
+    @keyframes brPulse{0%,100%{transform:scale(1);opacity:0.5;}50%{transform:scale(1.08);opacity:1;}}
   </style>
 </head>
 <body>
@@ -362,6 +368,38 @@
         <p id="wtr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;"></p>
         <small id="wtr-score" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:28px;"></small>
         <button class="g-btn primary" onclick="wtInit()">Try again ↗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GAME OVERLAY: THE BREATH -->
+  <div class="game-overlay" id="breathOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Breath</span>
+      <button class="go-close" onclick="closeBreath()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:48px 24px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;">The Breath</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:20px;text-align:center;">Follow the circle.</div>
+      <div id="br-mode-row" style="display:flex;gap:8px;margin-bottom:48px;">
+        <div class="br-mode active" onclick="brSetMode('478',this)">4-7-8</div>
+        <div class="br-mode" onclick="brSetMode('box',this)">Box</div>
+        <div class="br-mode" onclick="brSetMode('simple',this)">Simple</div>
+      </div>
+      <div id="br-ring" style="position:relative;width:220px;height:220px;margin-bottom:40px;">
+        <div id="br-circle" style="border-radius:50%;background:rgba(126,184,232,0.04);border:1px solid rgba(126,184,232,0.1);width:220px;height:220px;transition:transform 4s cubic-bezier(0.4,0,0.2,1),background 1s,border-color 1s;"></div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <div id="br-phase-text" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;margin-bottom:6px;">Inhale</div>
+          <div id="br-count" style="font-size:32px;color:#7eb8e8;font-family:'Cormorant Garamond',serif;font-weight:300;">4</div>
+        </div>
+      </div>
+      <div id="br-cycles" style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:28px;">0 cycles complete</div>
+      <button id="br-btn" onclick="brToggle()" class="g-btn primary">Begin</button>
+      <div id="br-done" style="display:none;text-align:center;max-width:340px;">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#fff;margin-bottom:14px;">Done.</h2>
+        <p style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:24px;">Your nervous system just got a moment of genuine rest. Controlled breathing directly affects your heart rate and cortisol levels. You felt it.</p>
+        <button class="g-btn primary" onclick="brReset()">Again ↗</button>
       </div>
     </div>
   </div>
@@ -743,6 +781,66 @@ c:[
     document.getElementById('wtr-desc').textContent=r.desc;
     document.getElementById('wtr-score').textContent='You waited '+sec+' seconds. '+r.note;
     document.getElementById('wt-result').style.display='block';
+  }
+
+
+  const BR_MODES={
+    '478':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:7},{label:'Exhale',dur:8}],cycles:4},
+    'box':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:4},{label:'Exhale',dur:4},{label:'Hold',dur:4}],cycles:4},
+    'simple':{phases:[{label:'Inhale',dur:4},{label:'Exhale',dur:6}],cycles:6}
+  };
+  let brMode='478',brRunning=false,brTimer=null,brPhaseIdx=0,brSec=0,brCycles=0;
+  function openBreath(){document.getElementById('breathOverlay').classList.add('active');document.body.style.overflow='hidden';brReset();}
+  function closeBreath(){document.getElementById('breathOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(brTimer);brRunning=false;}
+  function brSetMode(m,el){
+    if(brRunning)return;
+    brMode=m;
+    document.querySelectorAll('.br-mode').forEach(x=>x.classList.remove('active'));
+    el.classList.add('active');
+    brReset();
+  }
+  function brReset(){
+    clearInterval(brTimer);brRunning=false;brPhaseIdx=0;brSec=0;brCycles=0;
+    document.getElementById('br-done').style.display='none';
+    document.getElementById('br-ring').style.display='block';
+    document.getElementById('br-cycles').style.display='block';
+    document.getElementById('br-btn').style.display='block';
+    document.getElementById('br-btn').textContent='Begin';
+    document.getElementById('br-cycles').textContent='0 cycles complete';
+    document.getElementById('br-circle').style.transform='scale(1)';
+    document.getElementById('br-circle').style.background='rgba(126,184,232,0.04)';
+    document.getElementById('br-circle').style.borderColor='rgba(126,184,232,0.1)';
+    const m=BR_MODES[brMode];
+    document.getElementById('br-phase-text').textContent=m.phases[0].label;
+    document.getElementById('br-count').textContent=m.phases[0].dur;
+  }
+  function brToggle(){
+    if(brRunning){clearInterval(brTimer);brRunning=false;document.getElementById('br-btn').textContent='Resume';}
+    else{brRunning=true;document.getElementById('br-btn').textContent='Pause';brTick();brTimer=setInterval(brTick,1000);}
+  }
+  function brTick(){
+    const m=BR_MODES[brMode];
+    const phase=m.phases[brPhaseIdx];
+    const remaining=phase.dur-brSec;
+    document.getElementById('br-phase-text').textContent=phase.label;
+    document.getElementById('br-count').textContent=remaining;
+    const circ=document.getElementById('br-circle');
+    if(brSec===0){
+      if(phase.label==='Inhale'){circ.style.transition='transform '+phase.dur+'s cubic-bezier(0.4,0,0.2,1),background 0.5s,border-color 0.5s';circ.style.transform='scale(1.15)';circ.style.background='rgba(126,184,232,0.1)';circ.style.borderColor='rgba(126,184,232,0.3)';}
+      else if(phase.label==='Exhale'){circ.style.transition='transform '+phase.dur+'s cubic-bezier(0.4,0,0.2,1),background 0.5s,border-color 0.5s';circ.style.transform='scale(1)';circ.style.background='rgba(126,184,232,0.03)';circ.style.borderColor='rgba(126,184,232,0.08)';}
+      else{circ.style.transition='background 0.5s';circ.style.background='rgba(126,184,232,0.07)';}
+    }
+    brSec++;
+    if(brSec>=phase.dur){
+      brSec=0;brPhaseIdx=(brPhaseIdx+1)%m.phases.length;
+      if(brPhaseIdx===0){brCycles++;document.getElementById('br-cycles').textContent=brCycles+' cycle'+(brCycles===1?'':'s')+' complete';if(brCycles>=m.cycles){clearInterval(brTimer);brRunning=false;setTimeout(brFinish,1000);}}
+    }
+  }
+  function brFinish(){
+    document.getElementById('br-ring').style.display='none';
+    document.getElementById('br-cycles').style.display='none';
+    document.getElementById('br-btn').style.display='none';
+    document.getElementById('br-done').style.display='block';
   }
 
   const LEVELS=[
