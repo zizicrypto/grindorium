@@ -442,6 +442,36 @@
     </div>
   </div>
 
+
+  <div class="game-overlay" id="resistanceOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Resistance</span>
+      <button class="go-close" onclick="closeResistance()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:32px 20px;position:relative;overflow:hidden;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;position:relative;z-index:10;">The Resistance</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;position:relative;z-index:10;">Do not touch what calls to you.</div>
+      <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:32px;text-align:center;position:relative;z-index:10;">Stay still. The urges will pass.</div>
+      <div id="rs-arena" style="position:relative;width:340px;height:240px;border:1px solid rgba(126,184,232,0.06);background:#050810;overflow:hidden;margin-bottom:24px;z-index:10;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(5,8,16,0.7) 100%);pointer-events:none;z-index:5;"></div>
+      </div>
+      <div style="width:340px;margin-bottom:14px;z-index:10;position:relative;"><div style="height:1px;background:rgba(126,184,232,0.06);"><div id="rs-timer-fill" style="height:100%;background:#7eb8e8;width:100%;transition:width 0.1s linear;"></div></div></div>
+      <div id="rs-stats" style="display:flex;gap:24px;margin-bottom:20px;z-index:10;position:relative;">
+        <div style="text-align:center;"><div id="rs-resisted" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;">0</div><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-top:2px;">resisted</div></div>
+        <div style="text-align:center;"><div id="rs-clicked" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;">0</div><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-top:2px;">clicked</div></div>
+        <div style="text-align:center;"><div id="rs-time" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;">60</div><div style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-top:2px;">seconds</div></div>
+      </div>
+      <div id="rs-msg" style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;min-height:16px;text-align:center;z-index:10;position:relative;transition:opacity 0.3s;margin-bottom:16px;">Watch. Do not touch.</div>
+      <button id="rs-btn" class="g-btn primary" onclick="rsStart()" style="z-index:10;position:relative;">Begin</button>
+      <div id="rs-result" style="display:none;text-align:center;max-width:380px;z-index:10;position:relative;">
+        <div id="rsr-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;margin-bottom:14px;"></div>
+        <div id="rsr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;"></div>
+        <div id="rsr-note" style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:24px;"></div>
+        <button class="g-btn primary" onclick="rsInit()">Try again</button>
+      </div>
+    </div>
+  </div>
+
 <!-- GAME OVERLAY -->
 <div class="game-overlay" id="gameOverlay">
   <div class="go-nav">
@@ -960,6 +990,93 @@ c:[
     document.getElementById('flr-note').textContent=note;
     const tags=document.getElementById('fl-tags');tags.innerHTML='';
     flSelected.forEach(fw=>{tags.innerHTML+=`<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid ${fw.bc};color:${fw.tc};">${fw.w}</span>`;});
+  }
+
+
+  const RS_TRAPS=[
+    {label:"scroll",c:"rgba(249,168,212,0.9)",b:"rgba(249,168,212,0.6)",s:52},
+    {label:"check it",c:"rgba(253,224,71,0.85)",b:"rgba(253,224,71,0.5)",s:48},
+    {label:"just once",c:"rgba(167,139,250,0.9)",b:"rgba(167,139,250,0.6)",s:56},
+    {label:"open it",c:"rgba(249,168,212,0.8)",b:"rgba(249,168,212,0.5)",s:44},
+    {label:"one sec",c:"rgba(126,184,232,0.85)",b:"rgba(126,184,232,0.5)",s:50},
+    {label:"refresh",c:"rgba(134,239,172,0.8)",b:"rgba(134,239,172,0.5)",s:46},
+    {label:"reply",c:"rgba(253,224,71,0.9)",b:"rgba(253,224,71,0.6)",s:54},
+    {label:"look",c:"rgba(167,139,250,0.85)",b:"rgba(167,139,250,0.5)",s:48},
+  ];
+  const RS_RESULTS=[
+    {max:0,title:"Complete resistance.",desc:"Nothing pulled you away. The urges appeared and disappeared and you let them. That capacity is rare and it is trainable.",note:"0 clicked"},
+    {max:2,title:"Almost clean.",desc:"One or two slipped through. The pattern is mostly intact. The impulse arrived, you noticed it, most of the time you did not follow it.",note:"minimal clicks"},
+    {max:5,title:"More than you expected.",desc:"The urges were stronger than they looked. Each one felt different from the last. Each one felt like it might be the important one.",note:"several clicked"},
+    {max:999,title:"The pull was real.",desc:"Most of the urges caught you. That is not a failure. It is data. You now know what your baseline looks like. That is the starting point.",note:"high click rate"},
+  ];
+  let rsTimer=null,rsSpawnTimer=null,rsSec=60,rsClicked=0,rsResisted=0,rsRunning=false;
+  function openResistance(){document.getElementById('resistanceOverlay').classList.add('active');document.body.style.overflow='hidden';rsInit();}
+  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rsTimer);clearTimeout(rsSpawnTimer);rsRunning=false;}
+  function rsInit(){
+    clearInterval(rsTimer);clearTimeout(rsSpawnTimer);
+    rsSec=60;rsClicked=0;rsResisted=0;rsRunning=false;
+    document.getElementById('rs-arena').querySelectorAll('.rs-trap').forEach(e=>e.remove());
+    document.getElementById('rs-result').style.display='none';
+    document.getElementById('rs-stats').style.display='flex';
+    document.getElementById('rs-timer-fill').style.width='100%';
+    document.getElementById('rs-msg').style.display='block';
+    document.getElementById('rs-btn').style.display='block';
+    document.getElementById('rs-msg').textContent='Watch. Do not touch.';
+    document.getElementById('rs-resisted').textContent='0';
+    document.getElementById('rs-clicked').textContent='0';
+    document.getElementById('rs-time').textContent='60';
+  }
+  function rsStart(){
+    document.getElementById('rs-btn').style.display='none';
+    document.getElementById('rs-msg').textContent='';
+    rsRunning=true;
+    rsSpawn();
+    rsTimer=setInterval(()=>{
+      rsSec--;
+      document.getElementById('rs-time').textContent=rsSec;
+      document.getElementById('rs-timer-fill').style.width=(rsSec/60*100)+'%';
+      if(rsSec<=0){rsEnd();return;}
+      const msgs={45:'They will keep coming.',30:'Halfway. Still here?',20:'Most people have clicked several by now.',10:'Ten more seconds.',5:'Almost.'};
+      if(msgs[rsSec]){const m=document.getElementById('rs-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=msgs[rsSec];m.style.opacity='1';},200);}
+    },1000);
+  }
+  function rsSpawn(){
+    if(!rsRunning)return;
+    rsSpawnTimer=setTimeout(()=>{
+      if(!rsRunning)return;
+      const arena=document.getElementById('rs-arena');
+      const t=RS_TRAPS[Math.floor(Math.random()*RS_TRAPS.length)];
+      const el=document.createElement('div');
+      el.className='rs-trap';
+      const x=Math.random()*(340-t.s),y=Math.random()*(240-t.s);
+      el.style.cssText=`position:absolute;border-radius:50%;width:${t.s}px;height:${t.s}px;left:${x}px;top:${y}px;background:${t.c};border:1px solid ${t.b};color:rgba(5,8,16,0.9);font-size:8px;letter-spacing:0.06em;text-transform:uppercase;text-align:center;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 0.3s;z-index:6;`;
+      el.textContent=t.label;
+      rsResisted++;document.getElementById('rs-resisted').textContent=rsResisted;
+      let lt;
+      el.onclick=()=>{
+        rsClicked++;document.getElementById('rs-clicked').textContent=rsClicked;
+        el.style.transform='scale(1.3)';el.style.opacity='0';clearTimeout(lt);
+        setTimeout(()=>el.remove(),300);
+        const a=document.getElementById('rs-arena');
+        a.style.borderColor='rgba(249,168,212,0.4)';
+        setTimeout(()=>{a.style.borderColor='rgba(126,184,232,0.06)';},400);
+      };
+      arena.appendChild(el);
+      setTimeout(()=>el.style.opacity='1',50);
+      lt=setTimeout(()=>{el.style.opacity='0';setTimeout(()=>{if(el.parentNode)el.remove();},400);},Math.random()*3000+2000);
+      rsSpawn();
+    },Math.random()*2000+800);
+  }
+  function rsEnd(){
+    rsRunning=false;clearInterval(rsTimer);clearTimeout(rsSpawnTimer);
+    document.getElementById('rs-arena').querySelectorAll('.rs-trap').forEach(e=>{e.style.opacity='0';setTimeout(()=>e.remove(),300);});
+    document.getElementById('rs-stats').style.display='none';
+    document.getElementById('rs-msg').style.display='none';
+    document.getElementById('rs-result').style.display='block';
+    const r=rsClicked===0?RS_RESULTS[0]:RS_RESULTS.find(x=>rsClicked<=x.max)||RS_RESULTS[RS_RESULTS.length-1];
+    document.getElementById('rsr-title').textContent=r.title;
+    document.getElementById('rsr-desc').textContent=r.desc;
+    document.getElementById('rsr-note').textContent=rsClicked+' clicked, '+rsResisted+' appeared in 60 seconds';
   }
 
   const LEVELS=[
