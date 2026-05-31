@@ -139,6 +139,10 @@
     .fl-word.used{opacity:0.2;cursor:default;pointer-events:none;}
     .fl-leaf{position:absolute;width:36px;height:36px;border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:0.05em;text-transform:uppercase;text-align:center;line-height:1.2;animation:flFloat 3s ease-in-out infinite;}
 
+  
+    .rs-lv{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(126,184,232,0.1);color:#4a5568;cursor:pointer;transition:all 0.2s;}
+    .rs-lv.active{border-color:rgba(126,184,232,0.3);color:#7eb8e8;}
+
   </style>
 </head>
 <body>
@@ -993,90 +997,131 @@ c:[
   }
 
 
-  const RS_TRAPS=[
-    {label:"scroll",c:"rgba(249,168,212,0.9)",b:"rgba(249,168,212,0.6)",s:52},
-    {label:"check it",c:"rgba(253,224,71,0.85)",b:"rgba(253,224,71,0.5)",s:48},
-    {label:"just once",c:"rgba(167,139,250,0.9)",b:"rgba(167,139,250,0.6)",s:56},
-    {label:"open it",c:"rgba(249,168,212,0.8)",b:"rgba(249,168,212,0.5)",s:44},
-    {label:"one sec",c:"rgba(126,184,232,0.85)",b:"rgba(126,184,232,0.5)",s:50},
-    {label:"refresh",c:"rgba(134,239,172,0.8)",b:"rgba(134,239,172,0.5)",s:46},
-    {label:"reply",c:"rgba(253,224,71,0.9)",b:"rgba(253,224,71,0.6)",s:54},
-    {label:"look",c:"rgba(167,139,250,0.85)",b:"rgba(167,139,250,0.5)",s:48},
+  
+  const RS2_TRAPS=[
+    {label:"scroll",c:"rgba(249,168,212,0.88)",b:"rgba(249,168,212,0.5)",s:52,w:3},
+    {label:"check it",c:"rgba(253,224,71,0.82)",b:"rgba(253,224,71,0.45)",s:48,w:2},
+    {label:"just once",c:"rgba(167,139,250,0.88)",b:"rgba(167,139,250,0.5)",s:58,w:4},
+    {label:"open it",c:"rgba(249,168,212,0.78)",b:"rgba(249,168,212,0.4)",s:44,w:2},
+    {label:"one sec",c:"rgba(126,184,232,0.82)",b:"rgba(126,184,232,0.45)",s:50,w:2},
+    {label:"refresh",c:"rgba(134,239,172,0.78)",b:"rgba(134,239,172,0.4)",s:46,w:2},
+    {label:"reply",c:"rgba(253,224,71,0.88)",b:"rgba(253,224,71,0.5)",s:54,w:3},
+    {label:"look",c:"rgba(167,139,250,0.82)",b:"rgba(167,139,250,0.45)",s:48,w:2},
+    {label:"notifications",c:"rgba(249,168,212,0.85)",b:"rgba(249,168,212,0.5)",s:62,w:4},
+    {label:"just a peek",c:"rgba(134,239,172,0.82)",b:"rgba(134,239,172,0.45)",s:56,w:3},
   ];
-  const RS_RESULTS=[
-    {max:0,title:"Complete resistance.",desc:"Nothing pulled you away. The urges appeared and disappeared and you let them. That capacity is rare and it is trainable.",note:"0 clicked"},
-    {max:2,title:"Almost clean.",desc:"One or two slipped through. The pattern is mostly intact. The impulse arrived, you noticed it, most of the time you did not follow it.",note:"minimal clicks"},
-    {max:5,title:"More than you expected.",desc:"The urges were stronger than they looked. Each one felt different from the last. Each one felt like it might be the important one.",note:"several clicked"},
-    {max:999,title:"The pull was real.",desc:"Most of the urges caught you. That is not a failure. It is data. You now know what your baseline looks like. That is the starting point.",note:"high click rate"},
+  const RS2_PHASES=[
+    {name:"low intensity",spawnMin:2000,spawnMax:3500,sizeMulti:1},
+    {name:"building",spawnMin:1200,spawnMax:2500,sizeMulti:1.1},
+    {name:"peak",spawnMin:700,spawnMax:1600,sizeMulti:1.2},
+    {name:"fading",spawnMin:1500,spawnMax:3000,sizeMulti:0.9},
   ];
-  let rsTimer=null,rsSpawnTimer=null,rsSec=60,rsClicked=0,rsResisted=0,rsRunning=false;
+  const RS2_PHASE_DUR=[15,20,15,10];
+  const RS2_RESULTS=[
+    {minRate:95,title:"High inhibitory control.",desc:"You resisted almost everything. Research on prefrontal cortex function identifies this as strong top-down inhibitory control. The gap between impulse and action is wide in you. That gap is the defining feature of self-regulation.",science:"Urge surfing research by Bowen and Marlatt (2009) shows that individuals who observe urges without acting on them progressively weaken the automatic link between trigger and behavior. You demonstrated this capacity consistently across the full duration.",source:"Bowen, S., Marlatt, A. (2009). Surfing the urge. Psychology of Addictive Behaviors."},
+    {minRate:80,title:"Above-average impulse regulation.",desc:"You caught most of them. A few slipped through, particularly when intensity increased. Inhibitory control is not binary. It degrades under load.",science:"Research in attentional impulsivity shows that inhibitory capacity decreases as cognitive load increases. The urges you missed were likely the ones that appeared when your attention was already partially engaged. This is normal and trainable.",source:"Moeller et al. (2001). Psychiatric Aspects of Impulsivity. American Journal of Psychiatry."},
+    {minRate:65,title:"Moderate impulse resistance.",desc:"Roughly one in three caught you. This places you near the population average in laboratory impulse-control tasks. The urges that succeeded were probably the ones that felt most justified.",science:"Urge surfing literature describes this as the urgency-justification loop. Each urge constructs a reason why this one is different. The practice is learning to recognize that construction without following it.",source:"Whiteside and Lynam (2001). The Five Factor Model and Impulsivity. Personality and Individual Differences."},
+    {minRate:0,title:"Low resistance this session.",desc:"Most of the urges caught you. That is data, not a verdict. Impulse control research shows baseline resistance varies significantly by context, fatigue, and prior cognitive load.",science:"Ego depletion research by Baumeister et al. (1998) demonstrated that self-control draws on a limited resource that depletes with use. If you were already cognitively taxed before this session, lower resistance is the expected outcome, not a character finding.",source:"Baumeister et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
+  ];
+  let rs2Timer=null,rs2SpawnTimer=null,rs2Sec,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0,rs2PhaseTimer=null,rs2Duration=60;
   function openResistance(){document.getElementById('resistanceOverlay').classList.add('active');document.body.style.overflow='hidden';rsInit();}
-  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rsTimer);clearTimeout(rsSpawnTimer);rsRunning=false;}
+  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Running=false;}
+  function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
   function rsInit(){
-    clearInterval(rsTimer);clearTimeout(rsSpawnTimer);
-    rsSec=60;rsClicked=0;rsResisted=0;rsRunning=false;
-    document.getElementById('rs-arena').querySelectorAll('.rs-trap').forEach(e=>e.remove());
+    clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
+    rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
+    document.getElementById('rs-arena').querySelectorAll('.rs2-trap').forEach(e=>e.remove());
     document.getElementById('rs-result').style.display='none';
     document.getElementById('rs-stats').style.display='flex';
     document.getElementById('rs-timer-fill').style.width='100%';
     document.getElementById('rs-msg').style.display='block';
     document.getElementById('rs-btn').style.display='block';
+    document.getElementById('rs-btn').textContent='Begin';
     document.getElementById('rs-msg').textContent='Watch. Do not touch.';
+    document.getElementById('rs-noise').style.opacity='0';
+    document.getElementById('rs-phase-label').textContent='waiting';
     document.getElementById('rs-resisted').textContent='0';
     document.getElementById('rs-clicked').textContent='0';
-    document.getElementById('rs-time').textContent='60';
+    document.getElementById('rs-time').textContent=rs2Duration;
+    document.getElementById('rs-score-stat').textContent='0';
+    document.getElementById('rs-score-live').textContent='0';
   }
-  function rsStart(){
-    document.getElementById('rs-btn').style.display='none';
-    document.getElementById('rs-msg').textContent='';
-    rsRunning=true;
-    rsSpawn();
-    rsTimer=setInterval(()=>{
-      rsSec--;
-      document.getElementById('rs-time').textContent=rsSec;
-      document.getElementById('rs-timer-fill').style.width=(rsSec/60*100)+'%';
-      if(rsSec<=0){rsEnd();return;}
-      const msgs={45:'They will keep coming.',30:'Halfway. Still here?',20:'Most people have clicked several by now.',10:'Ten more seconds.',5:'Almost.'};
-      if(msgs[rsSec]){const m=document.getElementById('rs-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=msgs[rsSec];m.style.opacity='1';},200);}
-    },1000);
+  function rsToggle(){
+    if(rs2Running){
+      rs2Running=false;clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);
+      document.getElementById('rs-btn').textContent='Resume';
+    } else {
+      rs2Running=true;document.getElementById('rs-btn').textContent='Pause';
+      rsRunPhase();rsSpawn2();
+      rs2Timer=setInterval(()=>{
+        rs2Sec--;
+        document.getElementById('rs-time').textContent=rs2Sec;
+        document.getElementById('rs-timer-fill').style.width=(rs2Sec/rs2Duration*100)+'%';
+        const msgs={[Math.floor(rs2Duration*0.75)]:'They will keep coming.',[Math.floor(rs2Duration*0.5)]:'Halfway. Still here?',[Math.floor(rs2Duration*0.33)]:'Most people have clicked several by now.',[10]:'Ten more seconds.',[5]:'Almost.'};
+        if(msgs[rs2Sec])rsSetMsg2(msgs[rs2Sec]);
+        if(rs2Sec<=0)rsEnd();
+      },1000);
+    }
   }
-  function rsSpawn(){
-    if(!rsRunning)return;
-    rsSpawnTimer=setTimeout(()=>{
-      if(!rsRunning)return;
+  function rsRunPhase(){
+    if(rs2PhaseIdx>=RS2_PHASES.length)return;
+    document.getElementById('rs-phase-label').textContent=RS2_PHASES[rs2PhaseIdx].name;
+    document.getElementById('rs-noise').style.opacity=[0,0.03,0.06,0.02][rs2PhaseIdx];
+    rs2PhaseTimer=setTimeout(()=>{rs2PhaseIdx++;rsRunPhase();},RS2_PHASE_DUR[rs2PhaseIdx]*1000);
+  }
+  function rsSpawn2(){
+    if(!rs2Running)return;
+    const phase=RS2_PHASES[Math.min(rs2PhaseIdx,RS2_PHASES.length-1)];
+    const delay=phase.spawnMin+Math.random()*(phase.spawnMax-phase.spawnMin);
+    rs2SpawnTimer=setTimeout(()=>{
+      if(!rs2Running)return;
       const arena=document.getElementById('rs-arena');
-      const t=RS_TRAPS[Math.floor(Math.random()*RS_TRAPS.length)];
+      const t=RS2_TRAPS[Math.floor(Math.random()*RS2_TRAPS.length)];
+      const size=Math.round(t.s*phase.sizeMulti);
       const el=document.createElement('div');
-      el.className='rs-trap';
-      const x=Math.random()*(340-t.s),y=Math.random()*(240-t.s);
-      el.style.cssText=`position:absolute;border-radius:50%;width:${t.s}px;height:${t.s}px;left:${x}px;top:${y}px;background:${t.c};border:1px solid ${t.b};color:rgba(5,8,16,0.9);font-size:8px;letter-spacing:0.06em;text-transform:uppercase;text-align:center;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 0.3s;z-index:6;`;
+      el.className='rs2-trap';
+      const x=Math.random()*(340-size),y=Math.random()*(240-size);
+      el.style.cssText=`position:absolute;border-radius:50%;width:${size}px;height:${size}px;left:${x}px;top:${y}px;background:${t.c};border:1px solid ${t.b};color:rgba(5,8,16,0.9);font-size:8px;letter-spacing:0.06em;text-transform:uppercase;text-align:center;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 0.35s,transform 0.35s;z-index:6;`;
       el.textContent=t.label;
-      rsResisted++;document.getElementById('rs-resisted').textContent=rsResisted;
+      rs2Resisted++;document.getElementById('rs-resisted').textContent=rs2Resisted;
       let lt;
       el.onclick=()=>{
-        rsClicked++;document.getElementById('rs-clicked').textContent=rsClicked;
-        el.style.transform='scale(1.3)';el.style.opacity='0';clearTimeout(lt);
+        rs2Clicked++;document.getElementById('rs-clicked').textContent=rs2Clicked;
+        el.style.transform='scale(1.4)';el.style.opacity='0';clearTimeout(lt);
         setTimeout(()=>el.remove(),300);
-        const a=document.getElementById('rs-arena');
-        a.style.borderColor='rgba(249,168,212,0.4)';
-        setTimeout(()=>{a.style.borderColor='rgba(126,184,232,0.06)';},400);
+        document.getElementById('rs-arena').style.borderColor='rgba(249,168,212,0.35)';
+        setTimeout(()=>document.getElementById('rs-arena').style.borderColor='rgba(126,184,232,0.06)',500);
       };
       arena.appendChild(el);
       setTimeout(()=>el.style.opacity='1',50);
-      lt=setTimeout(()=>{el.style.opacity='0';setTimeout(()=>{if(el.parentNode)el.remove();},400);},Math.random()*3000+2000);
-      rsSpawn();
-    },Math.random()*2000+800);
+      lt=setTimeout(()=>{
+        el.style.opacity='0';el.style.transform='scale(0.8)';
+        rs2Score+=t.w;
+        document.getElementById('rs-score-stat').textContent=rs2Score;
+        document.getElementById('rs-score-live').textContent=rs2Score;
+        setTimeout(()=>{if(el.parentNode)el.remove();},400);
+      },Math.random()*2500+2000);
+      rsSpawn2();
+    },delay);
   }
+  function rsSetMsg2(txt){const m=document.getElementById('rs-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=txt;m.style.opacity='1';},200);}
   function rsEnd(){
-    rsRunning=false;clearInterval(rsTimer);clearTimeout(rsSpawnTimer);
-    document.getElementById('rs-arena').querySelectorAll('.rs-trap').forEach(e=>{e.style.opacity='0';setTimeout(()=>e.remove(),300);});
+    rs2Running=false;clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
+    document.getElementById('rs-arena').querySelectorAll('.rs2-trap').forEach(e=>{e.style.opacity='0';setTimeout(()=>e.remove(),300);});
     document.getElementById('rs-stats').style.display='none';
     document.getElementById('rs-msg').style.display='none';
+    document.getElementById('rs-btn').style.display='none';
+    document.getElementById('rs-noise').style.opacity='0';
+    const rate=rs2Resisted>0?Math.round(((rs2Resisted-rs2Clicked)/rs2Resisted)*100):100;
+    const r=RS2_RESULTS.find(x=>rate>=x.minRate)||RS2_RESULTS[RS2_RESULTS.length-1];
     document.getElementById('rs-result').style.display='block';
-    const r=rsClicked===0?RS_RESULTS[0]:RS_RESULTS.find(x=>rsClicked<=x.max)||RS_RESULTS[RS_RESULTS.length-1];
     document.getElementById('rsr-title').textContent=r.title;
     document.getElementById('rsr-desc').textContent=r.desc;
-    document.getElementById('rsr-note').textContent=rsClicked+' clicked, '+rsResisted+' appeared in 60 seconds';
+    document.getElementById('rsr-science').textContent=r.science;
+    document.getElementById('rsr-source').textContent=r.source;
+    document.getElementById('rsr-score').textContent=rs2Score;
+    document.getElementById('rsr-rate').textContent=rate+'%';
+    document.getElementById('rsr-total').textContent=rs2Resisted;
   }
 
   const LEVELS=[
