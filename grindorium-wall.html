@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Wall — Grindorium</title>
+  <meta name="description" content="One word. Anonymous. Shared with everyone here right now."/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+    .nav-logo-text{font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+    .nav-back{font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+    .nav-back:hover{color:var(--white);}
+    .hero{padding:140px 48px 48px;text-align:center;}
+    .page-label{font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:12px;}
+    .page-sub{font-size:14px;color:var(--dim);line-height:1.9;max-width:400px;margin:0 auto 48px;}
+    .input-row{display:flex;justify-content:center;gap:0;max-width:400px;margin:0 auto 64px;}
+    .word-input{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.15);font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);padding:10px 0;outline:none;letter-spacing:0.05em;text-align:center;}
+    .word-input::placeholder{color:#2d3f52;}
+    .word-submit{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 20px;border:none;border-bottom:1px solid rgba(126,184,232,0.15);background:transparent;color:var(--accent);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+    .word-submit:hover{color:var(--white);}
+    .cloud{position:relative;min-height:400px;max-width:800px;margin:0 auto 40px;padding:0 48px;}
+    .cloud-word{position:absolute;font-family:'Cormorant Garamond',serif;font-weight:300;white-space:nowrap;cursor:default;transition:color 0.5s,transform 0.3s;}
+    .cloud-word:hover{transform:scale(1.05);}
+    .meta{text-align:center;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-bottom:12px;}
+    .msg{text-align:center;font-size:11px;letter-spacing:0.1em;color:#4a5568;min-height:18px;transition:opacity 0.3s;margin-bottom:20px;}
+    .loading{text-align:center;font-size:10px;letter-spacing:0.1em;color:#4a5568;padding:40px;}
+    .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;}
+    .sound-icon{font-size:14px;color:var(--dim);}
+    @media(max-width:600px){nav{padding:16px 20px;}.hero{padding:110px 20px 40px;}.input-row{max-width:100%;padding:0 20px;}.cloud{padding:0 20px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" class="nav-logo-img" alt="Grindorium" onerror="this.style.display='none'"/>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/play" class="nav-back">← Play</a>
+</nav>
+
+<div class="hero">
+  <div class="page-label">The Wall</div>
+  <h1 class="page-title">One word.<br>Right now.</h1>
+  <p class="page-sub">What is present for you in this moment. Anonymous. Shared with everyone here.</p>
+</div>
+
+<div class="input-row">
+  <input class="word-input" id="w-input" type="text" placeholder="type here..." maxlength="20" onkeydown="if(event.key==='Enter')wSubmit()" oninput="this.value=this.value.replace(/\s/g,'')"/>
+  <button class="word-submit" onclick="wSubmit()">Share</button>
+</div>
+
+<div class="loading" id="w-loading">Loading the wall...</div>
+<div class="cloud" id="w-cloud"></div>
+<div class="meta" id="w-meta"></div>
+<div class="msg" id="w-msg"></div>
+
+<div class="sound-btn" onclick="toggleAmbient()"><span class="sound-icon" id="soundIcon">♪</span></div>
+
+<script>
+const SB_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
+const SB_KEY="sb_publishable_hlQR5Dh_A3NHxTHbDKvawA_DN23psUV";
+const COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
+let words=[],yours=null;
+
+async function fetchWords(){
+  try{
+    const since=new Date(Date.now()-86400000).toISOString();
+    const res=await fetch(SB_URL+"/rest/v1/words?select=word&created_at=gte."+since+"&limit=1000",{
+      headers:{"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY}
+    });
+    const data=await res.json();
+    const counts={};
+    data.forEach(r=>{counts[r.word]=(counts[r.word]||0)+1;});
+    words=Object.entries(counts).map(([word,count])=>{return {word,count};}).sort((a,b)=>b.count-a.count);
+    document.getElementById("w-loading").style.display="none";
+    render();
+  }catch(e){document.getElementById("w-loading").textContent="Could not connect. Try refreshing.";}
+}
+
+function render(){
+  const cloud=document.getElementById("w-cloud");
+  cloud.innerHTML="";
+  const cw=cloud.offsetWidth||700;
+  const ch=Math.max(400,window.innerHeight*0.5);
+  cloud.style.minHeight=ch+"px";
+  const maxCount=words.length>0?Math.max(...words.map(w=>w.count)):1;
+  const placed=[];
+  words.slice(0,35).forEach((item,i)=>{
+    const el=document.createElement("div");
+    el.className="cloud-word";
+    const size=16+(item.count/maxCount)*30;
+    el.style.fontSize=size+"px";
+    const color=COLORS[i%COLORS.length];
+    const opacity=0.2+(item.count/maxCount)*0.65;
+    el.style.color=item.word===yours?"rgba(134,239,172,0.95)":color+opacity+")";
+    el.textContent=item.word;
+    let x,y,tries=0;
+    do{x=Math.random()*(cw-180);y=Math.random()*(ch-40);tries++;}while(tries<20);
+    el.style.left=x+"px";el.style.top=y+"px";
+    cloud.appendChild(el);
+  });
+  const total=words.reduce((s,w)=>s+w.count,0);
+  document.getElementById("w-meta").textContent=total+" word"+(total===1?"":"s")+" shared in the last 24 hours";
+}
+
+async function wSubmit(){
+  const val=document.getElementById("w-input").value.trim().toLowerCase();
+  if(!val||val.length<2)return;
+  if(!/^[a-zA-Z]+$/.test(val)){setMsg("One word. Letters only.");return;}
+  yours=val;
+  document.getElementById("w-input").value="";
+  try{
+    await fetch(SB_URL+"/rest/v1/words",{
+      method:"POST",
+      headers:{"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+      body:JSON.stringify({word:val})
+    });
+    setMsg('"'+val+'" is now on the wall.');
+    setTimeout(()=>setMsg(""),4000);
+    await fetchWords();
+  }catch(e){setMsg("Something went wrong. Try again.");}
+}
+
+function setMsg(txt){const m=document.getElementById("w-msg");m.style.opacity="0";setTimeout(()=>{m.textContent=txt;m.style.opacity="1";},200);}
+window.addEventListener("resize",render);
+fetchWords();
+setInterval(fetchWords,20000);
+let ambientAudio=null,ambientOn=false;
+function toggleAmbient(){if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById("soundIcon").style.color="var(--dim)";}else{ambientAudio=new Audio("/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3");ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;document.getElementById("soundIcon").style.color="var(--accent)";}};
+</script>
+</body>
+</html>
