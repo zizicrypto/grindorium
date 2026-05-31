@@ -350,39 +350,52 @@
   </div>
 
 
-  <!-- GAME OVERLAY: THE WAIT -->
+  
   <div class="game-overlay" id="waitOverlay">
     <div class="go-nav">
       <span class="go-title">The Wait</span>
       <button class="go-close" onclick="closeWait()">← Back to games</button>
     </div>
-    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:48px 24px;">
-      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;">The Wait</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:56px;text-align:center;">Hold until it is worth it.</div>
-      <div id="wt-ring" style="position:relative;width:200px;height:200px;margin-bottom:48px;">
-        <svg viewBox="0 0 200 200" style="width:200px;height:200px;transform:rotate(-90deg);">
-          <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(126,184,232,0.06)" stroke-width="3"/>
-          <circle id="wt-prog" cx="100" cy="100" r="90" fill="none" stroke="#7eb8e8" stroke-width="2" stroke-linecap="round" stroke-dasharray="565" stroke-dashoffset="565" style="transition:stroke 0.5s;"/>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:560px;padding:48px 24px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:6px;text-align:center;">The Wait</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:6px;text-align:center;">Hold until it is worth it.</div>
+      <div style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:32px;text-align:center;">The longer you hold, the more you earn. Press when you decide to take it.</div>
+
+      <div id="wt-ring" style="position:relative;width:220px;height:220px;margin-bottom:36px;">
+        <svg viewBox="0 0 220 220" style="width:220px;height:220px;transform:rotate(-90deg);position:absolute;inset:0;">
+          <circle cx="110" cy="110" r="98" fill="none" stroke="rgba(126,184,232,0.05)" stroke-width="2"/>
+          <circle id="wt-track" cx="110" cy="110" r="98" fill="none" stroke="rgba(126,184,232,0.1)" stroke-width="1" stroke-dasharray="616" stroke-dashoffset="0"/>
+          <circle id="wt-prog" cx="110" cy="110" r="98" fill="none" stroke="#7eb8e8" stroke-width="2" stroke-linecap="round" stroke-dasharray="616" stroke-dashoffset="616" style="transition:stroke 1s;"/>
         </svg>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-          <div id="wt-value" style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:#fff;line-height:1;transition:color 0.3s;">1</div>
-          <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-top:4px;">points</div>
+          <div id="wt-value" style="font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:#fff;line-height:1;transition:color 0.5s;">1</div>
+          <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-top:6px;">points</div>
+          <div id="wt-tier-label" style="font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-top:4px;transition:color 0.5s;"></div>
         </div>
       </div>
-      <div id="wt-msg" style="font-size:11px;letter-spacing:0.1em;color:#4a5568;margin-bottom:32px;text-align:center;min-height:18px;transition:opacity 0.2s;">Press when you are ready. The longer you wait, the more you earn.</div>
-      <button id="wt-btn" onclick="wtPress()" style="width:200px;height:48px;border:1px solid rgba(126,184,232,0.2);background:transparent;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#7eb8e8;cursor:pointer;position:relative;overflow:hidden;">
-        <div id="wt-btn-fill" style="position:absolute;left:0;top:0;height:100%;background:rgba(126,184,232,0.06);width:0%;"></div>
+
+      <div id="wt-msg" style="font-size:11px;letter-spacing:0.1em;color:#4a5568;margin-bottom:28px;text-align:center;min-height:18px;transition:opacity 0.2s;">The reward grows with every second you hold.</div>
+
+      <button id="wt-btn" onclick="wtPress()" style="width:220px;height:50px;border:1px solid rgba(126,184,232,0.2);background:transparent;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#7eb8e8;cursor:pointer;position:relative;overflow:hidden;transition:border-color 0.2s;">
+        <div id="wt-btn-fill" style="position:absolute;left:0;top:0;height:100%;background:rgba(126,184,232,0.05);width:0%;"></div>
         <span style="position:relative;z-index:1;">Take it now</span>
       </button>
-      <div id="wt-result" style="display:none;text-align:center;max-width:360px;">
-        <h2 id="wtr-title" style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;margin-bottom:14px;"></h2>
-        <p id="wtr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;"></p>
-        <small id="wtr-score" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:28px;"></small>
-        <button class="g-btn primary" onclick="wtInit()">Try again ↗</button>
+
+      <div id="wt-result" style="display:none;text-align:center;max-width:400px;">
+        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:12px;">Your delayed gratification profile</div>
+        <div id="wtr-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;margin-bottom:16px;line-height:1.2;"></div>
+        <div style="display:flex;gap:20px;justify-content:center;margin-bottom:20px;">
+          <div style="text-align:center;"><div id="wtr-score" style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#a78bfa;"></div><div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;margin-top:2px;">points</div></div>
+          <div style="text-align:center;"><div id="wtr-time" style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#7eb8e8;"></div><div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;margin-top:2px;">seconds waited</div></div>
+          <div style="text-align:center;"><div id="wtr-pct" style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:#86efac;"></div><div style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;margin-top:2px;">of max reward</div></div>
+        </div>
+        <div id="wtr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:12px;"></div>
+        <div id="wtr-science" style="font-size:12px;color:#4a5568;line-height:1.8;font-family:'Cormorant Garamond',serif;margin-bottom:8px;"></div>
+        <div id="wtr-source" style="font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#2a3545;display:block;margin-bottom:24px;"></div>
+        <button class="g-btn primary" onclick="wtInit()">Try again</button>
       </div>
     </div>
   </div>
-
 
   <!-- GAME OVERLAY: THE BREATH -->
   <div class="game-overlay" id="breathOverlay">
@@ -797,64 +810,93 @@ c:[
   }
 
 
-  const WT_RESULTS=[
-    {max:3,title:"You could not wait.",desc:"Three seconds. The reward was still at its lowest and you took it. Not a failure. A measurement. Something in you needed to end the uncertainty immediately.",note:"waited 3s or less"},
-    {max:8,title:"Almost.",desc:"You held longer than most people get past their first impulse. But something pulled you before the wait became uncomfortable enough to be interesting.",note:"waited 4 to 8 seconds"},
-    {max:15,title:"You tested it.",desc:"Long enough to feel the discomfort of waiting. Short enough that you resolved it before it got harder. You found the edge and stopped just before it.",note:"waited 9 to 15 seconds"},
-    {max:25,title:"You sat with it.",desc:"Most people are gone by now. You stayed. The discomfort of an unrealized reward did not move you as fast as it moves others.",note:"waited 16 to 25 seconds"},
-    {max:40,title:"The patient one.",desc:"You have a relationship with delayed gratification that most people do not. Whether it came naturally or was learned, it is there.",note:"waited 26 to 40 seconds"},
-    {max:59,title:"You almost went the distance.",desc:"You held almost the full minute. Something stopped you just before the end. That something is worth noticing.",note:"waited 41 to 59 seconds"},
-    {max:60,title:"You went the full distance.",desc:"Sixty seconds. The reward stopped growing and you waited anyway. The patience is real.",note:"full 60 seconds"}
+  
+  const WT_MAX=90;
+  const WT_TIERS=[
+    {sec:0,label:'',stroke:'rgba(126,184,232,0.3)',color:'#8aa0b8'},
+    {sec:10,label:'early',stroke:'#7eb8e8',color:'#7eb8e8'},
+    {sec:25,label:'building',stroke:'#a78bfa',color:'#a78bfa'},
+    {sec:45,label:'strong',stroke:'#f9a8d4',color:'#f9a8d4'},
+    {sec:65,label:'peak',stroke:'#fde047',color:'#fde047'},
+    {sec:WT_MAX,label:'maximum',stroke:'#86efac',color:'#86efac'},
   ];
-  let wtTimer=null,wtSec=0,wtRunning=false;
+  const WT_RESULTS=[
+    {maxSec:5,title:"Immediate take.",desc:"Five seconds or less. The discomfort of uncertainty was resolved almost immediately. This is the most common pattern in delay-of-gratification research. The brain's default is to prefer the certain present reward over an uncertain future one.",science:"Mischel's original Stanford studies (1972) found that children who pressed within seconds showed lower tolerance for ambiguity rather than low willpower. The capacity to wait is partly a function of how much uncertainty the nervous system can hold before seeking resolution.",source:"Mischel, W. et al. (1972). Cognitive and attentional mechanisms in delay of gratification. Journal of Personality and Social Psychology."},
+    {maxSec:15,title:"Low delay tolerance.",desc:"You held for a moment but not long. The pull of the immediate reward outweighed the projected value of waiting. That calculation happens below conscious awareness.",science:"Intertemporal choice research shows that humans systematically discount future rewards at a rate that is too steep relative to their stated preferences. You may have believed you would wait longer. The body often decides before the mind does.",source:"Loewenstein, G., Thaler, R. (1989). Anomalies: Intertemporal Choice. Journal of Economic Perspectives."},
+    {maxSec:30,title:"Moderate delay capacity.",desc:"You held through the initial impulse but released before the reward had fully developed. This is a common stopping point. The discomfort of waiting tends to peak around 15 to 25 seconds and then stabilize.",science:"Research on hedonic adaptation suggests that discomfort from waiting does not increase linearly. It typically plateaus. People who press around 25 to 30 seconds often do so at the point of maximum perceived discomfort, just before it would have leveled off.",source:"Frederick, S., Loewenstein, G., O'Donoghue, T. (2002). Time Discounting and Time Preference. Journal of Economic Literature."},
+    {maxSec:50,title:"Above-average delay tolerance.",desc:"You held significantly longer than most. The reward was growing and you stayed with the uncertainty of whether to take it. That capacity to sit with unresolved potential is closely associated with self-regulatory function.",science:"Mischel's longitudinal follow-up studies found that children who waited longer showed stronger prefrontal cortex engagement in adulthood. The correlation was with the ability to hold competing options in mind without collapsing to a decision, not willpower in the conventional sense.",source:"Mischel, W. et al. (2011). Willpower over the life span. Social Cognitive and Affective Neuroscience."},
+    {maxSec:75,title:"Strong delayed gratification.",desc:"You held into territory where most people have already pressed. The reward had grown substantially and you continued holding. This reflects a genuinely high tolerance for unresolved potential.",science:"Neuroimaging studies of delayed gratification identify two competing systems: the mesolimbic system driving immediate reward-seeking and the prefrontal cortex sustaining longer-term valuation. High delay capacity correlates with stronger prefrontal regulation of the limbic response.",source:"McClure, S.M. et al. (2004). Separate Neural Systems Value Immediate and Delayed Monetary Rewards. Science."},
+    {maxSec:WT_MAX,title:"Full distance.",desc:"You held the complete duration. Whether you were genuinely comfortable waiting or were simply determined to see the end, the capacity to sustain uncertainty without collapsing it is a measurable trait. You have it.",science:"The most recent replication of Mischel's work confirmed that delay capacity is real and trainable. It is not a fixed trait. Each time you hold longer than expected, you are strengthening the neural pathway that holds competing options without immediately resolving them.",source:"Watts, T.W., Duncan, G.J., Quan, H. (2018). Revisiting the Marshmallow Test. Psychological Science."},
+  ];
+  let wtTimer=null,wtSec=0,wtRunning=false,wtCurTier=0;
   function openWait(){document.getElementById('waitOverlay').classList.add('active');document.body.style.overflow='hidden';wtInit();}
-  function closeWait(){document.getElementById('waitOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(wtTimer);}
+  function closeWait(){document.getElementById('waitOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(wtTimer);wtRunning=false;}
   function wtInit(){
-    wtSec=0;wtRunning=false;clearInterval(wtTimer);
+    clearInterval(wtTimer);wtSec=0;wtRunning=false;wtCurTier=0;
     document.getElementById('wt-result').style.display='none';
     document.getElementById('wt-ring').style.display='block';
     document.getElementById('wt-msg').style.display='block';
     document.getElementById('wt-btn').style.display='block';
     document.getElementById('wt-value').textContent='1';
-    document.getElementById('wt-prog').style.strokeDashoffset='565';
-    document.getElementById('wt-prog').style.stroke='#7eb8e8';
+    document.getElementById('wt-value').style.color='#fff';
+    document.getElementById('wt-tier-label').textContent='';
+    document.getElementById('wt-prog').style.strokeDashoffset='616';
+    document.getElementById('wt-prog').style.stroke='rgba(126,184,232,0.3)';
     document.getElementById('wt-btn-fill').style.width='0%';
-    document.getElementById('wt-msg').textContent='Press when you are ready. The longer you wait, the more you earn.';
+    document.getElementById('wt-msg').textContent='The reward grows with every second you hold.';
     document.getElementById('wt-msg').style.opacity='1';
     wtRunning=true;
     wtTimer=setInterval(()=>{
       wtSec++;
-      const pct=wtSec/60;
-      document.getElementById('wt-prog').style.strokeDashoffset=565-(565*pct);
-      let val=wtSec<=30?Math.round(wtSec*3.3):100+Math.round((wtSec-30)*1.5);
-      document.getElementById('wt-value').textContent=val;
-      if(wtSec<10)document.getElementById('wt-prog').style.stroke='rgba(126,184,232,0.4)';
-      else if(wtSec<25)document.getElementById('wt-prog').style.stroke='#7eb8e8';
-      else if(wtSec<45)document.getElementById('wt-prog').style.stroke='#a78bfa';
-      else document.getElementById('wt-prog').style.stroke='#f9a8d4';
-      const msgs={5:'It will keep growing.',15:'Still growing.',25:'Most people have already pressed.',35:'You are still here.',45:'Almost. Not much left to gain.',55:'Five more seconds.'};
-      if(msgs[wtSec])wtSetMsg(msgs[wtSec]);
+      const pct=wtSec/WT_MAX;
+      document.getElementById('wt-prog').style.strokeDashoffset=616-(616*pct);
       document.getElementById('wt-btn-fill').style.width=(pct*100)+'%';
-      if(wtSec>=60){clearInterval(wtTimer);wtRunning=false;wtShow(60);}
+
+      let val;
+      if(wtSec<=20) val=Math.round(wtSec*5);
+      else if(wtSec<=45) val=100+Math.round((wtSec-20)*6);
+      else if(wtSec<=70) val=250+Math.round((wtSec-45)*4);
+      else val=350+Math.round((wtSec-70)*5);
+      document.getElementById('wt-value').textContent=val;
+
+      const tier=WT_TIERS.slice().reverse().find(t=>wtSec>=t.sec)||WT_TIERS[0];
+      if(tier.label!==WT_TIERS[wtCurTier]?.label){
+        document.getElementById('wt-prog').style.stroke=tier.stroke;
+        document.getElementById('wt-value').style.color=tier.color;
+        document.getElementById('wt-tier-label').textContent=tier.label;
+        document.getElementById('wt-tier-label').style.color=tier.color;
+        wtCurTier=WT_TIERS.indexOf(tier);
+      }
+
+      const msgs={5:'It will keep growing.',15:'Still growing.',25:'Most people have already pressed.',35:'You are still here.',45:'The discomfort usually peaks around now.',55:'Five more seconds to reach maximum.',WT_MAX-5:'Almost at maximum.'};
+      if(msgs[wtSec])wtSetMsg(msgs[wtSec]);
+
+      if(wtSec>=WT_MAX){clearInterval(wtTimer);wtRunning=false;wtShow(WT_MAX);}
     },1000);
   }
-  function wtSetMsg(txt){
-    const m=document.getElementById('wt-msg');
-    m.style.opacity='0';
-    setTimeout(()=>{m.textContent=txt;m.style.opacity='1';},200);
-  }
+  function wtSetMsg(txt){const m=document.getElementById('wt-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=txt;m.style.opacity='1';},200);}
   function wtPress(){if(!wtRunning)return;clearInterval(wtTimer);wtRunning=false;wtShow(wtSec);}
   function wtShow(sec){
     document.getElementById('wt-ring').style.display='none';
     document.getElementById('wt-msg').style.display='none';
     document.getElementById('wt-btn').style.display='none';
-    const r=WT_RESULTS.find(x=>sec<=x.max)||WT_RESULTS[WT_RESULTS.length-1];
+    const r=WT_RESULTS.find(x=>sec<=x.maxSec)||WT_RESULTS[WT_RESULTS.length-1];
+    let val;
+    if(sec<=20) val=Math.round(sec*5);
+    else if(sec<=45) val=100+Math.round((sec-20)*6);
+    else if(sec<=70) val=250+Math.round((sec-45)*4);
+    else val=350+Math.round((sec-70)*5);
+    const maxVal=350+Math.round((WT_MAX-70)*5);
+    const pct=Math.round((val/maxVal)*100);
+    document.getElementById('wt-result').style.display='block';
     document.getElementById('wtr-title').textContent=r.title;
     document.getElementById('wtr-desc').textContent=r.desc;
-    document.getElementById('wtr-score').textContent='You waited '+sec+' seconds. '+r.note;
-    document.getElementById('wt-result').style.display='block';
+    document.getElementById('wtr-science').textContent=r.science;
+    document.getElementById('wtr-source').textContent=r.source;
+    document.getElementById('wtr-score').textContent=val;
+    document.getElementById('wtr-time').textContent=sec;
+    document.getElementById('wtr-pct').textContent=pct+'%';
   }
-
 
   const BR_MODES={
     '478':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:7},{label:'Exhale',dur:8}],cycles:4},
