@@ -132,6 +132,13 @@
 
   
     @keyframes brPulse{0%,100%{transform:scale(1);opacity:0.5;}50%{transform:scale(1.08);opacity:1;}}
+  
+    @keyframes flFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+    .fl-word{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 14px;border:1px solid rgba(126,184,232,0.1);color:#4a5568;cursor:pointer;transition:all 0.2s;background:#0a0f18;}
+    .fl-word:hover{border-color:rgba(126,184,232,0.3);color:#8aa0b8;}
+    .fl-word.used{opacity:0.2;cursor:default;pointer-events:none;}
+    .fl-leaf{position:absolute;width:36px;height:36px;border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:0.05em;text-transform:uppercase;text-align:center;line-height:1.2;animation:flFloat 3s ease-in-out infinite;}
+
   </style>
 </head>
 <body>
@@ -400,6 +407,37 @@
         <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#fff;margin-bottom:14px;">Done.</h2>
         <p style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:24px;">Your nervous system just got a moment of genuine rest. Controlled breathing directly affects your heart rate and cortisol levels. You felt it.</p>
         <button class="g-btn primary" onclick="brReset()">Again ↗</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GAME OVERLAY: THE FEELING -->
+  <div class="game-overlay" id="feelingOverlay">
+    <div class="go-nav">
+      <span class="go-title">The Feeling</span>
+      <button class="go-close" onclick="closeFeeling()">← Back to games</button>
+    </div>
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;padding:40px 24px 80px;">
+      <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;">The Feeling</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;">Name what is here today.</div>
+      <div id="fl-sub" style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:32px;text-align:center;">Select up to 7 feelings. They will hang on the tree.</div>
+      <div id="fl-tree" style="position:relative;width:100%;max-width:480px;height:200px;margin-bottom:24px;">
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:2px;height:60px;background:rgba(126,184,232,0.1);"></div>
+        <div id="fl-branches" style="position:absolute;bottom:0;left:0;right:0;top:0;"></div>
+      </div>
+      <div id="fl-words" style="display:flex;flex-wrap:wrap;gap:8px;max-width:480px;justify-content:center;margin-bottom:20px;"></div>
+      <div id="fl-msg" style="font-size:10px;letter-spacing:0.1em;color:#2d3f52;margin-bottom:20px;text-align:center;min-height:16px;">Choose the ones that are true right now.</div>
+      <div style="display:flex;gap:8px;" id="fl-btns">
+        <button class="g-btn" onclick="flReset()">Reset</button>
+        <button class="g-btn primary" onclick="flSubmit()">See reflection ↗</button>
+      </div>
+      <div id="fl-result" style="display:none;text-align:center;max-width:400px;">
+        <div id="flr-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#fff;margin-bottom:14px;"></div>
+        <div id="flr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;max-width:360px;margin-left:auto;margin-right:auto;"></div>
+        <div id="flr-note" style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:20px;"></div>
+        <div id="fl-tags" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:24px;"></div>
+        <button class="g-btn primary" onclick="flReset()">Again ↗</button>
       </div>
     </div>
   </div>
@@ -841,6 +879,87 @@ c:[
     document.getElementById('br-cycles').style.display='none';
     document.getElementById('br-btn').style.display='none';
     document.getElementById('br-done').style.display='block';
+  }
+
+
+  const FL_WORDS=[
+    {w:"Exhausted",c:"rgba(126,184,232,0.15)",tc:"#7eb8e8",bc:"rgba(126,184,232,0.3)"},
+    {w:"Anxious",c:"rgba(249,168,212,0.12)",tc:"#f9a8d4",bc:"rgba(249,168,212,0.3)"},
+    {w:"Numb",c:"rgba(138,160,184,0.1)",tc:"#8aa0b8",bc:"rgba(138,160,184,0.25)"},
+    {w:"Grateful",c:"rgba(134,239,172,0.1)",tc:"#86efac",bc:"rgba(134,239,172,0.3)"},
+    {w:"Lonely",c:"rgba(167,139,250,0.12)",tc:"#a78bfa",bc:"rgba(167,139,250,0.3)"},
+    {w:"Restless",c:"rgba(253,224,71,0.1)",tc:"#fde047",bc:"rgba(253,224,71,0.25)"},
+    {w:"Hopeful",c:"rgba(134,239,172,0.1)",tc:"#86efac",bc:"rgba(134,239,172,0.3)"},
+    {w:"Drained",c:"rgba(126,184,232,0.12)",tc:"#7eb8e8",bc:"rgba(126,184,232,0.25)"},
+    {w:"Angry",c:"rgba(249,168,212,0.15)",tc:"#f9a8d4",bc:"rgba(249,168,212,0.35)"},
+    {w:"Calm",c:"rgba(134,239,172,0.08)",tc:"#86efac",bc:"rgba(134,239,172,0.2)"},
+    {w:"Hollow",c:"rgba(138,160,184,0.08)",tc:"#6a8090",bc:"rgba(138,160,184,0.2)"},
+    {w:"Present",c:"rgba(134,239,172,0.1)",tc:"#86efac",bc:"rgba(134,239,172,0.25)"},
+    {w:"Heavy",c:"rgba(167,139,250,0.1)",tc:"#a78bfa",bc:"rgba(167,139,250,0.25)"},
+    {w:"Stuck",c:"rgba(138,160,184,0.1)",tc:"#8aa0b8",bc:"rgba(138,160,184,0.25)"},
+    {w:"Alive",c:"rgba(253,224,71,0.1)",tc:"#fde047",bc:"rgba(253,224,71,0.25)"},
+    {w:"Sad",c:"rgba(167,139,250,0.12)",tc:"#a78bfa",bc:"rgba(167,139,250,0.3)"},
+    {w:"Ashamed",c:"rgba(249,168,212,0.1)",tc:"#f9a8d4",bc:"rgba(249,168,212,0.25)"},
+    {w:"Okay",c:"rgba(134,239,172,0.08)",tc:"#86efac",bc:"rgba(134,239,172,0.2)"},
+  ];
+  const FL_POS=[
+    {left:'50%',top:'10px',ml:'-18px'},{left:'30%',top:'35px',ml:'-18px'},{left:'70%',top:'35px',ml:'-18px'},
+    {left:'18%',top:'75px',ml:'-18px'},{left:'82%',top:'75px',ml:'-18px'},{left:'35%',top:'110px',ml:'-18px'},{left:'65%',top:'110px',ml:'-18px'}
+  ];
+  let flSelected=[];
+  function openFeeling(){document.getElementById('feelingOverlay').classList.add('active');document.body.style.overflow='hidden';flReset();}
+  function closeFeeling(){document.getElementById('feelingOverlay').classList.remove('active');document.body.style.overflow='';}
+  function flReset(){
+    flSelected=[];
+    document.getElementById('fl-result').style.display='none';
+    document.getElementById('fl-words').style.display='flex';
+    document.getElementById('fl-btns').style.display='flex';
+    document.getElementById('fl-msg').style.display='block';
+    document.getElementById('fl-tree').style.display='block';
+    document.getElementById('fl-sub').style.display='block';
+    document.getElementById('fl-branches').innerHTML='';
+    document.getElementById('fl-msg').textContent='Choose the ones that are true right now.';
+    const words=document.getElementById('fl-words');
+    words.innerHTML='';
+    FL_WORDS.forEach(fw=>{
+      const w=document.createElement('div');
+      w.className='fl-word';w.textContent=fw.w;
+      w.onclick=()=>{
+        if(w.classList.contains('used'))return;
+        if(flSelected.length>=7){document.getElementById('fl-msg').textContent='7 maximum.';return;}
+        flSelected.push(fw);w.classList.add('used');
+        const pos=FL_POS[flSelected.length-1];
+        const leaf=document.createElement('div');
+        leaf.className='fl-leaf';
+        leaf.style.cssText=`left:${pos.left};top:${pos.top};margin-left:${pos.ml};background:${fw.c};border-color:${fw.bc};color:${fw.tc};animation-delay:${flSelected.length*0.3}s;`;
+        leaf.textContent=fw.w;
+        document.getElementById('fl-branches').appendChild(leaf);
+        const rem=7-flSelected.length;
+        document.getElementById('fl-msg').textContent=rem>0?rem+' more if you need them.':'Tree is full.';
+      };
+      words.appendChild(w);
+    });
+  }
+  function flSubmit(){
+    if(flSelected.length===0){document.getElementById('fl-msg').textContent='Choose at least one.';return;}
+    const heavy=['Exhausted','Anxious','Numb','Lonely','Drained','Angry','Hollow','Heavy','Stuck','Sad','Ashamed'].filter(w=>flSelected.find(s=>s.w===w));
+    const light=['Grateful','Hopeful','Calm','Present','Alive','Okay'].filter(w=>flSelected.find(s=>s.w===w));
+    let title,desc,note;
+    if(heavy.length>=5){title="A heavy day.";desc="Most of what you named is difficult. That does not require a solution right now. It requires acknowledgment. You have done that.";note="Naming what is here without judgment is the whole practice.";}
+    else if(light.length>=4){title="Something is lighter today.";desc="More of what you named sits on the easier side. That is worth noticing. Not performing. Just noticing.";note="The lighter days are not more real than the harder ones. They are just different data.";}
+    else if(heavy.length>0&&light.length>0){title="Both things at once.";desc="You are carrying difficulty and something easier at the same time. That is not contradiction. That is how most days actually are.";note="The practice is holding both without needing one to cancel the other.";}
+    else{title="A mixed picture.";desc="What you named does not fall cleanly into heavy or light. That is usually the most honest kind of day.";note="Complexity is not confusion. It is accuracy.";}
+    document.getElementById('fl-words').style.display='none';
+    document.getElementById('fl-btns').style.display='none';
+    document.getElementById('fl-msg').style.display='none';
+    document.getElementById('fl-tree').style.display='none';
+    document.getElementById('fl-sub').style.display='none';
+    document.getElementById('fl-result').style.display='block';
+    document.getElementById('flr-title').textContent=title;
+    document.getElementById('flr-desc').textContent=desc;
+    document.getElementById('flr-note').textContent=note;
+    const tags=document.getElementById('fl-tags');tags.innerHTML='';
+    flSelected.forEach(fw=>{tags.innerHTML+=`<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid ${fw.bc};color:${fw.tc};">${fw.w}</span>`;});
   }
 
   const LEVELS=[
