@@ -1,9 +1,18 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const path = url.pathname.replace(/\/+$/, '') || '/';
+    const path = url.pathname;
     
-    const redirects = {
+    // .html uzantisi varsa direkt serve et - dongu onleme
+    if (path.endsWith('.html')) {
+      return env.ASSETS.fetch(request);
+    }
+    
+    // Temiz path -> HTML dosyasi esleme
+    const cleanPath = path.replace(/\/+$/, '') || '/';
+    
+    const routes = {
+      '/': '/index.html',
       '/anxiety': '/grindorium-anxiety.html',
       '/attachment': '/grindorium-attachment.html',
       '/burnout': '/grindorium-burnout.html',
@@ -29,12 +38,13 @@ export default {
       '/focus': '/grindorium-pomodoro.html',
     };
     
-    if (redirects[path]) {
+    if (routes[cleanPath]) {
       const newUrl = new URL(request.url);
-      newUrl.pathname = redirects[path];
+      newUrl.pathname = routes[cleanPath];
       return env.ASSETS.fetch(new Request(newUrl.toString(), request));
     }
     
+    // MP3, PNG vs diger dosyalar
     return env.ASSETS.fetch(request);
   }
 }
