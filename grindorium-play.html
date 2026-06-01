@@ -1798,6 +1798,21 @@ c:[
     document.getElementById('rs-score-stat').textContent='0';
     document.getElementById('rs-score-live').textContent='0';
   }
+  function rsStart(){
+    if(rs2Running)return;
+    rs2Running=true;
+    document.getElementById('rs-btn').style.display='none';
+    document.getElementById('rs-msg').textContent='Do not touch.';
+    rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),500);
+    rs2Timer=setInterval(()=>{
+      rs2Sec--;
+      document.getElementById('rs-time').textContent=rs2Sec;
+      const fill=document.getElementById('rs-timer-fill');
+      if(fill)fill.style.width=(rs2Sec/rs2Duration*100)+'%';
+      if(rs2Sec<=0){clearInterval(rs2Timer);rs2End();}
+    },1000);
+  }
+
   function rsToggle(){
     if(rs2Running){
       rs2Running=false;clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);
