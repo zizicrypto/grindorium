@@ -1254,7 +1254,7 @@
     {max:20,title:"This is heavy.",desc:"You recognized yourself in most of these. That recognition matters. So does what you do with it."}
   ];
   function drShuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[j],b[i]]=[b[i],b[j]];}return b;}
-  let drWords,drIdx,drYes=[],drDragging=false,drStartX=0,drCurrentX=0;
+  var drWords,drIdx,drYes=[],drDragging=false,drStartX=0,drCurrentX=0;
   const drCard=document.getElementById('dr-card');
   function drInit(){
     drWords=drShuffle(DR_WORDS);drIdx=0;drYes=[];
@@ -1410,7 +1410,7 @@ c:[
   ]}}
 ]};
 
-  let lpDepth=0, lpPath=[];
+  var lpDepth=0, lpPath=[];
   function openLoop(){document.getElementById('loopOverlay').classList.add('active');document.body.style.overflow='hidden';lpInit();}
   function closeLoop(){document.getElementById('loopOverlay').classList.remove('active');document.body.style.overflow='';}
   function lpInit(){
@@ -1454,7 +1454,7 @@ c:[
 
 
   const ST_WORDS=["Exhausted","Numb","Anxious","Lonely","Guilty","Restless","Disconnected","Aching","Drained","Invisible","Overwhelmed","Hollow","Ashamed","Spiraling","Flat","Avoidant","Missing","Bracing","Stuck","Unheard"];
-  let stDragging=null,stPlacements={};
+  var stDragging=null,stPlacements={};
   function openStack(){document.getElementById('stackOverlay').classList.add('active');document.body.style.overflow='hidden';stInit();}
   function closeStack(){document.getElementById('stackOverlay').classList.remove('active');document.body.style.overflow='';}
   function stInit(){
@@ -1541,7 +1541,7 @@ c:[
     {maxSec:75,title:"Strong delayed gratification.",desc:"You held into territory where most people have already pressed. The reward had grown substantially and you continued holding. This reflects a genuinely high tolerance for unresolved potential.",science:"Neuroimaging studies of delayed gratification identify two competing systems: the mesolimbic system driving immediate reward-seeking and the prefrontal cortex sustaining longer-term valuation. High delay capacity correlates with stronger prefrontal regulation of the limbic response.",source:"McClure, S.M. et al. (2004). Separate Neural Systems Value Immediate and Delayed Monetary Rewards. Science."},
     {maxSec:WT_MAX,title:"Full distance.",desc:"You held the complete duration. Whether you were genuinely comfortable waiting or were simply determined to see the end, the capacity to sustain uncertainty without collapsing it is a measurable trait. You have it.",science:"The most recent replication of Mischel's work confirmed that delay capacity is real and trainable. It is not a fixed trait. Each time you hold longer than expected, you are strengthening the neural pathway that holds competing options without immediately resolving them.",source:"Watts, T.W., Duncan, G.J., Quan, H. (2018). Revisiting the Marshmallow Test. Psychological Science."},
   ];
-  let wtTimer=null,wtSec=0,wtRunning=false,wtCurTier=0;
+  var wtTimer=null,wtSec=0,wtRunning=false,wtCurTier=0;
   function openWait(){document.getElementById('waitOverlay').classList.add('active');document.body.style.overflow='hidden';wtInit();}
   function closeWait(){document.getElementById('waitOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(wtTimer);wtRunning=false;}
   function wtInit(){
@@ -1616,7 +1616,7 @@ c:[
     'box':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:4},{label:'Exhale',dur:4},{label:'Hold',dur:4}],cycles:4},
     'simple':{phases:[{label:'Inhale',dur:4},{label:'Exhale',dur:6}],cycles:6}
   };
-  let brMode='478',brRunning=false,brTimer=null,brPhaseIdx=0,brSec=0,brCycles=0;
+  var brMode='478',brRunning=false,brTimer=null,brPhaseIdx=0,brSec=0,brCycles=0;
   function openBreath(){document.getElementById('breathOverlay').classList.add('active');document.body.style.overflow='hidden';brReset();}
   function closeBreath(){document.getElementById('breathOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(brTimer);brRunning=false;}
   function brSetMode(m,el){
@@ -1695,7 +1695,7 @@ c:[
     {left:'50%',top:'10px',ml:'-18px'},{left:'30%',top:'35px',ml:'-18px'},{left:'70%',top:'35px',ml:'-18px'},
     {left:'18%',top:'75px',ml:'-18px'},{left:'82%',top:'75px',ml:'-18px'},{left:'35%',top:'110px',ml:'-18px'},{left:'65%',top:'110px',ml:'-18px'}
   ];
-  let flSelected=[];
+  var flSelected=[];
   function openFeeling(){document.getElementById('feelingOverlay').classList.add('active');document.body.style.overflow='hidden';flReset();}
   function closeFeeling(){document.getElementById('feelingOverlay').classList.remove('active');document.body.style.overflow='';}
   function flReset(){
@@ -2354,7 +2354,7 @@ c:[
 
 
   var VOID_KEY='grindorium_void_last';
-  let voidT=null,voidS=0;
+  var voidT=null,voidS=0;
   function voidCheck(){const l=localStorage.getItem(VOID_KEY);if(!l)return true;return Date.now()-parseInt(l)>7*24*60*60*1000;}
   function voidNext(){
     const l=localStorage.getItem(VOID_KEY);if(!l)return '';
@@ -2637,9 +2637,9 @@ c:[
   }
 
 
-  let chCtx2,chW2,chH2,chDrops2=[],chAF2,chRun2=false;
-  let chSec2=0,chTmr2=null,chMaxSec2=180,chWT2=0;
-  let chACtx=null,chRainSrc=null;
+  var chCtx2,chW2,chH2,chDrops2=[],chAF2,chRun2=false;
+  var chSec2=0,chTmr2=null,chMaxSec2=180,chWT2=0;
+  var chACtx=null,chRainSrc=null;
   const CH_PHASES2=[
     {sec:0,  bg:'#000000',mc:'rgba(255,255,255,0.15)',tc:'rgba(255,255,255,0.08)',pl:'',ro:0.3,rs:1.2,vol:0.3},
     {sec:15, bg:'#020205',mc:'rgba(255,255,255,0.25)',tc:'rgba(255,255,255,0.12)',pl:'building',ro:0.5,rs:1.8,vol:0.5},
@@ -2772,8 +2772,8 @@ c:[
     {min:0,title:"The room won.",desc:"Most of the excuses caught you. They were designed to. Each one was built from categories of rationalization that research identifies as most effective. You learned something about which categories your resistance is weakest against.",pattern:"Cognitive dissonance produces rationalization subjectively indistinguishable from genuine reasoning. The first step is recognizing the category. The second is practicing the rejection even when the excuse feels valid.",science:"Baumeister et al. (1998) identified that self-regulatory failure is most common when avoidance produces immediate relief. Each accepted excuse produced a small reduction in discomfort. That reduction is the reinforcement.",source:"Baumeister, R.F. et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
   ];
   function rrShuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-  let rrExcuses2,rrIdx2=0,rrRej2=0,rrAcc2=0,rrTmr2=null,rrTV2=8,rrHist2=[],rrTypes2={};
-  let rrBgCtx2,rrBgW2,rrBgH2,rrPart2=[],rrBgAF2;
+  var rrExcuses2,rrIdx2=0,rrRej2=0,rrAcc2=0,rrTmr2=null,rrTV2=8,rrHist2=[],rrTypes2={};
+  var rrBgCtx2,rrBgW2,rrBgH2,rrPart2=[],rrBgAF2;
   function rrInitBg2(){
     const c=document.getElementById('rroom-bg');if(!c)return;
     rrBgW2=c.offsetWidth;rrBgH2=c.offsetHeight;c.width=rrBgW2;c.height=rrBgH2;
@@ -3106,7 +3106,7 @@ function gNext(){gLevel++;gInitLevel();}
   },1800);
 })();
 
-let ambientAudio=null,ambientOn=false;
+var ambientAudio=null,ambientOn=false;
 function toggleAmbient(){
   if(ambientOn){
     if(ambientAudio){ambientAudio.pause();ambientAudio=null;}
