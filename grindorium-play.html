@@ -2036,8 +2036,8 @@ c:[
 
 
   let nrCanvas,nrCtx,nrW,nrH,nrTrees=[],nrParticles=[],nrRunning=false,nrSec=0,nrTimer=null,nrAnimFrame,nrBroken=false;
-  const NR_MAX=300;
-  const NR_PHASES=[
+  var NR_MAX=300;
+  var NR_PHASES=[
     {sec:0,label:'',msg:'',tc:'rgba(255,255,255,0.1)'},
     {sec:10,label:'settling',msg:'The mind will want to move. Let it settle.',tc:'rgba(255,255,255,0.2)'},
     {sec:30,label:'present',msg:'Something is beginning to grow.',tc:'rgba(126,184,232,0.3)'},
@@ -2419,7 +2419,7 @@ c:[
 
 
   const TM_KEY='grindorium_triggers';
-  const TM_STEPS=[
+  var TM_STEPS=[
     {id:'situation',label:'A. Antecedent',q:'What were you doing right before it happened?',hint:'The antecedent is the trigger context. Research shows 80% of avoidance behaviors are preceded by a specific situational pattern.',opts:['Working on something difficult','In a conversation or meeting','Alone with nothing to do','Scrolling or consuming content','About to start something important','After receiving feedback or criticism'],other:true},
     {id:'feeling',label:'B. Internal State',q:'What were you feeling right before?',hint:'Dr. Susan Albers (Cleveland Clinic) identifies that triggers operate below conscious awareness. Naming the physical sensation is the first step to intercepting the pattern.',opts:['Anxious or tense','Bored or understimulated','Tired or low energy','Overwhelmed or scattered','Inadequate or not enough','Restless and unable to settle'],other:true},
     {id:'behavior',label:'B. Behavior',q:'What did you actually do?',hint:'Not what you intended. What actually happened.',opts:['Avoided the task entirely','Opened social media or phone','Switched to an easier task','Ate or reached for something','Gave up or told myself tomorrow','Became irritable or withdrawn'],other:true},
@@ -2524,7 +2524,7 @@ c:[
   function tmHideHist(){document.getElementById('tm-hist-wrap').style.display='none';document.getElementById('tm-result-wrap').style.display='block';}
 
 
-  const SB_TREE={ctx:"Morning. You have one important task today.",q:"It is 9:00 AM. The task is open in front of you. What do you do?",hint:"Choose the option most likely to result in complete failure.",opts:[
+  var SB_TREE={ctx:"Morning. You have one important task today.",q:"It is 9:00 AM. The task is open in front of you. What do you do?",hint:"Choose the option most likely to result in complete failure.",opts:[
     {text:"Check email first. Just to clear my head.",tag:"classic delay",sabotage:15,next:{ctx:"An hour passes. The email led to other emails.",q:"It is now 10:15. You feel behind. What is the move?",hint:"",opts:[
       {text:"Tell myself I work better under pressure. Start at noon.",tag:"rationalization",sabotage:20,next:{ctx:"Noon arrives. You are hungry.",q:"You open the task. The first line is harder than expected. What happens?",hint:"",opts:[
         {text:"Close it. Make food first. Come back in 30 minutes.",tag:"displacement",sabotage:20,end:{mirror:"You checked email to get ready, then decided noon would be better, then needed food before starting. Each step felt reasonable. Each step was a door you closed.",title:"The Reasonable Saboteur.",desc:"You did not fail dramatically. You failed politely. Every decision had a justification that sounded almost correct. That is the most effective form of self-sabotage because it is invisible.",pattern:"Your pattern is rationalization. The brain constructs logical explanations for avoidance in real time. Each excuse arrives fully formed and convincing. The task was never the obstacle. The convincing was.",science:"Pychyl (2013) documents how procrastinators generate more sophisticated justifications than non-procrastinators. The self-deception is the mechanism, not a symptom.",source:"Pychyl, T.A. (2013). Solving the Procrastination Puzzle. Tarcher/Penguin."}},
@@ -2942,7 +2942,7 @@ c:[
     if(typeof window[game.fn]==='function') window[game.fn]();
   }
 
-  const LEVELS=[
+  var LEVELS=[
   {name:"Burnout",insight:"Burnout is not tiredness. It is the absence of the part of you that used to care.",categories:[
     {id:0,label:"Depletion",desc:"Running on empty",words:["Empty","Hollow","Drained","Numb"]},
     {id:1,label:"Avoidance",desc:"Can't face it",words:["Avoiding","Hiding","Postponing","Escaping"]},
