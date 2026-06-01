@@ -2273,7 +2273,7 @@ c:[
   const WALL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
   const WALL_KEY="sb_publishable_hlQR5Dh_A3NHxTHbDKvawA_DN23psUV";
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
-  let wallWords=[],wallYours=null,wallRefreshTimer=null;
+  var wallWords=[],wallYours=null,wallRefreshTimer=null;
 
   async function wallFetch(){
     try{
@@ -2361,7 +2361,7 @@ c:[
   }
 
 
-  const VOID_KEY='grindorium_void_last';
+  var VOID_KEY='grindorium_void_last';
   let voidT=null,voidS=0;
   function voidCheck(){const l=localStorage.getItem(VOID_KEY);if(!l)return true;return Date.now()-parseInt(l)>7*24*60*60*1000;}
   function voidNext(){
@@ -2435,7 +2435,7 @@ c:[
     'Restless and unable to settle':{title:"Emotional dysregulation avoidance.",desc:"The nervous system could not find a resting state and sought movement as regulation. Restlessness is an unprocessed internal state seeking discharge.",insight:"Restlessness often precedes impulsive behavior because of an unprocessed internal state, not external stimulation. The body seeks movement or sensation as a regulatory strategy.",science:"Linehan (1993) identifies that impulsive avoidance behaviors are often regulatory strategies for an overwhelmed nervous system, not failures of motivation.",source:"Linehan, M.M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder. Guilford Press."}
   };
   const TM_DEFAULT={title:"A pattern worth understanding.",desc:"The specific combination you mapped falls outside standard trigger categories. That means your pattern has its own signature.",insight:"The ABC model identifies not just what happened but the chain of conditions that made it happen. The most important element is the antecedent. Understanding what consistently precedes the behavior gives you the point of intervention.",science:"Functional behavioral assessment research shows that identifying antecedents is more effective for behavior change than addressing the behavior itself.",source:"Cooper, J.O. et al. (2020). Applied Behavior Analysis. Pearson."};
-  let tmAns={},tmStep=0;
+  var tmAns={},tmStep=0;
   function tmFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
   function tmLoadAll(){try{return JSON.parse(localStorage.getItem(TM_KEY)||'[]');}catch(e){return [];}}
   function tmSaveAll(e){try{localStorage.setItem(TM_KEY,JSON.stringify(e));}catch(e){}}
@@ -2553,7 +2553,7 @@ c:[
       {text:"Research how other people stay motivated. For a long time.",tag:"meta-avoidance",sabotage:30,end:{mirror:"You spent two hours waiting for motivation, then more time studying motivation. The subject of your avoidance became the content of your avoidance.",title:"The Researcher.",desc:"The avoidance wears the clothes of preparation. Reading about productivity, watching videos about focus. All of it is real. None of it is the thing.",pattern:"Meta-avoidance. Engagement with information about a task is not engagement with the task. The brain receives the reward of effort without the risk of the actual attempt.",science:"Gollwitzer (1999) shows that planning can paradoxically reduce task engagement by providing the subjective sense of progress without the work.",source:"Gollwitzer, P.M. (1999). Implementation intentions: Strong effects of simple plans. American Psychologist."}}
     ]}}
   ]};
-  let sbPath=[],sbLevel=0;
+  var sbPath=[],sbLevel=0;
   function openSaboteur(){document.getElementById('saboteurOverlay').classList.add('active');document.body.style.overflow='hidden';sbInit();}
   function closeSaboteur(){document.getElementById('saboteurOverlay').classList.remove('active');document.body.style.overflow='';}
   function sbInit(){sbPath=[];sbLevel=0;document.getElementById('sb-step').style.display='block';document.getElementById('sb-result').style.display='none';document.getElementById('sb-prog').style.width='0%';document.getElementById('sb-level').style.width='0%';document.getElementById('sb-level-val').textContent='0%';sbRender(SB_TREE,0,4);}
@@ -2963,7 +2963,7 @@ c:[
   ]}
 ];
 
-let gLevel=0,gSelected=[],gCleared=[],gTotalCleared=0;
+var gLevel=0,gSelected=[],gCleared=[],gTotalCleared=0;
 
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
