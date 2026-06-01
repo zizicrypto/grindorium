@@ -1862,19 +1862,17 @@ c:[
   function rsInit(){
     clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
     rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
-    document.getElementById('rs-arena').querySelectorAll('.rs2-trap').forEach(e=>e.remove());
-    document.getElementById('rs-result').style.display='none';
-    document.getElementById('rs-stats').style.display='flex';
-    document.getElementById('rs-timer-fill').style.width='100%';
-    document.getElementById('rs-msg').style.display='block';
-    document.getElementById('rs-btn').style.display='block';
-    document.getElementById('rs-btn').textContent='Begin';
-    document.getElementById('rs-msg').textContent='Watch. Do not touch.';
+    const _ra=document.getElementById('rs-arena');if(_ra)_ra.querySelectorAll('.rs2-trap').forEach(e=>e.remove());
+    const _rr=document.getElementById('rs-result');if(_rr)_rr.style.display='none';
+    const _rst=document.getElementById('rs-stats');if(_rst)_rst.style.display='flex';
+    const _rtf=document.getElementById('rs-timer-fill');if(_rtf)_rtf.style.width='100%';
+    const _rmsg=document.getElementById('rs-msg');if(_rmsg){_rmsg.style.display='block';_rmsg.textContent='Watch. Do not touch.';}
+    const _rbtn=document.getElementById('rs-btn');if(_rbtn){_rbtn.style.display='block';_rbtn.textContent='Begin';}
     const rsn=document.getElementById('rs-noise');if(rsn)rsn.style.opacity='0';
     const _rpl=document.getElementById('rs-phase-label');if(_rpl)_rpl.textContent='waiting';
-    document.getElementById('rs-resisted').textContent='0';
-    document.getElementById('rs-clicked').textContent='0';
-    document.getElementById('rs-time').textContent=rs2Duration;
+    const _rres=document.getElementById('rs-resisted');if(_rres)_rres.textContent='0';
+    const _rcl=document.getElementById('rs-clicked');if(_rcl)_rcl.textContent='0';
+    const _rt=document.getElementById('rs-time');if(_rt)_rt.textContent=rs2Duration;
     const _rss=document.getElementById('rs-score-stat');if(_rss)_rss.textContent='0';
     const _rsl=document.getElementById('rs-score-live');if(_rsl)_rsl.textContent='0';
   }
