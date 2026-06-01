@@ -1781,8 +1781,9 @@ c:[
   function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
 
   // RESISTANCE GAME ENGINE
-  let rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null;
-  let rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
+  // rs2 state - declared above
+  rs2Duration=60;rs2Sec=60;rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;
+  rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
   const RS2_PHASES=[
     {label:'phase 1',interval:3000,traps:['SCROLL','CHECK IT','JUST ONCE']},
     {label:'phase 2',interval:2000,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME']},
