@@ -1779,6 +1779,92 @@ c:[
   function openResistance(){document.getElementById('resistanceOverlay').classList.add('active');document.body.style.overflow='hidden';rsInit();}
   function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Running=false;}
   function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
+
+  // RESISTANCE GAME ENGINE
+  let rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null;
+  let rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
+  const RS2_PHASES=[
+    {label:'phase 1',interval:3000,traps:['SCROLL','CHECK IT','JUST ONCE']},
+    {label:'phase 2',interval:2000,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME']},
+    {label:'phase 3',interval:1500,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME','CLICK HERE','ONE TAP']},
+    {label:'phase 4 — maximum',interval:1000,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME','CLICK HERE','ONE TAP','OPEN IT','JUST LOOK']}
+  ];
+  function rs2SpawnTrap(){
+    if(!rs2Running)return;
+    const arena=document.getElementById('rs-arena');
+    if(!arena)return;
+    const phase=RS2_PHASES[rs2PhaseIdx]||RS2_PHASES[0];
+    const label=phase.traps[Math.floor(Math.random()*phase.traps.length)];
+    const trap=document.createElement('div');
+    trap.className='rs2-trap';
+    trap.textContent=label;
+    const x=Math.random()*260+20;
+    const y=Math.random()*160+20;
+    trap.style.cssText=`position:absolute;left:${x}px;top:${y}px;padding:8px 14px;border:1px solid rgba(249,168,212,0.3);background:rgba(249,168,212,0.05);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#f9a8d4;cursor:pointer;z-index:10;transition:opacity 0.3s;`;
+    trap.onclick=()=>{
+      rs2Clicked++;
+      document.getElementById('rs-clicked').textContent=rs2Clicked;
+      const noise=document.getElementById('rs-noise');
+      if(noise){noise.style.opacity='0.3';setTimeout(()=>{if(noise)noise.style.opacity='0';},300);}
+      trap.remove();
+    };
+    arena.appendChild(trap);
+    setTimeout(()=>{
+      if(trap.parentNode){
+        rs2Resisted++;
+        document.getElementById('rs-resisted').textContent=rs2Resisted;
+        rs2Score+=10;
+        const sl=document.getElementById('rs-score-live');
+        if(sl)sl.textContent=rs2Score;
+        trap.style.opacity='0';
+        setTimeout(()=>trap.remove(),300);
+      }
+    },2500);
+    const nextInterval=phase.interval+(Math.random()*1000-500);
+    rs2SpawnTimer=setTimeout(rs2SpawnTrap,nextInterval);
+  }
+  function rs2PhaseCheck(){
+    const elapsed=rs2Duration-rs2Sec;
+    let newIdx=0;
+    if(elapsed>45)newIdx=3;
+    else if(elapsed>30)newIdx=2;
+    else if(elapsed>15)newIdx=1;
+    if(newIdx!==rs2PhaseIdx){
+      rs2PhaseIdx=newIdx;
+      const pl=document.getElementById('rs-phase-label');
+      if(pl)pl.textContent=RS2_PHASES[rs2PhaseIdx].label;
+    }
+    rs2PhaseTimer=setTimeout(rs2PhaseCheck,2000);
+  }
+  function rs2End(){
+    rs2Running=false;
+    clearTimeout(rs2SpawnTimer);
+    clearTimeout(rs2PhaseTimer);
+    const arena=document.getElementById('rs-arena');
+    if(arena)arena.querySelectorAll('.rs2-trap').forEach(e=>e.remove());
+    const accuracy=rs2Clicked+rs2Resisted>0?Math.round(rs2Resisted/(rs2Clicked+rs2Resisted)*100):100;
+    rs2Score=rs2Resisted*10-rs2Clicked*5;
+    const ss=document.getElementById('rs-score-stat');
+    if(ss)ss.textContent=Math.max(0,rs2Score);
+    // Sonuc goster
+    const result=document.getElementById('rs-result');
+    const stats=document.getElementById('rs-stats');
+    if(result){result.style.display='block';}
+    if(stats){stats.style.display='none';}
+    const msg=document.getElementById('rs-msg');
+    if(msg){
+      let verdict='';
+      if(rs2Clicked===0)verdict='Perfect resistance. Every urge passed.';
+      else if(accuracy>=80)verdict='Strong resistance. A few slipped through.';
+      else if(accuracy>=50)verdict='The urges had power today.';
+      else verdict='The screen won this round.';
+      msg.textContent=verdict;
+      msg.style.display='block';
+    }
+    const btn=document.getElementById('rs-btn');
+    if(btn){btn.textContent='Play again';btn.style.display='block';btn.onclick=()=>{rsInit();rsStart();};}
+  }
+
   function rsInit(){
     clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
     rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
@@ -1790,7 +1876,7 @@ c:[
     document.getElementById('rs-btn').style.display='block';
     document.getElementById('rs-btn').textContent='Begin';
     document.getElementById('rs-msg').textContent='Watch. Do not touch.';
-    document.getElementById('rs-noise').style.opacity='0';
+    const rsn=document.getElementById('rs-noise');if(rsn)rsn.style.opacity='0';
     document.getElementById('rs-phase-label').textContent='waiting';
     document.getElementById('rs-resisted').textContent='0';
     document.getElementById('rs-clicked').textContent='0';
@@ -1803,7 +1889,8 @@ c:[
     rs2Running=true;
     document.getElementById('rs-btn').style.display='none';
     document.getElementById('rs-msg').textContent='Do not touch.';
-    rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),500);
+    rs2PhaseCheck();
+    rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),1000);
     rs2Timer=setInterval(()=>{
       rs2Sec--;
       document.getElementById('rs-time').textContent=rs2Sec;
@@ -1878,7 +1965,7 @@ c:[
     document.getElementById('rs-stats').style.display='none';
     document.getElementById('rs-msg').style.display='none';
     document.getElementById('rs-btn').style.display='none';
-    document.getElementById('rs-noise').style.opacity='0';
+    const rsn=document.getElementById('rs-noise');if(rsn)rsn.style.opacity='0';
     const rate=rs2Resisted>0?Math.round(((rs2Resisted-rs2Clicked)/rs2Resisted)*100):100;
     const r=RS2_RESULTS.find(x=>rate>=x.minRate)||RS2_RESULTS[RS2_RESULTS.length-1];
     document.getElementById('rs-result').style.display='block';
