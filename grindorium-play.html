@@ -2490,7 +2490,8 @@ c:[
   }
 
 
-  sbLevel=0;
+  function sbReset(){
+    sbLevel=0;sbPath=[];
     document.getElementById('sb-step').style.display='block';
     document.getElementById('sb-result').style.display='none';
     document.getElementById('sb-prog').style.width='0%';
