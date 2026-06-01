@@ -2035,7 +2035,7 @@ c:[
   function closeJournal(){document.getElementById('journalOverlay').classList.remove('active');document.body.style.overflow='';}
 
 
-  let nrCanvas,nrCtx,nrW,nrH,nrTrees=[],nrParticles=[],nrRunning=false,nrSec=0,nrTimer=null,nrAnimFrame,nrBroken=false;
+  var nrCanvas,nrCtx,nrW,nrH,nrTrees=[],nrParticles=[],nrRunning=false,nrSec=0,nrTimer=null,nrAnimFrame,nrBroken=false;
   var NR_MAX=300;
   var NR_PHASES=[
     {sec:0,label:'',msg:'',tc:'rgba(255,255,255,0.1)'},
