@@ -1879,8 +1879,11 @@ c:[
   }
   function rsStart(){
     if(rs2Running)return;
-    // Her seferinde sıfırla
-    rs2Sec=rs2Duration;rs2Running=true;
+    // Eski timer'lari temizle
+    clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
+    rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;
+    // Sıfırla
+    rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2PhaseIdx=0;rs2Running=true;
     const _rsb=document.getElementById('rs-btn');if(_rsb)_rsb.style.display='none';
     const _rsm=document.getElementById('rs-msg');if(_rsm){_rsm.textContent='Do not touch.';_rsm.style.display='block';}
     const _rr=document.getElementById('rs-result');if(_rr)_rr.style.display='none';
