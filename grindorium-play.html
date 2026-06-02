@@ -1861,19 +1861,16 @@ c:[
     if(stats)stats.style.display='none';
     const _rsb2=document.getElementById('rs-btn');if(_rsb2)_rsb2.style.display='none';
     if(msg)msg.style.display='none';
-    // rsr elements doldur
+    // rsr elements doldur - innerHTML ile
     let verdict='';
     if(rs2Clicked===0)verdict='Perfect resistance. Every urge passed.';
     else if(accuracy>=80)verdict='Strong resistance. A few slipped through.';
     else if(accuracy>=50)verdict='The urges had power today.';
     else verdict='The screen won this round.';
-    const rsr_title=document.getElementById('rsr-title');
-    if(rsr_title)rsr_title.textContent=verdict;
-    const rsr_score=document.getElementById('rsr-score');
-    if(rsr_score)rsr_score.textContent=Math.max(0,rs2Score);
-    const rsr_note=document.getElementById('rsr-note');
-    if(rsr_note)rsr_note.textContent='Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Accuracy: '+accuracy+'%';
-    if(result)result.style.display='block';
+    if(result){
+      result.style.display='block';
+      result.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:12px;">'+verdict+'</div><div style="font-size:11px;letter-spacing:0.1em;color:#4a5568;margin-bottom:8px;">Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Score: '+Math.max(0,rs2Score)+'</div>';
+    }
     const _rtry=document.getElementById('rs-try-btn');if(_rtry)_rtry.style.display='block';
     const _rshare=document.getElementById('rs-share-btn');if(_rshare)_rshare.style.display='block';
   }
