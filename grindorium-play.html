@@ -1879,9 +1879,14 @@ c:[
   }
   function rsStart(){
     if(rs2Running)return;
-    rs2Running=true;
+    // Her seferinde sıfırla
+    rs2Sec=rs2Duration;rs2Running=true;
     const _rsb=document.getElementById('rs-btn');if(_rsb)_rsb.style.display='none';
-    const _rsm=document.getElementById('rs-msg');if(_rsm)_rsm.textContent='Do not touch.';
+    const _rsm=document.getElementById('rs-msg');if(_rsm){_rsm.textContent='Do not touch.';_rsm.style.display='block';}
+    const _rr=document.getElementById('rs-result');if(_rr)_rr.style.display='none';
+    const _rst=document.getElementById('rs-stats');if(_rst)_rst.style.display='flex';
+    const _rt2=document.getElementById('rs-time');if(_rt2)_rt2.textContent=rs2Duration;
+    const _rtf=document.getElementById('rs-timer-fill');if(_rtf)_rtf.style.width='100%';
     rs2PhaseCheck();
     rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),1000);
     rs2Timer=setInterval(()=>{
