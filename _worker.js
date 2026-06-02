@@ -8,6 +8,15 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
+    // /writings/* - makale slug'lari writings/index.html ile serve edilir
+    if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
+      const newUrl = new URL('/writings/index.html', url.origin);
+      return env.ASSETS.fetch(new Request(newUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+      }));
+    }
+
     // Temiz URL -> HTML esleme
     const routes = {
       '/': '/index.html',
