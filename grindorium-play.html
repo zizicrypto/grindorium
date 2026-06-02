@@ -1896,11 +1896,12 @@ c:[
     rs2PhaseCheck();
     rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),1000);
     rs2Timer=setInterval(()=>{
+      if(!rs2Running)return;
       rs2Sec--;
-      document.getElementById('rs-time').textContent=rs2Sec;
+      const _rt3=document.getElementById('rs-time');if(_rt3)_rt3.textContent=rs2Sec;
       const fill=document.getElementById('rs-timer-fill');
       if(fill)fill.style.width=(rs2Sec/rs2Duration*100)+'%';
-      if(rs2Sec<=0){clearInterval(rs2Timer);rs2End();}
+      if(rs2Sec<=0){clearInterval(rs2Timer);rs2Timer=null;rs2End();}
     },1000);
   }
 
