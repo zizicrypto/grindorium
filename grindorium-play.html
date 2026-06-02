@@ -2263,7 +2263,7 @@ c:[
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
   var wallWords=[],wallYours=null,wallRefreshTimer=null;
 
-  async function wallFetch(){
+  function wallFetch(){
     fetch(WALL_URL+"/rest/v1/words?select=word&created_at=gte."+new Date(Date.now()-86400000).toISOString(),{
       headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
     }).then(function(res){return res.json();}).then(function(data){
@@ -2278,24 +2278,20 @@ c:[
       if(wc)wc.innerHTML='<p style="color:#4a5568;font-size:12px;">Could not connect. Try refreshing.</p>';
     });
   }
-  async function wallSubmit(){
-    const val=document.getElementById("wall-input").value.trim().toLowerCase();
-    if(!val||val.length<2)return;
-    if(!/^[a-zA-Z]+$/.test(val)){wallSetMsg("One word. Letters only.");return;}
-    wallYours=val;
-    document.getElementById("wall-input").value="";
-    try{
-      await fetch(WALL_URL+"/rest/v1/words",{
-        method:"POST",
-        headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
-        body:JSON.stringify({word:val})
-      });
-      wallSetMsg('"'+val+'" is now on the wall.');
-      setTimeout(()=>wallSetMsg(""),4000);
-      await wallFetch();
-    }catch(e){wallSetMsg("Something went wrong. Try again.");}
+  function wallSubmit(){
+    var val=document.getElementById("wall-input");
+    if(!val)return;
+    var word=val.value.trim().toUpperCase();
+    if(!word||word.includes(" ")||word.length>20)return;
+    fetch(WALL_URL+"/rest/v1/words",{
+      method:"POST",
+      headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
+      body:JSON.stringify({word:word})
+    }).then(function(res){
+      if(res.ok){val.value="";wallFetch();}
+      else{console.warn("Wall submit failed:",res.status);}
+    }).catch(function(e){console.warn("Wall submit error:",e);});
   }
-
   function wallSetMsg(txt){
     const m=document.getElementById("wall-msg");
     if(!m)return;
