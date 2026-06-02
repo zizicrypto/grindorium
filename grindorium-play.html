@@ -1889,7 +1889,7 @@ c:[
     else if(accuracy>=50)verdict='The urges had power today.';
     else verdict='The screen won this round.';
     if(result){
-      result.style.display='block';
+      result.style.cssText='display:block;text-align:center;padding:16px;width:320px;min-height:80px;z-index:20;position:relative;';
       result.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:12px;">'+verdict+'</div><div style="font-size:11px;letter-spacing:0.1em;color:#4a5568;margin-bottom:8px;">Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Score: '+Math.max(0,rs2Score)+'</div>';
     }
     const _rtry=document.getElementById('rs-try-btn');if(_rtry)_rtry.style.display='block';
