@@ -1840,7 +1840,7 @@ c:[
     rs2PhaseTimer=setTimeout(rs2PhaseCheck,2000);
   }
   function rs2End(){
-    if(!rs2Running&&rs2Sec>0)return; // Guard: sadece gerçek bitiş
+    if(!rs2Running)return; // Guard: sadece aktif oyun bitişinde çalış
     rs2Running=false;
     clearInterval(rs2Timer);
     clearTimeout(rs2SpawnTimer);
