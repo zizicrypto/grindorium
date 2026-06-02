@@ -1778,7 +1778,16 @@ c:[
     {minRate:0,title:"Low resistance this session.",desc:"Most of the urges caught you. That is data, not a verdict. Impulse control research shows baseline resistance varies significantly by context, fatigue, and prior cognitive load.",science:"Ego depletion research by Baumeister et al. (1998) demonstrated that self-control draws on a limited resource that depletes with use. If you were already cognitively taxed before this session, lower resistance is the expected outcome, not a character finding.",source:"Baumeister et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
   ];
   var rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
-  function openResistance(){document.getElementById('resistanceOverlay').classList.add('active');document.body.style.overflow='hidden';rsInit();}
+  function openResistance(){
+    document.getElementById('resistanceOverlay').classList.add('active');
+    document.body.style.overflow='hidden';
+    rsInit();
+    // rs-result'u açılışta mutlaka gizle
+    const _rr_open=document.getElementById('rs-result');
+    if(_rr_open)_rr_open.style.display='none';
+    const _rb_open=document.getElementById('rs-btn');
+    if(_rb_open){_rb_open.style.display='block';_rb_open.textContent='Begin';_rb_open.onclick=rsStart;}
+  }
   function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;rs2Running=false;}
   function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
 
