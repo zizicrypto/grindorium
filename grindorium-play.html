@@ -1879,8 +1879,8 @@ c:[
   function rsStart(){
     if(rs2Running)return;
     rs2Running=true;
-    document.getElementById('rs-btn').style.display='none';
-    document.getElementById('rs-msg').textContent='Do not touch.';
+    const _rsb=document.getElementById('rs-btn');if(_rsb)_rsb.style.display='none';
+    const _rsm=document.getElementById('rs-msg');if(_rsm)_rsm.textContent='Do not touch.';
     rs2PhaseCheck();
     rs2SpawnTimer=setTimeout(()=>rs2SpawnTrap(),1000);
     rs2Timer=setInterval(()=>{
