@@ -1766,12 +1766,11 @@ c:[
     {label:"just a peek",c:"rgba(134,239,172,0.82)",b:"rgba(134,239,172,0.45)",s:56,w:3},
   ];
   var RS2_PHASES=[
-    {name:"low intensity",spawnMin:2000,spawnMax:3500,sizeMulti:1},
-    {name:"building",spawnMin:1200,spawnMax:2500,sizeMulti:1.1},
-    {name:"peak",spawnMin:700,spawnMax:1600,sizeMulti:1.2},
-    {name:"fading",spawnMin:1500,spawnMax:3000,sizeMulti:0.9},
-  ];
-  const RS2_PHASE_DUR=[15,20,15,10];
+    {label:'phase 1',interval:3000,traps:['SCROLL','CHECK IT','JUST ONCE']},
+    {label:'phase 2',interval:2000,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME']},
+    {label:'phase 3',interval:1500,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME','CLICK HERE','ONE TAP']},
+    {label:'phase 4',interval:1000,traps:['SCROLL','CHECK IT','JUST ONCE','DO NOT TOUCH','TAP ME','CLICK HERE','ONE TAP','OPEN IT','JUST LOOK']}
+  ];  const RS2_PHASE_DUR=[15,20,15,10];
   const RS2_RESULTS=[
     {minRate:95,title:"High inhibitory control.",desc:"You resisted almost everything. Research on prefrontal cortex function identifies this as strong top-down inhibitory control. The gap between impulse and action is wide in you. That gap is the defining feature of self-regulation.",science:"Urge surfing research by Bowen and Marlatt (2009) shows that individuals who observe urges without acting on them progressively weaken the automatic link between trigger and behavior. You demonstrated this capacity consistently across the full duration.",source:"Bowen, S., Marlatt, A. (2009). Surfing the urge. Psychology of Addictive Behaviors."},
     {minRate:80,title:"Above-average impulse regulation.",desc:"You caught most of them. A few slipped through, particularly when intensity increased. Inhibitory control is not binary. It degrades under load.",science:"Research in attentional impulsivity shows that inhibitory capacity decreases as cognitive load increases. The urges you missed were likely the ones that appeared when your attention was already partially engaged. This is normal and trainable.",source:"Moeller et al. (2001). Psychiatric Aspects of Impulsivity. American Journal of Psychiatry."},
