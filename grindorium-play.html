@@ -1840,7 +1840,7 @@ c:[
     rs2PhaseTimer=setTimeout(rs2PhaseCheck,2000);
   }
   function rs2End(){
-    if(!rs2Running)return; // Guard: sadece aktif oyun bitişinde çalış
+    if(!rs2Running||rs2Sec>0)return; // Guard: sadece aktif oyun ve sec=0
     rs2Running=false;
     clearInterval(rs2Timer);
     clearTimeout(rs2SpawnTimer);
@@ -1911,7 +1911,7 @@ c:[
       const _rt3=document.getElementById('rs-time');if(_rt3)_rt3.textContent=rs2Sec;
       const fill=document.getElementById('rs-timer-fill');
       if(fill)fill.style.width=(rs2Sec/rs2Duration*100)+'%';
-      if(rs2Sec<=0){clearInterval(rs2Timer);rs2Timer=null;rs2End();}
+      if(rs2Sec<=0){rs2Sec=0;clearInterval(rs2Timer);rs2Timer=null;rs2End();}
     },1000);
   }
 
