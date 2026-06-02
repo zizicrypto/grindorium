@@ -2263,7 +2263,7 @@ c:[
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
   var wallWords=[],wallYours=null,wallRefreshTimer=null;
 
-  async function wallFetch(){
+  async async function wallFetch(){
     try{
       const res=await fetch(WALL_URL+"/rest/v1/words?select=word&created_at=gte."+new Date(Date.now()-86400000).toISOString(),{
         headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
