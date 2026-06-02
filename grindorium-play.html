@@ -1765,7 +1765,7 @@ c:[
     {label:"notifications",c:"rgba(249,168,212,0.85)",b:"rgba(249,168,212,0.5)",s:62,w:4},
     {label:"just a peek",c:"rgba(134,239,172,0.82)",b:"rgba(134,239,172,0.45)",s:56,w:3},
   ];
-  const RS2_PHASES=[
+  var RS2_PHASES=[
     {name:"low intensity",spawnMin:2000,spawnMax:3500,sizeMulti:1},
     {name:"building",spawnMin:1200,spawnMax:2500,sizeMulti:1.1},
     {name:"peak",spawnMin:700,spawnMax:1600,sizeMulti:1.2},
@@ -1780,7 +1780,7 @@ c:[
   ];
   var rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
   function openResistance(){document.getElementById('resistanceOverlay').classList.add('active');document.body.style.overflow='hidden';rsInit();}
-  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Running=false;}
+  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;rs2Running=false;}
   function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
 
   // RESISTANCE GAME ENGINE
@@ -1833,6 +1833,7 @@ c:[
   }
   function rs2End(){
     rs2Running=false;
+    clearInterval(rs2Timer);
     clearTimeout(rs2SpawnTimer);
     clearTimeout(rs2PhaseTimer);
     const arena=document.getElementById('rs-arena');
@@ -1861,7 +1862,7 @@ c:[
   }
 
   function rsInit(){
-    clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
+    clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;
     rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
     const _ra=document.getElementById('rs-arena');if(_ra)_ra.querySelectorAll('.rs2-trap').forEach(e=>e.remove());
     const _rr=document.getElementById('rs-result');if(_rr)_rr.style.display='none';
@@ -1953,7 +1954,7 @@ c:[
   }
   function rsSetMsg2(txt){const m=document.getElementById('rs-msg');m.style.opacity='0';setTimeout(()=>{m.textContent=txt;m.style.opacity='1';},200);}
   function rsEnd(){
-    rs2Running=false;clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);
+    rs2Running=false;clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;
     document.getElementById('rs-arena').querySelectorAll('.rs2-trap').forEach(e=>{e.style.opacity='0';setTimeout(()=>e.remove(),300);});
     document.getElementById('rs-stats').style.display='none';
     document.getElementById('rs-msg').style.display='none';
