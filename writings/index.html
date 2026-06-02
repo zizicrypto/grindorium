@@ -800,6 +800,52 @@
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 
 <script>
+const POST_META={
+    'post-burnout-silence':{slug:'burnout-silence',title:"The silence you avoid knows everything about you. — Grindorium"},
+    'post-discipline-feeling':{slug:'discipline-feeling',title:"Discipline is not about feeling like it. — Grindorium"},
+    'post-numbness':{slug:'numbness',title:"When feeling nothing starts to feel normal. — Grindorium"},
+    'post-your-brain-wasn-t-built-for-this-world':{slug:'your-brain-wasn-t-built-for-this-world',title:"Your brain wasn\'t built for this world. — Grindorium"},
+    'post-you-re-not-lazy-you-re-overstimulated':{slug:'you-re-not-lazy-you-re-overstimulated',title:"You\'re Not Lazy. You\'re Overstimulated. — Grindorium"},
+    'post-the-version-of-you-nobody-sees':{slug:'the-version-of-you-nobody-sees',title:"The version of you nobody sees is running the show. — Grindorium"},
+    'post-grief-has-no-timeline':{slug:'grief-has-no-timeline',title:"Grief does not follow a schedule and you were never behind in it. — Grindorium"},
+    'post-the-body-keeps-score':{slug:'the-body-keeps-score',title:"Your body has been trying to tell you something for a long time. — Grindorium"},
+    'post-you-dont-need-more-motivation':{slug:'you-dont-need-more-motivation',title:"You do not need more motivation. You need a smaller ask. — Grindorium"},
+    'post-stopping-is-not-quitting':{slug:'stopping-is-not-quitting',title:"Stopping is not always quitting. Sometimes it is the most honest thing you can do. — Grindorium"},
+    'post-the-inner-critic-is-not-your-conscience':{slug:'the-inner-critic-is-not-your-conscience',title:"The voice that tells you that you are not enough is not your conscience. — Grindorium"},
+    'post-you-are-not-behind':{slug:'you-are-not-behind',title:"You are not behind. You are on a different timeline. — Grindorium"},
+    'post-rest-is-not-reward':{slug:'rest-is-not-reward',title:"Rest is not a reward. It is a requirement. — Grindorium"},
+    'post-attachment-pattern':{slug:'attachment-pattern',title:"You keep choosing the same person in different bodies. — Grindorium"},
+    'post-productivity-avoidance':{slug:'productivity-avoidance',title:"Productivity is sometimes just structured avoidance. — Grindorium"},
+    'post-anger-information':{slug:'anger-information',title:"Anger is information. You were taught to treat it as a problem. — Grindorium"},
+    'post-people-pleasing-cost':{slug:'people-pleasing-cost',title:"The cost of being liked by everyone. — Grindorium"},
+    'post-identity-after-loss':{slug:'identity-after-loss',title:"Who are you when the role disappears? — Grindorium"},
+    'post-self-worth-output':{slug:'self-worth-output',title:"Your worth is not your output. — Grindorium"},
+    'post-loneliness-crowd':{slug:'loneliness-crowd',title:"You can be the most connected person in the room and still feel completely alone. — Grindorium"},
+    'post-perfectionism-protection':{slug:'perfectionism-protection',title:"Perfectionism is not about quality. It is about protection. — Grindorium"},
+  };
+
+  // Sayfa yuklenince URL'den slug oku ve ilgili postu ac
+  (function(){
+    const path = window.location.pathname;
+    const match = path.match(/^\/writings\/(.+)$/);
+    if(match){
+      const slug = match[1];
+      const id = 'post-' + slug;
+      const el = document.getElementById(id);
+      if(el) openPost(id, false);
+    }
+  })();
+
+  // Geri/ileri buton destegi
+  window.addEventListener('popstate', function(e){
+    if(e.state && e.state.postId){
+      openPost(e.state.postId, false);
+    } else {
+      closePost();
+      history.replaceState({}, '', '/writings');
+    }
+  });
+
   function filterPosts(type){
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     event.target.classList.add('active');
@@ -808,13 +854,22 @@
     });
   }
 
-  function openPost(id){
+  function openPost(id,pushState){
     document.getElementById('journalGrid').classList.add('hidden');
     document.getElementById('filterBar').classList.add('hidden');
     document.getElementById('listHeader').classList.add('hidden');
     document.querySelectorAll('.post-page').forEach(p=>p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
+    if(pushState!==false){
+      const slug=id.replace(/^post-/,'');
+      history.pushState({postId:id},document.title,'/writings/'+slug);
+    }
+    if(POST_META[id]){
+      document.title=POST_META[id].title;
+      let cm=document.querySelector('link[rel="canonical"]');
+      if(cm)cm.href='https://grindorium.org/writings/'+(id.replace(/^post-/,''));
+    }
   }
 
   function closePost(){
@@ -823,6 +878,10 @@
     document.getElementById('filterBar').classList.remove('hidden');
     document.getElementById('listHeader').classList.remove('hidden');
     window.scrollTo({top:0,behavior:'smooth'});
+    history.pushState({},'','/writings');
+    document.title='Writings — Grindorium';
+    let cm=document.querySelector('link[rel="canonical"]');
+    if(cm)cm.href='https://grindorium.org/writings';
   }
 
   /* AMBIENT SOUND - birebir index.html ile aynı */
