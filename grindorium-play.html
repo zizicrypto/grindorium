@@ -851,8 +851,8 @@
      
         <div id="rsr-desc" style="font-size:15px;color:#8aa0b8;line-height:1.9;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:8px;"></div>
         <div id="rsr-note" style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;display:block;margin-bottom:24px;"></div>
-        <button class="g-btn primary" onclick="rsInit()">Try again</button>
-        <button class="g-btn gs-share-btn" data-active="0" onclick="grindShare('The Resistance', document.getElementById('rsr-title').textContent, document.getElementById('rsr-score').textContent+' pts')" style="margin-top:8px;">Share result</button>
+        <button class="g-btn primary" id="rs-try-btn" style="display:none;" onclick="rsInit()">Try again</button>
+        <button class="g-btn gs-share-btn" id="rs-share-btn" style="display:none;" data-active="0" onclick="grindShare('The Resistance', document.getElementById('rsr-title').textContent, document.getElementById('rsr-score').textContent+' pts')" style="margin-top:8px;">Share result</button>
       </div>
       </div>
     </div>
@@ -1786,6 +1786,8 @@ c:[
     // rs-result'u açılışta mutlaka gizle
     const _rr_open=document.getElementById('rs-result');
     if(_rr_open)_rr_open.style.display='none';
+    const _rt_open=document.getElementById('rs-try-btn');if(_rt_open)_rt_open.style.display='none';
+    const _rs_open=document.getElementById('rs-share-btn');if(_rs_open)_rs_open.style.display='none';
     const _rb_open=document.getElementById('rs-btn');
     if(_rb_open){_rb_open.style.display='block';_rb_open.textContent='Begin';_rb_open.onclick=rsStart;}
   }
@@ -1872,6 +1874,8 @@ c:[
     const rsr_note=document.getElementById('rsr-note');
     if(rsr_note)rsr_note.textContent='Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Accuracy: '+accuracy+'%';
     if(result)result.style.display='block';
+    const _rtry=document.getElementById('rs-try-btn');if(_rtry)_rtry.style.display='block';
+    const _rshare=document.getElementById('rs-share-btn');if(_rshare)_rshare.style.display='block';
   }
 
   function rsInit(){
