@@ -829,7 +829,7 @@
       <span class="go-title">The Resistance</span>
       <button class="go-close" onclick="closeResistance()">← Back to games</button>
     </div>
-    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:32px 20px;position:relative;overflow:hidden;">
+    <div class="go-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;padding:32px 20px;position:relative;">
       <!-- Arena: trap buttons appear here -->
       <div id="rs-arena" style="position:relative;width:340px;height:240px;border:1px solid rgba(126,184,232,0.06);background:rgba(126,184,232,0.02);margin-bottom:16px;overflow:hidden;">
         <div id="rs-noise" style="position:absolute;inset:0;opacity:0;background:rgba(126,184,212,0.04);pointer-events:none;z-index:1;transition:opacity 0.5s;"></div>
@@ -856,7 +856,7 @@
 
       <!-- Phase / score row -->
       <div id="rs-phase-label" style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;text-align:center;margin-bottom:4px;min-height:12px;"></div>
-      <div style="display:flex;gap:16px;margin-bottom:10px;">
+      <div id="rs-score-row" style="display:flex;gap:16px;margin-bottom:10px;">
         <div style="text-align:center;">
           <div id="rs-score-stat" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#7eb8e8;">0</div>
           <div style="font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#2d3f52;">score</div>
@@ -1883,6 +1883,9 @@ c:[
     if(stats)stats.style.display='none';
     const _rsb2=document.getElementById('rs-btn');if(_rsb2)_rsb2.style.display='none';
     if(msg)msg.style.display='none';
+    const _rarena=document.getElementById('rs-arena');if(_rarena)_rarena.style.display='none';
+    const _rscrow=document.getElementById('rs-score-row');if(_rscrow)_rscrow.style.display='none';
+    const _rplabel=document.getElementById('rs-phase-label');if(_rplabel)_rplabel.style.display='none';
     // rsr elements doldur - innerHTML ile
     let verdict='';
     if(rs2Clicked===0)verdict='Perfect resistance. Every urge passed.';
@@ -1900,7 +1903,9 @@ c:[
   function rsInit(){
     clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;
     rs2Sec=rs2Duration;rs2Clicked=0;rs2Resisted=0;rs2Score=0;rs2Running=false;rs2PhaseIdx=0;
-    const _ra=document.getElementById('rs-arena');if(_ra)_ra.querySelectorAll('.rs2-trap').forEach(e=>e.remove());
+    const _ra=document.getElementById('rs-arena');if(_ra){_ra.querySelectorAll('.rs2-trap').forEach(e=>e.remove());_ra.style.display='';}
+    const _rscrow2=document.getElementById('rs-score-row');if(_rscrow2)_rscrow2.style.display='flex';
+    const _rplabel2=document.getElementById('rs-phase-label');if(_rplabel2)_rplabel2.style.display='';
     const _rr=document.getElementById('rs-result');if(_rr)_rr.style.display='none';
     const _rst=document.getElementById('rs-stats');if(_rst)_rst.style.display='flex';
     const _rtf=document.getElementById('rs-timer-fill');if(_rtf)_rtf.style.width='100%';
