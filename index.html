@@ -487,7 +487,7 @@
   }
   const savedHabitVal=localStorage.getItem(HABIT_KEY);
   if(savedHabitVal){const el=document.getElementById('habitInput');if(el)el.value=savedHabitVal;}
-  const initStreak=streakLoad();streakUpdateUI(initStreak.count,initStreak.last===streakGetToday());
+  if(window.requestIdleCallback){requestIdleCallback(()=>{const initStreak=streakLoad();streakUpdateUI(initStreak.count,initStreak.last===streakGetToday());});}else{setTimeout(()=>{const initStreak=streakLoad();streakUpdateUI(initStreak.count,initStreak.last===streakGetToday());},200);}
   // JOURNAL
   function saveEntry(){
     const text=document.getElementById('journalInput').value.trim();
@@ -507,6 +507,7 @@
   // SMOOTH SCROLL
   document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
   // YOUTUBE VIDEOS
+  setTimeout(function(){
   (function(){
     const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
     // allorigins proxy ile YouTube RSS'i cek
@@ -539,6 +540,7 @@
         grid.innerHTML='<p class="yt-loading">Could not load videos.</p>';
       });
   })();
+  },800);
   // BREATH LABEL
   const labels=['breathe','slow down',"you're here","it's okay"];
   let li=0;
@@ -591,7 +593,7 @@
       if(btn){const o=btn.textContent;btn.textContent='Copied.';setTimeout(()=>btn.textContent=o,2000);}
     });}
   }
-  quoteRender();
+  if(window.requestIdleCallback){requestIdleCallback(()=>quoteRender());}else{setTimeout(quoteRender,100);}
 
   function quoteDownload(){
     document.fonts.ready.then(()=>{
