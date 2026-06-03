@@ -6,7 +6,7 @@ export default {
     // Serve .html files directly
     if (path.endsWith('.html')) {
       const response = await env.ASSETS.fetch(request);
-      return addSecurityHeaders(response);
+      return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
     // /writings/* - serve via writings/index.html for dynamic routing
@@ -16,7 +16,7 @@ export default {
         method: request.method,
         headers: request.headers,
       }));
-      return addSecurityHeaders(response);
+      return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
     // Clean URL to HTML mapping
@@ -54,11 +54,11 @@ export default {
         method: request.method,
         headers: request.headers,
       }));
-      return addSecurityHeaders(response);
+      return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
     const response = await env.ASSETS.fetch(request);
-    return addSecurityHeaders(response);
+    return addCacheHeaders(addSecurityHeaders(response), path);
   }
 }
 
@@ -94,6 +94,33 @@ function addSecurityHeaders(response) {
     "media-src 'self'; " +
     "frame-src 'none';"
   );
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
+  });
+}
+
+function addCacheHeaders(response, path) {
+  const newHeaders = new Headers(response.headers);
+
+  // Static assets: cache 1 year (immutable - they have content hashes or rarely change)
+  if (/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2|woff|ttf)$/i.test(path)) {
+    newHeaders.set('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+  // Audio files: cache 1 year
+  else if (/\.mp3$/i.test(path)) {
+    newHeaders.set('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+  // HTML pages: cache 1 hour, must revalidate
+  else if (path.endsWith('.html') || path === '/' || !path.includes('.')) {
+    newHeaders.set('Cache-Control', 'public, max-age=3600, must-revalidate');
+  }
+  // JS/CSS: cache 1 day
+  else if (/\.(js|css)$/i.test(path)) {
+    newHeaders.set('Cache-Control', 'public, max-age=86400');
+  }
 
   return new Response(response.body, {
     status: response.status,
