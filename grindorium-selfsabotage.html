@@ -214,6 +214,8 @@ function showResult(){
   const fL=lv(fear,16),wL=lv(worth,16),bL=lv(behav,16);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('fearScore').textContent=fear;document.getElementById('worthScore').textContent=worth;document.getElementById('behavScore').textContent=behav;
   document.getElementById('progressFill').style.width='100%';
   const lb={low:'Low',mid:'Moderate',high:'High'};const cs={low:'lv-low',mid:'lv-mid',high:'lv-high'};
