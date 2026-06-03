@@ -207,6 +207,8 @@ function showResult(){
   const total=answers.reduce((a,b)=>a+b,0);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('totalScore').textContent=total;
   document.getElementById('progressFill').style.width='100%';
   let r;
