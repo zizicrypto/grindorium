@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>The Word Grid - Leave Your Word Forever | Grindorium</title>
+  <meta name="description" content="500,000 cells. One word each. Any language. Anonymous, permanent, yours. When every cell is filled, one word will appear. Leave your mark on Grindorium."/>
+  <meta property="og:title" content="The Word Grid - Grindorium"/>
+  <meta property="og:description" content="500,000 cells. One word each. Any language. Leave your word. It stays here forever."/>
+  <meta property="og:url" content="https://grindorium.org/grid"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="The Word Grid - Grindorium"/>
+  <meta name="twitter:description" content="500,000 cells. One word. Forever."/>
+  <link rel="canonical" href="https://grindorium.org/grid"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/></noscript>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    :root{--bg:#070b12;--bg2:#0d1928;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+    body{background:var(--bg);color:var(--white);font-family:'Space Mono',monospace;min-height:100vh;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid rgba(126,184,232,0.06);}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-logo-img{width:28px;height:28px;object-fit:contain;}
+    .nav-logo-text{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
+    .nav-back{font-size:10px;letter-spacing:0.15em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+    .nav-back:hover{color:var(--accent);}
+    .container{max-width:1100px;margin:0 auto;padding:48px 24px 80px;}
+    .page-label{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(126,184,232,0.35);margin-bottom:12px;}
+    .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:8px;}
+    .page-desc{font-size:12px;color:var(--dim);line-height:1.9;max-width:520px;margin-bottom:24px;}
+    .stats{display:flex;gap:32px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(126,184,232,0.07);}
+    .stat-n{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--accent);}
+    .stat-l{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(138,160,184,0.45);margin-top:3px;}
+    .controls{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+    .zoom-label{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(138,160,184,0.5);}
+    .zoom-btn{background:transparent;border:1px solid rgba(126,184,232,0.2);color:rgba(126,184,232,0.7);font-size:16px;width:32px;height:32px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;}
+    .zoom-btn:hover{border-color:rgba(126,184,232,0.5);color:var(--accent);}
+    .zoom-val{font-size:11px;color:rgba(138,160,184,0.6);min-width:36px;text-align:center;}
+    .zoom-hint{font-size:9px;color:rgba(138,160,184,0.35);margin-left:4px;}
+    .canvas-wrap{position:relative;border:1px solid rgba(126,184,232,0.08);overflow:hidden;cursor:crosshair;user-select:none;border-radius:1px;}
+    canvas{display:block;}
+    .tooltip{position:absolute;background:var(--bg2);border:1px solid rgba(126,184,232,0.18);padding:5px 12px;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);pointer-events:none;display:none;white-space:nowrap;z-index:5;}
+    .modal-bg{display:none;position:absolute;inset:0;background:rgba(7,11,18,0.96);z-index:10;align-items:center;justify-content:center;}
+    .modal-bg.open{display:flex;}
+    .modal{background:#0a1220;border:1px solid rgba(126,184,232,0.15);padding:36px 32px;width:320px;text-align:center;}
+    .modal-top{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(126,184,232,0.4);margin-bottom:18px;}
+    .modal-msg{font-size:12px;color:var(--dim);line-height:1.9;margin-bottom:20px;}
+    .word-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.22);color:var(--white);font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;text-align:center;padding:8px 0;outline:none;margin-bottom:10px;}
+    .word-input::placeholder{color:rgba(255,255,255,0.1);}
+    .err{font-size:10px;color:rgba(249,168,212,0.75);min-height:18px;margin-bottom:14px;letter-spacing:0.04em;}
+    .btn-row{display:flex;gap:10px;justify-content:center;}
+    .btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(126,184,232,0.2);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;}
+    .btn:hover{border-color:rgba(126,184,232,0.45);color:var(--white);}
+    .btn.primary{border-color:rgba(126,184,232,0.4);color:var(--accent);background:rgba(126,184,232,0.03);}
+    .btn.primary:hover{background:rgba(126,184,232,0.08);color:var(--white);}
+    .howto{margin-top:32px;padding-top:24px;border-top:1px solid rgba(126,184,232,0.07);}
+    .howto-title{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(138,160,184,0.4);margin-bottom:16px;}
+    .howto-item{display:flex;gap:16px;margin-bottom:12px;align-items:flex-start;}
+    .howto-n{font-size:9px;color:rgba(126,184,232,0.25);min-width:18px;padding-top:2px;}
+    .howto-t{font-size:12px;color:var(--dim);line-height:1.8;}
+    .safe-reveal{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:20;background:rgba(7,11,18,0.97);}
+    .safe-reveal.show{display:flex;}
+    .safe-word{font-family:'Cormorant Garamond',serif;font-size:clamp(80px,15vw,180px);font-weight:300;color:var(--white);letter-spacing:0.1em;animation:fadeIn 3s ease;}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @media(max-width:600px){nav{padding:16px 20px;}.container{padding:32px 16px 60px;}.stats{gap:20px;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/grindorium-character.png" alt="Grindorium" class="nav-logo-img" onerror="this.style.display='none'"/>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/" class="nav-back">Home</a>
+</nav>
+<div class="container">
+  <div class="page-label">The Word Grid</div>
+  <div class="page-title">Leave your word.<br>It stays here forever.</div>
+  <div class="page-desc">500,000 cells. One word each. Any language. Anonymous, permanent, yours. When every cell is filled, one word will appear in the center.</div>
+  <div class="stats">
+    <div><div class="stat-n" id="sTaken">...</div><div class="stat-l">words claimed</div></div>
+    <div><div class="stat-n" id="sFree">...</div><div class="stat-l">remaining</div></div>
+    <div><div class="stat-n" id="sPct">...</div><div class="stat-l">filled</div></div>
+  </div>
+  <div class="controls">
+    <span class="zoom-label">Zoom</span>
+    <button class="zoom-btn" onclick="zoomOut()">&#8722;</button>
+    <span class="zoom-val" id="zoomVal">1.0x</span>
+    <button class="zoom-btn" onclick="zoomIn()">&#43;</button>
+    <span class="zoom-hint">Drag to pan. Ctrl+scroll to zoom.</span>
+  </div>
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="gc"></canvas>
+    <div class="tooltip" id="tip"></div>
+    <div class="modal-bg" id="modalBg">
+      <div class="modal">
+        <div class="modal-top" id="modalTop">Claim this cell</div>
+        <div class="modal-msg" id="modalMsg">One word. Any language.<br>It stays here forever.<br>If taken, choose another.</div>
+        <input class="word-input" id="wInput" placeholder="your word" maxlength="24" autocomplete="off" spellcheck="false"/>
+        <div class="err" id="errMsg"></div>
+        <div class="btn-row" id="btnRow">
+          <button class="btn" onclick="closeModal()">Cancel</button>
+          <button class="btn primary" onclick="claimWord()">Claim it</button>
+        </div>
+      </div>
+    </div>
+    <div class="safe-reveal" id="safeReveal">
+      <div class="safe-word">SAFE</div>
+    </div>
+  </div>
+  <div class="howto">
+    <div class="howto-title">How it works</div>
+    <div class="howto-item"><span class="howto-n">01</span><span class="howto-t">There are 500,000 cells. Each one holds exactly one word. Once placed, it is permanent.</span></div>
+    <div class="howto-item"><span class="howto-n">02</span><span class="howto-t">Write in any language. Every word must be unique across the entire grid.</span></div>
+    <div class="howto-item"><span class="howto-n">03</span><span class="howto-t">You can claim one cell per device. Click any empty cell, type your word, and it is yours.</span></div>
+    <div class="howto-item"><span class="howto-n">04</span><span class="howto-t">Drag to move across the grid. Use the zoom buttons or Ctrl+scroll to get closer or further away.</span></div>
+    <div class="howto-item"><span class="howto-n">05</span><span class="howto-t">When all 500,000 cells are filled, one word will appear at the center. No one knows exactly when that will be.</span></div>
+  </div>
+</div>
+<script>
+const SB_URL='https://nvjznlvrsckdkicyqvpn.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss';
+const TOTAL=500000,COLS=1000,ROWS=500;
+const COLORS=['rgba(126,184,232,0.9)','rgba(167,139,250,0.9)','rgba(249,168,212,0.9)','rgba(134,239,172,0.9)','rgba(253,224,71,0.85)','rgba(251,146,60,0.9)','rgba(94,234,212,0.9)','rgba(196,181,253,0.9)','rgba(248,113,113,0.9)','rgba(52,211,153,0.9)'];
+const SEED=[{idx:1337,w:'ephemeral'},{idx:2841,w:'solipsism'},{idx:4200,w:'lachrymose'},{idx:6100,w:'ineffable'},{idx:8500,w:'sonder'},{idx:11000,w:'hiraeth'},{idx:14200,w:'querencia'},{idx:17800,w:'kenopsia'},{idx:21000,w:'monachopsis'},{idx:24500,w:'catharsis'},{idx:28000,w:'anagnorisis'},{idx:31500,w:'apophenia'},{idx:35000,w:'dysphoria'},{idx:38500,w:'euthymia'},{idx:42000,w:'limerence'},{idx:45500,w:'vellichor'},{idx:49000,w:'rubatosis'},{idx:52500,w:'onism'},{idx:56000,w:'occhiolism'},{idx:59500,w:'liberosis'},{idx:63000,w:'jouska'},{idx:66500,w:'ellipsism'},{idx:70000,w:'zenosyne'},{idx:73500,w:'adronitis'},{idx:77000,w:'altschmerz'},{idx:80500,w:'chrysalism'},{idx:84000,w:'enouement'},{idx:87500,w:'exulansis'},{idx:91000,w:'kuebiko'},{idx:94500,w:'opia'},{idx:98000,w:'vemödalen'},{idx:101500,w:'anecdoche'},{idx:105000,w:'lachesism'},{idx:108500,w:'paro'},{idx:112000,w:'toska'},{idx:115500,w:'weltschmerz'},{idx:119000,w:'yugen'},{idx:122500,w:'zielschmerz'},{idx:126000,w:'abyssal'},{idx:129500,w:'ataraxia'},{idx:133000,w:'bathos'},{idx:136500,w:'clinomania'},{idx:140000,w:'depaysement'},{idx:143500,w:'elegy'},{idx:147000,w:'fugue'},{idx:150500,w:'halcyon'},{idx:154000,w:'ichor'},{idx:157500,w:'kairos'},{idx:161000,w:'liminal'},{idx:164500,w:'melisma'},{idx:168000,w:'nadir'},{idx:171500,w:'penumbra'},{idx:175000,w:'qualia'},{idx:178500,w:'reverie'},{idx:182000,w:'sibilance'},{idx:185500,w:'tenuous'},{idx:189000,w:'umbra'},{idx:192500,w:'visceral'},{idx:196000,w:'wistful'},{idx:199500,w:'xenial'},{idx:203000,w:'zenith'},{idx:206500,w:'absolution'},{idx:210000,w:'benevolence'},{idx:213500,w:'cognizance'},{idx:217000,w:'discernment'},{idx:220500,w:'equanimity'},{idx:224000,w:'forbearance'},{idx:227500,w:'gratitude'},{idx:231000,w:'humility'},{idx:234500,w:'integrity'},{idx:238000,w:'kinship'},{idx:241500,w:'luminous'},{idx:245000,w:'magnanimity'},{idx:248500,w:'nuance'},{idx:252000,w:'obsolescence'},{idx:255500,w:'paradox'},{idx:259000,w:'quintessence'},{idx:262500,w:'resilience'},{idx:266000,w:'solace'},{idx:269500,w:'transcendence'},{idx:273000,w:'ubiquity'},{idx:276500,w:'vigilance'},{idx:280000,w:'watershed'},{idx:283500,w:'yearning'},{idx:287000,w:'zeal'},{idx:290500,w:'aberration'},{idx:294000,w:'bifurcation'},{idx:297500,w:'confluence'},{idx:301000,w:'divergence'},{idx:304500,w:'emergence'},{idx:308000,w:'fragility'},{idx:311500,w:'homeostasis'},{idx:315000,w:'impermanence'},{idx:318500,w:'kaleidoscope'},{idx:322000,w:'luminescence'},{idx:325500,w:'metamorphosis'},{idx:329000,w:'nebulous'},{idx:332500,w:'oscillation'},{idx:336000,w:'periphery'},{idx:339500,w:'quiescence'},{idx:343000,w:'rupture'},{idx:346500,w:'symbiosis'},{idx:350000,w:'threshold'},{idx:353500,w:'undulation'},{idx:357000,w:'vulnerability'},{idx:360500,w:'wanderlust'},{idx:364000,w:'zeitgeist'},{idx:367500,w:'acquiesce'},{idx:371000,w:'brooding'},{idx:374500,w:'cadence'},{idx:378000,w:'dissolution'},{idx:381500,w:'equinox'},{idx:385000,w:'harbinger'},{idx:388500,w:'inchoate'},{idx:392000,w:'jettison'},{idx:395500,w:'languor'},{idx:399000,w:'mercurial'},{idx:402500,w:'nocturne'},{idx:406000,w:'pensive'},{idx:409500,w:'quietude'},{idx:413000,w:'reckoning'},{idx:416500,w:'serendipity'},{idx:420000,w:'talisman'},{idx:423500,w:'unmoored'},{idx:427000,w:'vertiginous'},{idx:430500,w:'waning'},{idx:434000,w:'alchemy'},{idx:437500,w:'becoming'},{idx:441000,w:'chimera'},{idx:444500,w:'elusive'},{idx:448000,w:'fathom'},{idx:451500,w:'gravitas'},{idx:455000,w:'haunting'},{idx:458500,w:'iridescent'},{idx:462000,w:'labyrinth'},{idx:465500,w:'mnemonic'},{idx:469000,w:'nostalgia'},{idx:472500,w:'oblivion'},{idx:476000,w:'palimpsest'},{idx:479500,w:'remnant'},{idx:483000,w:'sorrow'},{idx:486500,w:'twilight'},{idx:490000,w:'vanishing'},{idx:493500,w:'withering'},{idx:497000,w:'witness'},{idx:100300,w:'tükenmişlik'},{idx:200600,w:'sessizlik'},{idx:300900,w:'uyanış'},{idx:401200,w:'huzur'},{idx:451300,w:'kırılma'}];
+
+const cells=new Map();
+SEED.forEach(s=>cells.set(s.idx,{w:s.w,c:COLORS[s.idx%COLORS.length]}));
+
+const canvas=document.getElementById('gc');
+const wrap=document.getElementById('canvasWrap');
+const ctx=canvas.getContext('2d');
+const tip=document.getElementById('tip');
+let vW,vH,scrollX=0,scrollY=0,zoom=1;
+const BC=8;
+function cs(){return Math.max(2,Math.round(BC*zoom));}
+function gs(){return zoom<0.5?0:1;}
+function st(){return cs()+gs();}
+function tW(){return COLS*st();}
+function tH(){return ROWS*st();}
+
+async function loadFromDB(){
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/grid_words?select=idx,word,color&limit=10000`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    if(!res.ok)return;
+    const data=await res.json();
+    if(Array.isArray(data))data.forEach(r=>cells.set(r.idx,{w:r.word,c:r.color||COLORS[r.idx%COLORS.length]}));
+    updateStats();draw();
+    checkSafe();
+  }catch(e){}
+}
+
+function resize(){vW=wrap.clientWidth;vH=Math.min(520,Math.max(280,window.innerHeight*0.52));canvas.width=vW;canvas.height=vH;draw();}
+
+function draw(){
+  ctx.fillStyle='#070b12';ctx.fillRect(0,0,vW,vH);
+  const s=st(),cz=cs();
+  const c0=Math.max(0,Math.floor(scrollX/s)),r0=Math.max(0,Math.floor(scrollY/s));
+  const c1=Math.min(COLS,c0+Math.ceil(vW/s)+2),r1=Math.min(ROWS,r0+Math.ceil(vH/s)+2);
+  for(let r=r0;r<r1;r++){
+    for(let c=c0;c<c1;c++){
+      const idx=r*COLS+c,x=Math.round(c*s-scrollX),y=Math.round(r*s-scrollY);
+      const cell=cells.get(idx);
+      if(cell){
+        ctx.fillStyle=cell.c;ctx.fillRect(x,y,cz,cz);
+        if(cz>=8){ctx.fillStyle='rgba(5,8,16,0.9)';ctx.font=`400 ${Math.max(4,Math.floor(cz*0.42))}px monospace`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(cell.w.substring(0,Math.floor(cz/3)),x+cz/2,y+cz/2);}
+      } else {ctx.fillStyle=`rgba(126,184,232,${zoom<0.4?0.03:0.06})`;ctx.fillRect(x,y,cz,cz);}
+    }
+  }
+}
+
+function clamp(){scrollX=Math.max(0,Math.min(Math.max(0,tW()-vW),scrollX));scrollY=Math.max(0,Math.min(Math.max(0,tH()-vH),scrollY));}
+
+function zoomAround(factor,px,py){
+  const prev=st();zoom=Math.max(0.15,Math.min(5,zoom*factor));
+  scrollX=(scrollX+px)*st()/prev-px;scrollY=(scrollY+py)*st()/prev-py;
+  clamp();document.getElementById('zoomVal').textContent=zoom.toFixed(1)+'x';draw();
+}
+function zoomIn(){zoomAround(1.5,vW/2,vH/2);}
+function zoomOut(){zoomAround(1/1.5,vW/2,vH/2);}
+
+canvas.addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(e.ctrlKey||e.metaKey){const r=wrap.getBoundingClientRect();zoomAround(e.deltaY>0?0.85:1.18,e.clientX-r.left,e.clientY-r.top);}
+  else{scrollX+=e.deltaX;scrollY+=e.deltaY;clamp();draw();}
+},{passive:false});
+
+let drag=false,dSX,dSY,moved=false;
+canvas.addEventListener('mousedown',e=>{drag=true;dSX=e.clientX+scrollX;dSY=e.clientY+scrollY;moved=false;});
+canvas.addEventListener('mousemove',e=>{
+  if(drag){scrollX=Math.max(0,dSX-e.clientX);scrollY=Math.max(0,dSY-e.clientY);clamp();moved=true;tip.style.display='none';draw();return;}
+  const r=wrap.getBoundingClientRect(),s=st();
+  const c=Math.floor((e.clientX-r.left+scrollX)/s),row=Math.floor((e.clientY-r.top+scrollY)/s);
+  if(c>=0&&c<COLS&&row>=0&&row<ROWS){
+    const cell=cells.get(row*COLS+c);
+    if(cell){tip.style.display='block';tip.style.left=(e.clientX-r.left+12)+'px';tip.style.top=Math.max(4,e.clientY-r.top-28)+'px';tip.textContent=cell.w;}
+    else tip.style.display='none';
+  }
+});
+canvas.addEventListener('mouseup',e=>{
+  if(!moved){
+    const r=wrap.getBoundingClientRect(),s=st();
+    const c=Math.floor((e.clientX-r.left+scrollX)/s),row=Math.floor((e.clientY-r.top+scrollY)/s);
+    if(c>=0&&c<COLS&&row>=0&&row<ROWS){const idx=row*COLS+c;if(!cells.has(idx))openModal(idx);}
+  }
+  drag=false;
+});
+canvas.addEventListener('mouseleave',()=>{drag=false;tip.style.display='none';});
+
+let touch1=null;
+canvas.addEventListener('touchstart',e=>{if(e.touches.length===1){touch1={x:e.touches[0].clientX+scrollX,y:e.touches[0].clientY+scrollY};moved=false;}},{passive:true});
+canvas.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&touch1){scrollX=Math.max(0,touch1.x-e.touches[0].clientX);scrollY=Math.max(0,touch1.y-e.touches[0].clientY);clamp();moved=true;draw();}
+},{passive:false});
+canvas.addEventListener('touchend',e=>{
+  if(!moved&&e.changedTouches.length===1){
+    const r=wrap.getBoundingClientRect(),s=st();
+    const t=e.changedTouches[0];
+    const c=Math.floor((t.clientX-r.left+scrollX)/s),row=Math.floor((t.clientY-r.top+scrollY)/s);
+    if(c>=0&&c<COLS&&row>=0&&row<ROWS){const idx=row*COLS+c;if(!cells.has(idx))openModal(idx);}
+  }
+  touch1=null;
+},{passive:true});
+
+let selIdx=null;
+const claimed=localStorage.getItem('grd_v1')==='1';
+
+function openModal(idx){
+  selIdx=idx;
+  const wi=document.getElementById('wInput');
+  document.getElementById('errMsg').textContent='';
+  if(claimed){
+    document.getElementById('modalTop').textContent='Already claimed';
+    document.getElementById('modalMsg').textContent='You have already claimed a cell on this device.';
+    wi.style.display='none';
+    document.getElementById('btnRow').innerHTML='<button class="btn" onclick="closeModal()">Close</button>';
+  } else {
+    document.getElementById('modalTop').textContent='Claim this cell';
+    document.getElementById('modalMsg').innerHTML='One word. Any language.<br>It stays here forever.<br>If taken, choose another.';
+    wi.style.display='block';wi.value='';
+    document.getElementById('btnRow').innerHTML='<button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="claimWord()">Claim it</button>';
+    setTimeout(()=>wi.focus(),60);
+  }
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function closeModal(){document.getElementById('modalBg').classList.remove('open');selIdx=null;}
+
+async function claimWord(){
+  const raw=document.getElementById('wInput').value.trim().toLowerCase().replace(/\s+/g,'');
+  const err=document.getElementById('errMsg');
+  if(!raw){err.textContent='Type a word first.';return;}
+  if(raw.length>24){err.textContent='Too long.';return;}
+  const taken=new Set([...cells.values()].map(v=>v.w.toLowerCase()));
+  if(taken.has(raw)){err.textContent='This word is already taken.';return;}
+  const color=COLORS[selIdx%COLORS.length];
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/grid_words`,{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({idx:selIdx,word:raw,color})
+    });
+    if(res.status===409){err.textContent='This word is already taken.';return;}
+    if(!res.ok){err.textContent='Something went wrong. Try again.';return;}
+  }catch(e){err.textContent='Connection error. Try again.';return;}
+  cells.set(selIdx,{w:raw,c:color});
+  localStorage.setItem('grd_v1','1');
+  closeModal();updateStats();draw();checkSafe();
+}
+
+function updateStats(){
+  const t=cells.size;
+  document.getElementById('sTaken').textContent=t.toLocaleString();
+  document.getElementById('sFree').textContent=(TOTAL-t).toLocaleString();
+  document.getElementById('sPct').textContent=(t/TOTAL*100).toFixed(2)+'%';
+}
+
+function checkSafe(){
+  if(cells.size>=TOTAL){
+    setTimeout(()=>document.getElementById('safeReveal').classList.add('show'),1000);
+  }
+}
+
+document.getElementById('wInput').addEventListener('keydown',e=>{if(e.key==='Enter')claimWord();if(e.key==='Escape')closeModal();});
+window.addEventListener('resize',resize);
+updateStats();resize();
+loadFromDB();
+</script>
+</body>
+</html>
