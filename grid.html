@@ -135,9 +135,8 @@ const wrap=document.getElementById('canvasWrap');
 const ctx=canvas.getContext('2d');
 const tip=document.getElementById('tip');
 let vW,vH,scrollX=0,scrollY=0,zoom=1;
-const BC=1;
-function cs(){return Math.max(1,Math.round(BC*zoom));}
-function gs(){return zoom>=3?1:0;}
+function cs(){return Math.max(1,Math.round(zoom));}
+function gs(){return zoom>=4?1:0;}
 function st(){return cs()+gs();}
 function tW(){return COLS*st();}
 function tH(){return ROWS*st();}
@@ -178,7 +177,7 @@ function draw(){
       const cell=cells.get(idx);
       if(cell){
         ctx.fillStyle=cell.c;ctx.fillRect(x,y,cz,cz);
-        if(cz>=8){
+        if(cz>=6){
         const fs=Math.max(4,Math.floor(cz*0.42));
         ctx.fillStyle='rgba(5,8,16,0.92)';
         ctx.font=`400 ${fs}px monospace`;
@@ -197,16 +196,16 @@ function draw(){
 function clamp(){scrollX=Math.max(0,Math.min(Math.max(0,tW()-vW),scrollX));scrollY=Math.max(0,Math.min(Math.max(0,tH()-vH),scrollY));}
 
 function zoomAround(factor,px,py){
-  const prev=st();zoom=Math.max(Math.min(0.5,fitZoom()),Math.min(12,zoom*factor));
+  const prev=st();zoom=Math.max(fitZoom()*0.95,Math.min(20,zoom*factor));
   scrollX=(scrollX+px)*st()/prev-px;scrollY=(scrollY+py)*st()/prev-py;
   clamp();document.getElementById('zoomVal').textContent=zoom.toFixed(1)+'x';draw();
 }
-function zoomIn(){zoomAround(2.2,vW/2,vH/2);}
-function zoomOut(){zoomAround(1/2.2,vW/2,vH/2);}
+function zoomIn(){zoomAround(3,vW/2,vH/2);}
+function zoomOut(){zoomAround(1/3,vW/2,vH/2);}
 
 canvas.addEventListener('wheel',e=>{
   e.preventDefault();
-  if(e.ctrlKey||e.metaKey){const r=wrap.getBoundingClientRect();zoomAround(e.deltaY>0?0.85:1.18,e.clientX-r.left,e.clientY-r.top);}
+  if(e.ctrlKey||e.metaKey){const r=wrap.getBoundingClientRect();zoomAround(e.deltaY>0?0.7:1.4,e.clientX-r.left,e.clientY-r.top);}
   else{scrollX+=e.deltaX;scrollY+=e.deltaY;clamp();draw();}
 },{passive:false});
 
