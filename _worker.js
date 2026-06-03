@@ -5,16 +5,18 @@ export default {
 
     // Serve .html files directly
     if (path.endsWith('.html')) {
-      return env.ASSETS.fetch(request);
+      const response = await env.ASSETS.fetch(request);
+      return addSecurityHeaders(response);
     }
 
     // /writings/* - serve via writings/index.html for dynamic routing
     if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
       const newUrl = new URL('/writings/index.html', url.origin);
-      return env.ASSETS.fetch(new Request(newUrl.toString(), {
+      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
         method: request.method,
         headers: request.headers,
       }));
+      return addSecurityHeaders(response);
     }
 
     // Clean URL to HTML mapping
@@ -48,12 +50,54 @@ export default {
 
     if (routes[path]) {
       const newUrl = new URL(routes[path], url.origin);
-      return env.ASSETS.fetch(new Request(newUrl.toString(), {
+      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
         method: request.method,
         headers: request.headers,
       }));
+      return addSecurityHeaders(response);
     }
 
-    return env.ASSETS.fetch(request);
+    const response = await env.ASSETS.fetch(request);
+    return addSecurityHeaders(response);
   }
+}
+
+function addSecurityHeaders(response) {
+  const newHeaders = new Headers(response.headers);
+
+  // HSTS - force HTTPS for 1 year
+  newHeaders.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+
+  // XFO - prevent clickjacking
+  newHeaders.set('X-Frame-Options', 'SAMEORIGIN');
+
+  // XSS protection
+  newHeaders.set('X-Content-Type-Options', 'nosniff');
+
+  // COOP - cross-origin opener policy
+  newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+
+  // Referrer policy
+  newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+  // Permissions policy
+  newHeaders.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+  // CSP - allows Supabase, Google Fonts, Google Ads, inline scripts (needed for the site)
+  newHeaders.set('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "img-src 'self' data: https:; " +
+    "connect-src 'self' https://nvjznlvrsckdkicyqvpn.supabase.co https://pagead2.googlesyndication.com; " +
+    "media-src 'self'; " +
+    "frame-src 'none';"
+  );
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
+  });
 }
