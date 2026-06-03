@@ -3,12 +3,12 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, '') || '/';
 
-    // .html uzantili istekleri direkt serve et
+    // Serve .html files directly
     if (path.endsWith('.html')) {
       return env.ASSETS.fetch(request);
     }
 
-    // /writings/* - makale slug'lari writings/index.html ile serve edilir
+    // /writings/* - serve via writings/index.html for dynamic routing
     if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
       const newUrl = new URL('/writings/index.html', url.origin);
       return env.ASSETS.fetch(new Request(newUrl.toString(), {
@@ -17,7 +17,7 @@ export default {
       }));
     }
 
-    // Temiz URL -> HTML esleme
+    // Clean URL to HTML mapping
     const routes = {
       '/': '/index.html',
       '/play': '/grindorium-play.html',
