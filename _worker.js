@@ -41,6 +41,7 @@ export default {
       '/self-esteem': '/grindorium-selfesteem.html',
       '/self-sabotage': '/grindorium-selfsabotage.html',
       '/stress': '/grindorium-stress.html',
+      '/grid': '/grid.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
