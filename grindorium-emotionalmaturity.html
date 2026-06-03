@@ -214,6 +214,8 @@ function showResult(){
   const rL=lv(reg,16),aL=lv(acc,16),rlL=lv(rel,16);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('regScore').textContent=reg;document.getElementById('accScore').textContent=acc;document.getElementById('relScore').textContent=rel;
   document.getElementById('progressFill').style.width='100%';
   const lb={low:'Developing',mid:'Growing',high:'Strong'};const cs={low:'lv-high',mid:'lv-mid',high:'lv-low'};
