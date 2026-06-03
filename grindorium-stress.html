@@ -462,6 +462,8 @@ function showResult(){
 
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('loadScore').textContent=load;
   document.getElementById('resScore').textContent=res;
   document.getElementById('progressFill').style.width='100%';
