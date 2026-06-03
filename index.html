@@ -38,14 +38,14 @@
     /* HERO */
     .hero{position:relative;width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(20,40,70,0.5) 0%,transparent 70%);}
     .breath-container{position:relative;display:flex;align-items:center;justify-content:center;width:240px;height:240px;margin-bottom:48px;cursor:pointer;}
-    .breath-ring{position:absolute;border-radius:50%;border:1px solid rgba(126,184,232,0.2);animation:ring-pulse 8s ease-in-out infinite;}
+    .breath-ring{position:absolute;border-radius:50%;border:1px solid rgba(126,184,232,0.2);animation:ring-pulse 8s ease-in-out infinite;will-change:transform;}
     .breath-ring:nth-child(1){width:240px;height:240px;}
     .breath-ring:nth-child(2){width:190px;height:190px;animation-delay:0.3s;border-color:rgba(126,184,232,0.3);}
     .breath-ring:nth-child(3){width:140px;height:140px;animation-delay:0.6s;border-color:rgba(126,184,232,0.4);}
-    .breath-core{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(126,184,232,0.15) 0%,rgba(126,184,232,0.05) 60%,transparent 100%);border:1px solid rgba(126,184,232,0.5);animation:core-breathe 8s ease-in-out infinite;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+    .breath-core{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(126,184,232,0.15) 0%,rgba(126,184,232,0.05) 60%,transparent 100%);border:1px solid rgba(126,184,232,0.5);animation:core-breathe 8s ease-in-out infinite;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;will-change:transform;}
     .breath-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;transition:opacity 0.5s;}
     @keyframes ring-pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.08);opacity:1}}
-    @keyframes core-breathe{0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(126,184,232,0.15)}50%{transform:scale(1.15);box-shadow:0 0 50px rgba(126,184,232,0.35)}}
+    @keyframes core-breathe{0%,100%{transform:scale(1);opacity:0.85}50%{transform:scale(1.15);opacity:1}}
     .hero-text{text-align:center;animation:fade-up 2s ease forwards;opacity:0;animation-delay:0.5s;}
     .hero-title{font-size:clamp(36px,6vw,88px);font-weight:300;letter-spacing:0.05em;color:var(--white);line-height:1;margin-bottom:16px;}
     .hero-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--accent);text-transform:uppercase;}
