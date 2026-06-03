@@ -593,7 +593,7 @@
       if(btn){const o=btn.textContent;btn.textContent='Copied.';setTimeout(()=>btn.textContent=o,2000);}
     });}
   }
-  if(window.requestIdleCallback){requestIdleCallback(()=>quoteRender());}else{setTimeout(quoteRender,100);}
+  quoteRender();
 
   function quoteDownload(){
     document.fonts.ready.then(()=>{
