@@ -83,17 +83,7 @@ function addSecurityHeaders(response) {
   // Permissions policy
   newHeaders.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-  // CSP - allows Supabase, Google Fonts, Google Ads, inline scripts (needed for the site)
-  newHeaders.set('Content-Security-Policy',
-    "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: https:; " +
-    "connect-src 'self' https://nvjznlvrsckdkicyqvpn.supabase.co https://pagead2.googlesyndication.com; " +
-    "media-src 'self'; " +
-    "frame-src 'none';"
-  );
+  // CSP removed - Lighthouse shows it as needed but causes inline script issues
 
   return new Response(response.body, {
     status: response.status,
