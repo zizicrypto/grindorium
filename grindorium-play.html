@@ -2311,7 +2311,7 @@ c:[
 
 
   const WALL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
-  const WALL_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
+  const WALL_KEY="sb_publishable_hlQR5Dh_A3NHxTHbDKvawA_DN23psUV";
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
   var wallWords=[],wallYours=null,wallRefreshTimer=null;
 
@@ -2667,34 +2667,67 @@ c:[
   function chStartAudio2(){
     try{
       chACtx=new(window.AudioContext||window.webkitAudioContext)();
-      const bufSize=chACtx.sampleRate*2;
-      const nb=chACtx.createBuffer(1,bufSize,chACtx.sampleRate);
-      const nd=nb.getChannelData(0);
-      for(let i=0;i<bufSize;i++)nd[i]=(Math.random()*2-1);
-      chRainSrc=chACtx.createBufferSource();
-      chRainSrc.buffer=nb;chRainSrc.loop=true;
-      const bp=chACtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1200;bp.Q.value=0.4;
-      const lp=chACtx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2500;
-      const gn=chACtx.createGain();gn.gain.value=0.08;
-      chRainSrc.connect(bp);bp.connect(lp);lp.connect(gn);gn.connect(chACtx.destination);
-      chRainSrc.start();chRainSrc._gn=gn;
-      [38,52,67].forEach(t=>setTimeout(()=>{if(!chRun2)return;try{chThunder2(0.25);}catch(e){}},t*1000));
+      const sr=chACtx.sampleRate;
+      function makeRainLayer(freq,q,vol){
+        const bufSize=sr*3;
+        const nb=chACtx.createBuffer(1,bufSize,sr);
+        const nd=nb.getChannelData(0);
+        for(let i=0;i<bufSize;i++)nd[i]=(Math.random()*2-1);
+        const src=chACtx.createBufferSource();src.buffer=nb;src.loop=true;
+        const bp=chACtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=freq;bp.Q.value=q;
+        const gn=chACtx.createGain();gn.gain.value=vol;
+        src.connect(bp);bp.connect(gn);gn.connect(chACtx.destination);src.start();
+        return {src,gn};
+      }
+      chRainLayers=[];
+      chRainLayers.push(makeRainLayer(180,0.8,0.18));
+      chRainLayers.push(makeRainLayer(800,0.5,0.14));
+      chRainLayers.push(makeRainLayer(3000,0.3,0.07));
+      chRainSrc={_layers:chRainLayers};
+      [8,15,25,38,52,67,80,95].forEach(t=>setTimeout(()=>{if(!chRun2)return;try{chThunder2(0.4+Math.random()*0.3);}catch(e){}},t*1000));
     }catch(e){}
   }
   function chThunder2(vol){
     if(!chACtx)return;
-    const o=chACtx.createOscillator();const g=chACtx.createGain();const d=chACtx.createWaveShaper();
-    const c=new Float32Array(256);for(let i=0;i<256;i++){const x=i*2/256-1;c[i]=x*0.9;}d.curve=c;
-    o.type='sawtooth';o.frequency.setValueAtTime(80,chACtx.currentTime);o.frequency.exponentialRampToValueAtTime(25,chACtx.currentTime+1.8);
-    g.gain.setValueAtTime(0,chACtx.currentTime);g.gain.linearRampToValueAtTime(vol,chACtx.currentTime+0.05);g.gain.exponentialRampToValueAtTime(0.001,chACtx.currentTime+2.2);
-    o.connect(d);d.connect(g);g.connect(chACtx.destination);o.start(chACtx.currentTime);o.stop(chACtx.currentTime+2.5);
+    const now=chACtx.currentTime;
+    const crackBuf=chACtx.createBuffer(1,Math.floor(chACtx.sampleRate*0.15),chACtx.sampleRate);
+    const cd=crackBuf.getChannelData(0);
+    for(let i=0;i<cd.length;i++)cd[i]=(Math.random()*2-1)*Math.pow(1-(i/cd.length),0.3);
+    const crackSrc=chACtx.createBufferSource();crackSrc.buffer=crackBuf;
+    const crackG=chACtx.createGain();crackG.gain.setValueAtTime(vol,now);crackG.gain.exponentialRampToValueAtTime(0.001,now+0.15);
+    crackSrc.connect(crackG);crackG.connect(chACtx.destination);crackSrc.start(now);
+    const rBuf=chACtx.createBuffer(1,Math.floor(chACtx.sampleRate*3),chACtx.sampleRate);
+    const rd=rBuf.getChannelData(0);for(let i=0;i<rd.length;i++)rd[i]=(Math.random()*2-1);
+    const rSrc=chACtx.createBufferSource();rSrc.buffer=rBuf;
+    const bp=chACtx.createBiquadFilter();bp.type='lowpass';bp.frequency.value=110;
+    const rG=chACtx.createGain();rG.gain.setValueAtTime(0,now+0.05);rG.gain.linearRampToValueAtTime(vol*0.9,now+0.35);rG.gain.exponentialRampToValueAtTime(0.001,now+3.8);
+    rSrc.connect(bp);bp.connect(rG);rG.connect(chACtx.destination);rSrc.start(now+0.05);
+    chLightningFlash();
+  }
+  function chLightningFlash(){
+    const overlay=document.getElementById('chaosOverlay');
+    const flash=document.createElement('div');
+    flash.style.cssText='position:absolute;inset:0;background:rgba(200,220,255,0.9);z-index:50;pointer-events:none;';
+    overlay.appendChild(flash);
+    setTimeout(()=>{flash.style.background='rgba(200,220,255,0)';flash.style.transition='background 0.04s';},40);
+    setTimeout(()=>{flash.style.background='rgba(200,220,255,0.55)';},90);
+    setTimeout(()=>{flash.style.background='rgba(200,220,255,0)';flash.style.transition='background 0.08s';},130);
+    setTimeout(()=>{if(flash.parentNode)flash.parentNode.removeChild(flash);},250);
   }
   function chUpdateVol2(phase){
-    if(!chRainSrc||!chRainSrc._gn)return;
-    try{chRainSrc._gn.gain.setTargetAtTime(0.04+phase.vol*0.14,chACtx.currentTime,2);}catch(e){}
+    if(!chRainSrc||!chRainSrc._layers)return;
+    try{
+      const v=0.12+phase.vol*0.22;
+      const vols=[v,v*0.8,v*0.45];
+      chRainSrc._layers.forEach((l,i)=>l.gn.gain.setTargetAtTime(vols[i],chACtx.currentTime,1.5));
+    }catch(e){}
   }
   function chStopAudio2(){
-    try{if(chRainSrc){chRainSrc.stop();chRainSrc=null;}if(chACtx){chACtx.close();chACtx=null;}}catch(e){}
+    try{
+      if(chRainSrc&&chRainSrc._layers)chRainSrc._layers.forEach(l=>{try{l.src.stop();}catch(e){}});
+      chRainSrc=null;
+      if(chACtx){chACtx.close();chACtx=null;}
+    }catch(e){}
   }
   function openChaos(){document.getElementById('chaosOverlay').classList.add('active');document.body.style.overflow='hidden';}
   function closeChaos(){document.getElementById('chaosOverlay').classList.remove('active');document.body.style.overflow='';chStopAudio2();clearInterval(chTmr2);cancelAnimationFrame(chAF2);chRun2=false;document.getElementById('ch-intro').style.display='flex';document.getElementById('ch-storm').style.display='none';document.getElementById('ch-after').style.display='none';}
