@@ -1,6 +1,5 @@
 _worker.js
 wrangler.toml
-*.mp3
 .github/
 node_modules/
 package.json
