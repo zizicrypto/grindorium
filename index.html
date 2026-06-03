@@ -416,7 +416,7 @@
   }
   function countdown(s){const c=document.getElementById('breathCounter');let r=s;c.textContent=r;const iv=setInterval(()=>{r--;if(r<=0){clearInterval(iv);c.textContent='';}else{c.textContent=r;}},1000);}
   // SOUNDS
-  const soundUrls={rain:'diepthanhdk-rain-meditation-450575.mp3',forest:'meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'99beats-water-fountain-healing-music-239455.mp3',silence:null};
+  const soundUrls={rain:'/diepthanhdk-rain-meditation-450575.mp3',forest:'/meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'/99beats-water-fountain-healing-music-239455.mp3',silence:null};
   let currentAudio=null,currentSound=null;
   function playSound(type){
     ['rain','forest','ocean','silence'].forEach(s=>{document.getElementById(s+'-arrow').textContent='▶';document.getElementById(s+'-arrow').style.color='var(--dim)';});
@@ -430,7 +430,7 @@
   let ambientAudio=null,ambientOn=false;
   function toggleAmbient(){
     if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--dim)';});}
-    else{ambientAudio=new Audio('sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
+    else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
   }
   // DISCONNECT
   function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}
