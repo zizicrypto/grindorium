@@ -218,6 +218,8 @@ function showResult(){
   const sL=lv(soc,20),eL=lv(ex,20);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('socScore').textContent=soc;
   document.getElementById('exScore').textContent=ex;
   document.getElementById('progressFill').style.width='100%';
