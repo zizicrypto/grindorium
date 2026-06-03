@@ -220,6 +220,8 @@ function showResult(){
   const cL=lv(con,16),iL=lv(imp,16),aL=lv(al,16);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('conScore').textContent=con;
   document.getElementById('impScore').textContent=imp;
   document.getElementById('alScore').textContent=al;
