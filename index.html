@@ -541,7 +541,7 @@
   setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
 
   const NL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
-  const NL_KEY="sb_publishable_hlQR5Dh_A3NHxTHbDKvawA_DN23psUV";
+  const NL_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
   async function nlSubmit(){
     const input=document.getElementById('nl-input');
     const msg=document.getElementById('nl-msg');
