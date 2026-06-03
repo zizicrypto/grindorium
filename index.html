@@ -216,7 +216,7 @@
   <p class="disconnect-text">Just breathe. Nothing else.</p>
 </div>
 <nav>
-  <a href="#" class="nav-logo">
+  <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
     <picture><source srcset="/grindorium-character.webp" type="image/webp"/><img src="/grindorium-character.png" alt="" class="nav-logo-img" aria-hidden="true" onerror="this.style.display:'none'"/></picture>
     <span class="nav-logo-text">Grindorium</span>
   </a>
@@ -599,64 +599,81 @@
     document.fonts.ready.then(()=>{
     const q=DAILY_QUOTES[quoteDayIndex()];
     const canvas=document.createElement('canvas');
-    const W=1080,H=1080,PAD=80;
+    const W=1080,H=1080;
     canvas.width=W;canvas.height=H;
     const ctx=canvas.getContext('2d');
 
-    ctx.fillStyle='#070b12';
-    ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='rgba(126,184,232,0.12)';
-    ctx.lineWidth=1;
-    ctx.strokeRect(40,40,W-80,H-80);
+    // Background - dark gradient feel via solid layers
+    ctx.fillStyle='#070b12';ctx.fillRect(0,0,W,H);
 
-    // Pre-measure text to calculate total content height
-    const maxWidth=W-160;
-    const fontSize=q.text.length>120?38:44;
-    const lineHeight=fontSize*1.55;
+    // Subtle vignette - slightly lighter center
+    const vg=ctx.createRadialGradient(W/2,H/2,200,W/2,H/2,700);
+    vg.addColorStop(0,'rgba(126,184,232,0.03)');
+    vg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+
+    // Top accent line
+    ctx.strokeStyle='rgba(126,184,232,0.35)';
+    ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(80,80);ctx.lineTo(W-80,80);ctx.stroke();
+
+    // Bottom accent line
+    ctx.beginPath();ctx.moveTo(80,H-80);ctx.lineTo(W-80,H-80);ctx.stroke();
+
+    // GRINDORIUM - top left, brighter
+    ctx.font='600 11px "Space Mono", monospace';
+    ctx.fillStyle='#7eb8e8';
+    ctx.letterSpacing='0.3em';
+    ctx.fillText('GRINDORIUM',80,114);
+
+    // Divider dot
+    ctx.fillStyle='rgba(126,184,232,0.4)';
+    ctx.beginPath();ctx.arc(W-80,114,2,0,Math.PI*2);ctx.fill();
+
+    // Pre-measure text
+    const maxW=W-160;
+    const fontSize=q.text.length>140?36:q.text.length>90?42:50;
+    const lh=fontSize*1.6;
     ctx.font=`300 ${fontSize}px "Cormorant Garamond", serif`;
     const words=q.text.split(' ');
     let lines=[],line='';
     for(let i=0;i<words.length;i++){
       const test=line+words[i]+' ';
-      if(ctx.measureText(test).width>maxWidth&&i>0){lines.push(line.trim());line=words[i]+' ';}
+      if(ctx.measureText(test).width>maxW&&i>0){lines.push(line.trim());line=words[i]+' ';}
       else{line=test;}
     }
     lines.push(line.trim());
 
-    const quoteBlockH=lines.length*lineHeight;
-    const totalH=32+quoteBlockH+60+30; // quotemark + text + source gap + source
-    const startY=(H-totalH)/2;
+    // Vertical centering
+    const blockH=lines.length*lh+60+48; // text + gap + source
+    const startY=(H-blockH)/2+20;
 
-    // Quotemark
-    ctx.font='300 64px "Cormorant Garamond", serif';
-    ctx.fillStyle='rgba(126,184,232,0.18)';
-    ctx.fillText('"',PAD,startY+48);
-
-    // Quote text
-    ctx.font=`300 ${fontSize}px "Cormorant Garamond", serif`;
-    ctx.fillStyle='rgba(255,255,255,0.9)';
-    let ty=startY+48+20;
-    lines.forEach(l=>{ctx.fillText(l,PAD,ty);ty+=lineHeight;});
-
-    // Source
-    ctx.font='400 17px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.55)';
-    ctx.fillText('- '+q.source,PAD,ty+32);
-
-    // Top: GRINDORIUM
-    ctx.font='500 13px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.45)';
-    ctx.letterSpacing='0.2em';
-    ctx.fillText('GRINDORIUM',PAD,PAD+16);
-
-    ctx.font='400 11px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.2)';
-    ctx.fillText("Today's quote",PAD,PAD+36);
-
-    // Bottom: grindorium.org
-    ctx.font='400 12px "Space Mono", monospace';
+    // Opening quote mark
+    ctx.font='300 80px "Cormorant Garamond", serif';
     ctx.fillStyle='rgba(126,184,232,0.25)';
-    ctx.fillText('grindorium.org',PAD,H-PAD+8);
+    ctx.fillText('"',80,startY+60);
+
+    // Quote text - bright white
+    ctx.font=`300 ${fontSize}px "Cormorant Garamond", serif`;
+    ctx.fillStyle='rgba(255,255,255,0.95)';
+    let ty=startY+80;
+    lines.forEach(l=>{ctx.fillText(l,80,ty);ty+=lh;});
+
+    // Source line separator
+    ctx.strokeStyle='rgba(126,184,232,0.2)';
+    ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(80,ty+24);ctx.lineTo(280,ty+24);ctx.stroke();
+
+    // Source - clearly readable
+    ctx.font='400 18px "Space Mono", monospace';
+    ctx.fillStyle='#7eb8e8';
+    ctx.fillText('- '+q.source,80,ty+52);
+
+    // grindorium.org - bottom, readable
+    ctx.font='400 13px "Space Mono", monospace';
+    ctx.fillStyle='rgba(126,184,232,0.6)';
+    const urlW=ctx.measureText('grindorium.org').width;
+    ctx.fillText('grindorium.org',W-80-urlW,H-114);
 
     const a=document.createElement('a');
     a.download='grindorium-quote.png';
@@ -664,7 +681,3 @@
     a.click();
     });
   }
-
-</script>
-</body>
-</html>
