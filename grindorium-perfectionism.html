@@ -235,6 +235,8 @@ function showResult(){
   const sL=lv(self,16),soL=lv(soc,16),cL=lv(cost,16);
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
+  const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
+  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
   document.getElementById('selfScore').textContent=self;
   document.getElementById('socScore').textContent=soc;
   document.getElementById('costScore').textContent=cost;
