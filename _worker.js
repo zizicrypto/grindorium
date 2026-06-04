@@ -114,7 +114,7 @@ function addCacheHeaders(response, path) {
   }
   // HTML pages: cache 1 hour, must revalidate
   else if (path.endsWith('.html') || path === '/' || !path.includes('.')) {
-    newHeaders.set('Cache-Control', 'public, max-age=3600, must-revalidate');
+    newHeaders.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   }
   // JS/CSS: cache 1 day
   else if (/\.(js|css)$/i.test(path)) {
