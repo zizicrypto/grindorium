@@ -2343,7 +2343,7 @@ c:[
           cloud.appendChild(el);
         });
         var total=wallWords.reduce(function(s,w){return s+w.count;},0);
-        var meta=document.getElementById("wall-meta");
+        var meta=document.getElementById("wall-count");
         if(meta)meta.textContent=total+" word"+(total===1?"":"s")+" shared in the last 24 hours";
       }
     }).catch(function(e){
