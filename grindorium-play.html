@@ -2308,7 +2308,7 @@ c:[
   var wallWords=[],wallYours=null,wallRefreshTimer=null;
 
   function wallFetch(){
-    fetch(WALL_URL+"/rest/v1/words?select=word&created_at=gte."+new Date(Date.now()-86400000).toISOString(),{
+    fetch(WALL_URL+"/rest/v1/words?select=word&order=created_at.desc&limit=200",{
       headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
     }).then(function(res){return res.json();}).then(function(data){
       var counts={};
