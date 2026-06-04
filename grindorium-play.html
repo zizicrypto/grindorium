@@ -3223,6 +3223,21 @@ function toggleAmbient(){
   })();
 
 
+// URL'den oyun ac - /play/the-wall gibi
+(function(){
+  var slug=window.location.pathname.replace('/play/','').replace('/play','');
+  if(!slug)return;
+  var slugMap={
+    'the-wall':openWall,'the-resistance':openResistance,'the-resistance-room':openResistanceRoom,
+    'the-wait':openWait,'the-saboteur':openSaboteur,'trigger-map':openTrigger,
+    'the-weight':openGame,'the-drift':openDrift,'the-loop':openLoop,
+    'the-stack':openStack,'the-feeling':openFeeling,'evening-court':openCourt,
+    'micro-journal':openJournal,'the-breath':openBreath,'the-chaos-button':openChaos,
+    'the-nothing-room':openNothing,'the-void':openVoid
+  };
+  if(slugMap[slug])setTimeout(function(){slugMap[slug]();},300);
+})();
+
 window.addEventListener('popstate',function(e){
   var overlays=['driftOverlay','loopOverlay','stackOverlay','waitOverlay','breathOverlay',
     'feelingOverlay','resistanceOverlay','journalOverlay','nothingOverlay','courtOverlay',
