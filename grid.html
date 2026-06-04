@@ -142,6 +142,19 @@ function tW(){return COLS*st();}
 function tH(){return ROWS*st();}
 function fitZoom(){return Math.min(vW/COLS,vH/ROWS);}
 
+async function seedToDB(){
+  if(localStorage.getItem('grd_seeded')==='1')return;
+  try{
+    const rows=SEED.map(s=>({idx:s.idx,word:s.w,color:COLORS[s.idx%COLORS.length]}));
+    const res=await fetch(`${SB_URL}/rest/v1/grid_words`,{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=ignore-duplicates,return=minimal'},
+      body:JSON.stringify(rows)
+    });
+    if(res.ok||res.status===409)localStorage.setItem('grd_seeded','1');
+  }catch(e){}
+}
+
 async function loadFromDB(){
   try{
     const res=await fetch(`${SB_URL}/rest/v1/grid_words?select=idx,word,color&limit=10000`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
@@ -248,9 +261,10 @@ canvas.addEventListener('touchend',e=>{
 },{passive:true});
 
 let selIdx=null;
-const claimed=localStorage.getItem('grd_v1')==='1';
+let claimed=localStorage.getItem('grd_v1')==='1';
 
 function openModal(idx){
+  claimed=localStorage.getItem('grd_v1')==='1';
   selIdx=idx;
   const wi=document.getElementById('wInput');
   document.getElementById('errMsg').textContent='';
@@ -290,6 +304,7 @@ async function claimWord(){
   }catch(e){err.textContent='Connection error. Try again.';return;}
   cells.set(selIdx,{w:raw,c:color});
   localStorage.setItem('grd_v1','1');
+  claimed=true;
   closeModal();updateStats();draw();checkSafe();
 }
 
@@ -309,7 +324,7 @@ function checkSafe(){
 document.getElementById('wInput').addEventListener('keydown',e=>{if(e.key==='Enter')claimWord();if(e.key==='Escape')closeModal();});
 window.addEventListener('resize',resize);
 updateStats();resize();
-loadFromDB();
+seedToDB();loadFromDB();
 </script>
 </body>
 </html>
