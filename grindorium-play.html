@@ -2315,7 +2315,19 @@ c:[
       data.forEach(function(r){counts[r.word]=(counts[r.word]||0)+1;});
       wallWords=Object.entries(counts).map(function(e){return{word:e[0],count:e[1]};}).sort(function(a,b){return b.count-a.count;});
       var ld=document.getElementById("wall-loading");if(ld)ld.style.display="none";
-      wallRender();
+      var cloud=document.getElementById("wall-cloud");
+      if(cloud){
+        cloud.innerHTML="";
+        var SIZES=["wall-xl","wall-lg","wall-md","wall-sm","wall-xs"];
+        var COLORS=["wall-c1","wall-c2","wall-c3","wall-c4","wall-c5","wall-c6"];
+        wallWords.slice(0,60).forEach(function(w){
+          var span=document.createElement("span");
+          span.className=SIZES[Math.floor(Math.random()*SIZES.length)]+" "+COLORS[Math.floor(Math.random()*COLORS.length)];
+          span.style.cssText="display:inline-block;margin:6px 10px;cursor:default;font-family:'Cormorant Garamond',serif;font-weight:300;";
+          span.textContent=w.word;
+          cloud.appendChild(span);
+        });
+      }
     }).catch(function(e){
       var ld=document.getElementById("wall-loading");if(ld)ld.style.display="none";
       var wc=document.getElementById("wall-cloud");
