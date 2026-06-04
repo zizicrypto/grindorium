@@ -1319,8 +1319,8 @@
     yw.innerHTML='';
     drYes.slice(0,8).forEach(w=>yw.innerHTML+=`<span style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(134,239,172,0.2);color:#86efac;">${w}</span>`);
   }
-  function openDrift(){document.getElementById('driftOverlay').classList.add('active');document.body.style.overflow='hidden';drInit();}
-  function closeDrift(){document.getElementById('driftOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openDrift(){history.pushState({game:"the-drift"},"","/play/the-drift");document.getElementById('driftOverlay').classList.add('active');document.body.style.overflow='hidden';drInit();}
+  function closeDrift(){history.replaceState({},"","/play");document.getElementById('driftOverlay').classList.remove('active');document.body.style.overflow='';}
   drCard.addEventListener('mousedown',e=>{drDragging=true;drStartX=e.clientX;drCard.style.transition='none';});
   document.addEventListener('mousemove',e=>{
     if(!drDragging)return;
@@ -1425,8 +1425,8 @@ c:[
 ]};
 
   var lpDepth=0, lpPath=[];
-  function openLoop(){document.getElementById('loopOverlay').classList.add('active');document.body.style.overflow='hidden';lpInit();}
-  function closeLoop(){document.getElementById('loopOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openLoop(){history.pushState({game:"the-loop"},"","/play/the-loop");document.getElementById('loopOverlay').classList.add('active');document.body.style.overflow='hidden';lpInit();}
+  function closeLoop(){history.replaceState({},"","/play");document.getElementById('loopOverlay').classList.remove('active');document.body.style.overflow='';}
   function lpInit(){
     lpDepth=0;lpPath=[];
     document.getElementById('lp-result').style.display='none';
@@ -1469,8 +1469,8 @@ c:[
 
   const ST_WORDS=["Exhausted","Numb","Anxious","Lonely","Guilty","Restless","Disconnected","Aching","Drained","Invisible","Overwhelmed","Hollow","Ashamed","Spiraling","Flat","Avoidant","Missing","Bracing","Stuck","Unheard"];
   var stDragging=null,stPlacements={};
-  function openStack(){document.getElementById('stackOverlay').classList.add('active');document.body.style.overflow='hidden';stInit();}
-  function closeStack(){document.getElementById('stackOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openStack(){history.pushState({game:"the-stack"},"","/play/the-stack");document.getElementById('stackOverlay').classList.add('active');document.body.style.overflow='hidden';stInit();}
+  function closeStack(){history.replaceState({},"","/play");document.getElementById('stackOverlay').classList.remove('active');document.body.style.overflow='';}
   function stInit(){
     stPlacements={};
     document.getElementById('st-result').style.display='none';
@@ -1556,8 +1556,8 @@ c:[
     {maxSec:WT_MAX,title:"Full distance.",desc:"You held the complete duration. Whether you were genuinely comfortable waiting or were simply determined to see the end, the capacity to sustain uncertainty without collapsing it is a measurable trait. You have it.",science:"The most recent replication of Mischel's work confirmed that delay capacity is real and trainable. It is not a fixed trait. Each time you hold longer than expected, you are strengthening the neural pathway that holds competing options without immediately resolving them.",source:"Watts, T.W., Duncan, G.J., Quan, H. (2018). Revisiting the Marshmallow Test. Psychological Science."},
   ];
   var wtTimer=null,wtSec=0,wtRunning=false,wtCurTier=0;
-  function openWait(){document.getElementById('waitOverlay').classList.add('active');document.body.style.overflow='hidden';wtInit();}
-  function closeWait(){document.getElementById('waitOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(wtTimer);wtRunning=false;}
+  function openWait(){history.pushState({game:"the-wait"},"","/play/the-wait");document.getElementById('waitOverlay').classList.add('active');document.body.style.overflow='hidden';wtInit();}
+  function closeWait(){history.replaceState({},"","/play");document.getElementById('waitOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(wtTimer);wtRunning=false;}
   function wtInit(){
     clearInterval(wtTimer);wtSec=0;wtRunning=false;wtCurTier=0;
     document.getElementById('wt-result').style.display='none';
@@ -1631,8 +1631,8 @@ c:[
     'simple':{phases:[{label:'Inhale',dur:4},{label:'Exhale',dur:6}],cycles:6}
   };
   var brMode='478',brRunning=false,brTimer=null,brPhaseIdx=0,brSec=0,brCycles=0;
-  function openBreath(){document.getElementById('breathOverlay').classList.add('active');document.body.style.overflow='hidden';brReset();}
-  function closeBreath(){document.getElementById('breathOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(brTimer);brRunning=false;}
+  function openBreath(){history.pushState({game:"the-breath"},"","/play/the-breath");document.getElementById('breathOverlay').classList.add('active');document.body.style.overflow='hidden';brReset();}
+  function closeBreath(){history.replaceState({},"","/play");document.getElementById('breathOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(brTimer);brRunning=false;}
   function brSetMode(m,el){
     if(brRunning)return;
     brMode=m;
@@ -1710,8 +1710,8 @@ c:[
     {left:'18%',top:'75px',ml:'-18px'},{left:'82%',top:'75px',ml:'-18px'},{left:'35%',top:'110px',ml:'-18px'},{left:'65%',top:'110px',ml:'-18px'}
   ];
   var flSelected=[];
-  function openFeeling(){document.getElementById('feelingOverlay').classList.add('active');document.body.style.overflow='hidden';flReset();}
-  function closeFeeling(){document.getElementById('feelingOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openFeeling(){history.pushState({game:"the-feeling"},"","/play/the-feeling");document.getElementById('feelingOverlay').classList.add('active');document.body.style.overflow='hidden';flReset();}
+  function closeFeeling(){history.replaceState({},"","/play");document.getElementById('feelingOverlay').classList.remove('active');document.body.style.overflow='';}
   function flReset(){
     flSelected=[];
     document.getElementById('fl-result').style.display='none';
@@ -1792,7 +1792,7 @@ c:[
     {minRate:0,title:"Low resistance this session.",desc:"Most of the urges caught you. That is data, not a verdict. Impulse control research shows baseline resistance varies significantly by context, fatigue, and prior cognitive load.",science:"Ego depletion research by Baumeister et al. (1998) demonstrated that self-control draws on a limited resource that depletes with use. If you were already cognitively taxed before this session, lower resistance is the expected outcome, not a character finding.",source:"Baumeister et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
   ];
   var rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
-  function openResistance(){
+  function openResistance(){history.pushState({game:"the-resistance"},"","/play/the-resistance");
     document.getElementById('resistanceOverlay').classList.add('active');
     document.body.style.overflow='hidden';
     rsInit();
@@ -1804,7 +1804,7 @@ c:[
     const _rb_open=document.getElementById('rs-btn');
     if(_rb_open){_rb_open.style.display='block';_rb_open.textContent='Begin';_rb_open.onclick=rsStart;}
   }
-  function closeResistance(){document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;rs2Running=false;}
+  function closeResistance(){history.replaceState({},"","/play");document.getElementById('resistanceOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rs2Timer);clearTimeout(rs2SpawnTimer);clearTimeout(rs2PhaseTimer);rs2Timer=null;rs2SpawnTimer=null;rs2PhaseTimer=null;rs2Running=false;}
   function rsSetLevel(dur,el){if(rs2Running)return;rs2Duration=dur;document.querySelectorAll('.rs-lv').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('rs-time').textContent=dur;document.getElementById('rs-timer-fill').style.width='100%';}
 
   // RESISTANCE GAME ENGINE
@@ -2058,13 +2058,13 @@ c:[
       dots.appendChild(dot);
     }
   }
-  function openJournal(){
+  function openJournal(){history.pushState({game:"micro-journal"},"","/play/micro-journal");
     document.getElementById('journalOverlay').classList.add('active');
     document.body.style.overflow='hidden';
     document.getElementById('mj-date').textContent=mjFmt(new Date());
     mjRender();
   }
-  function closeJournal(){document.getElementById('journalOverlay').classList.remove('active');document.body.style.overflow='';}
+  function closeJournal(){history.replaceState({},"","/play");document.getElementById('journalOverlay').classList.remove('active');document.body.style.overflow='';}
 
 
   var nrCanvas,nrCtx,nrW,nrH,nrTrees=[],nrParticles=[],nrRunning=false,nrSec=0,nrTimer=null,nrAnimFrame,nrBroken=false;
@@ -2139,8 +2139,8 @@ c:[
     }
   }
   function nrAnimate(){if(!nrRunning&&!nrBroken)return;nrDrawFrame();nrAnimFrame=requestAnimationFrame(nrAnimate);}
-  function openNothing(){document.getElementById('nothingOverlay').classList.add('active');document.body.style.overflow='hidden';nrReset();}
-  function closeNothing(){document.getElementById('nothingOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);nrRunning=false;}
+  function openNothing(){history.pushState({game:"the-nothing-room"},"","/play/the-nothing-room");document.getElementById('nothingOverlay').classList.add('active');document.body.style.overflow='hidden';nrReset();}
+  function closeNothing(){history.replaceState({},"","/play");document.getElementById('nothingOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);nrRunning=false;}
   function nrBegin(){
     document.getElementById('nr-btn').style.display='none';
     document.getElementById('nr-msg').textContent='';
@@ -2247,7 +2247,7 @@ c:[
   function ecLoad(){try{return JSON.parse(localStorage.getItem(EC_KEY)||'[]');}catch(e){return [];}}
   function ecSave2(e){try{localStorage.setItem(EC_KEY,JSON.stringify(e));}catch(e){}}
   function ecFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
-  function openCourt(){
+  function openCourt(){history.pushState({game:"evening-court"},"","/play/evening-court");
     document.getElementById('courtOverlay').classList.add('active');
     document.body.style.overflow='hidden';
     const now=new Date();
@@ -2255,7 +2255,7 @@ c:[
     const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
     document.getElementById('ec-date').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
   }
-  function closeCourt(){document.getElementById('courtOverlay').classList.remove('active');document.body.style.overflow='';}
+  function closeCourt(){history.replaceState({},"","/play");document.getElementById('courtOverlay').classList.remove('active');document.body.style.overflow='';}
   function ecSave(){
     const a1=document.getElementById('ec-q1').value.trim();
     const a2=document.getElementById('ec-q2').value.trim();
@@ -2343,7 +2343,7 @@ c:[
     setTimeout(()=>{m.textContent=txt;m.style.opacity="1";},200);
   }
 
-  function openWall(){
+  function openWall(){history.pushState({game:"the-wall"},"","/play/the-wall");
     document.getElementById("wallOverlay").classList.add("active");
     document.body.style.overflow="hidden";
     document.getElementById("wall-loading").style.display="block";
@@ -2352,7 +2352,7 @@ c:[
     wallFetch();
     wallRefreshTimer=setInterval(wallFetch,15000);
   }
-  function closeWall(){
+  function closeWall(){history.replaceState({},"","/play");
     document.getElementById("wallOverlay").classList.remove("active");
     document.body.style.overflow="";
     clearInterval(wallRefreshTimer);
@@ -2369,7 +2369,7 @@ c:[
     const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
     return 'Returns '+days[n.getDay()]+', '+months[n.getMonth()]+' '+n.getDate();
   }
-  function openVoid(){
+  function openVoid(){history.pushState({game:"the-void"},"","/play/the-void");
     document.getElementById('voidOverlay').classList.add('active');
     document.body.style.overflow='hidden';
     document.getElementById('void-intro').style.display='flex';
@@ -2384,7 +2384,7 @@ c:[
       document.getElementById('void-done').style.display='flex';
     }
   }
-  function closeVoid(){
+  function closeVoid(){history.replaceState({},"","/play");
     document.getElementById('voidOverlay').classList.remove('active');
     document.body.style.overflow='';
     clearInterval(voidT);voidT=null;
@@ -2437,8 +2437,8 @@ c:[
   function tmFmt(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return m[d.getMonth()]+' '+d.getDate()+', '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
   function tmLoadAll(){try{return JSON.parse(localStorage.getItem(TM_KEY)||'[]');}catch(e){return [];}}
   function tmSaveAll(e){try{localStorage.setItem(TM_KEY,JSON.stringify(e));}catch(e){}}
-  function openTrigger(){document.getElementById('triggerOverlay').classList.add('active');document.body.style.overflow='hidden';tmAns={};tmStep=0;tmRender();}
-  function closeTrigger(){document.getElementById('triggerOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openTrigger(){history.pushState({game:"trigger-map"},"","/play/trigger-map");document.getElementById('triggerOverlay').classList.add('active');document.body.style.overflow='hidden';tmAns={};tmStep=0;tmRender();}
+  function closeTrigger(){history.replaceState({},"","/play");document.getElementById('triggerOverlay').classList.remove('active');document.body.style.overflow='';}
   function tmRender(){
     const s=TM_STEPS[tmStep];
     document.getElementById('tm-step-wrap').style.display='block';
@@ -2552,8 +2552,8 @@ c:[
     ]}}
   ]};
   var sbPath=[],sbLevel=0;
-  function openSaboteur(){document.getElementById('saboteurOverlay').classList.add('active');document.body.style.overflow='hidden';sbInit();}
-  function closeSaboteur(){document.getElementById('saboteurOverlay').classList.remove('active');document.body.style.overflow='';}
+  function openSaboteur(){history.pushState({game:"the-saboteur"},"","/play/the-saboteur");document.getElementById('saboteurOverlay').classList.add('active');document.body.style.overflow='hidden';sbInit();}
+  function closeSaboteur(){history.replaceState({},"","/play");document.getElementById('saboteurOverlay').classList.remove('active');document.body.style.overflow='';}
   function sbInit(){sbPath=[];sbLevel=0;document.getElementById('sb-step').style.display='block';document.getElementById('sb-result').style.display='none';document.getElementById('sb-prog').style.width='0%';document.getElementById('sb-level').style.width='0%';document.getElementById('sb-level-val').textContent='0%';sbRender(SB_TREE,0,4);}
   function sbRender(node,depth,max){
     document.getElementById('sb-prog').style.width=(depth/max*100)+'%';
@@ -2721,8 +2721,8 @@ c:[
       if(chACtx){chACtx.close();chACtx=null;}
     }catch(e){}
   }
-  function openChaos(){document.getElementById('chaosOverlay').classList.add('active');document.body.style.overflow='hidden';}
-  function closeChaos(){document.getElementById('chaosOverlay').classList.remove('active');document.body.style.overflow='';chStopAudio2();clearInterval(chTmr2);cancelAnimationFrame(chAF2);chRun2=false;document.getElementById('ch-intro').style.display='flex';document.getElementById('ch-storm').style.display='none';document.getElementById('ch-after').style.display='none';}
+  function openChaos(){history.pushState({game:"the-chaos-button"},"","/play/the-chaos-button");document.getElementById('chaosOverlay').classList.add('active');document.body.style.overflow='hidden';}
+  function closeChaos(){history.replaceState({},"","/play");document.getElementById('chaosOverlay').classList.remove('active');document.body.style.overflow='';chStopAudio2();clearInterval(chTmr2);cancelAnimationFrame(chAF2);chRun2=false;document.getElementById('ch-intro').style.display='flex';document.getElementById('ch-storm').style.display='none';document.getElementById('ch-after').style.display='none';}
   function chEnter(){
     document.getElementById('ch-intro').style.display='none';
     const storm=document.getElementById('ch-storm');storm.style.display='flex';
@@ -2832,8 +2832,8 @@ c:[
     });
     rrBgAF2=requestAnimationFrame(rrDrawBg2);
   }
-  function openResistanceRoom(){document.getElementById('resistanceRoomOverlay').classList.add('active');document.body.style.overflow='hidden';}
-  function closeResistanceRoom(){document.getElementById('resistanceRoomOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rrTmr2);cancelAnimationFrame(rrBgAF2);}
+  function openResistanceRoom(){history.pushState({game:"the-resistance-room"},"","/play/the-resistance-room");document.getElementById('resistanceRoomOverlay').classList.add('active');document.body.style.overflow='hidden';}
+  function closeResistanceRoom(){history.replaceState({},"","/play");document.getElementById('resistanceRoomOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(rrTmr2);cancelAnimationFrame(rrBgAF2);}
   function rroomStart(){
     rrExcuses2=rrShuffle(RROOM_EXCUSES).slice(0,10);
     rrIdx2=0;rrRej2=0;rrAcc2=0;rrHist2=[];rrTypes2={};
@@ -2998,13 +2998,13 @@ var gLevel=0,gSelected=[],gCleared=[],gTotalCleared=0;
 
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
-function openGame(){
+function openGame(){history.pushState({game:"the-weight"},"","/play/the-weight");
   document.getElementById('gameOverlay').classList.add('active');
   document.body.style.overflow='hidden';
   gLevel=0;gTotalCleared=0;
   gInitLevel();
 }
-function closeGame(){
+function closeGame(){history.replaceState({},"","/play");
   document.getElementById('gameOverlay').classList.remove('active');
   document.body.style.overflow='';
 }
@@ -3222,6 +3222,17 @@ function toggleAmbient(){
     init();draw();
   })();
 
+
+window.addEventListener('popstate',function(e){
+  var overlays=['driftOverlay','loopOverlay','stackOverlay','waitOverlay','breathOverlay',
+    'feelingOverlay','resistanceOverlay','journalOverlay','nothingOverlay','courtOverlay',
+    'wallOverlay','voidOverlay','triggerOverlay','saboteurOverlay','chaosOverlay',
+    'resistanceRoomOverlay','gameOverlay'];
+  overlays.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.classList.remove('active');
+  });
+});
 </script>
 </body>
 </html>
