@@ -10,6 +10,15 @@ export default {
     }
 
     // /writings/* - serve via writings/index.html for dynamic routing
+    if (path.startsWith('/play/') && path.length > '/play/'.length) {
+      const newUrl = new URL('/grindorium-play.html', url.origin);
+      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+      }));
+      return addCacheHeaders(addSecurityHeaders(response), path);
+    }
+
     if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
       const newUrl = new URL('/writings/index.html', url.origin);
       const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
