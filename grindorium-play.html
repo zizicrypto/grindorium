@@ -796,7 +796,7 @@
       <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:8px;text-align:center;">Name what is here today.</div>
       <div id="fl-sub" style="font-size:10px;letter-spacing:0.1em;color:#a8bdd0;margin-bottom:32px;text-align:center;">Select up to 7 feelings. They will hang on the tree.</div>
       <div id="fl-tree" style="position:relative;width:100%;max-width:480px;height:200px;margin-bottom:24px;">
-        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:2px;height:60px;background:rgba(126,184,232,0.1);"></div>
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:3px;height:60px;background:rgba(126,184,232,0.22);"></div>
         <div id="fl-branches" style="position:absolute;bottom:0;left:0;right:0;top:0;"></div>
       </div>
       <div id="fl-words" style="display:flex;flex-wrap:wrap;gap:8px;max-width:480px;justify-content:center;margin-bottom:20px;"></div>
@@ -1791,7 +1791,7 @@ c:[
     {minRate:65,title:"Moderate impulse resistance.",desc:"Roughly one in three caught you. This places you near the population average in laboratory impulse-control tasks. The urges that succeeded were probably the ones that felt most justified.",science:"Urge surfing literature describes this as the urgency-justification loop. Each urge constructs a reason why this one is different. The practice is learning to recognize that construction without following it.",source:"Whiteside and Lynam (2001). The Five Factor Model and Impulsivity. Personality and Individual Differences."},
     {minRate:0,title:"Low resistance this session.",desc:"Most of the urges caught you. That is data, not a verdict. Impulse control research shows baseline resistance varies significantly by context, fatigue, and prior cognitive load.",science:"Ego depletion research by Baumeister et al. (1998) demonstrated that self-control draws on a limited resource that depletes with use. If you were already cognitively taxed before this session, lower resistance is the expected outcome, not a character finding.",source:"Baumeister et al. (1998). Ego Depletion. Journal of Personality and Social Psychology."},
   ];
-  var rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0;
+  var rs2Duration=60,rs2Sec=60,rs2Timer=null,rs2SpawnTimer=null,rs2PhaseTimer=null,rs2Clicked=0,rs2Resisted=0,rs2Score=0,rs2Running=false,rs2PhaseIdx=0,rs2ShareText='';
   function openResistance(){history.pushState({game:"the-resistance"},"","/play/the-resistance");
     document.getElementById('resistanceOverlay').classList.add('active');
     document.body.style.overflow='hidden';
@@ -1884,12 +1884,17 @@ c:[
     else if(accuracy>=80)verdict='Strong resistance. A few slipped through.';
     else if(accuracy>=50)verdict='The urges had power today.';
     else verdict='The screen won this round.';
+    var scoreVal=Math.max(0,rs2Score);
+    rs2ShareText=verdict+'  Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Score: '+scoreVal;
     if(result){
-      result.style.cssText='display:flex;flex-direction:column;align-items:center;text-align:center;padding:16px;width:100%;min-height:80px;z-index:20;position:relative;';
-      result.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:12px;">'+verdict+'</div><div style="font-size:11px;letter-spacing:0.1em;color:#6b7f96;margin-bottom:8px;">Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Score: '+Math.max(0,rs2Score)+'</div>';
+      result.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 32px;position:fixed;inset:0;z-index:350;background:var(--bg);';
+      result.innerHTML='<div style="font-family:\'Cormorant Garamond\',serif;font-size:22px;font-weight:300;color:#8aa0b8;margin-bottom:16px;">'+verdict+'</div>'
+        +'<div style="font-size:11px;letter-spacing:0.1em;color:#6b7f96;margin-bottom:32px;">Resisted: '+rs2Resisted+' | Clicked: '+rs2Clicked+' | Score: '+scoreVal+'</div>'
+        +'<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">'
+        +'<button class="g-btn primary" onclick="rsInit()" style="cursor:pointer;">Try again</button>'
+        +'<button class="g-btn gs-share-btn" data-active="0" onclick="grindShare(\'The Resistance\',rs2ShareText,\'\')" style="cursor:pointer;">Share result</button>'
+        +'</div>';
     }
-    const _rtry=document.getElementById('rs-try-btn');if(_rtry)_rtry.style.display='block';
-    const _rshare=document.getElementById('rs-share-btn');if(_rshare)_rshare.style.display='block';
   }
 
   function rsInit(){

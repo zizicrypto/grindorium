@@ -216,8 +216,8 @@
   <p class="disconnect-text">Just breathe. Nothing else.</p>
 </div>
 <nav>
-  <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-    <picture><source srcset="/grindorium-character.webp" type="image/webp"/><img src="/grindorium-character.png" alt="" class="nav-logo-img" aria-hidden="true" onerror="this.style.display:'none'"/></picture>
+  <a href="#" class="nav-logo" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">
+    <picture><source srcset="/grindorium-character.webp" type="image/webp"/><img src="/grindorium-character.png" alt="" class="nav-logo-img" aria-hidden="true" onerror="this.style.display='none'"/></picture>
     <span class="nav-logo-text">Grindorium</span>
   </a>
   <ul class="nav-links">
