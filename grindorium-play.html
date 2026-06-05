@@ -987,7 +987,7 @@
       <div style="font-size:10px;letter-spacing:0.1em;color:#a8bdd0;margin-bottom:40px;text-align:center;position:relative;z-index:10;">What is present for you in this moment. Anonymous. Shared with everyone here.</div>
       <div style="display:flex;gap:0;width:100%;max-width:440px;margin-bottom:40px;position:relative;z-index:10;">
         <input id="wall-input" type="text" placeholder="one word..." maxlength="20" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.15);font-family:\'Cormorant Garamond\',serif;font-size:24px;font-weight:300;color:#fff;padding:8px 0;outline:none;letter-spacing:0.05em;" onkeydown="if(event.key===\'Enter\')wallSubmit()" oninput="this.value=this.value.replace(/\\s/g,\'\')"/>
-        <button onclick="wallSubmit()" style="font-family:\'Space Mono\',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 16px;border:none;border-bottom:1px solid rgba(126,184,232,0.15);background:transparent;color:#7eb8e8;cursor:pointer;white-space:nowrap;">Share</button>
+        <button id="wall-submit-btn" onclick="wallSubmit()" style="font-family:\'Space Mono\',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:8px 16px;border:none;border-bottom:1px solid rgba(126,184,232,0.15);background:transparent;color:#7eb8e8;cursor:pointer;white-space:nowrap;">Share</button>
       </div>
       <div id="wall-cloud" style="position:relative;width:100%;max-width:560px;min-height:260px;z-index:10;"></div>
       <div id="wall-count" style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#a8bdd0;margin-top:20px;text-align:center;position:relative;z-index:10;"></div>
@@ -2236,7 +2236,7 @@ c:[
   const WALL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
   const WALL_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
-  var wallWords=[],wallYours=null,wallRefreshTimer=null;
+  var wallWords=[],wallYours=null,wallRefreshTimer=null,wallCooldownTimer=null;
 
   function wallFetch(){
     fetch(WALL_URL+"/rest/v1/words?select=word&order=created_at.desc&limit=200",{
@@ -2294,10 +2294,22 @@ c:[
     });
   }
   function wallSubmit(){
+    var btn=document.getElementById("wall-submit-btn");
+    if(btn&&btn.disabled)return;
     var val=document.getElementById("wall-input");
     if(!val)return;
     var word=val.value.trim().toUpperCase();
     if(!word||word.includes(" ")||word.length>20)return;
+    if(btn){
+      btn.disabled=true;
+      var secs=30;
+      btn.textContent=secs+"s";
+      wallCooldownTimer=setInterval(function(){
+        secs--;
+        if(secs<=0){clearInterval(wallCooldownTimer);btn.disabled=false;btn.textContent="Share";}
+        else{btn.textContent=secs+"s";}
+      },1000);
+    }
     fetch(WALL_URL+"/rest/v1/words",{
       method:"POST",
       headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},

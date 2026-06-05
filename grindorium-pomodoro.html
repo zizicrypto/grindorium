@@ -206,20 +206,20 @@ function tick(){
       logSession(task);
       completedSessions++;
       if(completedSessions>=maxSessions){
-        // Tum seanslar tamamlandi
+        // All sessions completed
         document.getElementById('timerPhase').textContent='all done. well done.';
         document.getElementById('startBtn').textContent='Start';
         document.getElementById('timerDisplay').textContent='done';
         updateSessions();return;
       }
-      // Mola
+      // Break time
       isWork=false;
       remaining=MODES[currentMode].rest*60;
       totalSeconds=MODES[currentMode].rest*60;
       document.getElementById('timerPhase').textContent='rest. breathe.';
       document.getElementById('startBtn').textContent='Start rest';
     } else {
-      // Calisma
+      // Work time
       isWork=true;
       remaining=MODES[currentMode].work*60;
       totalSeconds=MODES[currentMode].work*60;
@@ -311,7 +311,7 @@ function toggleSound(){
   }
 }
 
-// Page visibility - zamanlayici sekme kapaninca durmaz, sadece bildirir
+// Page visibility - timer keeps running when tab is hidden, only updates title
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&running){
     document.title='⏱ '+fmt(remaining)+' - Grindorium';

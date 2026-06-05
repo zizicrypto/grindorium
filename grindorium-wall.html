@@ -59,7 +59,7 @@
 
 <div class="input-row">
   <input class="word-input" id="w-input" type="text" placeholder="type here..." maxlength="20" onkeydown="if(event.key==='Enter')wSubmit()" oninput="this.value=this.value.replace(/\s/g,'')"/>
-  <button class="word-submit" onclick="wSubmit()">Share</button>
+  <button class="word-submit" id="w-submit-btn" onclick="wSubmit()">Share</button>
 </div>
 
 <div class="loading" id="w-loading">Loading the wall...</div>
@@ -73,7 +73,7 @@
 const SB_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
 const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
 const COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
-let words=[],yours=null;
+let words=[],yours=null,wCooldownTimer=null;
 
 async function fetchWords(){
   try{
@@ -127,11 +127,23 @@ function render(){
 }
 
 async function wSubmit(){
+  const btn=document.getElementById("w-submit-btn");
+  if(btn&&btn.disabled)return;
   const val=document.getElementById("w-input").value.trim().toLowerCase();
   if(!val||val.length<2)return;
   if(!/^[a-zA-Z]+$/.test(val)){setMsg("One word. Letters only.");return;}
   yours=val;
   document.getElementById("w-input").value="";
+  if(btn){
+    btn.disabled=true;
+    let secs=30;
+    btn.textContent=secs+"s";
+    wCooldownTimer=setInterval(()=>{
+      secs--;
+      if(secs<=0){clearInterval(wCooldownTimer);btn.disabled=false;btn.textContent="Share";}
+      else{btn.textContent=secs+"s";}
+    },1000);
+  }
   try{
     await fetch(SB_URL+"/rest/v1/words",{
       method:"POST",
