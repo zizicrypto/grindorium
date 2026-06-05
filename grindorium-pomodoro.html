@@ -279,10 +279,6 @@ function renderLog(){
   if(log.length===0){empty.style.display='block';return;}
   empty.style.display='none';
   const today=new Date().toDateString();
-  const todaySessions=log.filter(e=>{
-    const d=new Date(e.date);
-    return true; // tumu goster
-  });
   log.slice(0,10).forEach(e=>{
     const el=document.createElement('div');
     el.className='log-entry';
