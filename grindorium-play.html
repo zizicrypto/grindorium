@@ -2201,7 +2201,7 @@ c:[
 
 
   const ZEN_LOCKED_GAMES=['gameOverlay','driftOverlay','loopOverlay','stackOverlay','waitOverlay','resistanceOverlay'];
-  const ZEN_LOCKED_CARDS=[0,1,2,3,7,8]; // indices of game cards to lock
+  const ZEN_LOCKED_CARDS=[0,1,2,3,4,7]; // indices of game cards to lock (Weight,Drift,Loop,Stack,Wait,Resistance)
 
   function zenCheck(){
     const hour=new Date().getHours();
@@ -2983,17 +2983,20 @@ c:[
     return DC_GAMES[diff%DC_GAMES.length];
   }
   function dcInit(){
-    const game=dcGetGame();
-    const banner=document.getElementById('dc-banner');
+    var game=dcGetGame();
+    var banner=document.getElementById('dc-banner');
     if(!banner)return;
     document.getElementById('dc-game-name').textContent=game.name;
     document.getElementById('dc-game-desc').textContent=game.desc;
-    const todayKey=dcGetTodayKey();
-    const doneDays=JSON.parse(localStorage.getItem(DC_KEY)||'{}');
+    var todayKey=dcGetTodayKey();
+    var doneDays=JSON.parse(localStorage.getItem(DC_KEY)||'{}');
     if(doneDays[todayKey]){
       document.getElementById('dc-done-badge').style.display='block';
       document.getElementById('dc-play-btn').style.opacity='0.4';
       document.getElementById('dc-play-btn').textContent='Completed today';
+    } else if(game.fn==='openVoid'&&!voidCheck()){
+      document.getElementById('dc-play-btn').style.opacity='0.4';
+      document.getElementById('dc-play-btn').textContent='Already visited this week';
     }
   }
   function dcPlay(){
@@ -3274,13 +3277,18 @@ function toggleAmbient(){
 })();
 
 window.addEventListener('popstate',function(e){
-  var overlays=['driftOverlay','loopOverlay','stackOverlay','waitOverlay','breathOverlay',
-    'feelingOverlay','resistanceOverlay','journalOverlay','nothingOverlay','courtOverlay',
-    'wallOverlay','voidOverlay','triggerOverlay','saboteurOverlay','chaosOverlay',
-    'resistanceRoomOverlay','gameOverlay'];
-  overlays.forEach(function(id){
+  var closers={
+    'gameOverlay':closeGame,'driftOverlay':closeDrift,'loopOverlay':closeLoop,
+    'stackOverlay':closeStack,'waitOverlay':closeWait,'breathOverlay':closeBreath,
+    'feelingOverlay':closeFeeling,'resistanceOverlay':closeResistance,
+    'journalOverlay':closeJournal,'nothingOverlay':closeNothing,'courtOverlay':closeCourt,
+    'wallOverlay':closeWall,'voidOverlay':closeVoid,'triggerOverlay':closeTrigger,
+    'saboteurOverlay':closeSaboteur,'chaosOverlay':closeChaos,
+    'resistanceRoomOverlay':closeResistanceRoom
+  };
+  Object.keys(closers).forEach(function(id){
     var el=document.getElementById(id);
-    if(el)el.classList.remove('active');
+    if(el&&el.classList.contains('active'))closers[id]();
   });
 });
 </script>

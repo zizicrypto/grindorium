@@ -433,8 +433,9 @@
   // AMBIENT
   let ambientAudio=null,ambientOn=false;
   function toggleAmbient(){
-    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--dim)';});}
-    else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;['soundIcon','soundIconHero'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.color='var(--accent)';});}
+    var sIcon=document.getElementById('soundIcon');
+    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;if(sIcon)sIcon.style.color='var(--dim)';}
+    else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;if(sIcon)sIcon.style.color='var(--accent)';}
   }
   // DISCONNECT
   function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}
@@ -489,19 +490,41 @@
   if(savedHabitVal){const el=document.getElementById('habitInput');if(el)el.value=savedHabitVal;}
   if(window.requestIdleCallback){requestIdleCallback(()=>{const initStreak=streakLoad();streakUpdateUI(initStreak.count,initStreak.last===streakGetToday());});}else{setTimeout(()=>{const initStreak=streakLoad();streakUpdateUI(initStreak.count,initStreak.last===streakGetToday());},200);}
   // JOURNAL
+  // Migration: grind_journal (old key) -> grindorium_journal (unified key)
+  (function(){
+    var old=localStorage.getItem('grind_journal');
+    if(!old)return;
+    try{
+      var oldEntries=JSON.parse(old);
+      if(!Array.isArray(oldEntries)||oldEntries.length===0){localStorage.removeItem('grind_journal');return;}
+      var newEntries=JSON.parse(localStorage.getItem('grindorium_journal')||'[]');
+      var converted=oldEntries.map(function(e){
+        var d=new Date(e.date);
+        if(isNaN(d.getTime()))d=new Date();
+        return{text:e.text,date:d.toISOString(),display:e.date};
+      });
+      var merged=newEntries.concat(converted);
+      if(merged.length>90)merged=merged.slice(0,90);
+      localStorage.setItem('grindorium_journal',JSON.stringify(merged));
+      localStorage.removeItem('grind_journal');
+    }catch(e){localStorage.removeItem('grind_journal');}
+  })();
   function saveEntry(){
-    const text=document.getElementById('journalInput').value.trim();
+    var text=document.getElementById('journalInput').value.trim();
     if(!text)return;
-    const entries=JSON.parse(localStorage.getItem('grind_journal')||'[]');
-    entries.unshift({text,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
-    localStorage.setItem('grind_journal',JSON.stringify(entries.slice(0,50)));
+    var entries=JSON.parse(localStorage.getItem('grindorium_journal')||'[]');
+    var now=new Date();
+    var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var display=months[now.getMonth()]+' '+now.getDate()+', '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    entries.unshift({text:text,date:now.toISOString(),display:display});
+    localStorage.setItem('grindorium_journal',JSON.stringify(entries.slice(0,90)));
     document.getElementById('journalInput').value='';
     renderEntries();
   }
   function renderEntries(){
-    const entries=JSON.parse(localStorage.getItem('grind_journal')||'[]');
-    const el=document.getElementById('journalEntries');
-    el.innerHTML=entries.map(e=>`<div class="journal-entry"><div class="journal-entry-date">${e.date}</div><div class="journal-entry-text">${e.text}</div></div>`).join('');
+    var entries=JSON.parse(localStorage.getItem('grindorium_journal')||'[]');
+    var el=document.getElementById('journalEntries');
+    el.innerHTML=entries.map(function(e){return '<div class="journal-entry"><div class="journal-entry-date">'+(e.display||e.date)+'</div><div class="journal-entry-text">'+e.text+'</div></div>';}).join('');
   }
   renderEntries();
   // SMOOTH SCROLL
