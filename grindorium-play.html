@@ -2200,32 +2200,33 @@ c:[
   }
 
 
-  const ZEN_LOCKED_GAMES=['gameOverlay','driftOverlay','loopOverlay','stackOverlay','waitOverlay','resistanceOverlay'];
-  const ZEN_LOCKED_CARDS=[0,1,2,3,4,7]; // indices of game cards to lock (Weight,Drift,Loop,Stack,Wait,Resistance)
+  // Calm games that remain open during Zen Mode (23:00-05:00)
+  var ZEN_CALM=['openBreath','openFeeling','openNothing','openJournal'];
 
   function zenCheck(){
-    const hour=new Date().getHours();
-    const isZen=hour>=23||hour<5;
-    const banner=document.getElementById('zen-banner');
-
+    var hour=new Date().getHours();
+    var isZen=hour>=23||hour<5;
+    var banner=document.getElementById('zen-banner');
     if(isZen){
       if(banner)banner.classList.add('active');
-      document.querySelectorAll('.game-card').forEach((card,i)=>{
-        if(ZEN_LOCKED_CARDS.includes(i)){
-          card.classList.add('zen-locked');
-          if(!card.querySelector('.zen-badge')){
-            const b=document.createElement('div');
-            b.className='zen-badge';
-            b.textContent='Zen mode';
-            card.appendChild(b);
-          }
+      document.body.style.filter='brightness(0.92)';
+      document.querySelectorAll('.game-card:not(.soon)').forEach(function(card){
+        var onclick=card.getAttribute('onclick')||'';
+        var fnMatch=onclick.match(/open\w+/);
+        if(!fnMatch)return;
+        var fn=fnMatch[0];
+        if(ZEN_CALM.indexOf(fn)>=0)return;
+        card.classList.add('zen-locked');
+        card.style.position='relative';
+        if(!card.querySelector('.zen-badge')){
+          var b=document.createElement('div');
+          b.className='zen-badge';
+          b.textContent='After 23:00';
+          card.appendChild(b);
         }
-      });
-      // Override open functions for locked games
-      ['openGame','openDrift','openLoop','openStack','openWait','openResistance'].forEach(fn=>{
-        window[fn]=()=>{
-          const m=document.getElementById('zen-banner');
-          if(m){m.style.animation='none';setTimeout(()=>{m.style.animation='';},200);}
+        window[fn]=function(){
+          var m=document.getElementById('zen-banner');
+          if(m){m.style.animation='none';setTimeout(function(){m.style.animation='';},200);}
         };
       });
     } else {
@@ -3203,36 +3204,6 @@ function toggleAmbient(){
   }
 }
 
-  (function(){
-    const hour = new Date().getHours();
-    const isZen = hour >= 23 || hour < 5;
-    if(!isZen) return;
-
-    // Banner ekle
-    const banner = document.createElement('div');
-    banner.className = 'zen-mode-banner visible';
-    banner.innerHTML = '<span class="zen-banner-text">Zen Mode</span><span class="zen-banner-sub">After 23:00, only calm games are available. Sleep well.</span>';
-    const gameGrid = document.querySelector('.game-grid');
-    if(gameGrid) gameGrid.parentNode.insertBefore(banner, gameGrid);
-
-    // Kilitlenecek oyunlar (indekse gore - 0'dan baslayarak)
-    // 0:Weight, 1:Drift, 2:Loop, 3:Stack, 4:Wait, 5:Breath(acik), 6:Feeling(acik), 7:Resistance, 8:Journal(acik), 9:Nothing(acik)
-    const lockedIndices = [0,1,2,3,4,7];
-    const cards = document.querySelectorAll('.game-card:not(.soon)');
-    lockedIndices.forEach(i => {
-      if(cards[i]){
-        cards[i].classList.add('zen-locked');
-        const badge = document.createElement('div');
-        badge.className = 'zen-badge';
-        badge.textContent = 'After 23:00';
-        cards[i].style.position = 'relative';
-        cards[i].appendChild(badge);
-      }
-    });
-
-    // Body'e zen class ekle - hafif tonlama
-    document.body.style.filter = 'brightness(0.92)';
-  })();
 
   zenCheck();
   dcInit();
