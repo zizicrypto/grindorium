@@ -98,19 +98,29 @@ function render(){
   cloud.style.minHeight=ch+"px";
   const maxCount=words.length>0?Math.max(...words.map(w=>w.count)):1;
   const placed=[];
+  const isMobile=cw<480;
   words.slice(0,35).forEach((item,i)=>{
     const el=document.createElement("div");
     el.className="cloud-word";
-    const size=16+(item.count/maxCount)*30;
+    const size=isMobile?(10+(item.count/maxCount)*16):(16+(item.count/maxCount)*30);
     el.style.fontSize=size+"px";
     const color=COLORS[i%COLORS.length];
     const opacity=0.2+(item.count/maxCount)*0.65;
     el.style.color=item.word===yours?"rgba(134,239,172,0.95)":color+opacity+")";
     el.textContent=item.word;
-    let x,y,tries=0;
-    do{x=Math.random()*(cw-180);y=Math.random()*(ch-40);tries++;}while(tries<20);
-    el.style.left=x+"px";el.style.top=y+"px";
+    el.style.visibility="hidden";
     cloud.appendChild(el);
+    const ew=el.offsetWidth;const eh=el.offsetHeight;
+    let x,y,tries=0,fits=false;
+    while(tries<100&&!fits){
+      x=Math.random()*Math.max(0,cw-ew);
+      y=Math.random()*Math.max(0,ch-eh);
+      fits=true;
+      for(let j=0;j<placed.length;j++){const p=placed[j];if(x<p.x+p.w+4&&x+ew+4>p.x&&y<p.y+p.h+4&&y+eh+4>p.y){fits=false;break;}}
+      tries++;
+    }
+    placed.push({x,y,w:ew,h:eh});
+    el.style.left=x+"px";el.style.top=y+"px";el.style.visibility="";
   });
   const total=words.reduce((s,w)=>s+w.count,0);
   document.getElementById("w-meta").textContent=total+" word"+(total===1?"":"s")+" shared in the last 24 hours";

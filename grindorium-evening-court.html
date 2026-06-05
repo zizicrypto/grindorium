@@ -32,7 +32,7 @@
     .q-num{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;}
     .q-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--white);margin-bottom:8px;line-height:1.5;}
     .q-source{font-size:8px;letter-spacing:0.12em;color:#2d3f52;margin-bottom:12px;font-style:italic;}
-    .q-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--dim);padding:8px 0;outline:none;resize:none;min-height:56px;line-height:1.6;transition:border-color 0.2s;}
+    .q-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.1);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--dim);padding:8px 0;outline:none;resize:none;min-height:56px;line-height:1.6;transition:border-color 0.2s;overflow:hidden;}
     .q-input::placeholder{color:#2d3f52;}
     .q-input:focus{border-bottom-color:rgba(126,184,232,0.25);}
     .btn-row{display:flex;gap:8px;margin-bottom:48px;}
@@ -74,21 +74,21 @@
     <div class="q-num">I</div>
     <div class="q-text">What was outside my control today that I treated as though it were within it?</div>
     <div class="q-source">Epictetus, Enchiridion, 1.1</div>
-    <textarea class="q-input" id="q1" placeholder="write here..." rows="2"></textarea>
+    <textarea class="q-input" id="q1" placeholder="write here..." rows="3"></textarea>
   </div>
 
   <div class="question">
     <div class="q-num">II</div>
     <div class="q-text">Which impulse did I follow that I wish I had not?</div>
     <div class="q-source">Marcus Aurelius, Meditations, 7.2</div>
-    <textarea class="q-input" id="q2" placeholder="write here..." rows="2"></textarea>
+    <textarea class="q-input" id="q2" placeholder="write here..." rows="3"></textarea>
   </div>
 
   <div class="question">
     <div class="q-num">III</div>
     <div class="q-text">Where did I act below the standard I hold for myself?</div>
     <div class="q-source">Seneca, Letters, 83.2</div>
-    <textarea class="q-input" id="q3" placeholder="write here..." rows="2"></textarea>
+    <textarea class="q-input" id="q3" placeholder="write here..." rows="3"></textarea>
   </div>
 
   <div class="btn-row">
@@ -176,6 +176,9 @@ const now=new Date();
 const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 document.getElementById('page-date').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+document.querySelectorAll('.q-input').forEach(function(ta){
+  ta.addEventListener('input',function(){this.style.height='auto';this.style.height=this.scrollHeight+'px';});
+});
 let ambientAudio=null,ambientOn=false;
 function toggleAmbient(){
   if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;document.getElementById('soundIcon').style.color='var(--dim)';}
