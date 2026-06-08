@@ -123,16 +123,23 @@ export default {
 
     // /wiki/* - serve static wiki pages
     if (path.startsWith('/wiki/') && path.length > '/wiki/'.length) {
+      const debugInfo = JSON.stringify({path, hasRoute: !!routes[path], routeTarget: routes[path] || null});
       if (routes[path]) {
         const newUrl = new URL(routes[path], url.origin);
-        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-          method: request.method,
-          headers: request.headers,
-        }));
-        return addCacheHeaders(addSecurityHeaders(response), routes[path]);
+        try {
+          const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+            method: request.method,
+            headers: request.headers,
+          }));
+          if (response.status === 403 || response.status === 404) {
+            return new Response('DEBUG: ' + debugInfo + ' ASSET_STATUS:' + response.status, {status: 200, headers: {'Content-Type': 'text/plain'}});
+          }
+          return addCacheHeaders(addSecurityHeaders(response), routes[path]);
+        } catch(e) {
+          return new Response('DEBUG ERROR: ' + debugInfo + ' ERR:' + e.message, {status: 200, headers: {'Content-Type': 'text/plain'}});
+        }
       }
-      // Fallback: 404
-      return new Response('Not found', { status: 404 });
+      return new Response('DEBUG NO ROUTE: ' + debugInfo, {status: 200, headers: {'Content-Type': 'text/plain'}});
     }
 
     // /writings/* - check routes table first, then fall back to index
