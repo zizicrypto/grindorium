@@ -6,4 +6,4 @@ main = "_worker.js"
 directory = "./"
 binding = "ASSETS"
 
-# deploy trigger: wiki and writings subdirs
+# deploy trigger: 1780930392
