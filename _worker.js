@@ -37,7 +37,7 @@ export default {
       return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
-    if (p    // Clean URL to HTML mapping
+    // Clean URL to HTML mapping
     const routes = {
       '/': '/index.html',
       '/play': '/grindorium-play.html',
