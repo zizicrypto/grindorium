@@ -19,25 +19,7 @@ export default {
       return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
-    if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
-      // Check routes table for static writing pages first
-      if (routes[path]) {
-        const staticUrl = new URL(routes[path], url.origin);
-        const staticResponse = await env.ASSETS.fetch(new Request(staticUrl.toString(), {
-          method: request.method,
-          headers: request.headers,
-        }));
-        return addCacheHeaders(addSecurityHeaders(staticResponse), routes[path]);
-      }
-      // Fallback to writings index for dynamic routing
-      const newUrl = new URL('/writings/index.html', url.origin);
-      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
-      return addCacheHeaders(addSecurityHeaders(response), '/writings/index.html');
-    }
-    // Clean URL to HTML mapping
+    if (p    // Clean URL to HTML mapping
     const routes = {
       '/': '/index.html',
       '/play': '/grindorium-play.html',
