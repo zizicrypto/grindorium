@@ -5,3 +5,5 @@ main = "_worker.js"
 [assets]
 directory = "./"
 binding = "ASSETS"
+
+# deploy trigger: wiki and writings subdirs
