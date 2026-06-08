@@ -39,7 +39,7 @@ export default {
       '/focus': '/grindorium-pomodoro.html',
       '/cli': '/grindorium-cli.html',
       '/writings': '/writings/index.html',
-      '/tests': '/grindorium-burnout.html',
+      '/tests': '/grindorium-tests.html',
       '/tests/burnout': '/grindorium-burnout.html',
       '/tests/anxiety': '/grindorium-anxiety.html',
       '/tests/procrastination': '/grindorium-procrastination.html',
