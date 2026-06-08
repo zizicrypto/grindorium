@@ -121,6 +121,20 @@ export default {
       return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
+    // /wiki/* - serve static wiki pages
+    if (path.startsWith('/wiki/') && path.length > '/wiki/'.length) {
+      if (routes[path]) {
+        const newUrl = new URL(routes[path], url.origin);
+        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+          method: request.method,
+          headers: request.headers,
+        }));
+        return addCacheHeaders(addSecurityHeaders(response), routes[path]);
+      }
+      // Fallback: 404
+      return new Response('Not found', { status: 404 });
+    }
+
     // /writings/* - check routes table first, then fall back to index
     if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
       if (routes[path]) {
