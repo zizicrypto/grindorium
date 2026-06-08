@@ -4,11 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wiki — Grindorium</title>
-  <meta name="description" content="Psychology concepts explained in plain language. Burnout, procrastination, attachment styles, self-sabotage, and more.">
+  <meta name="description" content="Psychology concepts explained in plain language. Burnout, anxiety, procrastination, self-sabotage, attachment styles, perfectionism, and more.">
   <link rel="canonical" href="https://grindorium.org/wiki">
-  <meta property="og:title" content="Grindorium Wiki — Psychology concepts in plain language">
-  <meta property="og:description" content="Burnout, procrastination, attachment, perfectionism, self-sabotage — explained without jargon.">
+  <meta property="og:title" content="Grindorium Wiki — Psychology explained plainly">
+  <meta property="og:description" content="Burnout, anxiety, procrastination, attachment, perfectionism, self-sabotage, loneliness — explained without jargon.">
   <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"Grindorium Wiki","description":"Psychology concepts explained in plain language.","url":"https://grindorium.org/wiki","publisher":{"@type":"Organization","name":"Grindorium","url":"https://grindorium.org"}}
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Space+Mono&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
@@ -17,16 +21,19 @@
     .nav-logo{font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff;text-decoration:none;}
     .nav-right{display:flex;gap:24px;}
     .nav-right a{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;text-decoration:none;}
-    .container{max-width:800px;margin:0 auto;padding:64px 24px;}
+    .nav-right a:hover{color:#8aa0b8;}
+    .container{max-width:800px;margin:0 auto;padding:64px 24px 80px;}
+    .breadcrumb{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#4a5568;margin-bottom:24px;}
+    .breadcrumb a{color:#4a5568;text-decoration:none;}
     .label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;}
     h1{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:#fff;margin-bottom:16px;}
     .lead{font-size:14px;color:#8aa0b8;line-height:1.9;margin-bottom:48px;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:rgba(126,184,232,0.06);}
-    .wiki-card{background:#080c12;padding:28px;text-decoration:none;display:block;transition:background 0.2s;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:rgba(126,184,232,0.06);}
+    .wiki-card{background:#080c12;padding:24px;text-decoration:none;display:block;transition:background 0.2s;}
     .wiki-card:hover{background:rgba(126,184,232,0.02);}
-    .wiki-card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#fff;margin-bottom:8px;}
-    .wiki-card-desc{font-size:11px;color:#4a5568;line-height:1.7;}
-    .wiki-card-tag{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-bottom:12px;}
+    .wiki-card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;margin-bottom:6px;}
+    .wiki-card-desc{font-size:10px;color:#4a5568;line-height:1.7;}
+    .wiki-card-tag{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-bottom:10px;}
   </style>
 </head>
 <body>
@@ -39,35 +46,23 @@
   </div>
 </nav>
 <div class="container">
-  <div class="label">Wiki</div>
+  <div class="breadcrumb"><a href="/">Grindorium</a> / Wiki</div>
   <h1>Psychology, plainly.</h1>
-  <p class="lead">The concepts behind the tests. No jargon. No oversimplification. Just clear explanations of things that are worth understanding.</p>
+  <p class="lead">The concepts behind the tests. No jargon. No oversimplification. Clear explanations of things worth understanding.</p>
   <div class="grid">
-    <a href="/wiki/burnout" class="wiki-card">
-      <div class="wiki-card-tag">Mental health</div>
-      <div class="wiki-card-title">Burnout</div>
-      <div class="wiki-card-desc">What burnout actually is, how it develops, and why rest alone does not fix it.</div>
-    </a>
-    <a href="/wiki/procrastination" class="wiki-card">
-      <div class="wiki-card-tag">Behavior</div>
-      <div class="wiki-card-title">Procrastination</div>
-      <div class="wiki-card-desc">Why delay is almost never about laziness — and what it is actually about.</div>
-    </a>
-    <a href="/wiki/self-sabotage" class="wiki-card">
-      <div class="wiki-card-tag">Behavior</div>
-      <div class="wiki-card-title">Self-Sabotage</div>
-      <div class="wiki-card-desc">How protection strategies from the past become obstacles in the present.</div>
-    </a>
-    <a href="/wiki/attachment-styles" class="wiki-card">
-      <div class="wiki-card-tag">Relationships</div>
-      <div class="wiki-card-title">Attachment Styles</div>
-      <div class="wiki-card-desc">Secure, anxious, avoidant, disorganized — and what each looks like in real relationships.</div>
-    </a>
-    <a href="/wiki/perfectionism" class="wiki-card">
-      <div class="wiki-card-tag">Behavior</div>
-      <div class="wiki-card-title">Perfectionism</div>
-      <div class="wiki-card-desc">The difference between high standards and the belief that imperfection makes you inadequate.</div>
-    </a>
+    <a href="/wiki/burnout" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Burnout</div><div class="wiki-card-desc">What burnout actually is, how it develops, and why rest alone does not fix it.</div></a>
+    <a href="/wiki/anxiety" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Anxiety</div><div class="wiki-card-desc">How a protection system becomes a persistent state — and what that means.</div></a>
+    <a href="/wiki/procrastination" class="wiki-card"><div class="wiki-card-tag">Behavior</div><div class="wiki-card-title">Procrastination</div><div class="wiki-card-desc">Why delay is almost never about laziness — and what it is actually about.</div></a>
+    <a href="/wiki/self-sabotage" class="wiki-card"><div class="wiki-card-tag">Behavior</div><div class="wiki-card-title">Self-Sabotage</div><div class="wiki-card-desc">How protection strategies from the past become obstacles in the present.</div></a>
+    <a href="/wiki/perfectionism" class="wiki-card"><div class="wiki-card-tag">Behavior</div><div class="wiki-card-title">Perfectionism</div><div class="wiki-card-desc">The difference between high standards and the fear that imperfection means inadequacy.</div></a>
+    <a href="/wiki/stress" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Stress</div><div class="wiki-card-desc">Acute vs. chronic stress — and why completing the stress cycle matters.</div></a>
+    <a href="/wiki/attachment-styles" class="wiki-card"><div class="wiki-card-tag">Relationships</div><div class="wiki-card-title">Attachment Styles</div><div class="wiki-card-desc">Secure, anxious, avoidant, disorganized — and what each looks like in real life.</div></a>
+    <a href="/wiki/loneliness" class="wiki-card"><div class="wiki-card-tag">Relationships</div><div class="wiki-card-title">Loneliness</div><div class="wiki-card-desc">Not about being alone. About the gap between the connection you have and need.</div></a>
+    <a href="/wiki/people-pleasing" class="wiki-card"><div class="wiki-card-tag">Behavior</div><div class="wiki-card-title">People Pleasing</div><div class="wiki-card-desc">Self-abandonment that learned to look like kindness — and where it comes from.</div></a>
+    <a href="/wiki/self-esteem" class="wiki-card"><div class="wiki-card-tag">Self</div><div class="wiki-card-title">Self-Esteem</div><div class="wiki-card-desc">The baseline belief about your worth that shapes every decision you make.</div></a>
+    <a href="/wiki/discipline" class="wiki-card"><div class="wiki-card-tag">Behavior</div><div class="wiki-card-title">Discipline</div><div class="wiki-card-desc">Not willpower. A system. Why consistency breaks down and what actually builds it.</div></a>
+    <a href="/wiki/emotional-maturity" class="wiki-card"><div class="wiki-card-tag">Self</div><div class="wiki-card-title">Emotional Maturity</div><div class="wiki-card-desc">Feeling difficult things without being controlled by them.</div></a>
+    <a href="/wiki/emotional-numbness" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Emotional Numbness</div><div class="wiki-card-desc">Not the absence of feeling. The nervous system's protection against too much feeling.</div></a>
   </div>
 </div>
 </body>
