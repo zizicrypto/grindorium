@@ -23,4 +23,10 @@
   <url><loc>https://grindorium.org/tests/selfsabotage</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://grindorium.org/tests/discipline</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://grindorium.org/tests/emotionalmaturity</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki/burnout</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki/procrastination</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki/self-sabotage</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki/attachment-styles</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://grindorium.org/wiki/perfectionism</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
