@@ -3,40 +3,6 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, '') || '/';
 
-    // Serve .html files directly
-    if (path.endsWith('.html')) {
-      const response = await env.ASSETS.fetch(request);
-      return addCacheHeaders(addSecurityHeaders(response), path);
-    }
-
-    // /writings/* - check routes table first, then fall back to index
-    if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
-      if (routes[path]) {
-        const newUrl = new URL(routes[path], url.origin);
-        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-          method: request.method,
-          headers: request.headers,
-        }));
-        return addCacheHeaders(addSecurityHeaders(response), routes[path]);
-      }
-      // Fallback: dynamic writing via index.html
-      const writingsUrl = new URL('/writings/index.html', url.origin);
-      const writingsResponse = await env.ASSETS.fetch(new Request(writingsUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
-      return addCacheHeaders(addSecurityHeaders(writingsResponse), '/writings/index.html');
-    }
-
-    if (path.startsWith('/play/') && path.length > '/play/'.length) {
-      const newUrl = new URL('/grindorium-play.html', url.origin);
-      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
-      return addCacheHeaders(addSecurityHeaders(response), path);
-    }
-
     // Clean URL to HTML mapping
     const routes = {
       '/': '/index.html',
@@ -148,6 +114,42 @@ export default {
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
+
+    // Serve .html files directly
+    if (path.endsWith('.html')) {
+      const response = await env.ASSETS.fetch(request);
+      return addCacheHeaders(addSecurityHeaders(response), path);
+    }
+
+    // /writings/* - check routes table first, then fall back to index
+    if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
+      if (routes[path]) {
+        const newUrl = new URL(routes[path], url.origin);
+        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+          method: request.method,
+          headers: request.headers,
+        }));
+        return addCacheHeaders(addSecurityHeaders(response), routes[path]);
+      }
+      // Fallback: dynamic writing via index.html
+      const writingsUrl = new URL('/writings/index.html', url.origin);
+      const writingsResponse = await env.ASSETS.fetch(new Request(writingsUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+      }));
+      return addCacheHeaders(addSecurityHeaders(writingsResponse), '/writings/index.html');
+    }
+
+    if (path.startsWith('/play/') && path.length > '/play/'.length) {
+      const newUrl = new URL('/grindorium-play.html', url.origin);
+      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+      }));
+      return addCacheHeaders(addSecurityHeaders(response), path);
+    }
+
+
 
     if (routes[path]) {
       const newUrl = new URL(routes[path], url.origin);
