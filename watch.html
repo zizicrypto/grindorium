@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Watch | Grindorium</title>
+<meta name="description" content="Cinematic short films and video essays on burnout, discipline, emotional numbness, and the psychology of modern life. Watch Grindorium videos."/>
+<meta property="og:title" content="Watch. Grindorium"/>
+<meta property="og:description" content="Quiet, direct, cinematic. Short films and essays on the psychology of modern life."/>
+<meta property="og:image" content="https://grindorium.org/grindorium-character.png"/>
+<link rel="canonical" href="https://grindorium.org/watch">
+<meta property="og:url" content="https://grindorium.org/watch"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070b12;--bg2:#0e1520;--accent:#7eb8e8;--dim:#8aa0b8;--white:#ffffff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;min-height:100vh;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;background:linear-gradient(to bottom,rgba(7,11,18,0.98),transparent);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-img{width:28px;height:28px;border-radius:50%;object-fit:cover;}
+.nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--white);text-transform:uppercase;}
+.nav-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.15em;transition:color 0.3s;}
+.nav-back:hover{color:var(--white);}
+.container{max-width:1100px;margin:0 auto;padding:140px 48px 100px;}
+.page-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;}
+.page-title{font-size:clamp(40px,6vw,72px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:20px;}
+.page-sub{font-size:19px;font-weight:300;color:var(--dim);line-height:1.9;max-width:640px;margin-bottom:72px;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:48px 40px;}
+.video-card{display:flex;flex-direction:column;gap:14px;}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg2);border:1px solid rgba(126,184,232,0.08);}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;display:block;}
+.video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.video-play span{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--white);background:rgba(7,11,18,0.72);border:1px solid rgba(126,184,232,0.35);padding:14px 28px;transition:all 0.3s;}
+.video-play:hover span{background:rgba(126,184,232,0.15);color:var(--accent);}
+.video-title{font-size:21px;font-weight:300;color:var(--white);line-height:1.4;}
+.video-date{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);}
+.watch-loading{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);}
+.cta-block{background:var(--bg2);padding:40px;border:1px solid rgba(126,184,232,0.1);margin-top:80px;text-align:center;}
+.cta-text{font-size:22px;font-weight:300;color:var(--white);line-height:1.6;margin-bottom:28px;}
+.cta-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);text-decoration:none;display:inline-block;transition:all 0.3s;}
+.cta-btn:hover{background:rgba(126,184,232,0.15);color:var(--white);}
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .container{padding:100px 20px 80px;}
+  .video-grid{grid-template-columns:1fr;gap:40px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <picture><source srcset="/grindorium-character.webp" type="image/webp"/><img src="/grindorium-character.png" alt="" class="nav-logo-img" aria-hidden="true" onerror="this.style.display='none'"/></picture>
+    <span class="nav-logo-text">Grindorium</span>
+  </a>
+  <a href="/" class="nav-back">← Home</a>
+</nav>
+
+<main class="container">
+  <div class="page-label">Watch</div>
+  <h1 class="page-title">Quiet. Direct. Cinematic.</h1>
+  <p class="page-sub">Short films and video essays on the psychology of modern life. Overstimulation, discipline, emotional numbness, self-sabotage. No shouting. No hacks. No false promises.</p>
+
+  <div class="video-grid" id="watchGrid">
+    <p class="watch-loading">Loading videos...</p>
+  </div>
+
+  <div class="cta-block">
+    <p class="cta-text">New films every week. Subscribe so you do not miss the next one.</p>
+    <a href="https://youtube.com/@Grindorium?sub_confirmation=1" target="_blank" rel="noopener" class="cta-btn">Subscribe on YouTube</a>
+  </div>
+</main>
+
+<script>
+// Videos are loaded from /videos.json, same origin, no CORS, no third party proxy.
+// videos.json is updated by tools/update_watch_videos.py on the production machine.
+// Thumbnails load first. The YouTube player is injected only when the visitor clicks play,
+// which keeps the page fast. Plays inside the embed count as normal YouTube views.
+(function(){
+  const grid = document.getElementById('watchGrid');
+  function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function fmtDate(iso){
+    if(!iso) return '';
+    const d = new Date(iso);
+    if(isNaN(d)) return '';
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function playVideo(frame, id){
+    frame.innerHTML = '<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0" title="Grindorium video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+  }
+  fetch('/videos.json', {cache:'no-cache'})
+    .then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(data=>{
+      const vids = (data.videos||[]).slice(0,24);
+      if(!vids.length){
+        grid.innerHTML = '<p class="watch-loading">Films are on the way. Meanwhile, the channel is live.</p>';
+        return;
+      }
+      grid.innerHTML = vids.map(v=>{
+        const id = esc(v.id);
+        return '<div class="video-card">'
+          + '<div class="video-frame" data-id="'+id+'">'
+          + '<img class="video-thumb" loading="lazy" src="https://i.ytimg.com/vi/'+id+'/hqdefault.jpg" alt="'+esc(v.title||'Grindorium video')+'">'
+          + '<div class="video-play"><span>Play ▸</span></div>'
+          + '</div>'
+          + '<div class="video-title">'+esc(v.title||'')+'</div>'
+          + '<div class="video-date">'+fmtDate(v.published)+'</div>'
+          + '</div>';
+      }).join('');
+      grid.querySelectorAll('.video-frame').forEach(f=>{
+        f.addEventListener('click', ()=>playVideo(f, f.dataset.id));
+      });
+    })
+    .catch(()=>{
+      grid.innerHTML = '<p class="watch-loading">Could not load the films right now. <a href="https://youtube.com/@Grindorium" target="_blank" rel="noopener" style="color:var(--accent);">Watch on YouTube ↗</a></p>';
+    });
+})();
+</script>
+</body>
+</html>

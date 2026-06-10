@@ -88,4 +88,8 @@
   <url><loc>https://grindorium.org/writings/cognitive-distortions</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://grindorium.org/writings/self-compassion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://grindorium.org/writings/emotional-regulation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url>
+    <loc>https://grindorium.org/watch</loc>
+    <lastmod>2026-06-10</lastmod>
+  </url>
 </urlset>

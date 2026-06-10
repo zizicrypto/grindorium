@@ -7,6 +7,7 @@ export default {
     const routes = {
       '/': '/index.html',
       '/play': '/grindorium-play.html',
+      '/watch': '/watch.html',
       '/about': '/grindorium-about.html',
       '/journal': '/grindorium-journal.html',
       '/wall': '/grindorium-wall.html',

@@ -214,7 +214,7 @@
   <a href="/wiki" class="nav-link">Wiki</a>
   <a href="/about" onclick="closeMobileNav()">About</a>
   <a href="/grid" onclick="closeMobileNav()">Grid</a>
-  <a href="https://youtube.com/@Grindorium" target="_blank">Watch</a>
+  <a href="/watch">Watch</a>
 </div>
 <!-- DISCONNECT OVERLAY -->
 <div class="disconnect-overlay" id="disconnectOverlay">
@@ -238,7 +238,7 @@
     <li><a href="/focus">Focus</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/grid">Grid</a></li>
-    <li><a href="https://youtube.com/@Grindorium" target="_blank">Watch</a></li>
+    <li><a href="/watch">Watch</a></li>
   </ul>
   <button class="nav-menu-btn" onclick="openMobileNav()">☰</button>
 </nav>
@@ -384,27 +384,6 @@
 </div>
 
 </main>
-<footer>
-  <div class="footer-inner">
-    <span class="footer-logo">Grindorium.org</span>
-    <div class="footer-links">
-      <a href="https://youtube.com/@Grindorium" target="_blank">YouTube</a>
-      <a href="https://tiktok.com/@Grindorium" target="_blank">TikTok</a>
-      <a href="https://instagram.com/Grindorium" target="_blank">Instagram</a>
-      <a href="https://x.com/Grindorium" target="_blank">X</a>
-      <a href="https://www.facebook.com/grindorium" target="_blank">Facebook</a>
-      <a href="https://pinterest.com/Grindorium" target="_blank">Pinterest</a>
-      <a href="https://reddit.com/u/Grindorium" target="_blank">Reddit</a>
-      <a href="https://quora.com/profile/Grindorium" target="_blank">Quora</a>
-      <a href="https://medium.com/@erturk.ali375" target="_blank">Medium</a>
-    </div>
-    <div class="footer-legal">
-      <a href="/privacy">Privacy Policy</a>
-      <a href="/terms">Terms of Service</a>
-      <span>© 2026 Grindorium.org</span>
-    </div>
-  </div>
-
 <!-- SEO Content Section -->
 <section style="max-width:800px;margin:0 auto;padding:80px 24px;font-family:'Space Mono',monospace;" aria-label="About Grindorium">
   <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;">About</div>
@@ -445,8 +424,30 @@
 
   <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#fff;margin-bottom:12px;">What is self-sabotage? What causes burnout?</h2>
   <p style="font-size:12px;color:#4a5568;line-height:1.8;margin-bottom:8px;">These are the questions most people search for at 2am. Not looking for a diagnosis. Just trying to understand why they keep ending up in the same place. Grindorium exists for that moment.</p>
-  <p style="font-size:12px;color:#4a5568;line-height:1.8;">Each assessment is built on established psychological frameworks — not to label you, but to give you language for something that has probably been hard to name.</p>
+  <p style="font-size:12px;color:#4a5568;line-height:1.8;">Each assessment is built on established psychological frameworks. Not to label you, but to give you language for something that has probably been hard to name.</p>
 </section>
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">Grindorium.org</span>
+    <div class="footer-links">
+      <a href="https://youtube.com/@Grindorium" target="_blank">YouTube</a>
+      <a href="https://tiktok.com/@Grindorium" target="_blank">TikTok</a>
+      <a href="https://instagram.com/Grindorium" target="_blank">Instagram</a>
+      <a href="https://x.com/Grindorium" target="_blank">X</a>
+      <a href="https://www.facebook.com/grindorium" target="_blank">Facebook</a>
+      <a href="https://pinterest.com/Grindorium" target="_blank">Pinterest</a>
+      <a href="https://reddit.com/u/Grindorium" target="_blank">Reddit</a>
+      <a href="https://quora.com/profile/Grindorium" target="_blank">Quora</a>
+      <a href="https://medium.com/@erturk.ali375" target="_blank">Medium</a>
+    </div>
+    <div class="footer-legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <span>© 2026 Grindorium.org</span>
+    </div>
+  </div>
+
+
 </footer>
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 <button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
@@ -671,65 +672,224 @@
   function quoteDownload(){
     document.fonts.ready.then(()=>{
     const q=DAILY_QUOTES[quoteDayIndex()];
+    const W=1000,H=1500;
     const canvas=document.createElement('canvas');
-    const W=1080,H=1080,PAD=80;
     canvas.width=W;canvas.height=H;
     const ctx=canvas.getContext('2d');
 
-    ctx.fillStyle='#070b12';
-    ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='rgba(126,184,232,0.12)';
-    ctx.lineWidth=1;
-    ctx.strokeRect(40,40,W-80,H-80);
+    // Seeded PRNG so each day's image is unique and repeatable
+    let sd=2166136261;
+    const st=q.text;for(let i=0;i<st.length;i++){sd^=st.charCodeAt(i);sd=Math.imul(sd,16777619);}
+    sd=sd>>>0;
+    function rnd(){sd|=0;sd=sd+0x6D2B79F5|0;let t=Math.imul(sd^sd>>>15,1|sd);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}
+    const R=(a,b)=>a+rnd()*(b-a);
+    const RI=(a,b)=>Math.floor(R(a,b+1));
 
-    // Pre-measure text to calculate total content height
-    const maxWidth=W-160;
-    const fontSize=q.text.length>120?38:44;
-    const lineHeight=fontSize*1.55;
-    ctx.font=`300 ${fontSize}px "Cormorant Garamond", serif`;
-    const words=q.text.split(' ');
-    let lines=[],line='';
-    for(let i=0;i<words.length;i++){
-      const test=line+words[i]+' ';
-      if(ctx.measureText(test).width>maxWidth&&i>0){lines.push(line.trim());line=words[i]+' ';}
-      else{line=test;}
+    function vgrad(top,bot,curve){
+      const g=ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,top);g.addColorStop(curve,bot);g.addColorStop(1,top==bot?top:bot);
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
     }
-    lines.push(line.trim());
+    function stars(n,ymax,b0,b1){
+      for(let i=0;i<n;i++){const x=R(0,W),y=R(0,ymax),b=RI(b0,b1),s=rnd()<0.2?2:1;
+        ctx.fillStyle='rgb('+b+','+b+','+Math.min(255,b+18)+')';
+        ctx.beginPath();ctx.arc(x,y,s,0,7);ctx.fill();}
+    }
+    function moon(ax0,ax1){
+      const mx=W*R(ax0,ax1),my=H*R(0.15,0.26),r=RI(34,52);
+      const g=ctx.createRadialGradient(mx,my,r*0.6,mx,my,r*3);
+      g.addColorStop(0,'rgba(200,215,235,0.20)');g.addColorStop(1,'rgba(200,215,235,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(mx,my,r*3,0,7);ctx.fill();
+      ctx.fillStyle='rgb(222,228,236)';ctx.beginPath();ctx.arc(mx,my,r,0,7);ctx.fill();
+      return[mx,my,r];
+    }
+    function ridge(base,vr,color,s0,s1){
+      ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,H);
+      let y=H*base,x=0;
+      while(x<=W){y+=R(-vr,vr);y=Math.max(H*(base-0.10),Math.min(H*(base+0.07),y));ctx.lineTo(x,y);x+=RI(s0,s1);}
+      ctx.lineTo(W,H);ctx.closePath();ctx.fill();
+    }
+    function pine(x,by,h,color){
+      const w=h*R(0.34,0.46);ctx.fillStyle=color;
+      for(let i=0;i<4;i++){const ly=by-h*(i/4),lw=w*(1-i/4.6),lh=h/4*1.5;
+        ctx.beginPath();ctx.moveTo(x-lw/2,ly);ctx.lineTo(x+lw/2,ly);ctx.lineTo(x,ly-lh);ctx.closePath();ctx.fill();}
+      ctx.fillRect(x-3,by-4,6,12);
+    }
+    function bareTree(x,by,h,color,lean){
+      ctx.strokeStyle=color;
+      function br(bx,bY,ang,ln,depth,wd){
+        if(depth===0||ln<9)return;
+        const x2=bx+Math.cos(ang)*ln,y2=bY+Math.sin(ang)*ln;
+        ctx.lineWidth=Math.max(1,wd);ctx.beginPath();ctx.moveTo(bx,bY);ctx.lineTo(x2,y2);ctx.stroke();
+        const n=rnd()<0.66?2:3;
+        for(let i=0;i<n;i++)br(x2,y2,ang+R(-0.65,0.65)+lean*0.2,ln*R(0.62,0.78),depth-1,wd*0.65);
+      }
+      br(x,by,-Math.PI/2+lean,h*0.38,6,h*0.045);
+    }
+    function fog(y0,y1,alpha){
+      const g=ctx.createLinearGradient(0,y0-60,0,y1+60);
+      g.addColorStop(0,'rgba(130,150,172,0)');g.addColorStop(0.5,'rgba(130,150,172,'+alpha+')');g.addColorStop(1,'rgba(130,150,172,0)');
+      ctx.fillStyle=g;ctx.fillRect(0,y0-60,W,(y1-y0)+120);
+    }
 
-    const quoteBlockH=lines.length*lineHeight;
-    const totalH=32+quoteBlockH+60+30; // quotemark + text + source gap + source
-    const startY=(H-totalH)/2;
+    const scenes=[
+      function foggyForest(){vgrad('#0b101a','#1a2432',0.85);stars(RI(40,90),H*0.30,90,150);
+        const rows=[[0.34,'#18202e',0.13],[0.43,'#101622',0.16],[0.52,'#090d16',0.20]];
+        for(const[base,col,hs]of rows){let x=-30;while(x<W+30){pine(x,H*base,H*hs*R(0.75,1.15),col);x+=RI(50,130);}fog(H*base-70,H*base+10,0.14);}},
+      function rainWindow(){vgrad('#090d18','#161e2e',0.9);
+        const pal=['126,184,232','232,200,140','190,160,220','150,210,190'];
+        for(let i=0;i<RI(26,40);i++){const x=R(0,W),y=R(H*0.08,H*0.50),r=RI(12,56);
+          const g=ctx.createRadialGradient(x,y,2,x,y,r);const c=pal[RI(0,3)];
+          g.addColorStop(0,'rgba('+c+',0.22)');g.addColorStop(1,'rgba('+c+',0)');
+          ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();}
+        ctx.strokeStyle='rgba(170,195,224,0.22)';ctx.lineWidth=1;
+        for(let i=0;i<RI(70,110);i++){const x=R(0,W),y=R(0,H*0.62),ln=RI(26,120),dr=RI(-6,6);
+          ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+dr,y+ln);ctx.stroke();
+          ctx.fillStyle='rgba(190,210,232,0.5)';ctx.beginPath();ctx.arc(x+dr,y+ln,2,0,7);ctx.fill();}},
+      function stormOcean(){vgrad('#0c0f18','#080e18',1);
+        for(let i=0;i<RI(10,16);i++){const cx=R(0,W),cy=R(0,H*0.22),r=RI(80,200);
+          const g=ctx.createRadialGradient(cx,cy,10,cx,cy,r);
+          g.addColorStop(0,'rgba(30,38,54,0.4)');g.addColorStop(1,'rgba(30,38,54,0)');
+          ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.fill();}
+        if(rnd()<0.7){let x=R(W*0.2,W*0.8),y=R(40,H*0.16);ctx.strokeStyle='rgb(232,238,250)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);
+          for(let i=0;i<RI(5,8);i++){x+=R(-46,46);y+=R(40,90);ctx.lineTo(x,y);}ctx.stroke();}
+        const sy=H*0.42;ctx.fillStyle='#0a101a';ctx.fillRect(0,sy,W,H-sy);
+        for(let k=0;k<14;k++){const y=sy+k*RI(16,26);if(y>H*0.60)break;
+          ctx.strokeStyle='rgb('+(40+k*2)+','+(56+k*2)+','+(78+k*2)+')';ctx.lineWidth=1;ctx.beginPath();
+          const fr=R(40,90);for(let x=0;x<=W;x+=24)ctx.lineTo(x,y+Math.sin(x/fr+k)*R(4,14));ctx.stroke();}
+        ctx.strokeStyle='rgba(150,168,190,0.8)';ctx.lineWidth=2;
+        for(let i=0;i<RI(14,26);i++){const x=R(0,W),y=R(sy+10,H*0.58),ln=RI(14,60);
+          ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+ln,y);ctx.stroke();}},
+      function snowfall(){vgrad('#0e121e','#1e2636',0.9);ridge(0.44,22,'#161c2a',40,90);
+        let x=-20;while(x<W+20){pine(x,H*R(0.46,0.52),H*R(0.10,0.16),'#0a0f1a');x+=RI(70,160);}
+        ctx.fillStyle='#101520';ctx.fillRect(0,H*0.54,W,H);
+        for(let i=0;i<RI(220,320);i++){const y=R(0,H);if(y>H*0.60&&rnd()<0.75)continue;
+          const x=R(0,W),s=rnd()<0.4?1:rnd()<0.7?2:3,a=RI(120,230);
+          ctx.fillStyle='rgb('+a+','+a+','+Math.min(255,a+10)+')';ctx.beginPath();ctx.arc(x,y,s,0,7);ctx.fill();}},
+      function twoTrees(){vgrad('#0e1321','#242c3c',0.85);stars(RI(120,200),H*0.45,150,230);moon(0.18,0.85);
+        const ground=H*0.50;ctx.fillStyle='#0a0e17';ctx.fillRect(0,ground,W,H);ridge(0.50,12,'#0a0e17',80,140);
+        const gap=R(0.16,0.55);
+        bareTree(W*(0.5-gap/2),ground,H*R(0.26,0.32),'#070a11',R(0,0.14));
+        bareTree(W*(0.5+gap/2),ground,H*R(0.24,0.30),'#070a11',-R(0,0.14));
+        fog(ground-40,ground+20,0.12);},
+      function loneTree(){vgrad('#0d121f','#262e3e',0.85);stars(RI(150,240),H*0.45,150,230);moon(0.55,0.88);
+        const ground=H*R(0.48,0.52);ctx.fillStyle='#090d16';ctx.fillRect(0,ground,W,H);ridge(ground/H,9,'#090d16',90,160);
+        bareTree(W*R(0.34,0.58),ground,H*R(0.28,0.34),'#060910',0);},
+      function mountainsMoon(){vgrad('#0a101e','#283a56',0.9);stars(RI(160,240),H*0.45,150,230);moon(0.18,0.85);
+        ridge(0.36,34,'#141c2c',40,90);ridge(0.44,34,'#0e1421',40,90);ridge(0.52,34,'#080c16',40,90);
+        fog(H*0.42,H*0.52,0.16);},
+      function stillLake(){vgrad('#0a0f1c','#121a28',0.9);stars(RI(120,200),H*0.30,150,230);
+        const m=moon(0.35,0.65);ridge(0.34,18,'#0a0e18',60,110);
+        const wy=H*0.36,bh=H*0.13;
+        ctx.save();ctx.translate(0,wy);ctx.scale(1,bh/wy);ctx.scale(1,-1);ctx.translate(0,-wy);ctx.globalAlpha=0.5;
+        ctx.drawImage(canvas,0,0,W,wy,0,0,W,wy);ctx.restore();ctx.globalAlpha=1;
+        ctx.fillStyle='#070b13';ctx.fillRect(0,wy+bh,W,H);
+        ctx.strokeStyle='rgba(210,220,235,0.18)';
+        for(let k=0;k<6;k++){const y=wy+12+k*12,wd=m[2]*(1.3+k*0.16);
+          ctx.beginPath();ctx.moveTo(m[0]-wd/2,y);ctx.lineTo(m[0]+wd/2,y);ctx.stroke();}
+        ctx.strokeStyle='rgba(60,76,98,0.8)';ctx.beginPath();ctx.moveTo(0,wy);ctx.lineTo(W,wy);ctx.stroke();},
+      function cityLights(){vgrad('#090c16','#141826',0.9);stars(RI(60,110),H*0.25,80,140);
+        const hz=H*R(0.42,0.46);let x=-10;
+        while(x<W+10){const bw=RI(36,110),bh=RI(40,220);
+          ctx.fillStyle='#070a12';ctx.fillRect(x,hz-bh,bw,bh);
+          const n=Math.floor(bw*bh/380);
+          for(let i=0;i<n;i++){if(rnd()<0.5){const wx=x+RI(4,Math.max(5,bw-6)),wy=hz-RI(6,Math.max(7,bh-6));
+            const cols=['rgb(232,206,142)','rgb(126,184,232)','rgb(220,180,200)'];
+            ctx.fillStyle=cols[RI(0,2)];ctx.fillRect(wx,wy,3,4);}}
+          x+=bw+RI(2,14);}
+        ridge(0.52,14,'#05080e',100,180);},
+      function windingRoad(){vgrad('#0a0e1a','#1c2230',0.85);stars(RI(130,200),H*0.40,150,230);moon(0.15,0.45);
+        ridge(0.40,22,'#0e131f',40,90);ctx.fillStyle='#0b0f19';ctx.fillRect(0,H*0.46,W,H);
+        const cx=W*0.5,fy=H*R(0.50,0.54),bw=W*R(0.22,0.30),tw=10,sy=H*0.62;
+        ctx.fillStyle='#1a202e';
+        ctx.beginPath();ctx.moveTo(cx-bw/2,sy);ctx.lineTo(cx+bw/2,sy);ctx.lineTo(cx+tw,fy);ctx.lineTo(cx-tw,fy);ctx.closePath();ctx.fill();
+        const e1x=W*R(0.18,0.36),e2x=W*R(0.62,0.82),hz=H*0.40;
+        ctx.beginPath();ctx.moveTo(cx-tw,fy);ctx.lineTo(cx+tw,fy);ctx.lineTo(e1x+5,hz);ctx.lineTo(e1x-5,hz);ctx.closePath();ctx.fill();
+        ctx.fillStyle='#131824';
+        ctx.beginPath();ctx.moveTo(cx-tw,fy);ctx.lineTo(cx+tw,fy);ctx.lineTo(e2x+5,hz);ctx.lineTo(e2x-5,hz);ctx.closePath();ctx.fill();
+        ctx.strokeStyle='rgba(150,165,188,0.7)';let y=sy-12;
+        while(y>fy+18){const t=(sy-y)/(sy-fy);ctx.lineWidth=Math.max(1,7*(1-t));
+          ctx.beginPath();ctx.moveTo(cx,y);ctx.lineTo(cx,y-22*(1-t)-8);ctx.stroke();y-=56*(1-t)+26;}},
+      function dawnHorizon(){vgrad('#0c101e','#0a0e18',1);
+        const hz=H*R(0.40,0.44),gx=W*R(0.3,0.7);
+        const g=ctx.createLinearGradient(0,hz-H*0.30,0,hz);
+        g.addColorStop(0,'rgba(196,138,96,0)');g.addColorStop(1,'rgba(196,138,96,0.5)');
+        ctx.fillStyle=g;ctx.fillRect(0,hz-H*0.30,W,H*0.30);
+        stars(RI(60,110),H*0.30,80,150);
+        const rg=ctx.createRadialGradient(gx,hz,10,gx,hz,140);
+        rg.addColorStop(0,'rgba(232,168,110,0.45)');rg.addColorStop(1,'rgba(232,168,110,0)');
+        ctx.fillStyle=rg;ctx.beginPath();ctx.arc(gx,hz,140,0,7);ctx.fill();
+        ctx.fillStyle='rgb(238,186,128)';ctx.beginPath();ctx.arc(gx,hz+16,30,Math.PI,0);ctx.fill();
+        ctx.fillStyle='#090c14';ctx.fillRect(0,hz,W,H-hz);
+        for(let k=0;k<9;k++){const y=hz+10+k*16,a=Math.max(20,110-k*7);
+          ctx.strokeStyle='rgb('+(120+(a/3|0))+','+(90+(a/4|0))+',70)';ctx.lineWidth=1;
+          ctx.beginPath();ctx.moveTo(gx-40-k*8,y);ctx.lineTo(gx+40+k*8,y);ctx.stroke();}
+        ridge(0.56,10,'#06090f',110,190);},
+      function bigTree(){vgrad('#0b0f1b','#1e2634',0.85);stars(RI(130,210),H*0.45,150,230);moon(0.62,0.88);
+        const ground=H*0.52;ctx.fillStyle='#0a0e17';ctx.fillRect(0,ground,W,H);ridge(0.52,9,'#0a0e17',110,190);
+        const tx=W*R(0.38,0.58),th=H*R(0.30,0.36);
+        ctx.strokeStyle='#0c1018';ctx.lineWidth=th*0.05;
+        ctx.beginPath();ctx.moveTo(tx,ground);ctx.lineTo(tx,ground-th*0.45);ctx.stroke();
+        ctx.fillStyle='#0f1521';
+        for(let i=0;i<26;i++){const r=th*R(0.10,0.22),ox=R(-th*0.30,th*0.30),oy=R(-th*0.22,th*0.16);
+          ctx.beginPath();ctx.arc(tx+ox,ground-th*0.55+oy,r,0,7);ctx.fill();}
+        fog(ground-30,ground+16,0.10);},
+      function desertDunes(){vgrad('#0c0e1a','#141624',0.9);stars(RI(200,300),H*0.40,150,230);moon(0.18,0.85);
+        const bases=[[0.36,'#1c1a2b'],[0.43,'#151423'],[0.50,'#0f0e1a'],[0.57,'#090912']];
+        for(const[base,col]of bases){ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,H);
+          const fr=R(160,320),ph=R(0,6);
+          for(let x=0;x<=W;x+=24)ctx.lineTo(x,H*base+Math.sin(x/fr+ph)*H*0.035);
+          ctx.lineTo(W,H);ctx.closePath();ctx.fill();}}
+    ];
 
-    // Quotemark
-    ctx.font='300 64px "Cormorant Garamond", serif';
-    ctx.fillStyle='rgba(126,184,232,0.18)';
-    ctx.fillText('"',PAD,startY+48);
+    // Scene rotates by day, details vary by the quote's own seed
+    scenes[quoteDayIndex()%scenes.length]();
 
-    // Quote text
-    ctx.font=`300 ${fontSize}px "Cormorant Garamond", serif`;
-    ctx.fillStyle='rgba(255,255,255,0.9)';
-    let ty=startY+48+20;
-    lines.forEach(l=>{ctx.fillText(l,PAD,ty);ty+=lineHeight;});
+    // Darkening overlay so the text reads
+    let g=ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'rgba(5,8,14,0.50)');g.addColorStop(0.30,'rgba(5,8,14,0.22)');
+    g.addColorStop(0.45,'rgba(5,8,14,0.24)');g.addColorStop(1,'rgba(5,8,14,0.88)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
 
-    // Source
-    ctx.font='400 17px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.55)';
-    ctx.fillText('- '+q.source,PAD,ty+32);
+    // Typography
+    function spaced(y,txt,fnt,fill,sp){
+      ctx.font=fnt;ctx.fillStyle=fill;ctx.textAlign='left';ctx.textBaseline='top';
+      const ws=[...txt].map(c=>ctx.measureText(c).width);
+      const tot=ws.reduce((a,b)=>a+b,0)+sp*(txt.length-1);
+      let x=(W-tot)/2;
+      [...txt].forEach((c,i)=>{ctx.fillText(c,x,y);x+=ws[i]+sp;});
+    }
+    spaced(96,'GRINDORIUM','400 26px "Space Mono", monospace','rgb(235,242,250)',10);
+    spaced(142,'DAILY QUOTE','400 21px "Space Mono", monospace','rgb(160,178,198)',8);
 
-    // Top: GRINDORIUM
-    ctx.font='500 13px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.45)';
-    ctx.letterSpacing='0.2em';
-    ctx.fillText('GRINDORIUM',PAD,PAD+16);
-
-    ctx.font='400 11px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.2)';
-    ctx.fillText("Today's quote",PAD,PAD+36);
-
-    // Bottom: grindorium.org
-    ctx.font='400 12px "Space Mono", monospace';
-    ctx.fillStyle='rgba(126,184,232,0.25)';
-    ctx.fillText('grindorium.org',PAD,H-PAD+8);
+    ctx.textAlign='center';ctx.textBaseline='alphabetic';
+    const maxW=W-200;
+    let fontSize=76;
+    let lines;
+    while(fontSize>=44){
+      ctx.font='300 '+fontSize+'px "Cormorant Garamond", serif';
+      lines=[];let line='';
+      for(const w of q.text.split(' ')){
+        const t=(line+' '+w).trim();
+        if(ctx.measureText(t).width<=maxW)line=t;else{if(line)lines.push(line);line=w;}
+      }
+      if(line)lines.push(line);
+      if(lines.length*fontSize*1.32<=H*0.34)break;
+      fontSize-=4;
+    }
+    const lh=fontSize*1.32;
+    let qy=H*0.62-lines.length*lh/2+fontSize*0.8;
+    ctx.strokeStyle='rgb(180,200,224)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(W/2-22,qy-fontSize*0.8-50);ctx.lineTo(W/2+22,qy-fontSize*0.8-50);ctx.stroke();
+    for(const ln of lines){
+      ctx.fillStyle='rgba(0,0,0,0.8)';ctx.fillText(ln,W/2+1,qy+2);
+      ctx.fillStyle='rgb(249,251,253)';ctx.fillText(ln,W/2,qy);
+      qy+=lh;
+    }
+    spaced(qy+6,q.source.toUpperCase(),'400 24px "Space Mono", monospace','rgb(192,208,226)',6);
+    spaced(H-116,'GRINDORIUM.ORG','400 23px "Space Mono", monospace','rgb(196,210,224)',5);
+    ctx.font='italic 300 30px "Cormorant Garamond", serif';ctx.textAlign='center';
+    ctx.fillStyle='rgb(172,186,202)';ctx.fillText('You are safe here.',W/2,H-44);
 
     const a=document.createElement('a');
     a.download='grindorium-quote.png';
