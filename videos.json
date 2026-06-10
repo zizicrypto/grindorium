@@ -1,5 +1,84 @@
 {
   "updated": "2026-06-10",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
-  "videos": []
+  "videos": [
+    {
+      "id": "jxH_2JMuf88",
+      "title": "The Life You're Not Living",
+      "published": "",
+      "duration": 668.0
+    },
+    {
+      "id": "_Bj5FgM7uU4",
+      "title": "The Hidden Reason Most People Will Die With Their Dreams Still Inside Them",
+      "published": "",
+      "duration": 881.0
+    },
+    {
+      "id": "1NUb8amGPC0",
+      "title": "What School Never Taught Us  The Cost of Emotional Illiteracy",
+      "published": "",
+      "duration": 127.0
+    },
+    {
+      "id": "JAQcM040fWQ",
+      "title": "The Hidden Reason You’re Exhausted All the Time in 2026 - Even When You Sleep 8 Hours",
+      "published": "",
+      "duration": 1025.0
+    },
+    {
+      "id": "06Mx3gaulgk",
+      "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
+      "published": "",
+      "duration": 706.0
+    },
+    {
+      "id": "k8oUayGMiMs",
+      "title": "The Hidden Reason Rich People Think Completely Different About Money",
+      "published": "",
+      "duration": 1022.0
+    },
+    {
+      "id": "DhiR8LR2Cv4",
+      "title": "The Hidden Cost of Comfort: Why Easy Life is Making You Weak",
+      "published": "",
+      "duration": 621.0
+    },
+    {
+      "id": "XWgdCU-cdO4",
+      "title": "How to Master Your Mind When Everything Feels Out of Control",
+      "published": "",
+      "duration": 901.0
+    },
+    {
+      "id": "YUG2e1Xriz0",
+      "title": "How to Actually Change Your Life (Stop Quitting Your Goals)",
+      "published": "",
+      "duration": 731.0
+    },
+    {
+      "id": "vh1W27kycas",
+      "title": "Why Most Men Feel Empty & Lonely in 2026 (Even When Connected)",
+      "published": "",
+      "duration": 557.0
+    },
+    {
+      "id": "GD3o56iefCA",
+      "title": "Stay Calm When Money is Uncertain – Practical Ways to Protect Your Peace in 2026",
+      "published": "",
+      "duration": 573.0
+    },
+    {
+      "id": "Rg-EYKfM9Do",
+      "title": "Stoicism in the AI Age: How to Protect Your Attention in 2026",
+      "published": "",
+      "duration": 961.0
+    },
+    {
+      "id": "vOPqkciTbWc",
+      "title": "5 Stoic Rules That Will Help You Handle Failure in 2026",
+      "published": "",
+      "duration": 446.0
+    }
+  ]
 }
