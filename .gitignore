@@ -1,0 +1,11 @@
+grindorium_poster/config.json
+grindorium_poster/state.json
+grindorium_poster/downloads/
+grindorium_poster/logs/*.log
+grindorium_poster/token_*.json
+grindorium_poster/tools_auth/token_*.json
+pinterest_assets/
+generator/output/
+__pycache__/
+*.pyc
+.env

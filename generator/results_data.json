@@ -1,0 +1,1055 @@
+[
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "not-burned-out",
+  "type": "Not Burned Out",
+  "tagline": "Your system is holding. That is not nothing. Most people cannot say the same.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-early-warning",
+  "type": "The Early Warning",
+  "tagline": "Nothing is broken yet. Something is bending.",
+  "accent": "#e8d87e",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-empty-one",
+  "type": "The Empty One",
+  "tagline": "The tank is empty. Everything else is a matter of time.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-detached-observer",
+  "type": "The Detached Observer",
+  "tagline": "You closed the door before the fire could reach you. But now you are locked inside.",
+  "accent": "#7eb88a",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-meaning-seeker",
+  "type": "The Meaning Seeker",
+  "tagline": "You have the energy. You have lost the reason.",
+  "accent": "#b87ee8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-one-running-on-nothing",
+  "type": "The One Running on Nothing",
+  "tagline": "Empty and distant. The caring left because there was nothing left to care with.",
+  "accent": "#e8a07e",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-one-going-through-the-motions",
+  "type": "The One Going Through the Motions",
+  "tagline": "You keep showing up. You are no longer sure why. And the showing up is costing everything.",
+  "accent": "#e8b87e",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-one-who-has-quietly-left",
+  "type": "The One Who Has Quietly Left",
+  "tagline": "You are still here. But something essential checked out a while ago. You may have stopped noticing.",
+  "accent": "#7ea8e8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Burnout Test",
+  "slug": "burnout",
+  "key": "the-burned-out",
+  "type": "The Burned Out",
+  "tagline": "All three dimensions. This is not a warning. This is the result.",
+  "accent": "#e87e60",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-regulated-one",
+  "type": "The Regulated One",
+  "tagline": "Your system is functioning. Protect that. It is rarer than you think.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-screen-dependent",
+  "type": "The Screen Dependent",
+  "tagline": "The anxiety is low but the stimulation is eating your baseline.",
+  "accent": "#8ac8e8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-wired-one",
+  "type": "The Wired One",
+  "tagline": "Your brain is running on too many inputs. The anxiety will follow if it has not already.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-quietly-tense",
+  "type": "The Quietly Tense",
+  "tagline": "The anxiety is present and it is not being fed by overstimulation. Something internal is running.",
+  "accent": "#e8d87e",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-strained-one",
+  "type": "The Strained One",
+  "tagline": "Both dimensions are building. Neither is critical yet. Both are moving in the wrong direction.",
+  "accent": "#e8c07e",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-overstimulated",
+  "type": "The Overstimulated",
+  "tagline": "The input is high and it is starting to cost you. The nervous system is not keeping up.",
+  "accent": "#e8a87e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-anxious-one",
+  "type": "The Anxious One",
+  "tagline": "The anxiety is the signal, not the problem. Something underneath is asking to be heard.",
+  "accent": "#e8c87e",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-burned-edge",
+  "type": "The Burned Edge",
+  "tagline": "High anxiety meeting moderate stimulation. The system is running hot and the fuel keeps coming.",
+  "accent": "#e89060",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Anxiety Test",
+  "slug": "anxiety",
+  "key": "the-overloaded-system",
+  "type": "The Overloaded System",
+  "tagline": "Your nervous system is carrying more than it was designed for. And it shows.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-holds-on",
+  "type": "The One Who Holds On",
+  "tagline": "You love fully. And the fear of losing it ruins the having of it.",
+  "accent": "#c87ee8",
+  "img": "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-pushes-and-pulls",
+  "type": "The One Who Pushes and Pulls",
+  "tagline": "You want closeness and independence at the same time. The tension does not resolve. It just rotates.",
+  "accent": "#b8a0e8",
+  "img": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-wants-and-fears",
+  "type": "The One Who Wants and Fears",
+  "tagline": "You reach for connection with one hand and brace for impact with the other.",
+  "accent": "#d07eb8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-keeps-distance",
+  "type": "The One Who Keeps Distance",
+  "tagline": "You want connection. You just want it at a range where it cannot hurt you.",
+  "accent": "#7eb88a",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-built-walls-and-hates-them",
+  "type": "The One Who Built Walls and Hates Them",
+  "tagline": "The distance keeps you safe. It also keeps you alone. You know this.",
+  "accent": "#7eb8a0",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-can-be-close",
+  "type": "The One Who Can Be Close",
+  "tagline": "You know how to let people in. That is not common. Do not take it for granted.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-pulled-in-two-directions",
+  "type": "The One Pulled in Two Directions",
+  "tagline": "You want connection and you fear it equally. The wanting and the fearing came from the same place.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-reaches-and-retreats",
+  "type": "The One Who Reaches and Retreats",
+  "tagline": "You pull people close, then push them away before they can leave. The timing is not random.",
+  "accent": "#e87eb8",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Attachment Style Test",
+  "slug": "attachment",
+  "key": "the-one-who-disappears",
+  "type": "The One Who Disappears",
+  "tagline": "When it gets close enough to matter, you find a way to make it not matter. The method changes. The result does not.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-present-one",
+  "type": "The Present One",
+  "tagline": "You are still here. The feelings are still arriving. That is the whole thing.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-hollow-one",
+  "type": "The Hollow One",
+  "tagline": "Everything runs. Nothing lands. The system is on but no one is home.",
+  "accent": "#c8b8e8",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-depleted-one",
+  "type": "The Depleted One",
+  "tagline": "The emotional reserves are empty. You are running on the habit of functioning.",
+  "accent": "#e8a87e",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-disconnected-one",
+  "type": "The Disconnected One",
+  "tagline": "You are present in rooms but absent from your own experience. The gap is widening.",
+  "accent": "#8898c8",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-muted-one",
+  "type": "The Muted One",
+  "tagline": "The volume is down on everything. Joy, pain, connection. All of it.",
+  "accent": "#98b8c8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-surface-one",
+  "type": "The Surface One",
+  "tagline": "The connection is there. The depth is missing. You feel but do not let yourself feel fully.",
+  "accent": "#78c8b8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-numbed-sensor",
+  "type": "The Numbed Sensor",
+  "tagline": "The world has stopped registering. Input arrives. Nothing lands.",
+  "accent": "#b8a8d8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-functioning-ghost",
+  "type": "The Functioning Ghost",
+  "tagline": "You complete everything. You feel almost nothing. The output is there. The person is not.",
+  "accent": "#a898c8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Numbness Test",
+  "slug": "numbness",
+  "key": "the-fading-one",
+  "type": "The Fading One",
+  "tagline": "Something is dimming. You can feel it happening. That awareness is what makes it workable.",
+  "accent": "#e8c07e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-disciplined-one",
+  "type": "The Disciplined One",
+  "tagline": "You do the work when it matters. That is the whole thing.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-misaligned-one",
+  "type": "The Misaligned One",
+  "tagline": "You are working hard. But you are building the wrong thing.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-impulsive-one",
+  "type": "The Impulsive One",
+  "tagline": "You know what to do. The impulse gets there first.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-inconsistent-one",
+  "type": "The Inconsistent One",
+  "tagline": "The intention is real. The follow-through is the problem.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-structured-drifter",
+  "type": "The Structured Drifter",
+  "tagline": "The system is there. The drive is not. Discipline without purpose runs in circles.",
+  "accent": "#8ac8e8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-driven-but-lost",
+  "type": "The Driven but Lost",
+  "tagline": "High output. Wrong direction. The engine is running. The map is missing.",
+  "accent": "#e8d87e",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-middle-ground",
+  "type": "The Middle Ground",
+  "tagline": "Not lost. Not fully found. Somewhere in between, which is exactly where change becomes possible.",
+  "accent": "#b8c8e8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-reactive-one",
+  "type": "The Reactive One",
+  "tagline": "The intention arrives. Then something else does. And you follow that instead.",
+  "accent": "#e8a87e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Discipline Test",
+  "slug": "discipline",
+  "key": "the-undisciplined-one",
+  "type": "The Undisciplined One",
+  "tagline": "The gap between who you are and who you want to be is visible. That means you can work with it.",
+  "accent": "#7eb8e8",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-high-achiever",
+  "type": "The High Achiever",
+  "tagline": "You have standards without the suffering. That is rarer than it sounds.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-driven-perfectionist",
+  "type": "The Driven Perfectionist",
+  "tagline": "The standards are high. The suffering is still manageable. For now.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-approval-seeker",
+  "type": "The Approval Seeker",
+  "tagline": "The standards are not really yours. You inherited them from the audience.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-self-critical-one",
+  "type": "The Self-Critical One",
+  "tagline": "The standard you hold yourself to was never designed to be met.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-paralyzed-perfectionist",
+  "type": "The Paralyzed Perfectionist",
+  "tagline": "You are not lazy. You are afraid the result will not be good enough before you even begin.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-quiet-striver",
+  "type": "The Quiet Striver",
+  "tagline": "The standards are high. They are mostly internal. The cost is still real.",
+  "accent": "#98c8e8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-pleasing-striver",
+  "type": "The Pleasing Striver",
+  "tagline": "The standards exist to make you acceptable. To whom is the question.",
+  "accent": "#c8b8d8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-careful-one",
+  "type": "The Careful One",
+  "tagline": "You are precise. The precision is starting to cost you more than it earns.",
+  "accent": "#d8c8a8",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Perfectionism Test",
+  "slug": "perfectionism",
+  "key": "the-recovering-perfectionist",
+  "type": "The Recovering Perfectionist",
+  "tagline": "You have been here long enough to know the cost. Now comes the harder work.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-grounded-one",
+  "type": "The Grounded One",
+  "tagline": "You know who you are. You act from it. That is the whole foundation.",
+  "accent": "#78e8a0",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "largely-yourself",
+  "type": "Largely Yourself",
+  "tagline": "You know what you want. You say what you mean. That is rarer than you think.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-considerate-one",
+  "type": "The Considerate One",
+  "tagline": "You care what people think without being controlled by it. That is a useful balance.",
+  "accent": "#98d8b8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "slowly-disappearing",
+  "type": "Slowly Disappearing",
+  "tagline": "The version of you that other people know is edited. The original is in there. But quieter.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-accommodator",
+  "type": "The Accommodator",
+  "tagline": "You have made yourself easier to be around by making yourself harder to know.",
+  "accent": "#d8c888",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-fawn-response",
+  "type": "The Fawn Response",
+  "tagline": "You have been managing other people's emotions since before you knew that was what you were doing.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-self-eraser",
+  "type": "The Self-Eraser",
+  "tagline": "You have been editing yourself for so long you have forgotten what the original looked like.",
+  "accent": "#e89888",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-disappeared-one",
+  "type": "The Disappeared One",
+  "tagline": "There is almost nothing left that is just yours. That is not sustainable and you know it.",
+  "accent": "#e87878",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "People Pleasing Test",
+  "slug": "people-pleasing",
+  "key": "the-ghost-of-yourself",
+  "type": "The Ghost of Yourself",
+  "tagline": "You have been so focused on not being too much that you have become almost nothing.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "connected",
+  "type": "Connected",
+  "tagline": "You feel known. That is the whole thing. Most people do not have that.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-quiet-distance",
+  "type": "The Quiet Distance",
+  "tagline": "The people are there. The connection is not. That gap is lonelier than being alone.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "surrounded-and-alone",
+  "type": "Surrounded and Alone",
+  "tagline": "The room is full. You are still invisible. And you have been for a long time.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-drifting-one",
+  "type": "The Drifting One",
+  "tagline": "The social layer is thin. The inner world is still active. That gap is where the loneliness lives.",
+  "accent": "#9898d8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-disconnected-presence",
+  "type": "The Disconnected Presence",
+  "tagline": "You are around people. You are not with them. The difference is exhausting.",
+  "accent": "#8898b8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-functional-alone",
+  "type": "The Functional Alone",
+  "tagline": "You have reduced the need for others. That works until it does not.",
+  "accent": "#7898a8",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-in-between",
+  "type": "The In-Between",
+  "tagline": "Not lost. Not found. Somewhere between connection and isolation, waiting for something to shift.",
+  "accent": "#98a8c8",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-well-connected",
+  "type": "The Well-Connected",
+  "tagline": "The social layer is working. The deeper question is whether it is enough.",
+  "accent": "#78c8a8",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Loneliness Test",
+  "slug": "loneliness",
+  "key": "the-invisible-one",
+  "type": "The Invisible One",
+  "tagline": "You are not alone because no one is there. You are alone because no one is reaching you.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "not-self-sabotaging",
+  "type": "Not Self-Sabotaging",
+  "tagline": "You get out of your own way. That is a skill. Protect it.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-avoider",
+  "type": "The Avoider",
+  "tagline": "You are not afraid of failure. You are afraid of what happens if you succeed.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-unworthy",
+  "type": "The Unworthy",
+  "tagline": "The goal is not the problem. The problem is that you do not believe you deserve to reach it.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-destroyer",
+  "type": "The Destroyer",
+  "tagline": "Things are good. You cannot leave them that way.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-conditional-one",
+  "type": "The Conditional One",
+  "tagline": "You only let yourself succeed when you believe you deserve it. That bar keeps moving.",
+  "accent": "#e8b878",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-friction-maker",
+  "type": "The Friction Maker",
+  "tagline": "You believe in yourself. Then you make it harder than it needs to be.",
+  "accent": "#78c8e8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-moderate-saboteur",
+  "type": "The Moderate Saboteur",
+  "tagline": "Nothing is fully broken. Nothing is fully working. The pattern is subtle and steady.",
+  "accent": "#b8a8d8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-conflicted-one",
+  "type": "The Conflicted One",
+  "tagline": "You want it. You believe you deserve it. Something keeps stopping you anyway.",
+  "accent": "#e8d878",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Self-Sabotage Test",
+  "slug": "self-sabotage",
+  "key": "the-full-saboteur",
+  "type": "The Full Saboteur",
+  "tagline": "You are working very hard against yourself. The energy is real. The direction is wrong.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "emotionally-mature",
+  "type": "Emotionally Mature",
+  "tagline": "You can feel things without being controlled by them. That is the whole thing.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "still-growing",
+  "type": "Still Growing",
+  "tagline": "You feel everything. You just have not yet learned how to be with it without it running you.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "reactive",
+  "type": "Reactive",
+  "tagline": "The feelings are real. The responses they produce are not always yours to keep.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "accountability-gap",
+  "type": "Accountability Gap",
+  "tagline": "You are more interested in being right than in being honest about your part.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "the-self-aware-one",
+  "type": "The Self-Aware One",
+  "tagline": "You see yourself clearly. That is rarer than most people know.",
+  "accent": "#7ee8d8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "the-steady-presence",
+  "type": "The Steady Presence",
+  "tagline": "People feel safer around you. You probably do not realize how rare that is.",
+  "accent": "#7eb8d8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "the-defended-one",
+  "type": "The Defended One",
+  "tagline": "Something is protecting you from the feedback that would help you most.",
+  "accent": "#e8c87e",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "the-disconnected-one",
+  "type": "The Disconnected One",
+  "tagline": "You function. You do not always feel. The gap between the two is costing you.",
+  "accent": "#9090c8",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Emotional Maturity Test",
+  "slug": "emotional-maturity",
+  "key": "developing",
+  "type": "Developing",
+  "tagline": "You are further along than you think. The gaps are real. So is the progress.",
+  "accent": "#7eb8e8",
+  "img": ""
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-steady-one",
+  "type": "The Steady One",
+  "tagline": "The load is manageable and you have the capacity to carry it. That is not nothing.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-quietly-depleted",
+  "type": "The Quietly Depleted",
+  "tagline": "The load is low but the recovery is not keeping up. You are spending more than you are restoring.",
+  "accent": "#8ab8e8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-one-running-on-empty",
+  "type": "The One Running on Empty",
+  "tagline": "The load is low but the tank is empty. You are surviving on reserves that are almost gone.",
+  "accent": "#a0b4e8",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-pressured-one",
+  "type": "The Pressured One",
+  "tagline": "The load is real and you are still absorbing it. But this cannot continue indefinitely.",
+  "accent": "#e8d87e",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-one-holding-on",
+  "type": "The One Holding On",
+  "tagline": "You are carrying a real load with diminishing capacity. Both are moving in the wrong direction.",
+  "accent": "#e8b87e",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-one-past-their-limit",
+  "type": "The One Past Their Limit",
+  "tagline": "The load is significant and the capacity is gone. You are running a deficit that compounds daily.",
+  "accent": "#e8a07e",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-one-under-real-pressure",
+  "type": "The One Under Real Pressure",
+  "tagline": "The load is high but you still have capacity. Use it to reduce the load before that changes.",
+  "accent": "#e8c87e",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-one-carrying-too-much",
+  "type": "The One Carrying Too Much",
+  "tagline": "The load is high and the capacity is fading. Something has to change before it changes for you.",
+  "accent": "#e89060",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Stress Test",
+  "slug": "stress",
+  "key": "the-overloaded-system",
+  "type": "The Overloaded System",
+  "tagline": "The load is at its limit and the capacity to absorb it is gone. This is not sustainable and you know it.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "grounded",
+  "type": "Grounded",
+  "tagline": "You know who you are. You trust what you can do. That combination is rare.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-worthy-but-hesitant",
+  "type": "The Worthy but Hesitant",
+  "tagline": "You know you matter. You are less sure you can do it.",
+  "accent": "#8ab8e8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-one-who-knows-their-worth-but-not-their-power",
+  "type": "The One Who Knows Their Worth but Not Their Power",
+  "tagline": "You believe you deserve good things. You are not sure you can make them happen.",
+  "accent": "#7eb8a8",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-capable-but-uncertain",
+  "type": "The Capable but Uncertain",
+  "tagline": "You can do things. You are not sure you deserve the results.",
+  "accent": "#c8b87e",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-building-one",
+  "type": "The Building One",
+  "tagline": "Both dimensions are present and both have room to grow. You are not starting from zero.",
+  "accent": "#a0a8b8",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-one-who-doubts-their-capability",
+  "type": "The One Who Doubts Their Capability",
+  "tagline": "You feel okay about who you are. You do not trust what you can do.",
+  "accent": "#e8c87e",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-capable-one-who-does-not-feel-enough",
+  "type": "The Capable One Who Does Not Feel Enough",
+  "tagline": "You can do things. You do not believe you deserve to.",
+  "accent": "#b87ee8",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-one-who-feels-small",
+  "type": "The One Who Feels Small",
+  "tagline": "Your sense of your own worth is low and your trust in your capability is shaky. Both are learnable.",
+  "accent": "#e87e9e",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Self-Esteem Test",
+  "slug": "self-esteem",
+  "key": "the-one-who-has-stopped-believing",
+  "type": "The One Who Has Stopped Believing",
+  "tagline": "You do not feel worth much and you do not trust yourself to do much. That story was written a long time ago.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "not-a-procrastinator",
+  "type": "Not a Procrastinator",
+  "tagline": "You start when you need to. That is rarer than it sounds.",
+  "accent": "#7ee8a0",
+  "img": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-reluctant-starter",
+  "type": "The Reluctant Starter",
+  "tagline": "You do the things. Getting there costs more than it should.",
+  "accent": "#8ab8e8",
+  "img": "https://images.unsplash.com/photo-1474418397713-7ede21d49118?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-anxious-finisher",
+  "type": "The Anxious Finisher",
+  "tagline": "You complete things. The fear and guilt surrounding them are disproportionate to the actual task.",
+  "accent": "#a0b4e8",
+  "img": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-delayed-starter",
+  "type": "The Delayed Starter",
+  "tagline": "You delay without much distress. The pattern is behavioral, not driven by fear.",
+  "accent": "#e8d87e",
+  "img": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-chronic-delayer",
+  "type": "The Chronic Delayer",
+  "tagline": "You know the pattern. You live inside it. Knowing has not been enough.",
+  "accent": "#e8b87e",
+  "img": "https://images.unsplash.com/photo-1516410529446-2c777cb7366d?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-one-paying-full-price",
+  "type": "The One Paying Full Price",
+  "tagline": "The delay is real and the cost is real. You are aware of both and continuing anyway.",
+  "accent": "#e8a07e",
+  "img": "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-habitual-avoider",
+  "type": "The Habitual Avoider",
+  "tagline": "You delay consistently without much emotional drama. It is just what you do.",
+  "accent": "#c8c8a8",
+  "img": "https://images.unsplash.com/photo-1493836512294-502baa1986e2?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-one-getting-in-their-own-way",
+  "type": "The One Getting in Their Own Way",
+  "tagline": "You know what you need to do. You are systematically not doing it.",
+  "accent": "#e89060",
+  "img": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1400&q=80"
+ },
+ {
+  "test": "Procrastination Test",
+  "slug": "procrastination",
+  "key": "the-paralyzed-one",
+  "type": "The Paralyzed One",
+  "tagline": "The avoidance is pervasive and the cost is high. You are stuck and the stuckness is compounding.",
+  "accent": "#e87e7e",
+  "img": "https://images.unsplash.com/photo-1511078734484-6f1e2da3fc5c?w=1400&q=80"
+ }
+]

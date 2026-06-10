@@ -24,12 +24,12 @@
     .nav-back:hover{color:var(--white);}
 
     .container{max-width:640px;margin:0 auto;padding:120px 48px 100px;display:flex;flex-direction:column;align-items:center;}
-    .page-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#4a5568;margin-bottom:8px;text-align:center;}
+    .page-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#6b7f96;margin-bottom:8px;text-align:center;}
     .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:var(--white);margin-bottom:8px;text-align:center;}
     .page-sub{font-size:12px;letter-spacing:0.08em;color:#a8bdd0;margin-bottom:56px;text-align:center;line-height:1.8;}
 
     .timer-modes{display:flex;gap:0;margin-bottom:48px;border:1px solid rgba(126,184,232,0.1);}
-    .mode-btn{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;background:transparent;border:none;color:#4a5568;cursor:pointer;transition:all 0.2s;}
+    .mode-btn{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;background:transparent;border:none;color:#6b7f96;cursor:pointer;transition:all 0.2s;}
     .mode-btn.active{background:rgba(126,184,232,0.08);color:var(--accent);}
     .mode-btn:hover:not(.active){color:var(--dim);}
 
@@ -39,7 +39,7 @@
     .timer-progress{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-dasharray:753;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear, stroke 0.5s;}
     .timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
     .timer-display{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--white);line-height:1;letter-spacing:0.02em;}
-    .timer-phase{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-top:8px;}
+    .timer-phase{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#6b7f96;margin-top:8px;}
     .timer-session{font-size:9px;letter-spacing:0.15em;color:#a8bdd0;margin-top:4px;}
 
     .task-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(126,184,232,0.12);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--white);padding:10px 0;outline:none;margin-bottom:32px;text-align:center;letter-spacing:0.03em;}
@@ -50,7 +50,7 @@
     .ctrl-btn:hover{border-color:rgba(126,184,232,0.45);color:var(--white);}
     .ctrl-btn.primary{border-color:rgba(126,184,232,0.35);background:rgba(126,184,232,0.06);}
     .ctrl-btn.primary:hover{background:rgba(126,184,232,0.12);}
-    .ctrl-btn.secondary{border-color:rgba(126,184,232,0.1);color:#4a5568;}
+    .ctrl-btn.secondary{border-color:rgba(126,184,232,0.1);color:#6b7f96;}
     .ctrl-btn.secondary:hover{border-color:rgba(126,184,232,0.25);color:var(--dim);}
 
     .sessions-row{display:flex;gap:6px;margin-bottom:48px;}
@@ -59,7 +59,7 @@
     .session-dot.current{border-color:rgba(253,224,71,0.5);background:rgba(253,224,71,0.1);}
 
     .log-section{width:100%;}
-    .log-label{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#4a5568;margin-bottom:16px;}
+    .log-label{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:#6b7f96;margin-bottom:16px;}
     .log-empty{font-size:11px;letter-spacing:0.1em;color:#a8bdd0;padding:16px 0;}
     .log-entry{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(126,184,232,0.04);}
     .log-task{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#6a8090;}
@@ -70,6 +70,12 @@
 
     @media(max-width:600px){nav{padding:16px 20px;}.container{padding:100px 20px 80px;}.timer-ring-wrap{width:240px;height:240px;}.timer-ring-svg{width:240px;height:240px;}.timer-display{font-size:52px;}}
   </style>
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#070b12">
 </head>
 <body>
 <nav>

@@ -1,0 +1,53 @@
+{
+  "youtube": {
+    "channel_id": "UCb1YToopHxqC4Pvluw5r85w",
+    "poll_interval_minutes": 10
+  },
+  "claude": {
+    "enabled": true,
+    "api_key": "YOUR_ANTHROPIC_API_KEY",
+    "model": "claude-sonnet-4-20250514"
+  },
+  "paths": {
+    "download_dir": "downloads",
+    "state_file": "state.json",
+    "pinterest_quotes_dir": "C:/grindorium/pinterest_assets/quotes",
+    "pinterest_results_dir": "C:/grindorium/pinterest_assets/results"
+  },
+  "schedule": {
+    "post_delay_minutes": 30,
+    "pinterest_quote_times": ["16:00", "19:30", "22:00"],
+    "pinterest_result_every_days": 2,
+    "pinterest_result_time": "18:00",
+    "timezone_note": "Times are local machine time. Pick slots that map to US afternoon and evening."
+  },
+  "platforms": {
+    "instagram": {
+      "enabled": false,
+      "access_token": "PAGE_OR_USER_LONG_LIVED_TOKEN",
+      "ig_user_id": "INSTAGRAM_BUSINESS_USER_ID"
+    },
+    "tiktok": {
+      "enabled": false,
+      "access_token": "TIKTOK_ACCESS_TOKEN",
+      "note": "Unaudited apps can only create drafts. Approve them inside the TikTok app."
+    },
+    "facebook": {
+      "enabled": false,
+      "page_id": "FACEBOOK_PAGE_ID",
+      "page_access_token": "PAGE_ACCESS_TOKEN"
+    },
+    "twitter": {
+      "enabled": false,
+      "api_key": "X_API_KEY",
+      "api_secret": "X_API_SECRET",
+      "access_token": "X_ACCESS_TOKEN",
+      "access_token_secret": "X_ACCESS_TOKEN_SECRET"
+    },
+    "pinterest": {
+      "enabled": false,
+      "access_token": "PINTEREST_ACCESS_TOKEN",
+      "board_id": "PINTEREST_BOARD_ID"
+    }
+  }
+}

@@ -116,6 +116,35 @@ export default {
       '/terms': '/terms/index.html',
     };
 
+
+    // Permanent redirects: old sitemap URLs to canonical URLs
+    const redirects = {
+      '/tests/burnout': '/burnout',
+      '/tests/anxiety': '/anxiety',
+      '/tests/procrastination': '/procrastination',
+      '/tests/numbness': '/numbness',
+      '/tests/attachment': '/attachment',
+      '/tests/selfesteem': '/self-esteem',
+      '/tests/perfectionism': '/perfectionism',
+      '/tests/stress': '/stress',
+      '/tests/peoplepleasing': '/people-pleasing',
+      '/tests/loneliness': '/loneliness',
+      '/tests/selfsabotage': '/self-sabotage',
+      '/tests/discipline': '/discipline',
+      '/tests/emotionalmaturity': '/emotional-maturity',
+      '/habits': '/#habits',
+      '/sounds': '/#sounds',
+    };
+    if (redirects[path]) {
+      return Response.redirect(url.origin + redirects[path], 301);
+    }
+
+    // Shared 404: branded page with real 404 status
+    async function notFound() {
+      const nf = await env.ASSETS.fetch(new Request(new URL('/404.html', url.origin).toString()));
+      return new Response(nf.body, {status: 404, headers: {'Content-Type': 'text/html; charset=utf-8'}});
+    }
+
     // Serve .html files directly
     if (path.endsWith('.html')) {
       const response = await env.ASSETS.fetch(request);
@@ -124,23 +153,18 @@ export default {
 
     // /wiki/* - serve static wiki pages
     if (path.startsWith('/wiki/') && path.length > '/wiki/'.length) {
-      const debugInfo = JSON.stringify({path, hasRoute: !!routes[path], routeTarget: routes[path] || null});
       if (routes[path]) {
         const newUrl = new URL(routes[path], url.origin);
-        try {
-          const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-            method: request.method,
-            headers: request.headers,
-          }));
-          if (response.status === 403 || response.status === 404) {
-            return new Response('DEBUG: ' + debugInfo + ' ASSET_STATUS:' + response.status, {status: 200, headers: {'Content-Type': 'text/plain'}});
-          }
-          return addCacheHeaders(addSecurityHeaders(response), routes[path]);
-        } catch(e) {
-          return new Response('DEBUG ERROR: ' + debugInfo + ' ERR:' + e.message, {status: 200, headers: {'Content-Type': 'text/plain'}});
-        }
+        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
+          method: request.method,
+          headers: request.headers,
+        }));
+        if (response.status === 403 || response.status === 404) return notFound();
+        return addCacheHeaders(addSecurityHeaders(response), routes[path]);
       }
-      return new Response('DEBUG NO ROUTE: ' + debugInfo, {status: 200, headers: {'Content-Type': 'text/plain'}});
+      const direct = await env.ASSETS.fetch(request);
+      if (direct.status === 403 || direct.status === 404) return notFound();
+      return addCacheHeaders(addSecurityHeaders(direct), path);
     }
 
     // /writings/* - check routes table first, then fall back to index
@@ -183,6 +207,7 @@ export default {
     }
 
     const response = await env.ASSETS.fetch(request);
+    if (response.status === 403 || response.status === 404) return notFound();
     return addCacheHeaders(addSecurityHeaders(response), path);
   }
 }
