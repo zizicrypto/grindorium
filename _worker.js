@@ -145,6 +145,34 @@ export default {
       return new Response(nf.body, {status: 404, headers: {'Content-Type': 'text/html; charset=utf-8'}});
     }
 
+    // ASSETS 307 auto-redirect'ini icerde takip et, musteriye 200 don
+    async function serveAsset(target) {
+      let resp = await env.ASSETS.fetch(new Request(new URL(target, url.origin).toString(), {
+        method: request.method, headers: request.headers,
+      }));
+      if ([301, 302, 307, 308].includes(resp.status)) {
+        const loc = resp.headers.get('Location');
+        if (loc) {
+          resp = await env.ASSETS.fetch(new Request(new URL(loc, url.origin).toString(), {
+            method: request.method, headers: request.headers,
+          }));
+        }
+      }
+      return resp;
+    }
+
+    // Ham dosya adlarini temiz URL'lere 301'le: /grindorium-burnout(.html) -> /burnout
+    const reverse = {};
+    for (const [clean, file] of Object.entries(routes)) {
+      if (file !== clean) {
+        reverse[file] = clean;
+        reverse[file.replace(/\.html$/, '')] = clean;
+      }
+    }
+    if (reverse[path] && reverse[path] !== path) {
+      return Response.redirect(url.origin + reverse[path], 301);
+    }
+
     // Serve .html files directly
     if (path.endsWith('.html')) {
       const response = await env.ASSETS.fetch(request);
@@ -154,11 +182,7 @@ export default {
     // /wiki/* - serve static wiki pages
     if (path.startsWith('/wiki/') && path.length > '/wiki/'.length) {
       if (routes[path]) {
-        const newUrl = new URL(routes[path], url.origin);
-        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-          method: request.method,
-          headers: request.headers,
-        }));
+        const response = await serveAsset(routes[path]);
         if (response.status === 403 || response.status === 404) return notFound();
         return addCacheHeaders(addSecurityHeaders(response), routes[path]);
       }
@@ -170,39 +194,23 @@ export default {
     // /writings/* - check routes table first, then fall back to index
     if (path.startsWith('/writings/') && path.length > '/writings/'.length) {
       if (routes[path]) {
-        const newUrl = new URL(routes[path], url.origin);
-        const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-          method: request.method,
-          headers: request.headers,
-        }));
+        const response = await serveAsset(routes[path]);
         return addCacheHeaders(addSecurityHeaders(response), routes[path]);
       }
       // Fallback: dynamic writing via index.html
-      const writingsUrl = new URL('/writings/index.html', url.origin);
-      const writingsResponse = await env.ASSETS.fetch(new Request(writingsUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
+      const writingsResponse = await serveAsset('/writings/index.html');
       return addCacheHeaders(addSecurityHeaders(writingsResponse), '/writings/index.html');
     }
 
     if (path.startsWith('/play/') && path.length > '/play/'.length) {
-      const newUrl = new URL('/grindorium-play.html', url.origin);
-      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
+      const response = await serveAsset('/grindorium-play.html');
       return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
 
 
     if (routes[path]) {
-      const newUrl = new URL(routes[path], url.origin);
-      const response = await env.ASSETS.fetch(new Request(newUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-      }));
+      const response = await serveAsset(routes[path]);
       return addCacheHeaders(addSecurityHeaders(response), path);
     }
 
