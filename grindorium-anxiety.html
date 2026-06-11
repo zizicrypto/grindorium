@@ -468,10 +468,25 @@ async function downloadCard(){
     if(grEl)grEl.style.visibility='';
     if(vigEl)vigEl.style.visibility='';
     ctx.drawImage(textCanvas,0,0,W,H);
-    const link=document.createElement('a');
-    link.download='grindorium-anxiety-result.png';
-    link.href=offscreen.toDataURL('image/png');
-    link.click();
+    function finishCard(){
+      const link=document.createElement('a');
+      link.download='grindorium-anxiety-result.png';
+      link.href=offscreen.toDataURL('image/png');
+      link.click();
+    }
+    // Grindorium karakteri sol-alt (12 testle ayni gorunum)
+    const chImg=new Image();
+    chImg.onload=function(){
+      const size=84,x=28,y=H-28-size;
+      ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();
+      var s=Math.min(chImg.width,chImg.height),sx=(chImg.width-s)/2,sy=(chImg.height-s)*0.5;
+      ctx.drawImage(chImg,sx,sy,s,s,x,y,size,size);ctx.restore();
+      ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);
+      ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+      finishCard();
+    };
+    chImg.onerror=finishCard;
+    chImg.src='/grindorium-character.png';
   });
 }
 function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
