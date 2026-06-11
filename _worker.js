@@ -145,9 +145,9 @@ export default {
       return new Response(nf.body, {status: 404, headers: {'Content-Type': 'text/html; charset=utf-8'}});
     }
 
-    // ASSETS 307 auto-redirect'ini icerde takip et, musteriye 200 don
     async function serveAsset(target) {
-      let resp = await env.ASSETS.fetch(new Request(new URL(target, url.origin).toString(), {
+      const cleanTarget = target.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+      let resp = await env.ASSETS.fetch(new Request(new URL(cleanTarget, url.origin).toString(), {
         method: request.method, headers: request.headers,
       }));
       if ([301, 302, 307, 308].includes(resp.status)) {
