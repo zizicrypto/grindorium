@@ -128,7 +128,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .seo-block .seo-tag{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6b7f96;margin-bottom:16px;}
 .seo-block .seo-lead{font-size:14px;color:#8aa0b8;line-height:1.9;margin-bottom:24px;}
 .seo-block .seo-meta{display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
-.seo-block .seo-meta span{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#2d3f52;}
+.seo-block .seo-meta span{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6b8299;}
 .seo-block .seo-meta strong{display:block;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#7eb8e8;margin-bottom:2px;}
 .seo-block .seo-signs{margin-bottom:32px;}
 .seo-block .seo-signs h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#fff;margin-bottom:12px;}
@@ -170,6 +170,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div><strong>3 min</strong><span>to complete</span></div>
 <div><strong>Free</strong><span>no account needed</span></div>
 </div>
+  <div style="margin:4px 0 8px;"><a href="#profileScreen" onclick="var p=document.getElementById('profileScreen');if(p){p.scrollIntoView({behavior:'smooth'});return false;}" style="display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent,#7eb8e8);border:1px solid rgba(126,184,232,0.35);padding:12px 30px;text-decoration:none;">Start the test &darr;</a></div>
   <div class="seo-signs">
     <h2>Signs your stress load may be too high</h2>
     <ul><li>Physical tension that does not fully release, shoulders, jaw, chest</li>
@@ -628,7 +629,7 @@ async function downloadCard(){
       return new Promise(resolve=>{
         if(!src){resolve();return;}
         const img=new Image();
-        img.onload=function(){ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();ctx.drawImage(img,x,y,size,size);ctx.restore();ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();resolve();};
+        img.onload=function(){ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();var s=Math.min(img.width,img.height),sx=(img.width-s)/2,sy=(img.height-s)*0.22;ctx.drawImage(img,sx,sy,s,s,x,y,size,size);ctx.restore();ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();resolve();};
         img.onerror=()=>resolve();img.src=src;
       });
     }
