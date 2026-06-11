@@ -104,9 +104,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .card-site{text-align:right;}
 .card-site-url{font-family:'Space Mono',sans-serif;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.55);text-transform:uppercase;}
 .card-site-cta{font-family:'Space Mono',sans-serif;font-size:7px;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-top:2px;}
-.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
-.share-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
-.share-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
+.card-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.card-action-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 24px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+.card-action-btn:hover{background:rgba(126,184,232,0.14);color:#fff;}
 @media(max-width:600px){nav{padding:13px 14px;}.container{padding:80px 13px 56px;}.option{padding:9px 11px;font-size:13px;}.score-grid{grid-template-columns:1fr;}}
 
     .content-block{max-width:680px;margin:0 auto;padding:80px 48px;border-top:1px solid rgba(126,184,232,0.1);}
@@ -369,7 +369,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div id="resultScreen" style="display:none">
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
-    <div class="share-btns"><button class="share-btn" onclick="downloadCard()">Download Image</button></div>
+    <div class="card-actions"><button class="card-action-btn" onclick="downloadCard()">Download Image</button></div>
     <div id="shareCard">
       <div class="card-bg" id="cardBg" style="position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;"></div>
       <div class="card-overlay" id="cardOverlay" style="position:absolute;inset:0;z-index:0;background:rgba(7,11,18,0.52);"></div>
@@ -546,7 +546,7 @@ function showResult(){
   document.getElementById('testScreen').style.display='none';
   document.getElementById('resultScreen').style.display='block';
   const sst=document.querySelector('#resultScreen .share-section-top');if(sst)sst.style.display='';
-  const sbt=document.querySelector('#resultScreen .share-btns');if(sbt)sbt.style.display='flex';
+  const sbt=document.querySelector('#resultScreen .card-actions');if(sbt)sbt.style.display='flex';
   document.getElementById('loadScore').textContent=load;
   document.getElementById('resScore').textContent=res;
   document.getElementById('progressFill').style.width='100%';
