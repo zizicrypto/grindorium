@@ -478,6 +478,7 @@ async function downloadCard(){
     const chImg=new Image();
     chImg.onload=function(){
       const size=84,x=28,y=H-28-size;
+      ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.fillStyle='rgb(218,218,218)';ctx.fill();ctx.restore();
       ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();
       var s=Math.min(chImg.width,chImg.height),sx=(chImg.width-s)/2,sy=(chImg.height-s)*0.5;
       ctx.drawImage(chImg,sx,sy,s,s,x,y,size,size);ctx.restore();
