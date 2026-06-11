@@ -1282,6 +1282,50 @@
 
 <script>
 
+  const DR_STYLES={
+    "Exhausted":{bg:"linear-gradient(165deg,#0c1016,#131a24)",ac:"rgba(138,160,184,0.28)",tx:"#c4cfdb"},
+    "Avoidant":{bg:"linear-gradient(165deg,#0d1310,#131c17)",ac:"rgba(140,200,168,0.24)",tx:"#b0d4c0"},
+    "Hollow":{bg:"linear-gradient(165deg,#0d0f14,#13161e)",ac:"rgba(150,158,176,0.18)",tx:"#a6aec0"},
+    "Overthinking":{bg:"linear-gradient(165deg,#100e1a,#16142a)",ac:"rgba(170,150,220,0.30)",tx:"#cabfe8"},
+    "Invisible":{bg:"linear-gradient(165deg,#0b0e13,#10141b)",ac:"rgba(126,144,166,0.14)",tx:"#8a98aa"},
+    "Driven":{bg:"linear-gradient(165deg,#140f08,#1e1710)",ac:"rgba(228,176,110,0.30)",tx:"#e8cba0"},
+    "Numb":{bg:"linear-gradient(165deg,#0e1217,#161b22)",ac:"rgba(150,160,172,0.22)",tx:"#aeb8c4"},
+    "Restless":{bg:"linear-gradient(165deg,#141009,#1e1810)",ac:"rgba(224,170,110,0.26)",tx:"#e2c49a"},
+    "Disconnected":{bg:"linear-gradient(165deg,#0d1216,#141c22)",ac:"rgba(120,160,170,0.26)",tx:"#aac6cc"},
+    "Disciplined":{bg:"linear-gradient(165deg,#0c1218,#111a26)",ac:"rgba(126,168,210,0.30)",tx:"#b8d2ea"},
+    "Aching":{bg:"linear-gradient(165deg,#150d12,#1e131a)",ac:"rgba(216,130,160,0.26)",tx:"#e0b4c6"},
+    "Depleted":{bg:"linear-gradient(165deg,#0e1114,#141a1e)",ac:"rgba(140,156,166,0.20)",tx:"#aebcc6"},
+    "Spiraling":{bg:"linear-gradient(165deg,#100d1c,#171330)",ac:"rgba(178,150,232,0.32)",tx:"#cfc0ee"},
+    "Performing":{bg:"linear-gradient(165deg,#120e16,#1a1422)",ac:"rgba(196,150,210,0.28)",tx:"#d8bce4"},
+    "Focused":{bg:"linear-gradient(165deg,#0b1320,#0f1c32)",ac:"rgba(126,184,232,0.34)",tx:"#bcd8f0"},
+    "Drained":{bg:"linear-gradient(165deg,#0e1114,#151a1e)",ac:"rgba(140,156,166,0.22)",tx:"#b2c0ca"},
+    "Bracing":{bg:"linear-gradient(165deg,#11130f,#181b14)",ac:"rgba(186,196,150,0.24)",tx:"#ccd4ac"},
+    "Unseen":{bg:"linear-gradient(165deg,#0c1018,#101622)",ac:"rgba(130,150,180,0.18)",tx:"#9aacc2"},
+    "Consistent":{bg:"linear-gradient(165deg,#0d1410,#121b16)",ac:"rgba(150,200,170,0.26)",tx:"#b6d8c4"},
+    "Flatlined":{bg:"linear-gradient(165deg,#101214,#16181b)",ac:"rgba(160,168,176,0.16)",tx:"#b0b8c0"}
+  };
+  const DR_INSIGHTS={
+    "Exhausted":"Tiredness that sleep fixes is physical. Exhaustion that survives sleep is a system that ran past its limits for too long, and it asks for reduced load, not just rest.",
+    "Avoidant":"Avoidance trades short relief for a longer shadow. Each escape teaches the fear that it was right, and what you avoid quietly starts setting your limits for you.",
+    "Hollow":"Emptiness often follows long self-abandonment, wants ignored until they stopped reporting. The hollow is not nothing. It is a space waiting to be heard.",
+    "Overthinking":"Overthinking feels like diligence and functions like avoidance. The certainty you are waiting for is not one more thought away. At some point the answer is a decision.",
+    "Invisible":"Invisibility can feel safe, and it charges rent. Being unknown protects you from judgment and from closeness at the same time, and only one of those was the goal.",
+    "Driven":"Drive is fuel, and fuel never asks where you are going. Worth checking now and then: is this direction yours, or the fastest lane you found while leaving something behind.",
+    "Numb":"Numbness is not the absence of feeling. It is protection, a nervous system turning the volume down because something was too much for too long.",
+    "Restless":"Restlessness is activation with nowhere to go, a body mobilized by stress, idling inside a life that asks it to sit still.",
+    "Disconnected":"Feeling apart from your own life is often a protective distance the mind takes under prolonged stress. Presence returns through the senses, not through force.",
+    "Disciplined":"Real discipline is structure that survives bad days. If yours runs on self-punishment, it will work right up until it breaks you. Lasting systems are built on recovery, not fear.",
+    "Aching":"Emotional pain runs through some of the same circuitry as physical pain. The ache is real and bodily, and it deserves the patience an injury would get.",
+    "Depleted":"Depleted is past tired. Reserves are spent, not just energy, and refilling takes longer than a weekend. It starts with subtracting demands, not adding motivation.",
+    "Spiraling":"A spiral is thought repeating, not thought progressing. Rumination feels like problem solving and works like suffering. Absorption breaks the loop, not argument.",
+    "Performing":"Performing okay is labor on top of whatever you actually feel. Done long enough, it exhausts and isolates, because nobody can love a performance on your behalf.",
+    "Focused":"Focus is rare and worth protecting. One honest question keeps it clean: is this absorption, which feeds you, or escape with good posture.",
+    "Drained":"Drained is depletion, too many demands and too few recovery gaps. The repair is not motivation. It is margins.",
+    "Bracing":"Living braced for impact is hypervigilance, a body that learned threats arrive without warning. It exhausts you because tension is work, even while standing still.",
+    "Unseen":"Feeling unseen is one of the quietest forms of pain. Humans are wired to need witnessing. The need is design, not weakness.",
+    "Consistent":"Consistency compounds quietly. It looks unimpressive daily and unbeatable yearly. Guard the floor, not the peak. The version that survives your worst day is the one that wins.",
+    "Flatlined":"Flatlined is the emotional volume near zero, not sad, not anything. It is usually protection after too much, and feeling returns like circulation does, slowly, with warmth and small movement."
+  };
   const DR_WORDS=[
     {w:"Exhausted",s:"how you feel"},{w:"Avoidant",s:"how you move"},{w:"Hollow",s:"what's inside"},
     {w:"Overthinking",s:"how your mind works"},{w:"Invisible",s:"how you exist"},{w:"Driven",s:"what pushes you"},
@@ -1319,7 +1363,10 @@
     drCard.style.transition='transform 0.15s,opacity 0.15s,border-color 0.15s';
     drCard.style.transform='translate(-50%,-50%) rotate(0deg)';
     drCard.style.opacity='1';
-    drCard.style.borderColor='rgba(126,184,232,0.1)';
+    const _ds=DR_STYLES[w.w]||{bg:'#0d1420',ac:'rgba(126,184,232,0.1)',tx:'#fff'};
+    drCard.style.background=_ds.bg;
+    drCard.style.borderColor=_ds.ac;
+    document.getElementById('dr-word').style.color=_ds.tx;
     drCurrentX=0;
     document.getElementById('dr-hl').style.color='#a8bdd0';
     document.getElementById('dr-hr').style.color='#a8bdd0';
@@ -1348,6 +1395,13 @@
     const yw=document.getElementById('dr-yes-words');
     yw.innerHTML='';
     drYes.slice(0,8).forEach(w=>yw.innerHTML+=`<span style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border:1px solid rgba(134,239,172,0.2);color:#86efac;">${w}</span>`);
+    let _ins=document.getElementById('dr-insights');
+    if(!_ins){_ins=document.createElement('div');_ins.id='dr-insights';_ins.style.cssText='text-align:left;margin:0 auto 26px;max-width:320px;';yw.parentNode.insertBefore(_ins,yw.nextSibling);}
+    _ins.innerHTML='';
+    if(drYes.length){
+      _ins.innerHTML='<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6b7f96;margin:6px 0 16px;text-align:center;">What each one means</div>';
+      drYes.forEach(function(wd){var t=DR_INSIGHTS[wd];if(t)_ins.innerHTML+='<div style="margin-bottom:15px;"><div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#7eb8e8;margin-bottom:4px;">'+wd+'</div><div style=\'font-family:"Cormorant Garamond",serif;font-size:14.5px;color:#a8bccd;line-height:1.75;\'>'+t+'</div></div>';});
+    }
   }
   function openDrift(){history.pushState({game:"the-drift"},"","/play/the-drift");document.getElementById('driftOverlay').classList.add('active');document.body.style.overflow='hidden';drInit();}
   function closeDrift(){history.replaceState({},"","/play");document.getElementById('driftOverlay').classList.remove('active');document.body.style.overflow='';}
