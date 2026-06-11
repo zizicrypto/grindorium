@@ -1551,6 +1551,28 @@ c:[
   }
 
 
+  const ST_INSIGHTS={
+    "Exhausted":["Carried exhaustion compounds. A system never given real recovery does not adapt, it erodes. Rest is maintenance, not reward.","Exhaustion you avoid looking at does not idle. It collects interest in your mood, your patience, your body.","Naming exhaustion without flinching is the first honest step. Acceptance is not surrender, it is finally reading the gauge."],
+    "Numb":["Carrying numbness means functioning with the volume off. It protects you and it costs you the good frequencies too.","Avoided numbness is double distance, not feeling, and not looking at the not feeling. The signal underneath still waits.","Accepting numbness as protection, not defect, changes the question from what is wrong with me to what was too much."],
+    "Anxious":["Carried anxiety is a threat system on permanent shift. The body pays for every rehearsal of a future that never arrives.","Avoiding your anxiety teaches it that it was right to shout. What is faced shrinks, what is dodged grows.","Accepted anxiety loses half its grip. It is a signal to be read, sometimes a false alarm, never a prophecy."],
+    "Lonely":["Carried loneliness is heavy because it is a need, not a flaw. Like hunger, it does not pass by being ignored.","Avoided loneliness often hides behind busyness and screens. The need stays, only the noise changes.","Accepting loneliness means hearing the signal without shame. It points toward connection, not toward your worth."],
+    "Guilty":["Carried guilt is useful only when it has an address. Guilt without a specific repair is just self-punishment on a loop.","Avoided guilt tends to leak, into defensiveness, into distance. Looking at it directly is cheaper than managing the leak.","Accepted guilt can close. Repair what is repairable, name what is not, and let the verdict expire."],
+    "Restless":["Carried restlessness is mobilization with no mission, stress chemistry idling in a parked body.","Avoiding restlessness with constant stimulation feeds it. The agitation is asking for direction, not distraction.","Accepting restlessness lets you aim it. Activation is fuel, the question is only where it goes."],
+    "Disconnected":["Carrying disconnection means watching your life through glass. The distance protects, and it quietly starves.","Avoided disconnection deepens, the less you look, the further away you drift. Presence rebuilds through the senses.","Accepting disconnection as a stress response, not a character trait, opens the way back. The door is the body."],
+    "Aching":["A carried ache is real load. Emotional pain shares circuitry with physical pain, it deserves the same patience.","An avoided ache does not heal in storage. Pain processed is pain that can end, pain avoided is pain on layaway.","An accepted ache can move. Grief and hurt are processes, and processes need permission to run."],
+    "Drained":["Carrying drained means running on reserves. Reserves are for emergencies, not for Tuesdays.","Avoiding how drained you are keeps the spending invisible. The account does not care whether you check it.","Accepting drained is reading the balance honestly. The repair is margins and subtraction, not motivation."],
+    "Invisible":["Carried invisibility aches because witnessing is a need, not a luxury. Unseen effort still counts, and it still hurts.","Avoiding the feeling of invisibility often looks like shrinking further. The strategy and the wound feed each other.","Accepting that you feel unseen is the first act of being seen, by yourself. That is not nothing. It is the start."],
+    "Overwhelmed":["Carried overwhelm means demands exceed capacity right now. That is arithmetic, not weakness.","Avoided overwhelm becomes shutdown. The pile does not shrink unwatched, it just falls over later.","Accepting overwhelm shrinks it. Name the pile, pick the smallest next step, let the rest wait its turn."],
+    "Hollow":["Carried emptiness is the weight of absence, wants ignored so long they stopped reporting.","Avoiding the hollow with noise and filler keeps it perfectly preserved. Emptiness only changes when it is entered.","Accepting the hollow turns it from a void into a space. Spaces can be listened to, and slowly, refilled."],
+    "Ashamed":["Carried shame whispers that you are the problem. It survives by staying private and unexamined.","Avoided shame runs your choices from backstage, what you hide ends up deciding what you risk.","Accepted shame, spoken to someone safe, loses its oxygen. It cannot survive being said out loud."],
+    "Spiraling":["Carrying a spiral means mistaking repetition for progress. The loop feels like work and produces only wear.","Avoiding the spiral by fighting each thought feeds it. Argument is engagement, and engagement is fuel.","Accepting that you spiral, without joining it, is the exit. Notice the loop, name it, give the mind a task instead."],
+    "Flat":["Carried flatness is languishing, nothing wrong, nothing alive. It is real even though it has no emergency.","Avoided flatness gets explained away as just tired, just busy. Unnamed, it quietly becomes the default.","Accepting flatness names the gray honestly. Color tends to return through small absorbing difficulty, not waiting."],
+    "Avoidant":["Carrying avoidance is exhausting because dodging is full time work. Every escape route needs maintenance.","Avoiding your own avoidance is the deepest loop here. The first honest look is the hardest and the cheapest.","Accepting the pattern, I avoid, said plainly, breaks its camouflage. What is named can be negotiated with."],
+    "Missing":["Carried missing is grief in present tense, love continuing without its address. It is allowed to take time.","Avoided grief waits with perfect patience. It does not expire, it only reschedules.","Accepted missing softens into memory. The ache visits instead of living with you."],
+    "Bracing":["Carried bracing is hypervigilance, a body that learned impact comes without warning. Tension is work, even motionless.","Avoiding the braced feeling keeps the alarm wired. The body unlearns threat only through experienced safety.","Accepting that you live braced lets you practice unbracing, in minutes, in safe rooms, one shoulder at a time."],
+    "Stuck":["Carried stuckness is rarely laziness. It is a system out of ignition, a step too vague or a meaning too heavy.","Avoiding the stuck place keeps it frozen. Doors do not open by being circled.","Accepting stuck as information, not identity, frees you to shrink the step until it moves."],
+    "Unheard":["Carrying unheard is heavy because expression is a need. Words that find no listener start questioning themselves.","Avoiding the feeling of being unheard often becomes silence. The silence is not peace, it is retreat.","Accepting it restores the fact, your words did not stop mattering when others stopped listening."]
+  };
   const ST_WORDS=["Exhausted","Numb","Anxious","Lonely","Guilty","Restless","Disconnected","Aching","Drained","Invisible","Overwhelmed","Hollow","Ashamed","Spiraling","Flat","Avoidant","Missing","Bracing","Stuck","Unheard"];
   var stDragging=null,stPlacements={};
   function openStack(){history.pushState({game:"the-stack"},"","/play/the-stack");document.getElementById('stackOverlay').classList.add('active');document.body.style.overflow='hidden';stInit();}
@@ -1618,6 +1640,18 @@ c:[
     const bc=['rgba(167,139,250,0.2)','rgba(126,184,232,0.2)','rgba(249,168,212,0.2)'];
     const tc=['#a78bfa','#7eb8e8','#f9a8d4'];
     [0,1,2].forEach(z=>{Object.entries(stPlacements).filter(([,v])=>v===z).forEach(([w])=>{tags.innerHTML+=`<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid ${bc[z]};color:${tc[z]};">${w}</span>`;});});
+    let _si=document.getElementById('st-insights');
+    if(!_si){_si=document.createElement('div');_si.id='st-insights';_si.style.cssText='text-align:left;margin:24px auto 0;max-width:560px;';tags.parentNode.insertBefore(_si,tags.nextSibling);}
+    _si.innerHTML='';
+    const _colNames=['What you are carrying','What you are avoiding','What you have accepted'];
+    const _colHead=['#e8a87c','#f9a8d4','#86efac'];
+    [0,1,2].forEach(z=>{
+      const _ws=Object.entries(stPlacements).filter(([,v])=>v===z).map(([w])=>w);
+      if(!_ws.length)return;
+      _si.innerHTML+='<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:'+_colHead[z]+';margin:18px 0 10px;">'+_colNames[z]+'</div>';
+      _ws.forEach(function(wd){var arr=ST_INSIGHTS[wd];if(arr&&arr[z])_si.innerHTML+='<div style="margin-bottom:12px;"><div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#8aa0b8;margin-bottom:3px;">'+wd+'</div><div style=\'font-family:"Cormorant Garamond",serif;font-size:14.5px;color:#a8bccd;line-height:1.7;\'>'+arr[z]+'</div></div>';});
+    });
+
   }
 
 
