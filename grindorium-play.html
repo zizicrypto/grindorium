@@ -1747,13 +1747,19 @@ c:[
   }
 
   const BR_MODES={
-    '478':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:7},{label:'Exhale',dur:8}],cycles:4},
-    'box':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:4},{label:'Exhale',dur:4},{label:'Hold',dur:4}],cycles:4},
-    'simple':{phases:[{label:'Inhale',dur:4},{label:'Exhale',dur:6}],cycles:6}
+    '478':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:7},{label:'Exhale',dur:8}],cycles:4,info:'Developed by Dr. Andrew Weil from pranayama practice. The long exhale engages the parasympathetic brake. Four cycles is the recommended starting dose, not a simplification.',sci:'WEIL, A. (1999). BREATHING: THE MASTER KEY TO SELF HEALING.'},
+    'box':{phases:[{label:'Inhale',dur:4},{label:'Hold',dur:4},{label:'Exhale',dur:4},{label:'Hold',dur:4}],cycles:4,info:'Equal four counts on four sides. Known as tactical breathing, used in military and clinical settings to steady the nervous system under acute stress.',sci:'GROSSMAN, D. (2008). ON COMBAT: TACTICAL BREATHING. WARRIOR SCIENCE.'},
+    'simple':{phases:[{label:'Inhale',dur:4},{label:'Exhale',dur:6}],cycles:6,info:'Extended exhale breathing. Breathing out longer than in raises vagal tone and slows the heart. The simplest evidence backed pattern there is.',sci:'ZACCARO, A. ET AL. (2018). HOW BREATH-CONTROL CAN CHANGE YOUR LIFE. FRONTIERS IN HUMAN NEUROSCIENCE.'}
   };
   var brMode='478',brRunning=false,brTimer=null,brPhaseIdx=0,brSec=0,brCycles=0;
   function openBreath(){history.pushState({game:"the-breath"},"","/play/the-breath");document.getElementById('breathOverlay').classList.add('active');document.body.style.overflow='hidden';brReset();}
   function closeBreath(){history.replaceState({},"","/play");document.getElementById('breathOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(brTimer);brRunning=false;}
+  function brShowInfo(){
+    var md=BR_MODES[brMode];var el=document.getElementById('br-info');
+    if(!el){el=document.createElement('div');el.id='br-info';el.style.cssText='max-width:430px;margin:18px auto 0;text-align:center;';
+      var ring=document.getElementById('br-ring');ring.parentNode.insertBefore(el,ring.nextSibling.nextSibling||null);}
+    el.innerHTML='<div style=\'font-family:"Cormorant Garamond",serif;font-size:13.5px;font-style:italic;color:#7e93a8;line-height:1.75;margin-bottom:10px;\'>'+md.info+'</div><div style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:#44566a;">'+md.sci+'</div>';
+  }
   function brSetMode(m,el){
     if(brRunning)return;
     brMode=m;
@@ -1761,7 +1767,7 @@ c:[
     el.classList.add('active');
     brReset();
   }
-  function brReset(){
+  function brReset(){ brShowInfo();
     clearInterval(brTimer);brRunning=false;brPhaseIdx=0;brSec=0;brCycles=0;
     document.getElementById('br-done').style.display='none';
     document.getElementById('br-ring').style.display='block';
