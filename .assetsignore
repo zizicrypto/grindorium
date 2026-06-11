@@ -1,6 +1,5 @@
-_worker.js
-wrangler.toml
-.github/
-node_modules/
-package.json
-package-lock.json
+.git
+.github
+grindorium_poster
+content_pipeline
+node_modules
