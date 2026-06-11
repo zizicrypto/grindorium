@@ -1,0 +1,47 @@
+{
+ "slug": "body-doubling",
+ "type": "wiki",
+ "title": "Body Doubling",
+ "related": [
+  "/procrastination",
+  "/discipline",
+  "/loneliness"
+ ],
+ "publish_date": "2026-10-08",
+ "content": {
+  "intro": [
+   "Body doubling is the practice of doing a task in the presence of another person whose only job is to be there. Not helping, not supervising, not even necessarily paying attention, just present, in the room or on a video call, while you do the thing you could not start alone. The term comes from the ADHD community, where the effect is widely reported: tasks that were immovable in solitude, taxes, cleaning, writing, suddenly become possible with a quiet witness nearby.",
+   "An honest note on evidence first. Body doubling is a community-discovered practice, and formal research on it is still thin, mostly clinical observation, surveys, and lived report rather than controlled trials. What exists is encouraging, and the practice is low-cost and low-risk, but it should be understood as a widely useful tool with an early evidence base, not an established therapy."
+  ],
+  "sections": [
+   {
+    "title": "Why it might work",
+    "paragraphs": [
+     "Several well-studied mechanisms plausibly combine here. Social facilitation, one of psychology's oldest findings, shows that the mere presence of others changes performance, often improving it on routine tasks. Gentle accountability plays a part, a witnessed intention is harder to quietly abandon. For brains that struggle with activation, another person seems to function as an external ignition, lowering the enormous cost of starting. And there is a co-regulation effect, a calm body nearby steadies a restless one, the way nervous systems have always borrowed from each other."
+    ],
+    "bullets": [
+     "Presence alone changes performance, with or without interaction",
+     "Witnessed intentions resist quiet abandonment",
+     "Another person lowers the cost of starting",
+     "Calm is contagious between nervous systems"
+    ]
+   },
+   {
+    "title": "What it looks like in practice",
+    "paragraphs": [
+     "The formats are flexible. A friend reading in the same room while you sort paperwork. Two people on a muted video call, each doing their own work. Co-working sessions, online body doubling communities, even a busy cafe approximates the effect for some people. The double does not need to know the task or care about it. Their presence is the intervention.",
+     "When no live double is available, people improvise versions of the same effect: working in a library among strangers, study-with-me videos where someone works silently on screen, or simply a long voice note line open with a friend. These approximations are weaker than real presence for most people, but they run on the same principle and cost nothing to try."
+    ]
+   },
+   {
+    "title": "Getting the most from it",
+    "paragraphs": [
+     "It works best with a named task and a bounded session, we are doing fifty minutes, I am doing the invoices, since vagueness wastes the ignition the presence provides. The double should be someone whose presence costs you nothing to maintain, a person you must entertain or perform for cancels the benefit and drains the social battery on top. And it is worth separating this from dependence worries: needing presence to start is not a character flaw, it is a workaround for a real activation cost, and workarounds that get the taxes done need no apology.",
+     "If solo starting is a constant struggle across your whole life, body doubling helps the symptom. The pattern itself, especially with focus and activation problems everywhere, can be worth discussing with a professional."
+    ]
+   }
+  ],
+  "meta_description": "Body doubling is doing tasks beside a quiet witness. Where the ADHD community practice came from, why it works, and how to use it well.",
+  "hub_desc": "Why an immovable task moves when someone simply sits nearby."
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "slug": "allostatic-load",
+ "type": "wiki",
+ "title": "Allostatic Load",
+ "related": [
+  "/stress",
+  "/burnout",
+  "/anxiety"
+ ],
+ "publish_date": "2026-10-01",
+ "content": {
+  "intro": [
+   "Allostatic load is the cumulative wear and tear on the body from chronic stress. The term was introduced by neuroscientist Bruce McEwen and Eliot Stellar in 1993, building on the concept of allostasis, the body's process of achieving stability by changing, raising heart rate, releasing cortisol, mobilizing energy to meet a demand. Allostasis is healthy and necessary. Allostatic load is what accrues when the demands never stop and the systems built for short emergencies run for years.",
+   "The concept matters because it gives a physiological answer to a common confusion: why ongoing stress that never reaches crisis level still breaks people down. Nothing dramatic happens. The load just accumulates, the way a bridge fatigues under traffic it was rated to carry, one ordinary day at a time."
+  ],
+  "sections": [
+   {
+    "title": "How the load builds",
+    "paragraphs": [
+     "Stress systems are designed to surge and recover. The trouble comes in the patterns that prevent recovery: stress repeated too frequently, stress responses that fail to shut off when the demand ends, and systems that stop responding properly so other systems compensate. In each pattern, mediators like cortisol, adrenaline, blood pressure, and inflammatory signals stay elevated past their useful window, and substances that protect in minutes begin to damage over months."
+    ],
+    "bullets": [
+     "Frequent hits with no recovery gap between them",
+     "Alarm systems that stay on after the demand has passed",
+     "Worn responses forcing other systems to overcompensate",
+     "Protective chemistry turning corrosive with chronic exposure"
+    ]
+   },
+   {
+    "title": "What it costs",
+    "paragraphs": [
+     "Research has linked high allostatic load with elevated risks across the body, cardiovascular strain, metabolic problems, weakened immune function, and effects on memory and mood. The everyday version is recognizable without lab work: getting sick after every deadline, blood pressure creeping, sleep that no longer repairs, a body that feels older than its age. Burnout and allostatic load are close relatives, one names the experience, the other names the biology underneath it."
+    ]
+   },
+   {
+    "title": "How it is measured",
+    "paragraphs": [
+     "In research, allostatic load is estimated with a composite index, a battery of biomarkers spanning multiple systems, typically including cortisol, blood pressure, cholesterol and other lipids, blood sugar regulation, and inflammatory markers. Each marker scored in a risky range adds to the index. No single number captures it, which is fitting, since the concept's whole point is that chronic stress damages quietly, across many systems at once, in amounts that each look almost normal on their own."
+    ]
+   },
+   {
+    "title": "Reducing the load",
+    "paragraphs": [
+     "The load drops when recovery returns to the schedule. That means real gaps between demands, not just smaller demands, sleep treated as the primary repair window it is, regular movement, which trains the stress systems to surge and recover the way they were built to, and the steady de-escalation of the chronic, unresolvable stressors where possible, since the body does not distinguish between a tiger and a permanently hostile inbox. Social connection is documented as a buffer, isolation as an amplifier.",
+     "The encouraging part of the research is that load is not a verdict. The same plasticity that let chronic stress reshape the system lets recovery reshape it back, slowly, in the direction of whatever conditions you give it."
+    ]
+   }
+  ],
+  "meta_description": "Allostatic load is the cumulative wear of chronic stress on the body, McEwen's term for why ordinary unrelenting demand breaks systems down.",
+  "hub_desc": "The wear and tear of stress that never gets a recovery gap, and how it reverses."
+ }
+}

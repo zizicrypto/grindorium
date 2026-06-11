@@ -1,0 +1,52 @@
+{
+ "slug": "behavioral-activation",
+ "type": "wiki",
+ "title": "Behavioral Activation",
+ "related": [
+  "/discipline",
+  "/numbness",
+  "/procrastination"
+ ],
+ "publish_date": "2026-11-05",
+ "content": {
+  "intro": [
+   "Behavioral activation is a treatment approach built on a single counterintuitive principle: in low mood, action comes before motivation, not after it. Instead of waiting to feel better in order to re-engage with life, you re-engage with life, in small scheduled steps, and the feeling follows the doing. It sounds too simple to be serious psychology. It is one of the best-supported approaches in the field.",
+   "The landmark evidence arrived in 1996, when psychologist Neil Jacobson and colleagues dismantled cognitive therapy for depression into its components and found that the behavioral activation component alone performed as well as the full package. Later trials confirmed and extended the result. The implication was striking: for many people, changing what you do changes how you think and feel, without ever directly attacking the thoughts."
+  ],
+  "sections": [
+   {
+    "title": "The spiral it interrupts",
+    "paragraphs": [
+     "Low mood runs a reliable spiral. Feeling flat, you withdraw, skipping the people, movement, and activities that used to generate good experiences. The withdrawal shrinks life's supply of reward, which deepens the flatness, which justifies more withdrawal. Each step is locally reasonable, I will go when I feel up to it, and the sum is a life stripped of exactly the inputs mood is made from. Behavioral activation names this avoidance spiral as the engine of the problem and targets it directly."
+    ]
+   },
+   {
+    "title": "How it works in practice",
+    "paragraphs": [
+     "The method is scheduling, not willpower. You identify activities in two categories, ones that bring any flicker of pleasure and ones that bring mastery or meaning, and you place small versions of them into the calendar at specific times, sized to current capacity, a ten-minute walk, one phone call, twenty minutes of a neglected task. The schedule is followed as an experiment, not a mood referendum: you do the thing whether or not you feel like it, and you record what actually happened to your state, because the data, not the forecast, is the treatment. Depressed prediction machinery says nothing will help. The records, gathered honestly, keep disagreeing with it."
+    ],
+    "bullets": [
+     "Act first, feel second, the spiral runs backward",
+     "Schedule small specific activities, pleasure and mastery both",
+     "Sized to today's capacity, not the old self's",
+     "Track the actual effect, the forecast is the symptom",
+     "Avoidance is the target, not laziness"
+    ]
+   },
+   {
+    "title": "Why it suits depleted minds",
+    "paragraphs": [
+     "Approaches that require deep insight or sustained mental wrestling ask a lot from a brain already running on fumes. Behavioral activation asks for one small completed action at a time, which is part of why research finds it effective even in significant depression and easier to deliver and learn than many alternatives. The bar is on the floor by design. Stepping over a floor-height bar, repeatedly, is the mechanism."
+    ]
+   },
+   {
+    "title": "Limits and honest use",
+    "paragraphs": [
+     "Behavioral activation is a clinical treatment when delivered by professionals for diagnosed depression, and self-applied versions are best understood as borrowing its principle for ordinary low mood, languishing, and flat seasons. The principle borrows well. But persistent depression, hopelessness, or thoughts of not wanting to be here call for actual treatment with an actual clinician, where this approach may well be part of the plan, dosed and guided properly. Used in its lane, the lane is wide, it remains the most portable finding in mood science: when you cannot think your way out, you can often act your way out, ten scheduled minutes at a time."
+    ]
+   }
+  ],
+  "meta_description": "Behavioral activation puts action before motivation, and landmark trials back it. How scheduled small steps interrupt the low-mood spiral.",
+  "hub_desc": "Act first, feel second. The best-supported simple idea in mood science."
+ }
+}

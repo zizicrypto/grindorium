@@ -1,0 +1,23 @@
+{
+ "slug": "light-and-mood",
+ "type": "article",
+ "title": "When the Light Changes",
+ "related": [
+  "/numbness",
+  "/burnout",
+  "/stress"
+ ],
+ "publish_date": "2026-11-02",
+ "content": {
+  "paragraphs": [
+   "Every year it happens on schedule, and every year it gets misattributed. The days shorten, the light goes gray and thin, and somewhere in there your mood follows it down, energy flattens, mornings get harder, the couch develops gravity. You blame work, the news, yourself. Meanwhile the actual culprit is hanging in the sky, or rather, leaving it earlier every evening. The link between light and mood is not folklore. It is some of the most established territory in psychiatry, and understanding it turns a private failing back into a seasonal physics problem.",
+   "The science took shape in 1984, when psychiatrist Norman Rosenthal and colleagues at the National Institute of Mental Health formally described seasonal affective disorder, a depression that arrives with the dark months and lifts with spring, and showed that bright light exposure could treat it. The full disorder affects a minority, but research since has confirmed a much wider gradient: a large share of people experience some seasonal dip, the same machinery, set to a milder setting. If your winters are reliably heavier than your summers, you are on that gradient somewhere, and it is not imagination.",
+   "The machinery runs through the eyes. Specialized retinal cells, not the ones for vision, feed light information to the brain's master clock, which conducts the daily rhythms of hormones, alertness, and sleep. Morning light is the conductor's downbeat: it anchors the circadian rhythm, suppresses melatonin on schedule, and supports the systems that regulate mood. Remove it, dark commutes, office days, gray skies, and the orchestra drifts. Melatonin lingers into the morning, the body never gets a clean biological sunrise, and the result reads as fatigue, fog, carb cravings, and a mood with no obvious cause, because the cause is an absence.",
+   "The cruel structure of modern winter is that many people get almost no real daylight at all. Indoor lighting feels bright but is dim by biological standards, often well under a tenth of an overcast sky's intensity. A person can go weeks in light levels their brain files as permanent dusk and then wonder, sincerely, why they feel like something filed under dusk.",
+   "What helps follows directly from the mechanism, and the first item outranks the rest: light, early, into your eyes. A walk outside in the first hours after waking, even fifteen to thirty cloudy minutes, delivers more biologically meaningful light than a day indoors. Where mornings are impossible or the dip runs deep, bright light therapy lamps exist precisely for this, they are the standard, well-studied tool for seasonal low mood, and worth discussing with a doctor to use properly. Keep movement in the routine, since exercise independently supports mood and doubles as a reason to be outdoors. Hold sleep and wake times steady, a drifting schedule compounds the light problem. And resist the hibernation spiral of declining every invitation from November to March, because isolation is the dark's force multiplier.",
+   "One boundary stated plainly: if the seasonal weight crosses into genuine depression, hopelessness, worthlessness, loss of interest in everything, thoughts of not wanting to be here, that is a medical matter with good treatments, and a professional is the right next step, not another lamp. For the wide gradient below that line, though, the prescription is almost insultingly simple, and it works better than its simplicity suggests. The light left. Go find it, on purpose, every morning, and a surprising amount of what felt like personal failure turns out to have been weather."
+  ],
+  "meta_description": "When daylight shrinks, mood follows, and the link is established science. How light runs your inner clock and what brings the level back up.",
+  "excerpt": "The days shorten and something in you follows. The seasonal physics problem misfiled as personal failure."
+ }
+}

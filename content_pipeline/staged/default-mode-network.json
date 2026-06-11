@@ -1,0 +1,51 @@
+{
+ "slug": "default-mode-network",
+ "type": "wiki",
+ "title": "Default Mode Network",
+ "related": [
+  "/anxiety",
+  "/stress",
+  "/numbness"
+ ],
+ "publish_date": "2026-10-22",
+ "content": {
+  "intro": [
+   "The default mode network, usually shortened to DMN, is a set of interconnected brain regions that become active when you are not focused on the outside world. Daydreaming, remembering, imagining the future, thinking about yourself and other people, the wandering that fills the gaps between tasks, this is the DMN's territory. Neurologist Marcus Raichle and colleagues identified and named it in 2001 after noticing that certain regions consistently lit up precisely when experiment subjects were told to do nothing.",
+   "The discovery rearranged a basic assumption. The brain at rest is not resting. It switches to a different program, an inward one, and that program turns out to be deeply involved in identity, memory, and mood, for better and for worse."
+  ],
+  "sections": [
+   {
+    "title": "What the network does",
+    "paragraphs": [
+     "The DMN's core regions, along the brain's midline and in the parietal cortex, coordinate self-referential thought: replaying the past, simulating futures, taking other people's perspectives, stitching experiences into the ongoing story of you. This is valuable machinery. Planning, empathy, and autobiographical memory all lean on it. A mind that could not wander could not imagine."
+    ]
+   },
+   {
+    "title": "The rumination connection",
+    "paragraphs": [
+     "The same machinery has a failure mode. When inward thought gets stuck on negative self-focused loops, what went wrong, what is wrong with me, what will go wrong, it becomes rumination, and brain imaging research has repeatedly linked depression and rumination with altered DMN activity and connectivity, particularly a network that is harder to disengage. In plain terms, the storytelling system gets locked on one grim channel, and findings suggest the lock correlates with how severe and persistent low mood is. The research is correlational and still evolving, but the picture is consistent: a great deal of mental suffering happens inside this network, off-task, self-directed, on repeat."
+    ],
+    "bullets": [
+     "Active when attention is off-task and inward",
+     "Builds the running story of the self",
+     "Overactive, sticky patterns appear in rumination and depression research",
+     "Quiets measurably during absorbed, demanding tasks"
+    ]
+   },
+   {
+    "title": "Why absorption feels like relief",
+    "paragraphs": [
+     "The DMN has a seesaw relationship with the brain's task-focused networks: when one engages, the other quiets. This is the neuroscience behind a universal observation, that total absorption, hard problems, sports, music, flow, silences the self-commentary. A famous large study by Matthew Killingsworth and Daniel Gilbert found that minds wander nearly half of waking life and that people are reliably less happy while wandering than while engaged, whatever the activity. The wandering mind is not always an unhappy mind, but the correlation runs strong enough to take seriously."
+    ]
+   },
+   {
+    "title": "Working with it",
+    "paragraphs": [
+     "You do not get to switch the DMN off, and you would not want to. The practical question is balance: whether your days contain enough genuine absorption to give the inward channel scheduled silence. Demanding engagement is the natural counterweight, and practices like meditation appear, in imaging studies, to change how the network behaves, training the noticing of wandering rather than its elimination. For ordinary life the takeaway is simpler: when the inward channel turns hostile, the exit is not arguing with it, it is giving the task networks something real to do."
+    ]
+   }
+  ],
+  "meta_description": "The default mode network is the brain's inward channel, active at rest, central in rumination research. What it does and how absorption quiets it.",
+  "hub_desc": "The brain's inward channel, where the self-story runs, and why absorption silences it."
+ }
+}

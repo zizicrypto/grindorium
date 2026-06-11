@@ -1,0 +1,47 @@
+{
+ "slug": "emotional-granularity",
+ "type": "wiki",
+ "title": "Emotional Granularity",
+ "related": [
+  "/emotional-maturity",
+  "/numbness",
+  "/anxiety"
+ ],
+ "publish_date": "2026-09-28",
+ "content": {
+  "intro": [
+   "Emotional granularity is the ability to identify and label your emotional states with precision. A person with low granularity experiences broad weather systems, bad, stressed, off. A person with high granularity can tell the difference between disappointed and discouraged, between irritated, resentful, and hurt, between anxious and overstimulated. The concept comes from the research of psychologist Lisa Feldman Barrett, who found that people differ enormously on this dimension and that the differences have real consequences.",
+   "The claim sounds almost too small to matter. It is just words, after all. But across studies, higher granularity is associated with better emotion regulation, less reliance on harmful coping like binge drinking or aggression under stress, and better outcomes in the face of difficulty. Precision, it turns out, is not decoration. It changes what the system can do with a feeling."
+  ],
+  "sections": [
+   {
+    "title": "Why precision helps",
+    "paragraphs": [
+     "A feeling you can name precisely is a feeling with a smaller search space. Bad could mean anything and therefore points at no particular remedy. Lonely points at people. Depleted points at rest. Resentful points at a boundary that needs attention. Granularity converts an unsolvable global state into a specific, addressable signal, which is much of what regulation actually is.",
+     "Brain imaging research also suggests that the act of putting feelings into words, sometimes called affect labeling, dampens activity in the brain's alarm regions. Naming appears to be a form of regulation in itself, not just a preparation for it."
+    ]
+   },
+   {
+    "title": "Low granularity in daily life",
+    "paragraphs": [
+     "Low granularity is common and mostly trained, not innate. Households where feelings went undiscussed, cultures where only certain emotions were acceptable, and long stretches of pushing feelings aside all atrophy the vocabulary. The result shows up as fine and bad as the only two reports available, decisions driven by unidentified states, and the peculiar experience of being ambushed by emotions that were, in hindsight, building for days under a single vague label."
+    ],
+    "bullets": [
+     "Every negative state files under stressed or bad",
+     "Feelings identified only after they act, in the slammed door or the sharp reply",
+     "Difficulty answering what exactly is wrong, even privately",
+     "Physical symptoms, tension, stomach, fatigue, arriving before any emotional word does"
+    ]
+   },
+   {
+    "title": "Building granularity",
+    "paragraphs": [
+     "The skill builds like vocabulary in any language, through use. The core practice is the second question: after the first label arrives, stressed, asking once more, what kind. Pressured, behind, dreading, trapped, each is a different state with a different address. Reading and hearing richer emotional language expands the available set, which is part of why literature measurably exercises this capacity. And precision should stay descriptive, not judgmental, the goal is accurate weather reporting, not a verdict on the sky.",
+     "None of this requires journaling an hour a day. Three precise labels a day, applied honestly, is enough to start widening the set, and the payoff arrives quietly, as feelings that used to arrive as fog start arriving as information."
+    ]
+   }
+  ],
+  "meta_description": "Emotional granularity is naming feelings precisely, and research links it to better regulation. Why exact words change what feelings can do.",
+  "hub_desc": "Why naming a feeling precisely changes what your system can do with it."
+ }
+}

@@ -59,6 +59,12 @@
     .post-page.active{display:block;}
     .journal-grid.hidden{display:none;}
     .filter-bar.hidden{display:none;}
+    .search-row{display:flex;gap:12px;margin:-36px 0 48px;flex-wrap:wrap;align-items:center;}
+    .search-input{flex:1;min-width:220px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.05em;color:#fff;background:rgba(126,184,232,0.04);border:1px solid rgba(126,184,232,0.15);padding:11px 16px;outline:none;transition:border-color 0.3s;}
+    .search-input::placeholder{color:#4a5d72;}
+    .search-input:focus{border-color:rgba(126,184,232,0.45);}
+    .sort-select{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#8aa0b8;background:#0a0f18;border:1px solid rgba(126,184,232,0.15);padding:11px 14px;cursor:pointer;outline:none;}
+    .search-empty{display:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#6b7f96;padding:32px 0;}
     .page-header.hidden{display:none;}
     .back-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);background:transparent;border:none;cursor:pointer;padding:0;margin-bottom:48px;transition:color 0.3s;display:flex;align-items:center;gap:8px;}
     .back-btn:hover{color:var(--white);}
@@ -119,6 +125,15 @@
 
 
     </div>
+    <div class="search-row">
+      <input type="search" class="search-input" id="postSearch" placeholder="Search by title... e.g. discipline, burnout, rest" oninput="searchPosts()" aria-label="Search writings">
+      <select class="sort-select" id="postSort" onchange="sortPosts()" aria-label="Sort order">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="az">Title A to Z</option>
+      </select>
+    </div>
+    <div class="search-empty" id="searchEmpty">Nothing matches that. Try a shorter word.</div>
   </div>
 
   <div class="journal-grid" id="journalGrid">
@@ -2031,10 +2046,43 @@ const POST_META={
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     event.target.classList.add('active');
     document.querySelectorAll('[data-type]').forEach(el=>{
-      el.style.display=(type==='all'||el.dataset.type===type)?'block':'none';
+      el.dataset.hiddenByFilter=(((type==='all'||el.dataset.type===type)?'block':'none')==='none')?'1':'';
     });
+    searchPosts();
   }
 
+  const MONTHS={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+  function cardDate(c){
+    const t=(c.querySelector('.post-date')||{}).textContent||'';
+    const m=t.trim().match(/^(\w{3})\s+(\d{4})$/);
+    return m?parseInt(m[2])*12+(MONTHS[m[1]]||0):0;
+  }
+  function searchPosts(){
+    const q=document.getElementById('postSearch').value.trim().toLowerCase();
+    let visible=0;
+    document.querySelectorAll('.post-card').forEach(c=>{
+      const title=(c.querySelector('.post-title')||{}).textContent||'';
+      const ex=(c.querySelector('.post-excerpt')||{}).textContent||'';
+      const typeOk=!c.dataset.hiddenByFilter;
+      const hit=!q||title.toLowerCase().includes(q)||ex.toLowerCase().includes(q);
+      c.style.display=(hit&&typeOk)?'':'none';
+      if(hit&&typeOk)visible++;
+    });
+    const e=document.getElementById('searchEmpty');
+    if(e)e.style.display=visible===0?'block':'none';
+  }
+  function sortPosts(){
+    const mode=document.getElementById('postSort').value;
+    const cards=Array.from(document.querySelectorAll('.post-card'));
+    if(!cards.length)return;
+    const parent=cards[0].parentElement;
+    cards.forEach((c,i)=>{if(c.dataset.origIndex===undefined)c.dataset.origIndex=i;});
+    let sorted;
+    if(mode==='az')sorted=cards.slice().sort((a,b)=>((a.querySelector('.post-title')||{}).textContent||'').localeCompare((b.querySelector('.post-title')||{}).textContent||''));
+    else if(mode==='oldest')sorted=cards.slice().sort((a,b)=>cardDate(a)-cardDate(b)||(a.dataset.origIndex-b.dataset.origIndex)*-1);
+    else sorted=cards.slice().sort((a,b)=>cardDate(b)-cardDate(a)||(a.dataset.origIndex-b.dataset.origIndex));
+    sorted.forEach(c=>parent.appendChild(c));
+  }
   function openPost(id,pushState){
     document.getElementById('journalGrid').classList.add('hidden');
     document.getElementById('filterBar').classList.add('hidden');

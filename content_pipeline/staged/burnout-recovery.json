@@ -1,0 +1,55 @@
+{
+ "slug": "burnout-recovery",
+ "type": "wiki",
+ "title": "Burnout Recovery",
+ "related": [
+  "/burnout",
+  "/stress",
+  "/numbness"
+ ],
+ "publish_date": "2026-06-22",
+ "content": {
+  "intro": [
+   "Burnout recovery is the process of restoring a nervous system that has been running in survival mode for months or years. It is not the same as resting after a hard week. A weekend does not touch it. Recovery means rebuilding the capacity to feel, focus, and care, and that rebuilding follows its own timeline whether you approve of it or not.",
+   "Most people start recovery with the same question: how long will this take. The honest answer is longer than you want. Research on clinical burnout suggests months for mild cases and one to three years for severe ones. The timeline depends on how long you ran past empty before you stopped."
+  ],
+  "sections": [
+   {
+    "title": "Why rest alone fails",
+    "paragraphs": [
+     "Burnout is not a sleep deficit. It is a prolonged stress response that has changed how your body regulates energy, attention, and emotion. Cortisol rhythms flatten. Motivation circuits go quiet. Sleeping ten hours into that state feels like charging a phone with a broken battery. The charge does not hold.",
+     "This is why vacations disappoint people in burnout. They remove the demands for a week but do not repair the system that processes demands. The exhaustion returns on the first day back, sometimes before."
+    ]
+   },
+   {
+    "title": "The stages most people move through",
+    "paragraphs": [
+     "Recovery rarely moves in a straight line, but a common arc shows up in both research and lived accounts. First comes crash and sleep, when the body takes what it was denied. Then a long flat stretch where you feel neither terrible nor alive. This stage frightens people because it looks like nothing is happening. Something is. The system is recalibrating below the level you can feel.",
+     "Interest returns before energy does. You notice you are curious about something small. Then energy returns in unreliable bursts that collapse if you spend them the old way. The final stage is the slow rebuilding of tolerance, where work and effort become possible again without triggering the crash."
+    ],
+    "bullets": [
+     "Crash and heavy sleep",
+     "The flat stretch where nothing feels like anything",
+     "Curiosity returning before energy",
+     "Unreliable energy that punishes overspending",
+     "Gradual rebuilding of tolerance"
+    ]
+   },
+   {
+    "title": "The relapse trap",
+    "paragraphs": [
+     "The most common recovery mistake is spending the first returning energy at full speed. The first good week convinces people they are back. They return to the old pace, and the crash that follows is often deeper than the original. Recovery capacity has to be tested gently, the way a healed leg is tested, not sprinted on."
+    ]
+   },
+   {
+    "title": "What actually helps",
+    "paragraphs": [
+     "What helps is unglamorous. Sleep kept on a boring schedule. Demands reduced for real, not just reorganized. Movement that is gentle enough to finish. One or two relationships where you do not perform. And honest tracking of the difference between a good day and recovered, because confusing those two is how relapse starts.",
+     "If your burnout involves persistent hopelessness or you cannot function at all, that is beyond self-management. A doctor or therapist is the right next step, and going is part of recovery, not a failure of it."
+    ]
+   }
+  ],
+  "meta_description": "How burnout recovery actually works, why rest alone fails, the stages most people move through, and what realistically helps.",
+  "hub_desc": "Why a vacation does not fix it, the stages of recovery, and the relapse trap."
+ }
+}

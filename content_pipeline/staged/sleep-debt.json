@@ -1,0 +1,46 @@
+{
+ "slug": "sleep-debt",
+ "type": "wiki",
+ "title": "Sleep Debt",
+ "related": [
+  "/burnout",
+  "/stress",
+  "/discipline"
+ ],
+ "publish_date": "2026-11-12",
+ "content": {
+  "intro": [
+   "Sleep debt is the accumulated gap between the sleep your body needs and the sleep it gets. Run on six hours when you need eight, and the missing two do not evaporate. They accrue, night after night, into a deficit with measurable effects on attention, memory, mood, reaction time, and physical health. The concept matters because the debt compounds quietly, behind a feeling of normal, which is precisely what the research found most alarming.",
+   "The landmark study is worth knowing. In 2003, sleep researcher Hans Van Dongen and colleagues restricted volunteers to six hours a night for two weeks and measured their cognitive performance daily. By the end, the six-hour group performed as poorly as people who had been fully awake for one to two nights straight. The detail that made the study famous: the sleep-restricted group rated themselves as only slightly drowsy. Their performance kept falling. Their self-assessment did not. Chronic sleep debt impairs you and then impairs your ability to notice it."
+  ],
+  "sections": [
+   {
+    "title": "How the debt behaves",
+    "paragraphs": [
+     "Sleep debt is real but not a simple bank account. Short-term debt, a bad week, responds noticeably to recovery sleep, though restoration is not hour for hour, the system repays in quality as well as quantity, deepening sleep before lengthening it. Chronic debt is the more stubborn case. Research on weekend catch-up sleep finds it helps mood and sleepiness but does not fully reverse the metabolic and cognitive effects of long-term restriction, especially when the restriction resumes every Monday. You can pay down a bad week. You cannot indefinitely finance a bad life on weekends."
+    ],
+    "bullets": [
+     "Performance drops within days of restriction",
+     "Self-awareness of impairment drops with it",
+     "Recovery sleep repays partially, not hour for hour",
+     "Weekend catch-up softens but does not erase chronic debt"
+    ]
+   },
+   {
+    "title": "What it costs beyond tiredness",
+    "paragraphs": [
+     "The visible cost is fatigue. The documented costs run wider: degraded attention and working memory, weaker emotional regulation, the amygdala measurably more reactive on short sleep, impaired glucose handling, elevated appetite, weakened immune response, and over years, associations with cardiovascular and metabolic disease. Mood sits near the front of the line. Short sleep and irritability, anxiety, and low mood feed each other in both directions, which is why sleep is the first variable worth checking under almost any emotional weather."
+    ]
+   },
+   {
+    "title": "Paying it down",
+    "paragraphs": [
+     "Repayment is unglamorous and works. Set a sleep window that actually fits your need, most adults sit between seven and nine hours, and protect it for two to three weeks, the realistic horizon for a chronic deficit to ease. Use consistency as the tool, same wake time daily, since the circadian system repays regularity with better sleep quality. Let early nights, not heroic weekend lie-ins, do the catch-up, because large schedule swings create their own jet lag. And watch for the milestone the research warns you will miss: feeling normal again is not the finish line, it returns before full function does.",
+     "If sleep itself is broken, you give it the hours and cannot fall or stay asleep for weeks, that is insomnia rather than debt, a different problem with its own well-supported treatment, CBT-I, and a clinician is the right door."
+    ]
+   }
+  ],
+  "meta_description": "Sleep debt compounds behind a feeling of normal. The Van Dongen findings, what weekend catch-up can and cannot repay, and how to pay it down.",
+  "hub_desc": "The deficit that impairs you, then impairs your ability to notice it."
+ }
+}

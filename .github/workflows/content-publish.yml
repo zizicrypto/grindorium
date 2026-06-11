@@ -1,0 +1,46 @@
+name: Content scheduled publish
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'
+    - cron: '0 13 * * 4'
+  workflow_dispatch:
+    inputs:
+      max:
+        description: 'Kac parca yayinlansin'
+        default: '1'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Publish due content
+        run: python content_pipeline/publish_due.py --max ${{ github.event.inputs.max || '1' }}
+      - name: Commit
+        id: commit
+        run: |
+          git config user.name "grindorium-bot"
+          git config user.email "bot@grindorium.org"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "Publish scheduled content"
+            git push
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Deploy to Cloudflare
+        if: steps.commit.outputs.changed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 1a664dfc30e3d14fde80921fdb2a8290
+          wranglerVersion: "4"

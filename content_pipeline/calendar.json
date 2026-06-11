@@ -1,0 +1,824 @@
+{
+ "note": "Grindorium content calendar. status: pending -> staged -> published",
+ "items": [
+  {
+   "slug": "burnout-recovery",
+   "type": "wiki",
+   "title": "Burnout Recovery",
+   "search": "how long does burnout recovery take",
+   "related": [
+    "/burnout",
+    "/stress",
+    "/numbness"
+   ],
+   "publish_date": "2026-06-22",
+   "status": "staged"
+  },
+  {
+   "slug": "boreout",
+   "type": "article",
+   "title": "Boreout",
+   "search": "boreout, bored at work exhausted",
+   "related": [
+    "/burnout",
+    "/numbness",
+    "/procrastination"
+   ],
+   "publish_date": "2026-06-25",
+   "status": "staged"
+  },
+  {
+   "slug": "functional-freeze",
+   "type": "article",
+   "title": "Functional Freeze",
+   "search": "functional freeze response, frozen but functioning",
+   "related": [
+    "/numbness",
+    "/stress",
+    "/burnout"
+   ],
+   "publish_date": "2026-06-29",
+   "status": "staged"
+  },
+  {
+   "slug": "revenge-bedtime-procrastination",
+   "type": "article",
+   "title": "Revenge Bedtime Procrastination",
+   "search": "why do I stay up late when I am tired",
+   "related": [
+    "/procrastination",
+    "/discipline",
+    "/burnout"
+   ],
+   "publish_date": "2026-07-02",
+   "status": "staged"
+  },
+  {
+   "slug": "summer-pressure",
+   "type": "article",
+   "title": "Summer Pressure",
+   "search": "pressure to be happy in summer, summer sadness",
+   "related": [
+    "/loneliness",
+    "/self-esteem",
+    "/numbness"
+   ],
+   "publish_date": "2026-07-06",
+   "status": "staged"
+  },
+  {
+   "slug": "high-functioning-anxiety",
+   "type": "article",
+   "title": "High-Functioning Anxiety",
+   "search": "high functioning anxiety signs",
+   "related": [
+    "/anxiety",
+    "/perfectionism",
+    "/stress"
+   ],
+   "publish_date": "2026-07-09",
+   "status": "staged"
+  },
+  {
+   "slug": "vacation-guilt",
+   "type": "article",
+   "title": "Vacation Guilt",
+   "search": "guilt taking time off, cannot relax on vacation",
+   "related": [
+    "/burnout",
+    "/discipline",
+    "/people-pleasing"
+   ],
+   "publish_date": "2026-07-13",
+   "status": "staged"
+  },
+  {
+   "slug": "languishing",
+   "type": "article",
+   "title": "Languishing",
+   "search": "languishing meaning, feeling blah not depressed",
+   "related": [
+    "/numbness",
+    "/burnout",
+    "/loneliness"
+   ],
+   "publish_date": "2026-07-16",
+   "status": "staged"
+  },
+  {
+   "slug": "toxic-productivity",
+   "type": "article",
+   "title": "Toxic Productivity",
+   "search": "toxic productivity, guilt when resting",
+   "related": [
+    "/burnout",
+    "/discipline",
+    "/self-esteem"
+   ],
+   "publish_date": "2026-07-20",
+   "status": "staged"
+  },
+  {
+   "slug": "doomscrolling",
+   "type": "article",
+   "title": "Doomscrolling",
+   "search": "how to stop doomscrolling",
+   "related": [
+    "/anxiety",
+    "/numbness",
+    "/discipline"
+   ],
+   "publish_date": "2026-07-23",
+   "status": "staged"
+  },
+  {
+   "slug": "emotional-flashbacks",
+   "type": "article",
+   "title": "Emotional Flashbacks",
+   "search": "emotional flashback, sudden shame spiral",
+   "related": [
+    "/attachment",
+    "/numbness",
+    "/self-esteem"
+   ],
+   "publish_date": "2026-07-27",
+   "status": "staged"
+  },
+  {
+   "slug": "rejection-sensitivity",
+   "type": "article",
+   "title": "Rejection Sensitivity",
+   "search": "rejection sensitive dysphoria",
+   "related": [
+    "/people-pleasing",
+    "/attachment",
+    "/self-esteem"
+   ],
+   "publish_date": "2026-07-30",
+   "status": "staged"
+  },
+  {
+   "slug": "analysis-paralysis",
+   "type": "article",
+   "title": "Analysis Paralysis",
+   "search": "analysis paralysis, overthinking decisions",
+   "related": [
+    "/procrastination",
+    "/perfectionism",
+    "/anxiety"
+   ],
+   "publish_date": "2026-08-03",
+   "status": "staged"
+  },
+  {
+   "slug": "social-battery",
+   "type": "article",
+   "title": "The Social Battery",
+   "search": "social battery drained, socializing exhausts me",
+   "related": [
+    "/loneliness",
+    "/numbness",
+    "/people-pleasing"
+   ],
+   "publish_date": "2026-08-06",
+   "status": "staged"
+  },
+  {
+   "slug": "birthday-blues",
+   "type": "article",
+   "title": "Birthday Blues",
+   "search": "sad on my birthday, birthday depression",
+   "related": [
+    "/loneliness",
+    "/self-esteem",
+    "/numbness"
+   ],
+   "publish_date": "2026-08-10",
+   "status": "staged"
+  },
+  {
+   "slug": "brain-fog",
+   "type": "article",
+   "title": "Brain Fog",
+   "search": "brain fog causes, cannot think clearly",
+   "related": [
+    "/burnout",
+    "/stress",
+    "/numbness"
+   ],
+   "publish_date": "2026-08-13",
+   "status": "staged"
+  },
+  {
+   "slug": "comparison-spiral",
+   "type": "article",
+   "title": "The Comparison Spiral",
+   "search": "comparing myself to others online",
+   "related": [
+    "/self-esteem",
+    "/anxiety",
+    "/numbness"
+   ],
+   "publish_date": "2026-08-17",
+   "status": "staged"
+  },
+  {
+   "slug": "self-abandonment",
+   "type": "article",
+   "title": "Self-Abandonment",
+   "search": "self abandonment patterns",
+   "related": [
+    "/people-pleasing",
+    "/self-esteem",
+    "/attachment"
+   ],
+   "publish_date": "2026-08-20",
+   "status": "staged"
+  },
+  {
+   "slug": "hyperindependence",
+   "type": "article",
+   "title": "Hyperindependence",
+   "search": "hyperindependence, cannot ask for help",
+   "related": [
+    "/attachment",
+    "/loneliness",
+    "/self-esteem"
+   ],
+   "publish_date": "2026-08-24",
+   "status": "staged"
+  },
+  {
+   "slug": "anticipatory-anxiety",
+   "type": "article",
+   "title": "Anticipatory Anxiety",
+   "search": "anticipatory anxiety, dreading things early",
+   "related": [
+    "/anxiety",
+    "/stress",
+    "/procrastination"
+   ],
+   "publish_date": "2026-08-27",
+   "status": "staged"
+  },
+  {
+   "slug": "september-reset",
+   "type": "article",
+   "title": "The September Reset",
+   "search": "september fresh start, back to school feeling adults",
+   "related": [
+    "/discipline",
+    "/procrastination",
+    "/stress"
+   ],
+   "publish_date": "2026-08-31",
+   "status": "staged"
+  },
+  {
+   "slug": "masking",
+   "type": "article",
+   "title": "Masking",
+   "search": "emotional masking, pretending to be fine",
+   "related": [
+    "/numbness",
+    "/people-pleasing",
+    "/burnout"
+   ],
+   "publish_date": "2026-09-03",
+   "status": "staged"
+  },
+  {
+   "slug": "sunday-scaries",
+   "type": "article",
+   "title": "The Sunday Scaries",
+   "search": "sunday scaries, sunday evening work dread",
+   "related": [
+    "/anxiety",
+    "/burnout",
+    "/stress"
+   ],
+   "publish_date": "2026-09-07",
+   "status": "staged"
+  },
+  {
+   "slug": "anhedonia",
+   "type": "article",
+   "title": "Anhedonia",
+   "search": "anhedonia, nothing feels enjoyable anymore",
+   "related": [
+    "/numbness",
+    "/burnout",
+    "/loneliness"
+   ],
+   "publish_date": "2026-09-10",
+   "status": "staged"
+  },
+  {
+   "slug": "burnout-vs-depression",
+   "type": "article",
+   "title": "Burnout vs Depression",
+   "search": "burnout vs depression difference",
+   "related": [
+    "/burnout",
+    "/numbness",
+    "/stress"
+   ],
+   "publish_date": "2026-09-14",
+   "status": "staged"
+  },
+  {
+   "slug": "emotional-hangover",
+   "type": "article",
+   "title": "The Emotional Hangover",
+   "search": "emotional hangover after socializing or conflict",
+   "related": [
+    "/numbness",
+    "/people-pleasing",
+    "/stress"
+   ],
+   "publish_date": "2026-09-17",
+   "status": "staged"
+  },
+  {
+   "slug": "quiet-quitting-yourself",
+   "type": "article",
+   "title": "Quiet Quitting Yourself",
+   "search": "giving up on yourself slowly, lost ambition",
+   "related": [
+    "/self-sabotage",
+    "/burnout",
+    "/numbness"
+   ],
+   "publish_date": "2026-09-21",
+   "status": "staged"
+  },
+  {
+   "slug": "window-of-tolerance",
+   "type": "wiki",
+   "title": "Window of Tolerance",
+   "search": "window of tolerance explained",
+   "related": [
+    "/stress",
+    "/anxiety",
+    "/numbness"
+   ],
+   "publish_date": "2026-09-24",
+   "status": "staged"
+  },
+  {
+   "slug": "emotional-granularity",
+   "type": "wiki",
+   "title": "Emotional Granularity",
+   "search": "emotional granularity, naming emotions precisely",
+   "related": [
+    "/emotional-maturity",
+    "/numbness",
+    "/anxiety"
+   ],
+   "publish_date": "2026-09-28",
+   "status": "staged"
+  },
+  {
+   "slug": "allostatic-load",
+   "type": "wiki",
+   "title": "Allostatic Load",
+   "search": "allostatic load chronic stress",
+   "related": [
+    "/stress",
+    "/burnout",
+    "/anxiety"
+   ],
+   "publish_date": "2026-10-01",
+   "status": "staged"
+  },
+  {
+   "slug": "asking-for-help",
+   "type": "article",
+   "title": "Asking for Help",
+   "search": "why is asking for help so hard",
+   "related": [
+    "/self-esteem",
+    "/loneliness",
+    "/attachment"
+   ],
+   "publish_date": "2026-10-05",
+   "status": "staged"
+  },
+  {
+   "slug": "body-doubling",
+   "type": "wiki",
+   "title": "Body Doubling",
+   "search": "body doubling productivity adhd",
+   "related": [
+    "/procrastination",
+    "/discipline",
+    "/loneliness"
+   ],
+   "publish_date": "2026-10-08",
+   "status": "staged"
+  },
+  {
+   "slug": "time-blindness",
+   "type": "article",
+   "title": "Time Blindness",
+   "search": "time blindness, losing track of time",
+   "related": [
+    "/procrastination",
+    "/discipline",
+    "/stress"
+   ],
+   "publish_date": "2026-10-12",
+   "status": "staged"
+  },
+  {
+   "slug": "freeze-response",
+   "type": "article",
+   "title": "The Freeze Response",
+   "search": "freeze response, why do I shut down under stress",
+   "related": [
+    "/stress",
+    "/numbness",
+    "/anxiety"
+   ],
+   "publish_date": "2026-10-15",
+   "status": "staged"
+  },
+  {
+   "slug": "task-paralysis",
+   "type": "article",
+   "title": "Task Paralysis",
+   "search": "task paralysis, why can't I start tasks",
+   "related": [
+    "/procrastination",
+    "/anxiety",
+    "/perfectionism"
+   ],
+   "publish_date": "2026-10-19",
+   "status": "staged"
+  },
+  {
+   "slug": "default-mode-network",
+   "type": "wiki",
+   "title": "Default Mode Network",
+   "search": "default mode network rumination",
+   "related": [
+    "/anxiety",
+    "/stress",
+    "/numbness"
+   ],
+   "publish_date": "2026-10-22",
+   "status": "staged"
+  },
+  {
+   "slug": "waiting-mode",
+   "type": "article",
+   "title": "Waiting Mode",
+   "search": "waiting mode, cannot do anything before an appointment",
+   "related": [
+    "/procrastination",
+    "/anxiety",
+    "/discipline"
+   ],
+   "publish_date": "2026-10-26",
+   "status": "staged"
+  },
+  {
+   "slug": "fawn-response",
+   "type": "article",
+   "title": "The Fawn Response",
+   "search": "fawn response, appeasing under threat",
+   "related": [
+    "/people-pleasing",
+    "/attachment",
+    "/stress"
+   ],
+   "publish_date": "2026-10-29",
+   "status": "staged"
+  },
+  {
+   "slug": "light-and-mood",
+   "type": "article",
+   "title": "When the Light Changes",
+   "search": "less daylight mood worse, seasonal mood shift",
+   "related": [
+    "/numbness",
+    "/burnout",
+    "/stress"
+   ],
+   "publish_date": "2026-11-02",
+   "status": "staged"
+  },
+  {
+   "slug": "behavioral-activation",
+   "type": "wiki",
+   "title": "Behavioral Activation",
+   "search": "behavioral activation low motivation",
+   "related": [
+    "/discipline",
+    "/numbness",
+    "/procrastination"
+   ],
+   "publish_date": "2026-11-05",
+   "status": "staged"
+  },
+  {
+   "slug": "waking-at-3am",
+   "type": "article",
+   "title": "Waking at 3 a.m.",
+   "search": "waking up at 3am with racing thoughts",
+   "related": [
+    "/anxiety",
+    "/stress",
+    "/burnout"
+   ],
+   "publish_date": "2026-11-09",
+   "status": "staged"
+  },
+  {
+   "slug": "sleep-debt",
+   "type": "wiki",
+   "title": "Sleep Debt",
+   "search": "sleep debt, can you catch up on sleep",
+   "related": [
+    "/burnout",
+    "/stress",
+    "/discipline"
+   ],
+   "publish_date": "2026-11-12",
+   "status": "staged"
+  },
+  {
+   "slug": "interoception",
+   "type": "wiki",
+   "title": "Interoception",
+   "search": "interoception, sensing internal body signals",
+   "related": [
+    "/anxiety",
+    "/numbness",
+    "/stress"
+   ],
+   "publish_date": "2026-11-16",
+   "status": "pending"
+  },
+  {
+   "slug": "learned-helplessness",
+   "type": "wiki",
+   "title": "Learned Helplessness",
+   "search": "learned helplessness explained",
+   "related": [
+    "/self-sabotage",
+    "/numbness",
+    "/self-esteem"
+   ],
+   "publish_date": "2026-11-19",
+   "status": "pending"
+  },
+  {
+   "slug": "gratitude-resistance",
+   "type": "article",
+   "title": "When Gratitude Feels Fake",
+   "search": "gratitude feels forced, toxic gratitude",
+   "related": [
+    "/numbness",
+    "/self-esteem",
+    "/emotional-maturity"
+   ],
+   "publish_date": "2026-11-23",
+   "status": "staged"
+  },
+  {
+   "slug": "spoon-theory",
+   "type": "wiki",
+   "title": "Spoon Theory",
+   "search": "spoon theory explained energy",
+   "related": [
+    "/burnout",
+    "/numbness",
+    "/stress"
+   ],
+   "publish_date": "2026-11-26",
+   "status": "pending"
+  },
+  {
+   "slug": "review-season-anxiety",
+   "type": "article",
+   "title": "Review Season Anxiety",
+   "search": "performance review anxiety",
+   "related": [
+    "/anxiety",
+    "/self-esteem",
+    "/perfectionism"
+   ],
+   "publish_date": "2026-11-30",
+   "status": "pending"
+  },
+  {
+   "slug": "emotional-labor",
+   "type": "wiki",
+   "title": "Emotional Labor",
+   "search": "emotional labor meaning",
+   "related": [
+    "/people-pleasing",
+    "/burnout",
+    "/numbness"
+   ],
+   "publish_date": "2026-12-03",
+   "status": "pending"
+  },
+  {
+   "slug": "holiday-stress",
+   "type": "article",
+   "title": "Holiday Stress",
+   "search": "holiday stress overwhelm december",
+   "related": [
+    "/stress",
+    "/people-pleasing",
+    "/burnout"
+   ],
+   "publish_date": "2026-12-07",
+   "status": "staged"
+  },
+  {
+   "slug": "going-home-regression",
+   "type": "article",
+   "title": "Going Home Regression",
+   "search": "acting like a teenager around parents, family visit regression",
+   "related": [
+    "/attachment",
+    "/people-pleasing",
+    "/emotional-maturity"
+   ],
+   "publish_date": "2026-12-14",
+   "status": "staged"
+  },
+  {
+   "slug": "year-end-audit",
+   "type": "article",
+   "title": "The Year-End Audit",
+   "search": "feeling behind at end of year, year in review anxiety",
+   "related": [
+    "/self-esteem",
+    "/perfectionism",
+    "/burnout"
+   ],
+   "publish_date": "2026-12-28",
+   "status": "staged"
+  },
+  {
+   "slug": "resolution-fatigue",
+   "type": "article",
+   "title": "Resolution Fatigue",
+   "search": "why new year resolutions fail by february",
+   "related": [
+    "/discipline",
+    "/self-sabotage",
+    "/burnout"
+   ],
+   "publish_date": "2027-01-11",
+   "status": "staged"
+  },
+  {
+   "slug": "january-low",
+   "type": "article",
+   "title": "The January Low",
+   "search": "january depression, blue monday feeling low",
+   "related": [
+    "/numbness",
+    "/loneliness",
+    "/burnout"
+   ],
+   "publish_date": "2027-01-18",
+   "status": "staged"
+  },
+  {
+   "slug": "habit-relapse",
+   "type": "article",
+   "title": "Habit Relapse",
+   "search": "why habits collapse after a few weeks",
+   "related": [
+    "/discipline",
+    "/self-sabotage",
+    "/procrastination"
+   ],
+   "publish_date": "2027-01-25",
+   "status": "pending"
+  },
+  {
+   "slug": "digital-minimalism",
+   "type": "article",
+   "title": "Digital Minimalism",
+   "search": "digital minimalism, reduce screen time meaningfully",
+   "related": [
+    "/discipline",
+    "/anxiety",
+    "/numbness"
+   ],
+   "publish_date": "2027-02-01",
+   "status": "pending"
+  },
+  {
+   "slug": "solitude-vs-loneliness",
+   "type": "article",
+   "title": "Solitude vs Loneliness",
+   "search": "difference between solitude and loneliness",
+   "related": [
+    "/loneliness",
+    "/self-esteem",
+    "/emotional-maturity"
+   ],
+   "publish_date": "2027-02-08",
+   "status": "pending"
+  },
+  {
+   "slug": "morning-dread",
+   "type": "article",
+   "title": "Morning Dread",
+   "search": "dread waking up in the morning",
+   "related": [
+    "/burnout",
+    "/anxiety",
+    "/numbness"
+   ],
+   "publish_date": "2027-02-15",
+   "status": "pending"
+  },
+  {
+   "slug": "toxic-positivity",
+   "type": "article",
+   "title": "Toxic Positivity",
+   "search": "toxic positivity, good vibes only harm",
+   "related": [
+    "/numbness",
+    "/emotional-maturity",
+    "/people-pleasing"
+   ],
+   "publish_date": "2027-03-01",
+   "status": "pending"
+  },
+  {
+   "slug": "clock-change-fatigue",
+   "type": "article",
+   "title": "Clock Change Fatigue",
+   "search": "daylight saving tiredness, time change exhaustion",
+   "related": [
+    "/stress",
+    "/burnout",
+    "/discipline"
+   ],
+   "publish_date": "2027-03-08",
+   "status": "pending"
+  },
+  {
+   "slug": "spring-restlessness",
+   "type": "article",
+   "title": "Spring Restlessness",
+   "search": "restless in spring, agitated energy spring",
+   "related": [
+    "/stress",
+    "/anxiety",
+    "/discipline"
+   ],
+   "publish_date": "2027-03-22",
+   "status": "pending"
+  },
+  {
+   "slug": "compassion-fatigue",
+   "type": "article",
+   "title": "Compassion Fatigue",
+   "search": "compassion fatigue caregivers, empathy exhaustion",
+   "related": [
+    "/burnout",
+    "/numbness",
+    "/people-pleasing"
+   ],
+   "publish_date": "2027-04-05",
+   "status": "pending"
+  },
+  {
+   "slug": "deadline-dread",
+   "type": "article",
+   "title": "Deadline Dread",
+   "search": "deadline anxiety, panic before deadlines",
+   "related": [
+    "/anxiety",
+    "/procrastination",
+    "/stress"
+   ],
+   "publish_date": "2027-04-12",
+   "status": "pending"
+  },
+  {
+   "slug": "arrival-fallacy",
+   "type": "article",
+   "title": "The Arrival Fallacy",
+   "search": "achieved my goal but feel empty",
+   "related": [
+    "/self-esteem",
+    "/numbness",
+    "/burnout"
+   ],
+   "publish_date": "2027-05-17",
+   "status": "pending"
+  }
+ ]
+}

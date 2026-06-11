@@ -34,6 +34,10 @@
     .wiki-card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;margin-bottom:6px;}
     .wiki-card-desc{font-size:10px;color:#6b7f96;line-height:1.7;}
     .wiki-card-tag{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#2d3f52;margin-bottom:10px;}
+    .wiki-search{width:100%;max-width:420px;font-family:'Space Mono',monospace;font-size:11px;color:#fff;background:rgba(126,184,232,0.04);border:1px solid rgba(126,184,232,0.15);padding:11px 16px;outline:none;margin-bottom:32px;transition:border-color 0.3s;}
+    .wiki-search::placeholder{color:#4a5d72;}
+    .wiki-search:focus{border-color:rgba(126,184,232,0.45);}
+    .wiki-empty{display:none;font-family:'Space Mono',monospace;font-size:10px;color:#6b7f96;padding:24px 0;}
   </style>
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -55,6 +59,8 @@
   <div class="breadcrumb"><a href="/">Grindorium</a> / Wiki</div>
   <h1>Psychology, plainly.</h1>
   <p class="lead">The concepts behind the tests. No jargon. No oversimplification. Clear explanations of things worth understanding.</p>
+  <input type="search" class="wiki-search" id="wikiSearch" placeholder="Search the wiki... e.g. burnout, attachment" oninput="wikiFilter()" aria-label="Search wiki">
+  <div class="wiki-empty" id="wikiEmpty">Nothing matches that.</div>
   <div class="grid">
     <a href="/wiki/burnout" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Burnout</div><div class="wiki-card-desc">What burnout actually is, how it develops, and why rest alone does not fix it.</div></a>
     <a href="/wiki/anxiety" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Anxiety</div><div class="wiki-card-desc">How a protection system becomes a persistent state, and what that means.</div></a>
@@ -71,5 +77,18 @@
     <a href="/wiki/emotional-numbness" class="wiki-card"><div class="wiki-card-tag">Mental health</div><div class="wiki-card-title">Emotional Numbness</div><div class="wiki-card-desc">Not the absence of feeling. The nervous system's protection against too much feeling.</div></a>
   </div>
 </div>
+<script>
+function wikiFilter(){
+  const q=document.getElementById('wikiSearch').value.trim().toLowerCase();
+  let vis=0;
+  document.querySelectorAll('.wiki-card').forEach(c=>{
+    const t=((c.querySelector('.wiki-card-title')||{}).textContent||'')+' '+((c.querySelector('.wiki-card-desc')||{}).textContent||'');
+    const hit=!q||t.toLowerCase().includes(q);
+    c.style.display=hit?'':'none';
+    if(hit)vis++;
+  });
+  document.getElementById('wikiEmpty').style.display=vis===0?'block':'none';
+}
+</script>
 </body>
 </html>
