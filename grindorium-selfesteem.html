@@ -653,7 +653,7 @@ async function downloadCard(){
       return new Promise(resolve=>{
         if(!src){resolve();return;}
         const img=new Image();
-        img.onload=function(){ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();var s=Math.min(img.width,img.height),sx=(img.width-s)/2,sy=(img.height-s)*0.22;ctx.drawImage(img,sx,sy,s,s,x,y,size,size);ctx.restore();ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();resolve();};
+        img.onload=function(){ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.closePath();ctx.clip();var s=Math.min(img.width,img.height),sx=(img.width-s)/2,sy=(img.height-s)*0.5;ctx.drawImage(img,sx,sy,s,s,x,y,size,size);ctx.restore();ctx.save();ctx.beginPath();ctx.arc(x+size/2,y+size/2,size/2,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();resolve();};
         img.onerror=()=>resolve();img.src=src;
       });
     }
