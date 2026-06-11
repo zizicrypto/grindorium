@@ -16,7 +16,7 @@ def download_video(video_id, download_dir, logger, timeout=900):
     out_template = str(out_dir / f"{video_id}.%(ext)s")
     cmd = [
         sys.executable, "-m", "yt_dlp",
-        "-f", "bv*[ext=mp4][height<=1080]+ba[ext=m4a]/b[ext=mp4]/b",
+        "-f", "bv*[vcodec^=avc1][height<=1080]+ba[acodec^=mp4a]/b[ext=mp4][vcodec^=avc1]/b[ext=mp4]/b",
         "--merge-output-format", "mp4",
         "--write-info-json",
         "-o", out_template,
@@ -51,4 +51,27 @@ def download_video(video_id, download_dir, logger, timeout=900):
             meta["duration"] = info.get("duration", 0) or 0
         except json.JSONDecodeError:
             logger.warning("Could not parse info json for %s", video_id)
+    video_path = ensure_h264(video_path, logger)
     return str(video_path), meta
+
+
+def ensure_h264(video_path, logger):
+    """X, Facebook ve Instagram H.264 + AAC ister. Degilse ffmpeg ile cevir."""
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0",
+         "-show_entries", "stream=codec_name", "-of", "csv=p=0", str(video_path)],
+        capture_output=True, text=True)
+    codec = probe.stdout.strip()
+    if codec == "h264":
+        return video_path
+    logger.info("Codec %s, H.264'e ceviriliyor: %s", codec, video_path)
+    out = Path(str(video_path)).with_name(Path(str(video_path)).stem + "_h264.mp4")
+    conv = subprocess.run(
+        ["ffmpeg", "-y", "-i", str(video_path), "-c:v", "libx264", "-preset", "fast",
+         "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k",
+         "-movflags", "+faststart", str(out)],
+        capture_output=True, text=True, timeout=1800)
+    if conv.returncode != 0 or not out.exists():
+        logger.error("ffmpeg donusum hatasi: %s", conv.stderr[-400:])
+        return video_path
+    return out

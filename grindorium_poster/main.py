@@ -83,11 +83,24 @@ def process_queue(config, state, logger):
             if not pcfg.get("enabled"):
                 item["done_platforms"].append(name)
                 continue
+            start = pcfg.get("start_date")
+            if start and datetime.now().date() < date.fromisoformat(start):
+                logger.info("%s start date gating (%s), bu video manuel plana ait: %s", name, start, item["video_id"])
+                item["done_platforms"].append(name)
+                continue
+            attempts = item.setdefault("attempts", {})
+            if attempts.get(name, 0) >= 3:
+                logger.error("%s icin 3 deneme tukendi, vazgecildi: %s", name, item["video_id"])
+                item["done_platforms"].append(name)
+                item.setdefault("failed_platforms", []).append(name)
+                continue
             try:
                 module.post(item["video_path"], item["captions"], config, logger)
                 item["done_platforms"].append(name)
             except Exception as exc:
-                logger.error("%s post failed for %s: %s", name, item["video_id"], exc)
+                attempts[name] = attempts.get(name, 0) + 1
+                logger.error("%s post failed (%s/3) for %s: %s", name, attempts[name], item["video_id"], exc)
+                item["publish_at"] = (datetime.now() + timedelta(minutes=10)).isoformat(timespec="seconds")
         if set(item["done_platforms"]) >= set(PLATFORM_MODULES):
             logger.info("All platforms done for %s", item["video_id"])
         else:

@@ -18,6 +18,7 @@ def post(video_path, captions, config, logger):
                              data={"access_token": cfg["page_access_token"],
                                    "title": title, "description": caption},
                              files={"source": f})
-    resp.raise_for_status()
+    if not resp.ok:
+        raise RuntimeError(f"Facebook {resp.status_code}: {resp.text[:300]}")
     logger.info("Facebook posted: %s", resp.json().get("id"))
     return True
