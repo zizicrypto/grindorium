@@ -272,7 +272,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
     <div class="result-section"><div class="result-section-title">What's happening</div><p class="result-text" id="resultMissing"></p></div>
     <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-    <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+    <div class="result-section"><div class="result-section-title">Go deeper</div><div class="video-cards" id="resultVideos"></div></div>
     
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
 </div>
@@ -354,7 +354,7 @@ function showResult(){
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   if(document.getElementById('resultMissing'))document.getElementById('resultMissing').textContent=r.missing;
   if(document.getElementById('resultSteps'))document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step-item"><span class="step-num">0'+(i+1)+'</span><span>'+s+'</span></div>').join('');
-  if(document.getElementById('resultVideos'))document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" rel="noopener" class="video-link"><span>'+v+'</span><span>&#8250;</span></a>').join('');
+  if(document.getElementById('resultVideos'))document.getElementById('resultVideos').innerHTML='<a href="/wiki/emotional-numbness" class="video-link"><span>The emotional numbness wiki: what it is, why it happens, what helps</span><span>&#8250;</span></a>'+'<a href="/watch" class="video-link"><span>The Watch Room: one hour of stillness</span><span>&#8250;</span></a>';
 
   // Score display
   document.getElementById('cardScores').innerHTML='<div style="display:flex;flex-direction:column;gap:2px;"><div style="font-family:Space Mono,monospace;font-size:clamp(18px,4vw,28px);color:'+(r.ac||'#fff')+';font-weight:700;">'+total+'</div><div style="font-family:Space Mono,monospace;font-size:6px;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-transform:uppercase;">Score / 48</div></div>';

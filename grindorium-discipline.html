@@ -270,7 +270,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <div class="result-section"><div class="result-section-title">What this means</div><div id="resultAnalysis"></div></div>
   <div class="result-section"><div class="result-section-title">The real problem</div><p class="result-text" id="resultMissing"></p></div>
   <div class="result-section"><div class="result-section-title">What to do</div><div class="steps" id="resultSteps"></div></div>
-  <div class="result-section"><div class="result-section-title">Watch next</div><div class="video-cards" id="resultVideos"></div></div>
+  <div class="result-section"><div class="result-section-title">Go deeper</div><div class="video-cards" id="resultVideos"></div></div>
   <button class="retake-btn" onclick="retakeTest()">Take it again</button>
 </div>
 
@@ -332,7 +332,7 @@ function showResult(){
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
-  document.getElementById('resultVideos').innerHTML=r.videos.map(v=>'<a href="'+yt(v)+'" target="_blank" rel="noopener" class="video-card"><span class="video-card-title">'+v+'</span><span class="video-card-arrow">&#8599;</span></a>').join('');
+  document.getElementById('resultVideos').innerHTML='<a href="/wiki/discipline" class="video-card"><span class="video-card-title">The discipline wiki: what it is, why it happens, what helps</span><span class="video-card-arrow">&#8599;</span></a>'+'<a href="/watch" class="video-card"><span class="video-card-title">The Watch Room: one hour of stillness</span><span class="video-card-arrow">&#8599;</span></a>';
   const col=COLORS[r.type]||{bg:'linear-gradient(135deg,#070b12,#0e1520)',ac:'#7eb8e8'};
   const card=document.getElementById('shareCard');card.style.display='block';
   document.getElementById('cardType').textContent=r.type;document.getElementById('cardType').style.color=col.ac;
