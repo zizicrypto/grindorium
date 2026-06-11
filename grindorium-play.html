@@ -1803,6 +1803,26 @@ c:[
   }
 
 
+  const FL_INSIGHTS={
+    "Exhausted":"Exhaustion today is information about yesterday and the days before it. The most useful response is not pushing through, it is lowering the bar for the next few hours.",
+    "Anxious":"Anxiety today means your threat system is loud right now. It is forecasting, not reporting. Slow exhales tell the body what the mind cannot.",
+    "Numb":"Numb today usually means something was recently too much. The volume comes back on its own schedule. Warmth, movement, one sense at a time.",
+    "Grateful":"Gratitude noticed in real time changes how a day files itself in memory. You caught it while it was happening. That is the rare part.",
+    "Lonely":"Loneliness today is a signal, not a sentence. One small reach toward another person counts, even a message you almost did not send.",
+    "Restless":"Restless today is energy without an address. Give it ten minutes of anything physical and it usually tells you what it actually wanted.",
+    "Hopeful":"Hope showing up today is worth protecting. It does not need justification or a five year plan. Let it be data too.",
+    "Drained":"Drained today means the output exceeded the intake recently. The fix this hour is subtraction, one demand removed, not one more push.",
+    "Angry":"Anger today is usually a boundary report, something mattered and was crossed. The feeling is valid even when the first explanation is not complete.",
+    "Calm":"Calm today is worth registering consciously. Nervous systems learn from evidence, and noticing safety is how safety gets stored.",
+    "Hollow":"Hollow today often follows running on autopilot. One deliberate act, chosen because you want it, is how the space starts answering.",
+    "Present":"Present is the quietest win there is. Most of life is missed in fast forward. Today you were here for some of it.",
+    "Heavy":"Heavy today does not require an explanation to be real. Carry less for the next few hours if you can. Weight is allowed to be shared, and allowed to be set down.",
+    "Stuck":"Stuck today is a starting problem, not a character problem. Shrink the next step until it is almost embarrassing, then take it.",
+    "Alive":"Alive, actually felt, is not a small thing. Whatever produced it today, notice the ingredients. They reuse well.",
+    "Sad":"Sadness today deserves room, not a fix. It usually means something matters or something is missed. Both are signs of a person still connected to their life.",
+    "Ashamed":"Shame today wants you hidden. The counter move is small honest contact, one safe person, one true sentence. Shame loses volume in the open.",
+    "Okay":"Okay is an underrated report. Not every day needs to be meaningful or hard. Okay days are the infrastructure the other days rest on."
+  };
   const FL_WORDS=[
     {w:"Exhausted",c:"rgba(126,184,232,0.15)",tc:"#7eb8e8",bc:"rgba(126,184,232,0.3)"},
     {w:"Anxious",c:"rgba(249,168,212,0.12)",tc:"#f9a8d4",bc:"rgba(249,168,212,0.3)"},
@@ -1880,6 +1900,14 @@ c:[
     document.getElementById('flr-desc').textContent=desc;
     document.getElementById('flr-note').textContent=note;
     const tags=document.getElementById('fl-tags');tags.innerHTML='';
+    let _fi=document.getElementById('fl-insights');
+    if(!_fi){_fi=document.createElement('div');_fi.id='fl-insights';_fi.style.cssText='text-align:left;margin:4px auto 24px;max-width:480px;';tags.parentNode.insertBefore(_fi,tags.nextSibling);}
+    _fi.innerHTML='';
+    if(flSelected.length){
+      _fi.innerHTML='<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#6b7f96;margin:6px 0 14px;text-align:center;">What today might be saying</div>';
+      flSelected.forEach(function(s){var t=FL_INSIGHTS[s.w];if(t)_fi.innerHTML+='<div style="margin-bottom:13px;"><div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:'+(s.tc||'#7eb8e8')+';margin-bottom:3px;">'+s.w+'</div><div style=\'font-family:"Cormorant Garamond",serif;font-size:14.5px;color:#a8bccd;line-height:1.7;\'>'+t+'</div></div>';});
+    }
+
     flSelected.forEach(fw=>{tags.innerHTML+=`<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid ${fw.bc};color:${fw.tc};">${fw.w}</span>`;});
   }
 
