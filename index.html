@@ -113,6 +113,18 @@
     .sound-btn:hover .sound-icon{color:var(--accent);}
     .disconnect-btn{position:fixed;bottom:80px;left:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:rgba(7,11,18,0.95);border:1px solid rgba(126,184,232,0.15);padding:10px 16px;cursor:pointer;z-index:200;transition:all 0.3s;}
     .disconnect-btn:hover{color:var(--accent);border-color:rgba(126,184,232,0.4);}
+    .support-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(7,11,18,0.92);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
+    .support-overlay.active{display:flex;}
+    .support-box{max-width:440px;width:100%;background:var(--bg2,#0e1520);border:1px solid rgba(126,184,232,0.15);padding:40px 32px;text-align:center;}
+    .support-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);margin-bottom:10px;}
+    .support-sub{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:26px;font-family:'Cormorant Garamond',serif;}
+    .support-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+    .support-addr{font-family:'Space Mono',monospace;font-size:11px;color:var(--white);word-break:break-all;background:rgba(126,184,232,0.06);border:1px solid rgba(126,184,232,0.12);padding:12px;margin-bottom:10px;}
+    .support-note{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--dim);line-height:1.8;margin-bottom:22px;}
+    .support-copy{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 28px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
+    .support-copy:hover{background:rgba(126,184,232,0.16);color:var(--white);}
+    .support-close{display:block;margin:20px auto 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;}
+    .support-close:hover{color:var(--white);}
     /* DISCONNECT OVERLAY */
     .disconnect-overlay{position:fixed;inset:0;background:#070b12;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;}
     .disconnect-overlay.active{display:flex;}
@@ -445,6 +457,7 @@
       <a href="https://reddit.com/u/Grindorium" target="_blank" rel="noopener">Reddit</a>
       <a href="https://quora.com/profile/Grindorium" target="_blank" rel="noopener">Quora</a>
       <a href="https://medium.com/@erturk.ali375" target="_blank" rel="noopener">Medium</a>
+      <a href="#" onclick="openSupport();return false;">Support</a>
     </div>
     <div class="footer-legal">
       <a href="/privacy">Privacy Policy</a>
@@ -457,6 +470,20 @@
 </footer>
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 <button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
+<div class="support-overlay" id="supportOverlay" onclick="if(event.target===this)closeSupport()">
+  <div class="support-box">
+    <div class="support-title">Support Grindorium</div>
+    <div class="support-sub">Everything here is free and stays free. If it helped you, this keeps it running.</div>
+    <div class="support-label">ETH &middot; USDT &middot; USDC</div>
+    <div class="support-addr" id="supportAddr">0x467eff5639e0db4d8b333df463facaa997bc8aac</div>
+    <div class="support-note">Same address on Ethereum, Base, Optimism and BNB Chain.<br>EVM networks only.</div>
+    <button class="support-copy" onclick="copySupportAddr(this)">Copy address</button>
+    <!-- KOFI_PLACEHOLDER: hesap aktif olunca asagidaki satiri ac ve URL'i yaz
+    <a class="support-copy" style="display:inline-block;margin-left:10px;text-decoration:none;" href="https://ko-fi.com/KULLANICI" target="_blank" rel="noopener">Ko-fi</a>
+    -->
+    <button class="support-close" onclick="closeSupport()">&times; Close</button>
+  </div>
+</div>
 <script>
   // MOBILE NAV
   function openMobileNav(){document.getElementById('mobileNav').classList.add('open');}
@@ -675,6 +702,18 @@
   }
   if(window.requestIdleCallback){requestIdleCallback(()=>quoteRender());}else{setTimeout(quoteRender,100);}
 
+  if(location.hash==='#support'){window.addEventListener('DOMContentLoaded',()=>setTimeout(openSupport,300));}
+  function openSupport(){document.getElementById('supportOverlay').classList.add('active');}
+  function closeSupport(){document.getElementById('supportOverlay').classList.remove('active');}
+  function copySupportAddr(btn){
+    const a=document.getElementById('supportAddr').textContent.trim();
+    (navigator.clipboard?navigator.clipboard.writeText(a):Promise.reject()).then(()=>{
+      btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy address',2000);
+    }).catch(()=>{
+      const t=document.createElement('textarea');t.value=a;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();
+      btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy address',2000);
+    });
+  }
   function quoteDownload(){
     document.fonts.ready.then(()=>{
     const q=DAILY_QUOTES[quoteDayIndex()];
