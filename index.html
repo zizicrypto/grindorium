@@ -110,6 +110,10 @@
     .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
     .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
     .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
+    .sound-btn{position:relative;}
+    .sound-btn::after{content:'';position:absolute;left:22%;top:50%;width:56%;height:1.5px;background:var(--dim);transform:rotate(-45deg);transition:opacity 0.3s;pointer-events:none;}
+    .sound-btn.sound-on::after{opacity:0;}
+    .sound-btn.sound-on{border-color:rgba(126,184,232,0.5);}
     .sound-btn:hover .sound-icon{color:var(--accent);}
     .disconnect-btn{position:fixed;bottom:80px;left:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:rgba(7,11,18,0.95);border:1px solid rgba(126,184,232,0.15);padding:10px 16px;cursor:pointer;z-index:200;transition:all 0.3s;}
     .disconnect-btn:hover{color:var(--accent);border-color:rgba(126,184,232,0.4);}
@@ -128,7 +132,8 @@
     /* DISCONNECT OVERLAY */
     .disconnect-overlay{position:fixed;inset:0;background:#070b12;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;}
     .disconnect-overlay.active{display:flex;}
-    .disconnect-circle{width:100px;height:100px;border-radius:50%;border:1px solid rgba(126,184,232,0.3);animation:core-breathe 8s ease-in-out infinite;}
+    .disconnect-circle{width:140px;height:140px;border-radius:50%;border:1px solid rgba(126,184,232,0.35);animation:core-breathe 8s ease-in-out infinite;position:relative;}
+    .disconnect-circle::before{content:'';position:absolute;inset:-22px;border-radius:50%;border:1px solid rgba(126,184,232,0.12);animation:core-breathe 8s ease-in-out infinite reverse;}
     .disconnect-text{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--dim);text-transform:uppercase;margin-top:32px;}
     .disconnect-close{position:absolute;top:24px;right:24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--dim);background:transparent;border:none;cursor:pointer;text-transform:uppercase;transition:color 0.3s;}
     .disconnect-close:hover{color:var(--white);}
@@ -239,6 +244,7 @@
   <button class="disconnect-close" onclick="closeDisconnect()">× Close</button>
   <div class="disconnect-circle"></div>
   <p class="disconnect-text">Just breathe. Nothing else.</p>
+  <p style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(107,127,150,0.55);margin-top:34px;">press &times; when you return</p>
 </div>
 <nav>
   <a href="#" class="nav-logo" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">
@@ -516,8 +522,8 @@
   let ambientAudio=null,ambientOn=false;
   function toggleAmbient(){
     var sIcon=document.getElementById('soundIcon');
-    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;if(sIcon)sIcon.style.color='var(--dim)';}
-    else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;if(sIcon)sIcon.style.color='var(--accent)';}
+    if(ambientOn){if(ambientAudio)ambientAudio.pause();ambientOn=false;if(sIcon)sIcon.style.color='var(--dim)';var _sb=document.querySelector('.sound-btn');if(_sb)_sb.classList.remove('sound-on');}
+    else{ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');ambientAudio.loop=true;ambientAudio.volume=0.15;ambientAudio.play().catch(()=>{});ambientOn=true;if(sIcon)sIcon.style.color='var(--accent)';var _sb2=document.querySelector('.sound-btn');if(_sb2)_sb2.classList.add('sound-on');}
   }
   // DISCONNECT
   function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}

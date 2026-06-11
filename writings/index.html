@@ -84,6 +84,10 @@
     .sound-btn{position:fixed;bottom:80px;right:24px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(126,184,232,0.25);background:rgba(7,11,18,0.95);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:border-color 0.3s;}
     .sound-btn:hover{border-color:rgba(126,184,232,0.6);}
     .sound-icon{font-size:14px;color:var(--dim);transition:color 0.3s;}
+    .sound-btn{position:relative;}
+    .sound-btn::after{content:'';position:absolute;left:22%;top:50%;width:56%;height:1.5px;background:var(--dim);transform:rotate(-45deg);transition:opacity 0.3s;pointer-events:none;}
+    .sound-btn.sound-on::after{opacity:0;}
+    .sound-btn.sound-on{border-color:rgba(126,184,232,0.5);}
     .sound-btn:hover .sound-icon{color:var(--accent);}
     @media(max-width:768px){
       nav{padding:16px 20px;}
@@ -2118,14 +2122,14 @@ const POST_META={
   function toggleAmbient(){
     if(ambientOn){
       if(ambientAudio)ambientAudio.pause();
-      ambientOn=false;
+      ambientOn=false;var _sb=document.querySelector('.sound-btn');if(_sb)_sb.classList.remove('sound-on');
       document.getElementById('soundIcon').style.color='var(--dim)';
     } else {
       ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');
       ambientAudio.loop=true;
       ambientAudio.volume=0.15;
       ambientAudio.play().catch(()=>{});
-      ambientOn=true;
+      ambientOn=true;var _sb2=document.querySelector('.sound-btn');if(_sb2)_sb2.classList.add('sound-on');
       document.getElementById('soundIcon').style.color='var(--accent)';
     }
   }
