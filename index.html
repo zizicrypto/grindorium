@@ -52,10 +52,10 @@
     @keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fade-up 2s ease forwards;animation-delay:2s;opacity:0;}
     .scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,transparent,var(--accent));animation:scroll-drop 2s ease-in-out infinite;}
-    .scroll-text{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
+    .scroll-text{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.2em;padding-left:0.2em;color:var(--dim);text-transform:uppercase;}
     @keyframes scroll-drop{0%,100%{opacity:0.4}50%{opacity:1}}
     /* QUOTE */
-    .quote-section{padding:60px 24px;border-top:1px solid rgba(126,184,232,0.1);border-bottom:1px solid rgba(126,184,232,0.1);text-align:center;max-width:800px;margin:0 auto;}
+    .quote-section{padding:56px 40px;border:1px solid rgba(126,184,232,0.16);background:rgba(126,184,232,0.035);text-align:center;max-width:800px;margin:48px auto;}
     .quote-text{font-size:clamp(18px,3vw,28px);font-weight:300;color:var(--white);line-height:1.7;margin-bottom:16px;}
     .quote-source{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--accent);text-transform:uppercase;}
     /* SECTIONS */
@@ -374,12 +374,10 @@
   <div class="journal-entries" id="journalEntries"></div>
 </section>
 <section id="videos" class="video-section">
-  <div class="section-label">06 - Latest Videos</div>
-  <div class="yt-grid" id="ytGrid">
-    <p class="yt-loading">Loading videos...</p>
-  </div>
-  <div style="text-align:center;margin-top:32px;">
-    <a href="https://youtube.com/@Grindorium" target="_blank" rel="noopener" style="font-family:Space Mono,monospace;font-size:10px;letter-spacing:0.2em;color:var(--dim);text-decoration:none;text-transform:uppercase;border:1px solid rgba(126,184,232,0.2);padding:12px 28px;transition:all 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">View All Videos →</a>
+  <div class="section-label">06 - Watch</div>
+  <div style="max-width:800px;margin:0 auto;text-align:center;padding:24px 24px 8px;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#c8d8e8;line-height:1.6;margin-bottom:28px;">One hour of stillness, on a loop.<br>Ambient films for sleep, focus, and quiet.</p>
+    <a href="/watch" style="display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(126,184,232,0.35);padding:14px 36px;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(126,184,232,0.08)'" onmouseout="this.style.background='none'">Enter the Watch Room &rarr;</a>
   </div>
 </section>
 
@@ -614,40 +612,6 @@
   // SMOOTH SCROLL
   document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});});});
   // YOUTUBE VIDEOS
-  setTimeout(function(){
-  (function(){
-    const CHANNEL_ID = 'UCb1YToopHxqC4Pvluw5r85w';
-    // allorigins proxy ile YouTube RSS'i cek
-    const RSS = encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID);
-    const PROXY_URL = 'https://api.allorigins.win/get?url=' + RSS;
-    fetch(PROXY_URL)
-      .then(r=>r.json())
-      .then(data=>{
-        const grid = document.getElementById('ytGrid');
-        if(!data.contents){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
-        // XML parse
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/xml');
-        const entries = Array.from(xml.querySelectorAll('entry')).slice(0,6);
-        if(!entries.length){grid.innerHTML='<p class="yt-loading">No videos found.</p>';return;}
-        const items = entries.map(e=>({
-          title: e.querySelector('title')?.textContent || '',
-          link: e.querySelector('link')?.getAttribute('href') || '',
-          pubDate: e.querySelector('published')?.textContent || ''
-        }));
-        grid.innerHTML = items.map(item=>{
-          const vid = (item.link.split('v=')[1]||'').split('&')[0];
-          const thumb = 'https://img.youtube.com/vi/'+vid+'/mqdefault.jpg';
-          const date = new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-          return '<a href="'+item.link+'" target="_blank" rel="noopener" class="yt-card"><img src="'+thumb+'" class="yt-thumb" alt="Video thumbnail"><div class="yt-info"><div class="yt-title">'+item.title+'</div><div class="yt-date">'+date+'</div></div></a>';
-        }).join('');
-      })
-      .catch(()=>{
-        const grid=document.getElementById('ytGrid');
-        grid.innerHTML='<p class="yt-loading">Could not load videos.</p>';
-      });
-  })();
-  },800);
   // BREATH LABEL
   const labels=['breathe','slow down',"you're here","it's okay"];
   let li=0;
