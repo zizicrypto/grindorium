@@ -2117,21 +2117,40 @@ const POST_META={
   }
 
   /* AMBIENT SOUND - birebir index.html ile aynı */
-  let ambientAudio=null,ambientOn=false;
+  let ambientCtx=null,ambientSrcNode=null,ambientGainNode=null,ambientBufCache=null,ambientOn=false;
   function toggleAmbient(){
-    if(ambientOn){
-      if(ambientAudio)ambientAudio.pause();
-      ambientOn=false;var _sb=document.querySelector('.sound-btn');if(_sb)_sb.classList.remove('sound-on');
-      document.getElementById('soundIcon').style.color='var(--dim)';
-    } else {
-      ambientAudio=new Audio('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3');
-      ambientAudio.loop=true;
-      ambientAudio.volume=0.15;
-      ambientAudio.play().catch(()=>{});
-      ambientOn=true;var _sb2=document.querySelector('.sound-btn');if(_sb2)_sb2.classList.add('sound-on');
-      document.getElementById('soundIcon').style.color='var(--accent)';
+  var sIcon=document.getElementById('soundIcon');
+  if(ambientOn){
+    if(ambientGainNode&&ambientCtx){ambientGainNode.gain.setTargetAtTime(0.0001,ambientCtx.currentTime,0.25);}
+    setTimeout(function(){if(ambientSrcNode){try{ambientSrcNode.stop();}catch(e){}ambientSrcNode=null;}},700);
+    ambientOn=false;
+    if(sIcon)sIcon.style.color='var(--dim)';
+    var _sb=document.querySelector('.sound-btn');if(_sb)_sb.classList.remove('sound-on');
+  } else {
+    if(!ambientCtx)ambientCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(ambientCtx.state==='suspended')ambientCtx.resume();
+    var startSrc=function(){
+      ambientSrcNode=ambientCtx.createBufferSource();
+      ambientSrcNode.buffer=ambientBufCache;
+      ambientSrcNode.loop=true;
+      ambientSrcNode.loopStart=0.03;
+      ambientSrcNode.loopEnd=ambientBufCache.duration-0.03;
+      ambientGainNode=ambientCtx.createGain();
+      ambientGainNode.gain.value=0.0001;
+      ambientSrcNode.connect(ambientGainNode);
+      ambientGainNode.connect(ambientCtx.destination);
+      ambientSrcNode.start(0,0.03);
+      ambientGainNode.gain.setTargetAtTime(0.16,ambientCtx.currentTime,1.2);
+    };
+    if(ambientBufCache){startSrc();}
+    else{
+      fetch('/grindorium-stillness.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){return ambientCtx.decodeAudioData(ab);}).then(function(buf){ambientBufCache=buf;startSrc();}).catch(function(){});
     }
+    ambientOn=true;
+    if(sIcon)sIcon.style.color='var(--accent)';
+    var _sb2=document.querySelector('.sound-btn');if(_sb2)_sb2.classList.add('sound-on');
   }
+}
 </script>
 </body>
 </html>
