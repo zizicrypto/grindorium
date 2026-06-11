@@ -507,16 +507,41 @@
   }
   function countdown(s){const c=document.getElementById('breathCounter');let r=s;c.textContent=r;const iv=setInterval(()=>{r--;if(r<=0){clearInterval(iv);c.textContent='';}else{c.textContent=r;}},1000);}
   // SOUNDS
-  const soundUrls={rain:'/diepthanhdk-rain-meditation-450575.mp3',forest:'/meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'/99beats-water-fountain-healing-music-239455.mp3',silence:null};
-  let currentAudio=null,currentSound=null;
+  const soundUrls={rain:'/gd-rain.mp3',forest:'/gd-forest.mp3',ocean:'/gd-ocean.mp3',silence:null};
+  let sndCtx=null,sndSrc=null,sndGain=null,sndBufs={},currentSound=null;
   function playSound(type){
-    ['rain','forest','ocean','silence'].forEach(s=>{document.getElementById(s+'-arrow').textContent='▶';document.getElementById(s+'-arrow').style.color='var(--dim)';});
-    if(currentAudio){currentAudio.pause();currentAudio=null;}
-    if(currentSound===type){currentSound=null;return;}
-    currentSound=type;
-    if(soundUrls[type]){const a=new Audio(soundUrls[type]);a.loop=true;a.volume=0.4;a.play().catch(()=>{});currentAudio=a;document.getElementById(type+'-arrow').textContent='■';document.getElementById(type+'-arrow').style.color='var(--accent)';}
-    else{document.getElementById(type+'-arrow').textContent='○';document.getElementById(type+'-arrow').style.color='var(--accent)';}
+  ['rain','forest','ocean','silence'].forEach(s=>{document.getElementById(s+'-arrow').textContent='\u25b6';document.getElementById(s+'-arrow').style.color='var(--dim)';});
+  stopSoundNow();
+  if(currentSound===type){currentSound=null;return;}
+  currentSound=type;
+  if(soundUrls[type]){
+    if(!sndCtx)sndCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(sndCtx.state==='suspended')sndCtx.resume();
+    var myType=type;
+    var startIt=function(buf){
+      if(currentSound!==myType)return;
+      sndSrc=sndCtx.createBufferSource();
+      sndSrc.buffer=buf;sndSrc.loop=true;
+      sndSrc.loopStart=0.03;sndSrc.loopEnd=buf.duration-0.03;
+      sndGain=sndCtx.createGain();sndGain.gain.value=0.0001;
+      sndSrc.connect(sndGain);sndGain.connect(sndCtx.destination);
+      sndSrc.start(0,0.03);
+      sndGain.gain.setTargetAtTime(0.4,sndCtx.currentTime,0.8);
+    };
+    if(sndBufs[myType]){startIt(sndBufs[myType]);}
+    else{fetch(soundUrls[myType]).then(function(r){return r.arrayBuffer();}).then(function(ab){return sndCtx.decodeAudioData(ab);}).then(function(buf){sndBufs[myType]=buf;startIt(buf);}).catch(function(){});}
+    document.getElementById(type+'-arrow').textContent='\u25a0';
+    document.getElementById(type+'-arrow').style.color='var(--accent)';
+  } else {
+    document.getElementById(type+'-arrow').textContent='\u25cb';
+    document.getElementById(type+'-arrow').style.color='var(--accent)';
   }
+}
+function stopSoundNow(){
+  if(sndGain&&sndCtx){sndGain.gain.setTargetAtTime(0.0001,sndCtx.currentTime,0.2);}
+  (function(old){setTimeout(function(){if(old){try{old.stop();}catch(e){}}},600);})(sndSrc);
+  sndSrc=null;
+}
   // AMBIENT
   let ambientCtx=null,ambientSrcNode=null,ambientGainNode=null,ambientBufCache=null,ambientOn=false;
   function toggleAmbient(){
@@ -553,7 +578,7 @@
   }
 }
   // DISCONNECT
-  function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');if(currentAudio)currentAudio.pause();}
+  function openDisconnect(){document.getElementById('disconnectOverlay').classList.add('active');stopSoundNow();currentSound=null;['rain','forest','ocean','silence'].forEach(s=>{var a=document.getElementById(s+'-arrow');if(a){a.textContent='\u25b6';a.style.color='var(--dim)';}});}
   function closeDisconnect(){document.getElementById('disconnectOverlay').classList.remove('active');}
   // HABITS & STREAK
   const STREAK_KEY='grind_streak';const STREAK_LAST_KEY='grind_lastdone';const HABIT_KEY='grind_habit';
