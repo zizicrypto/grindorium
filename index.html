@@ -387,16 +387,6 @@
     <a href="/watch" style="display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(126,184,232,0.35);padding:14px 36px;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(126,184,232,0.08)'" onmouseout="this.style.background='none'">Enter the Watch Room &rarr;</a>
   </div>
 </section>
-<div id="newsletter" style="max-width:560px;margin:64px auto;padding:36px 32px;border:1px solid rgba(126,184,232,0.16);background:rgba(126,184,232,0.03);text-align:center;">
-  <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#6b7f96;margin-bottom:10px;">Letters from the quiet</div>
-  <div style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:#c8d8e8;line-height:1.6;margin-bottom:22px;">One short letter, when there is something worth saying.<br>No noise. Unsubscribe anytime.</div>
-  <form action="https://grindorium.us11.list-manage.com/subscribe/post?u=5e734ec6dade39fece121cce5&id=19d5c96734&f_id=00eb16e1f0" method="post" target="_blank" novalidate style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-    <input type="email" name="EMAIL" required placeholder="your email" style="font-family:'Space Mono',monospace;font-size:11px;padding:12px 16px;background:rgba(7,11,18,0.9);border:1px solid rgba(126,184,232,0.25);color:#c8d8e8;min-width:230px;outline:none;"/>
-    <div style="position:absolute;left:-5000px;" aria-hidden="true"><input type="text" name="b_5e734ec6dade39fece121cce5_19d5c96734" tabindex="-1" value=""/></div>
-    <button type="submit" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 26px;border:1px solid rgba(126,184,232,0.35);background:rgba(126,184,232,0.07);color:var(--accent,#7eb8e8);cursor:pointer;">Subscribe</button>
-  </form>
-</div>
-
 <div class="newsletter-section">
   <div class="newsletter-inner">
     <div class="newsletter-text">
@@ -689,28 +679,30 @@ function stopSoundNow(){
   let li=0;
   setInterval(()=>{if(!breathActive){li=(li+1)%labels.length;const el=document.getElementById('breathLabel');if(el){el.style.opacity='0';setTimeout(()=>{el.textContent=labels[li];el.style.opacity='1';},500);}}},4000);
 
-  const NL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
-  const NL_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
-  async function nlSubmit(){
+  const NL_MC='https://grindorium.us11.list-manage.com/subscribe/post-json?u=5e734ec6dade39fece121cce5&id=19d5c96734&f_id=00eb16e1f0';
+  const NL_BOT='b_5e734ec6dade39fece121cce5_19d5c96734';
+  function nlSubmit(){
     const input=document.getElementById('nl-input');
     const msg=document.getElementById('nl-msg');
     const email=input.value.trim();
     if(!email||!email.includes('@')){msg.style.color='rgba(249,168,212,0.8)';msg.textContent='Please enter a valid email.';return;}
     msg.style.color='rgba(134,239,172,0.6)';msg.textContent='Subscribing...';
-    try{
-      const res=await fetch(NL_URL+'/rest/v1/emails',{
-        method:'POST',
-        headers:{'apikey':NL_KEY,'Authorization':'Bearer '+NL_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-        body:JSON.stringify({email:email,source:'homepage'})
-      });
-      if(res.ok||res.status===409){
+    const cb='mc_cb_'+Date.now();
+    const script=document.createElement('script');
+    script.src=NL_MC+'&EMAIL='+encodeURIComponent(email)+'&'+NL_BOT+'=&c='+cb;
+    window[cb]=function(data){
+      delete window[cb];
+      script.remove();
+      if(data.result==='success'){
         input.value='';
-        msg.style.color='rgba(134,239,172,0.8)';
-        msg.textContent=res.status===409?'Already subscribed. Thank you.':'Subscribed. See you next week.';
+        msg.style.color='rgba(134,239,172,0.8)';msg.textContent='Subscribed. See you next week.';
+      } else if(data.msg&&data.msg.toLowerCase().includes('already subscribed')){
+        msg.style.color='rgba(134,239,172,0.8)';msg.textContent='Already subscribed. Thank you.';
       } else {
         msg.style.color='rgba(249,168,212,0.8)';msg.textContent='Something went wrong. Try again.';
       }
-    }catch(e){msg.style.color='rgba(249,168,212,0.8)';msg.textContent='Something went wrong. Try again.';}
+    };
+    document.head.appendChild(script);
   }
 
 
