@@ -378,6 +378,7 @@ function showResult(){
     if(ch){ch.src=userPhoto;ch.style.display='block';}
     if(ph){ph.src=userPhoto;ph.style.display='block';}
     if(row)row.style.display='flex';
+    if(typeof userPhoto!=='undefined'&&userPhoto){var _cc=document.getElementById('cardCharImg');if(_cc){_cc.src=userPhoto;_cc.style.borderRadius='50%';_cc.style.objectFit='cover';}var _cp=document.getElementById('cardUserPhoto');if(_cp)_cp.style.display='none';}
   } else {
     // Foto yok: alt solda grindorium karakteri, ust sagda sadece isim varsa goster
     if(ch){ch.src='https://grindorium.org/grindorium-character.png';ch.style.display='block';}
