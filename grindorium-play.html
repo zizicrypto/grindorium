@@ -2172,23 +2172,58 @@ c:[
     {maxSec:300,title:"The full room.",desc:"Five minutes. The forest reached its fullness while you remained completely still. The capacity to inhabit silence without filling it is one of the rarer human abilities."},
   ];
   class NrTree{
-    constructor(x,w,h){
-      this.x=x;this.targetH=Math.random()*80+40;this.currentH=0;
-      this.trunkW=Math.random()*3+1.5;this.W=w;this.H=h;
-      this.cr=`rgba(${Math.floor(Math.random()*20+5)},${Math.floor(Math.random()*40+30)},${Math.floor(Math.random()*20+10)},`;
-      this.lr=`rgba(${Math.floor(Math.random()*30+10)},${Math.floor(Math.random()*60+40)},${Math.floor(Math.random()*30+15)},`;
+    constructor(x,W,H){
+      this.x=x;this.depthLayer=Math.random();
+      const scale=0.45+this.depthLayer*0.75;
+      this.targetH=(H*0.16+Math.random()*H*0.2)*scale;
+      this.sway=Math.random()*6.28;
+      let s=Math.floor(x*7919)+13;
+      const rnd=()=>{s=(s*16807)%2147483647;return s/2147483647;};
+      const d=this.depthLayer;
+      this.trunkCol='rgba('+Math.floor(18+d*20)+','+Math.floor(24+d*18)+','+Math.floor(18+d*12)+',';
+      this.leafCol='rgba('+Math.floor(10+d*18)+','+Math.floor(38+d*58)+','+Math.floor(16+d*16)+',';
+      this.segs=[];this.leaves=[];
+      const self=this;
+      const build=function(x1,y1,ang,len,w,depth,birth){
+        const x2=x1+Math.sin(ang)*len, y2=y1-Math.cos(ang)*len;
+        const cx=x1+Math.sin(ang+(rnd()-0.5)*0.5)*len*0.5, cy=y1-Math.cos(ang)*len*0.55;
+        self.segs.push({x1:x1,y1:y1,cx:cx,cy:cy,x2:x2,y2:y2,w:w,birth:birth,top:depth>=2});
+        if(depth>=3||len<8){self.leaves.push({x:x2,y:y2,r:5+rnd()*7+d*4,birth:Math.min(birth+0.12,0.96)});return;}
+        const n=depth===0?(rnd()>0.5?3:2):2;
+        for(let i=0;i<n;i++){
+          const na=ang+(rnd()-0.5)*0.9+(i-(n-1)/2)*0.5;
+          build(x2,y2,na,len*(0.6+rnd()*0.15),Math.max(w*0.55,0.6),depth+1,Math.min(birth+0.18+rnd()*0.1,0.94));
+        }
+      };
+      build(x,0,(rnd()-0.5)*0.12,this.targetH*0.42,2.2*scale,0,0.04);
+      this.currentP=0;
     }
-    update(p){if(this.currentH<this.targetH*p)this.currentH=Math.min(this.targetH*p,this.targetH);}
+    update(p){this.currentP=p;}
     draw(ctx,H){
-      const base=H-20,top=base-this.currentH;
-      ctx.strokeStyle=this.cr+'0.6)';ctx.lineWidth=this.trunkW;
-      ctx.beginPath();ctx.moveTo(this.x,base);ctx.lineTo(this.x,top);ctx.stroke();
-      if(this.currentH>20){
-        const ls=(this.currentH/this.targetH)*18+8;
-        ctx.fillStyle=this.lr+'0.3)';ctx.beginPath();ctx.arc(this.x,top,ls,0,Math.PI*2);ctx.fill();
-        ctx.fillStyle=this.lr+'0.15)';
-        ctx.beginPath();ctx.arc(this.x-ls*0.5,top+ls*0.3,ls*0.7,0,Math.PI*2);ctx.fill();
-        ctx.beginPath();ctx.arc(this.x+ls*0.5,top+ls*0.3,ls*0.7,0,Math.PI*2);ctx.fill();
+      const base=H-20,p=this.currentP,tm=Date.now()/1000;
+      if(p<=0.02)return;
+      ctx.lineCap='round';
+      for(let i=0;i<this.segs.length;i++){
+        const sg=this.segs[i];
+        if(p<=sg.birth)continue;
+        const local=Math.min((p-sg.birth)/0.15,1);
+        const swx=sg.top?Math.sin(tm*0.5+this.sway)*1.5*this.depthLayer:0;
+        ctx.strokeStyle=this.trunkCol+(0.25+this.depthLayer*0.45)+')';
+        ctx.lineWidth=sg.w;
+        ctx.beginPath();ctx.moveTo(sg.x1+(sg.top?swx*0.4:0),base+sg.y1);
+        const ex=sg.x1+(sg.x2-sg.x1)*local,ey=sg.y1+(sg.y2-sg.y1)*local;
+        ctx.quadraticCurveTo(sg.cx+(sg.top?swx*0.6:0),base+sg.cy,ex+(sg.top?swx:0),base+ey);
+        ctx.stroke();
+      }
+      for(let i=0;i<this.leaves.length;i++){
+        const lf=this.leaves[i];
+        if(p<=lf.birth)continue;
+        const local=Math.min((p-lf.birth)/0.2,1);
+        const swx=Math.sin(tm*0.5+this.sway+lf.x*0.05)*2*this.depthLayer;
+        ctx.fillStyle=this.leafCol+((0.10+0.16*this.depthLayer)*local)+')';
+        ctx.beginPath();ctx.arc(lf.x+swx,base+lf.y,lf.r*local,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(lf.x+swx-lf.r*0.5,base+lf.y+lf.r*0.35,lf.r*0.72*local,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(lf.x+swx+lf.r*0.5,base+lf.y+lf.r*0.35,lf.r*0.72*local,0,Math.PI*2);ctx.fill();
       }
     }
   }
@@ -2203,10 +2238,10 @@ c:[
     nrCtx=nrCanvas.getContext('2d');
     nrW=nrCanvas.offsetWidth;nrH=nrCanvas.offsetHeight;
     nrCanvas.width=nrW;nrCanvas.height=nrH;
-    nrTrees=[];nrParticles=[];
-    const count=Math.floor(nrW/28);
+    nrTrees=[];nrParticles=[];/*depth-sort asagida*/
+    const count=Math.floor(nrW/24);
     for(let i=0;i<count;i++)nrTrees.push(new NrTree(20+Math.random()*(nrW-40),nrW,nrH));
-    for(let i=0;i<15;i++)nrParticles.push(new NrParticle(nrW,nrH));
+    nrTrees.sort(function(a,b){return a.depthLayer-b.depthLayer;});for(let i=0;i<15;i++)nrParticles.push(new NrParticle(nrW,nrH));
   }
   function nrDrawFrame(){
     nrCtx.clearRect(0,0,nrW,nrH);
@@ -2224,15 +2259,28 @@ c:[
     }
   }
   function nrAnimate(){if(!nrRunning&&!nrBroken)return;nrDrawFrame();nrAnimFrame=requestAnimationFrame(nrAnimate);}
+  var nrACtx=null,nrForSrc=null,nrStrSrc=null,nrForG=null,nrStrG=null;
+  function nrStartAudio(){try{
+    nrACtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(nrACtx.state==='suspended')nrACtx.resume();
+    var mk=function(url,store){fetch(url).then(function(r){return r.arrayBuffer();}).then(function(ab){return nrACtx.decodeAudioData(ab);}).then(function(buf){if(!nrRunning||!nrACtx)return;var s=nrACtx.createBufferSource();s.buffer=buf;s.loop=true;s.loopStart=0.03;s.loopEnd=buf.duration-0.03;var g=nrACtx.createGain();g.gain.value=0.0001;s.connect(g);g.connect(nrACtx.destination);s.start(0,0.03);store(s,g);}).catch(function(){});};
+    mk('/gd-forest.mp3',function(s,g){nrForSrc=s;nrForG=g;});
+    mk('/gd-stream.mp3',function(s,g){nrStrSrc=s;nrStrG=g;});
+  }catch(e){}}
+  function nrUpdateAudio(p){try{if(!nrACtx)return;var t=nrACtx.currentTime;
+    if(nrForG)nrForG.gain.setTargetAtTime(Math.min(p*0.34,0.30),t,1.5);
+    if(nrStrG)nrStrG.gain.setTargetAtTime(p>0.5?Math.min((p-0.5)*0.36,0.16):0.0001,t,2.0);
+  }catch(e){}}
+  function nrStopAudio(){try{[nrForSrc,nrStrSrc].forEach(function(s){if(s){try{s.stop();}catch(e){}}});nrForSrc=nrStrSrc=null;if(nrACtx){nrACtx.close();nrACtx=null;}}catch(e){}}
   function openNothing(){history.pushState({game:"the-nothing-room"},"","/play/the-nothing-room");document.getElementById('nothingOverlay').classList.add('active');document.body.style.overflow='hidden';nrReset();}
-  function closeNothing(){history.replaceState({},"","/play");document.getElementById('nothingOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);nrRunning=false;}
+  function closeNothing(){history.replaceState({},"","/play");document.getElementById('nothingOverlay').classList.remove('active');document.body.style.overflow='';clearInterval(nrTimer);cancelAnimationFrame(nrAnimFrame);nrRunning=false;nrStopAudio();}
   function nrBegin(){
     document.getElementById('nr-btn').style.display='none';
     document.getElementById('nr-msg').textContent='';
     nrRunning=true;nrSec=0;nrBroken=false;
-    nrInitForest();nrAnimate();
+    nrInitForest();nrAnimate();nrStartAudio();
     nrTimer=setInterval(()=>{
-      nrSec++;
+      nrSec++; nrUpdateAudio(Math.min(nrSec/NR_MAX,1));
       const min=Math.floor(nrSec/60),sec=(nrSec%60).toString().padStart(2,'0');
       document.getElementById('nr-timer').textContent=min+':'+sec;
       const phase=NR_PHASES.slice().reverse().find(p=>nrSec>=p.sec)||NR_PHASES[0];
