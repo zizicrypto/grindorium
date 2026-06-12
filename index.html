@@ -475,16 +475,19 @@
 <button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
 <div class="support-overlay" id="supportOverlay" onclick="if(event.target===this)closeSupport()">
   <div class="support-box">
-    <div class="support-title">Support Grindorium</div>
-    <div class="support-sub">Everything here is free and stays free. If it helped you, this keeps it running.</div>
-    <div class="support-label">ETH &middot; USDT &middot; USDC</div>
-    <div class="support-addr" id="supportAddr">0x467eff5639e0db4d8b333df463facaa997bc8aac</div>
-    <div class="support-note">Same address on Ethereum, Base, Optimism and BNB Chain.<br>EVM networks only.</div>
-    <button class="support-copy" onclick="copySupportAddr(this)">Copy address</button>
-    <!-- KOFI_PLACEHOLDER: hesap aktif olunca asagidaki satiri ac ve URL'i yaz
-    <a class="support-copy" style="display:inline-block;margin-left:10px;text-decoration:none;" href="https://ko-fi.com/KULLANICI" target="_blank" rel="noopener">Ko-fi</a>
-    -->
-    <button class="support-close" onclick="closeSupport()">&times; Close</button>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#7eb8e8" stroke-width="1.2" style="margin-bottom:14px;opacity:0.8;"><path d="M3 9h13v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9z"/><path d="M16 10h2.2a2.3 2.3 0 0 1 0 4.6H16"/><path d="M6.5 5.5c0-1 .8-1 .8-2M10 5.5c0-1 .8-1 .8-2M13.5 5.5c0-1 .8-1 .8-2"/></svg>
+      <div class="support-title">Support Grindorium</div>
+      <div class="support-sub">Everything here is free and stays free. If it helped you, a coffee keeps it running.</div>
+      <div class="support-label">ETH &middot; USDT &middot; USDC</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+        <div class="support-addr" id="supportAddr" style="margin:0;">0x467eff5639e0db4d8b333df463facaa997bc8aac</div>
+        <button onclick="copySupportAddr(this)" aria-label="Copy address" title="Copy" style="background:none;border:1px solid rgba(126,184,232,0.25);color:#7eb8e8;width:32px;height:32px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg></button>
+      </div>
+      <div class="support-note">Same address on Ethereum, Base, Optimism and BNB Chain.<br>EVM networks only.</div>
+      <div style="margin-top:18px;padding:12px 16px;border:1px dashed rgba(126,184,232,0.18);color:#44566a;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;">Ko-fi &middot; coming soon</div>
+      <!-- KOFI_PLACEHOLDER: hesap aktif olunca yukaridaki "coming soon" kutusunu su linkle DEGISTIR:
+      <a style="margin-top:18px;display:inline-block;padding:12px 16px;border:1px solid rgba(126,184,232,0.3);color:#7eb8e8;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;" href="https://ko-fi.com/KULLANICI" target="_blank" rel="noopener">Buy a coffee on Ko-fi</a> -->
+      <button class="support-close" onclick="closeSupport()">&times; Close</button>
   </div>
 </div>
 <script>

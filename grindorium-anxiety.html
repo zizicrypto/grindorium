@@ -352,7 +352,7 @@ function showResult(){
   document.getElementById('resultAnalysis').innerHTML=r.analysis.map(p=>'<p class="result-text">'+p+'</p>').join('');
   document.getElementById('resultMissing').textContent=r.missing;
   document.getElementById('resultSteps').innerHTML=r.steps.map((s,i)=>'<div class="step"><span class="step-num">0'+(i+1)+'</span><span class="step-text">'+s+'</span></div>').join('');
-  document.getElementById('resultVideos').innerHTML='<a href="/wiki/anxiety" class="video-card"><span class="video-card-title">The anxiety wiki: what it is, why it happens, what helps</span><span class="video-card-arrow">&#8599;</span></a>'+'<a href="/watch" class="video-card"><span class="video-card-title">The Watch Room: one hour of stillness</span><span class="video-card-arrow">&#8599;</span></a>';
+  document.getElementById('resultVideos').innerHTML='<a href="/wiki/anxiety" class="video-card"><span class="video-card-title">The anxiety wiki: what it is, why it happens, what helps</span><span class="video-card-arrow">&#8599;</span></a>'+'<a href="/watch" class="video-card"><span class="video-card-title">The Watch Room: one hour of stillness</span><span class="video-card-arrow">&#8599;</span></a>'+'<a href="/#support" style="display:block;text-align:center;margin-top:16px;font-family:\'Space Mono\',monospace;font-size:8.5px;letter-spacing:0.18em;text-transform:uppercase;color:#44566a;text-decoration:none;">If this helped &middot; a coffee keeps it free</a>';
 
   const card=document.getElementById('shareCard');
   card.style.display='block';
