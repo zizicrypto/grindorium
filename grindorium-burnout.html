@@ -546,7 +546,7 @@ function shareCard(){window._shareMode=true;downloadCard();}
     const p1=drawCircleImg(base64Char,pad,H-pad-sz,sz);
     const rowEl=document.getElementById('cardUserRow');
     const hasRow=rowEl&&rowEl.style.display!=='none';
-    const p2=(hasRow&&userPhoto)?drawCircleImg(userPhoto,W-pad-120,pad-24,48):Promise.resolve();
+    const p2=Promise.resolve(); const _nm=((document.getElementById('cardUserName')||{}).textContent||'').trim(); if(_nm){ctx.font='500 30px Georgia, serif';ctx.fillStyle='rgba(235,242,250,0.92)';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(_nm,pad+sz+20,H-pad-sz/2);}
     Promise.all([p1,p2]).then(()=>{ if(window._shareMode){window._shareMode=false;offscreen.toBlob(function(blob){try{var f=new File([blob],'grindorium-burnout-result.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return;}}catch(e){} var l2=document.createElement('a');l2.download='grindorium-burnout-result.png';l2.href=offscreen.toDataURL('image/png');l2.click();}); return;} const link=document.createElement('a'); link.download='grindorium-burnout-result.png'; link.href=offscreen.toDataURL('image/png'); link.click(); });
   });
 }
