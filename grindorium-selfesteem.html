@@ -396,7 +396,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div id="resultScreen" style="display:none">
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
-    <div class="card-actions"><button class="card-action-btn" onclick="downloadCard()">Download Image</button></div>
+    <div class="card-actions"><button class="card-action-btn" onclick="downloadCard()">Download Image</button><button id="shareCardBtn" class="card-action-btn" onclick="shareCard()">Share</button></div>
     <div id="shareCard">
       <div class="card-bg" id="cardBg" style="position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;"></div>
       <div class="card-overlay" id="cardOverlay" style="position:absolute;inset:0;z-index:0;background:rgba(7,11,18,0.52);"></div>
@@ -621,7 +621,9 @@ function showResult(){
   if(name&&nm)nm.textContent=name;
 }
 
-async function downloadCard(){
+function shareCard(){window._shareMode=true;downloadCard();}
+  (function(){try{if(!(navigator.canShare&&navigator.canShare({files:[new File([new Blob()],'t.png',{type:'image/png'})]}))){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('shareCardBtn');if(b)b.style.display='none';});}}catch(e){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('shareCardBtn');if(b)b.style.display='none';});}})();
+  async function downloadCard(){
   const card=document.getElementById('shareCard');
   const bgEl=document.getElementById('cardBg');
   const imgUrl=(bgEl&&bgEl.style.backgroundImage||'').replace(/url\(["']?/,'').replace(/["']?\)$/,'');
@@ -664,12 +666,7 @@ async function downloadCard(){
     const p1=drawCircleImg(base64Char,pad,H-pad-sz,sz);
     const rowEl=document.getElementById('cardUserRow');
     const p2=(rowEl&&rowEl.style.display!=='none'&&userPhoto)?drawCircleImg(userPhoto,W-pad-120,pad-24,48):Promise.resolve();
-    Promise.all([p1,p2]).then(()=>{
-      const link=document.createElement('a');
-      link.download='grindorium-selfesteem-result.png';
-      link.href=offscreen.toDataURL('image/png');
-      link.click();
-    });
+    Promise.all([p1,p2]).then(()=>{ if(window._shareMode){window._shareMode=false;offscreen.toBlob(function(blob){try{var f=new File([blob],'grindorium-selfesteem-result.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return;}}catch(e){} var l2=document.createElement('a');l2.download='grindorium-selfesteem-result.png';l2.href=offscreen.toDataURL('image/png');l2.click();}); return;} const link=document.createElement('a'); link.download='grindorium-selfesteem-result.png'; link.href=offscreen.toDataURL('image/png'); link.click(); });
   });
 }
 function retakeTest(){

@@ -263,7 +263,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <div id="resultScreen" style="display:none">
   <div class="share-section-top">
     <div class="result-label">Your Result</div>
-    <div class="card-actions"><button class="card-action-btn" onclick="downloadCard()">Download Image</button></div>
+    <div class="card-actions"><button class="card-action-btn" onclick="downloadCard()">Download Image</button><button id="shareCardBtn" class="card-action-btn" onclick="shareCard()">Share</button></div>
     <div id="shareCard">
       <div class="card-bg" id="cardBg"></div>
       <div class="card-overlay" id="cardOverlay"></div>
@@ -395,7 +395,9 @@ function showResult(){
   if(stimLvlEl){stimLvlEl.textContent=lb[sL];stimLvlEl.className='score-card-level '+cs[sL];}
 }
 
-async function downloadCard(){
+function shareCard(){window._shareMode=true;downloadCard();}
+  (function(){try{if(!(navigator.canShare&&navigator.canShare({files:[new File([new Blob()],'t.png',{type:'image/png'})]}))){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('shareCardBtn');if(b)b.style.display='none';});}}catch(e){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('shareCardBtn');if(b)b.style.display='none';});}})();
+  async function downloadCard(){
   const card=document.getElementById('shareCard');
   const bgEl=document.getElementById('cardBg');
   const imgUrl=bgEl.style.backgroundImage.replace(/url\(["']?/,'').replace(/["']?\)$/,'');
@@ -470,12 +472,7 @@ async function downloadCard(){
     if(grEl)grEl.style.visibility='';
     if(vigEl)vigEl.style.visibility='';
     ctx.drawImage(textCanvas,0,0,W,H);
-    function finishCard(){
-      const link=document.createElement('a');
-      link.download='grindorium-anxiety-result.png';
-      link.href=offscreen.toDataURL('image/png');
-      link.click();
-    }
+    function finishCard(){ if(window._shareMode){window._shareMode=false;offscreen.toBlob(function(blob){try{var f=new File([blob],'grindorium-anxiety-result.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return;}}catch(e){} var l2=document.createElement('a');l2.download='grindorium-anxiety-result.png';l2.href=offscreen.toDataURL('image/png');l2.click();}); return;} const link=document.createElement('a'); link.download='grindorium-anxiety-result.png'; link.href=offscreen.toDataURL('image/png'); link.click(); }
     // Grindorium karakteri sol-alt (12 testle ayni gorunum)
     const chImg=new Image();
     chImg.onload=function(){
