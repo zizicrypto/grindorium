@@ -466,15 +466,17 @@ function shareCard(){window._shareMode=true;downloadCard();}
   if(grEl)grEl.style.visibility='hidden';
   if(vigEl)vigEl.style.visibility='hidden';
 
+  const ccEl=document.getElementById('cardCharImg');if(ccEl)ccEl.style.visibility='hidden';
   html2canvas(card,{scale:2,useCORS:true,allowTaint:false,backgroundColor:null,logging:false}).then(textCanvas=>{
     // Gizlediklerini geri goster
     if(bgEl2)bgEl2.style.visibility='';
     if(ovEl)ovEl.style.visibility='';
     if(grEl)grEl.style.visibility='';
     if(vigEl)vigEl.style.visibility='';
+    if(ccEl)ccEl.style.visibility='';
     ctx.drawImage(textCanvas,0,0,W,H);
     function finishCard(){ if(window._shareMode){window._shareMode=false;offscreen.toBlob(function(blob){try{var f=new File([blob],'grindorium-anxiety-result.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(function(){});return;}}catch(e){} var l2=document.createElement('a');l2.download='grindorium-anxiety-result.png';l2.href=offscreen.toDataURL('image/png');l2.click();}); return;} const link=document.createElement('a'); link.download='grindorium-anxiety-result.png'; link.href=offscreen.toDataURL('image/png'); link.click(); }
-    // Grindorium karakteri sol-alt (12 testle ayni gorunum)
+    // Sol alt: kullanici fotografi varsa onu, yoksa grindorium karakteri
     const chImg=new Image();
     chImg.onload=function(){
       const size=84,x=28,y=H-28-size;
@@ -487,7 +489,7 @@ function shareCard(){window._shareMode=true;downloadCard();}
       finishCard();
     };
     chImg.onerror=finishCard;
-    chImg.src='/grindorium-character.png';
+    chImg.src=(typeof userPhoto!=='undefined'&&userPhoto)?userPhoto:'/grindorium-character.png';
   });
 }
 function retakeTest(){answers.fill(null);cQ=0;document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));document.getElementById('resultScreen').style.display='none';document.getElementById('profileScreen').style.display='block';document.getElementById('startScreen').style.display='none';document.querySelectorAll('.question-block').forEach((q,i)=>q.classList.toggle('active',i===0));document.getElementById('shareCard').style.display='none';}
