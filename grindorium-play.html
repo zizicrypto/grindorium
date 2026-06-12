@@ -2442,10 +2442,15 @@ c:[
   const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
   var wallWords=[],wallYours=null,wallRefreshTimer=null,wallCooldownTimer=null;
 
-  function wallFetch(){
-    fetch(WALL_URL+"/rest/v1/words?select=word&order=created_at.desc&limit=200",{
+  function wallFetch(){var _cut=new Date(Date.now()-86400000).toISOString();wallFetchUrl("/rest/v1/words?select=word&created_at=gte."+_cut+"&order=created_at.desc&limit=200",true);}
+  function wallFetchUrl(_q,_try24){ fetch(WALL_URL+_q,{
       headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
     }).then(function(res){return res.json();}).then(function(data){
+      if(_try24&&(!data||data.length<12)){wallFetchUrl("/rest/v1/words?select=word&order=created_at.desc&limit=200",false);return;}
+      var _wc=document.getElementById('wall-cloud');
+      var _wm=document.getElementById('wall-mode');
+      if(!_wm&&_wc){_wm=document.createElement('div');_wm.id='wall-mode';_wm.style.cssText='font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#44566a;text-align:center;margin-bottom:14px;';_wc.parentNode.insertBefore(_wm,_wc);}
+      if(_wm)_wm.textContent=_try24?'words from the last 24 hours':'the last words left here';
       var counts={};
       data.forEach(function(r){counts[r.word]=(counts[r.word]||0)+1;});
       wallWords=Object.entries(counts).map(function(e){return{word:e[0],count:e[1]};}).sort(function(a,b){return b.count-a.count;});
