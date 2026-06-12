@@ -2144,7 +2144,7 @@ const POST_META={
     };
     if(ambientBufCache){startSrc();}
     else{
-      fetch('/grindorium-stillness.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){return ambientCtx.decodeAudioData(ab);}).then(function(buf){ambientBufCache=buf;startSrc();}).catch(function(){});
+      fetch('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){return ambientCtx.decodeAudioData(ab);}).then(function(buf){ambientBufCache=buf;startSrc();}).catch(function(){});
     }
     ambientOn=true;
     if(sIcon)sIcon.style.color='var(--accent)';

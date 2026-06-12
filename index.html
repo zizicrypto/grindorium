@@ -506,7 +506,7 @@
   }
   function countdown(s){const c=document.getElementById('breathCounter');let r=s;c.textContent=r;const iv=setInterval(()=>{r--;if(r<=0){clearInterval(iv);c.textContent='';}else{c.textContent=r;}},1000);}
   // SOUNDS
-  const soundUrls={rain:'/gd-rain.mp3',forest:'/gd-forest.mp3',ocean:'/gd-ocean.mp3',silence:null};
+  const soundUrls={rain:'/diepthanhdk-rain-meditation-450575.mp3',forest:'/meditativetiger-sacred-strings-classical-indian-sitar-amp-natures-meditation-363335.mp3',ocean:'/99beats-water-fountain-healing-music-239455.mp3',silence:null};
   let sndCtx=null,sndSrc=null,sndGain=null,sndBufs={},currentSound=null;
   function playSound(type){
   ['rain','forest','ocean','silence'].forEach(s=>{document.getElementById(s+'-arrow').textContent='\u25b6';document.getElementById(s+'-arrow').style.color='var(--dim)';});
@@ -569,7 +569,7 @@ function stopSoundNow(){
     };
     if(ambientBufCache){startSrc();}
     else{
-      fetch('/grindorium-stillness.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){return ambientCtx.decodeAudioData(ab);}).then(function(buf){ambientBufCache=buf;startSrc();}).catch(function(){});
+      fetch('/sigmaeffect-cinematic-ambient-atmosphere-463222.mp3').then(function(r){return r.arrayBuffer();}).then(function(ab){return ambientCtx.decodeAudioData(ab);}).then(function(buf){ambientBufCache=buf;startSrc();}).catch(function(){});
     }
     ambientOn=true;
     if(sIcon)sIcon.style.color='var(--accent)';
