@@ -369,7 +369,7 @@ function shareCard(){window._shareMode=true;downloadCard();}
     try{const res=await fetch(url);const blob=await res.blob();return await new Promise(resolve=>{const reader=new FileReader();reader.onloadend=()=>resolve(reader.result);reader.readAsDataURL(blob);});}catch(e){return null;}
   }
   let base64Bg=null;
-  if(imgUrl&&imgUrl.startsWith('http'))base64Bg=await fetchBase64(imgUrl);
+  if(imgUrl&&(imgUrl.startsWith('http')||imgUrl.startsWith('/')))base64Bg=await fetchBase64(imgUrl);
 
   // Arka plani canvas'a ciz
   await new Promise(resolve=>{

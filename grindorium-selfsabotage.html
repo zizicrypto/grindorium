@@ -358,7 +358,7 @@ function shareCard(){window._shareMode=true;downloadCard();}
     try{const res=await fetch(url);const blob=await res.blob();return await new Promise(resolve=>{const reader=new FileReader();reader.onloadend=()=>resolve(reader.result);reader.readAsDataURL(blob);});}catch(e){return null;}
   }
   let base64Bg=null;
-  if(imgUrl&&imgUrl.startsWith('http'))base64Bg=await fetchBase64(imgUrl);
+  if(imgUrl&&(imgUrl.startsWith('http')||imgUrl.startsWith('/')))base64Bg=await fetchBase64(imgUrl);
   await new Promise(resolve=>{
     if(!base64Bg){const grad=ctx.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#070b12');grad.addColorStop(1,'#0e1520');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);resolve();return;}
     const img=new Image();

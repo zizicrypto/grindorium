@@ -449,7 +449,7 @@ function shareCard(){window._shareMode=true;downloadCard();}
   }
 
   let base64Bg=null;
-  if(imgUrl && imgUrl.startsWith('http')){
+  if(imgUrl && (imgUrl.startsWith('http')||imgUrl.startsWith('/'))){
     base64Bg=await fetchBase64(imgUrl);
   }
 
