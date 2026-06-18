@@ -1,0 +1,44 @@
+name: Watch videos update
+
+on:
+  schedule:
+    - cron: '0 20 * * 4'
+    - cron: '0 20 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install yt-dlp
+        run: pip install yt-dlp
+      - name: Update videos.json
+        run: python tools/update_watch_videos.py
+      - name: Commit if changed
+        id: commit
+        run: |
+          git config user.name "grindorium-bot"
+          git config user.email "bot@grindorium.org"
+          git add videos.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "videos.json unchanged, skipping deploy"
+          else
+            git commit -m "Update watch videos list"
+            git push
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - name: Deploy to Cloudflare
+        if: steps.commit.outputs.changed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 1a664dfc30e3d14fde80921fdb2a8290
+          wranglerVersion: "4"

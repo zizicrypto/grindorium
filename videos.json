@@ -1,7 +1,19 @@
 {
-  "updated": "2026-06-10",
+  "updated": "2026-06-18",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "iNADwzycxeo",
+      "title": "The Hidden Reason You Feel Empty Even When Life Looks Good",
+      "published": "",
+      "duration": 624.0
+    },
+    {
+      "id": "PZzM3OjcWgs",
+      "title": "Why Most Men Wake Up at 30 and Feel Like They Wasted Everything",
+      "published": "",
+      "duration": 717.0
+    },
     {
       "id": "jxH_2JMuf88",
       "title": "The Life You're Not Living",
