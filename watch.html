@@ -116,6 +116,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
       grid.querySelectorAll('.video-frame').forEach(f=>{
         f.addEventListener('click', ()=>playVideo(f, f.dataset.id));
       });
+      const ld=document.createElement('script');
+      ld.type='application/ld+json';
+      ld.textContent=JSON.stringify(vids.filter(v=>v.published).map(v=>({"@context":"https://schema.org","@type":"VideoObject","name":v.title,"thumbnailUrl":"https://i.ytimg.com/vi/"+v.id+"/hqdefault.jpg","embedUrl":"https://www.youtube.com/embed/"+v.id,"url":"https://www.youtube.com/watch?v="+v.id,"uploadDate":v.published,"publisher":{"@type":"Organization","name":"Grindorium","url":"https://grindorium.org","sameAs":"https://youtube.com/@Grindorium"}})));
+      document.head.appendChild(ld);
     })
     .catch(()=>{
       grid.innerHTML = '<p class="watch-loading">Could not load the films right now. <a href="https://youtube.com/@Grindorium" target="_blank" rel="noopener" style="color:var(--accent);">Watch on YouTube ↗</a></p>';
