@@ -118,18 +118,6 @@
     .sound-btn:hover .sound-icon{color:var(--accent);}
     .disconnect-btn{position:fixed;bottom:80px;left:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:rgba(7,11,18,0.95);border:1px solid rgba(126,184,232,0.15);padding:10px 16px;cursor:pointer;z-index:200;transition:all 0.3s;}
     .disconnect-btn:hover{color:var(--accent);border-color:rgba(126,184,232,0.4);}
-    .support-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(7,11,18,0.92);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
-    .support-overlay.active{display:flex;}
-    .support-box{max-width:440px;width:100%;background:var(--bg2,#0e1520);border:1px solid rgba(126,184,232,0.15);padding:40px 32px;text-align:center;}
-    .support-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);margin-bottom:10px;}
-    .support-sub{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:26px;font-family:'Cormorant Garamond',serif;}
-    .support-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-    .support-addr{font-family:'Space Mono',monospace;font-size:11px;color:var(--white);word-break:break-all;background:rgba(126,184,232,0.06);border:1px solid rgba(126,184,232,0.12);padding:12px;margin-bottom:10px;}
-    .support-note{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--dim);line-height:1.8;margin-bottom:22px;}
-    .support-copy{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:12px 28px;border:1px solid rgba(126,184,232,0.4);background:rgba(126,184,232,0.08);color:var(--accent);cursor:pointer;transition:all 0.3s;}
-    .support-copy:hover{background:rgba(126,184,232,0.16);color:var(--white);}
-    .support-close{display:block;margin:20px auto 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);background:none;border:none;cursor:pointer;}
-    .support-close:hover{color:var(--white);}
     /* DISCONNECT OVERLAY */
     .disconnect-overlay{position:fixed;inset:0;background:#070b12;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;}
     .disconnect-overlay.active{display:flex;}
@@ -219,7 +207,7 @@
 }
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"Grindorium","url":"https://grindorium.org","logo":"https://grindorium.org/grindorium-character.png","description":"Psychology-based self-awareness platform. You are safe here.","sameAs":["https://youtube.com/@Grindorium","https://x.com/Grindorium","https://tiktok.com/@Grindorium","https://instagram.com/Grindorium"]}
+{"@context":"https://schema.org","@type":"Organization","name":"Grindorium","url":"https://grindorium.org","logo":"https://grindorium.org/grindorium-character.png","description":"Psychology-based self-awareness platform. You are safe here.","sameAs":["https://youtube.com/@Grindorium","https://tiktok.com/@Grindorium","https://instagram.com/Grindorium","https://x.com/Grindorium","https://www.facebook.com/grindorium","https://pinterest.com/Grindorium","https://reddit.com/u/Grindorium","https://quora.com/profile/Grindorium","https://medium.com/@erturk.ali375"]}
 </script>
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -232,6 +220,7 @@
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav">
   <button class="mobile-nav-close" onclick="closeMobileNav()">×</button>
+  <a href="#support" onclick="closeMobileNav()" title="Support"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M3 9h13v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9z"/><path d="M16 10h2.2a2.3 2.3 0 0 1 0 4.6H16"/><path d="M6.5 5.5c0-1 .8-1 .8-2M10 5.5c0-1 .8-1 .8-2M13.5 5.5c0-1 .8-1 .8-2"/></svg></a>
   <a href="#breathe" onclick="closeMobileNav()">Breathe</a>
   <a href="#tests" onclick="closeMobileNav()">Tests</a>
   <a href="/writings" onclick="closeMobileNav()">Writings</a>
@@ -254,6 +243,7 @@
     <span class="nav-logo-text">Grindorium</span>
   </a>
   <ul class="nav-links">
+    <li><a href="#support" title="Support" style="display:flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h13v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9z"/><path d="M16 10h2.2a2.3 2.3 0 0 1 0 4.6H16"/><path d="M6.5 5.5c0-1 .8-1 .8-2M10 5.5c0-1 .8-1 .8-2M13.5 5.5c0-1 .8-1 .8-2"/></svg></a></li>
     <li><a href="#breathe">Breathe</a></li>
     <li><a href="#tests">Tests</a></li>
     
@@ -446,10 +436,30 @@
   <p style="font-size:12px;color:#6b7f96;line-height:1.8;margin-bottom:8px;">These are the questions most people search for at 2am. Not looking for a diagnosis. Just trying to understand why they keep ending up in the same place. Grindorium exists for that moment.</p>
   <p style="font-size:12px;color:#6b7f96;line-height:1.8;">Each assessment is built on established psychological frameworks. Not to label you, but to give you language for something that has probably been hard to name.</p>
 </section>
+<section id="support" style="max-width:480px;margin:0 auto 80px;padding:0 24px;">
+  <div style="background:#412402;border-bottom:2px solid #EF9F27;padding:20px 24px 18px;text-align:center;">
+    <div style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:#EF9F27;margin-bottom:12px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#412402" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h13v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9z"/><path d="M16 10h2.2a2.3 2.3 0 0 1 0 4.6H16"/><path d="M6.5 5.5c0-1 .8-1 .8-2M10 5.5c0-1 .8-1 .8-2M13.5 5.5c0-1 .8-1 .8-2"/></svg>
+    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#FAEEDA;letter-spacing:0.04em;">Support Grindorium</div>
+  </div>
+  <div style="background:#2C2C2A;padding:28px 24px 24px;text-align:center;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#FAC775;line-height:1.7;margin-bottom:22px;">Everything free, always. Fuel it with a coffee.</p>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;">
+      <span style="background:#633806;color:#FAC775;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 10px;">ETH</span>
+      <span style="background:#633806;color:#FAC775;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 10px;">USDT</span>
+      <span style="background:#633806;color:#FAC775;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 10px;">USDC</span>
+    </div>
+    <div onclick="grndCopyAddr(this)" title="Click to copy" style="background:#444441;font-family:'Space Mono',monospace;font-size:10px;color:#FAEEDA;word-break:break-all;padding:12px 14px;cursor:pointer;margin-bottom:8px;text-align:left;border:1px solid rgba(250,238,218,0.08);transition:background 0.2s;">0x467eff5639e0db4d8b333df463facaa997bc8aac</div>
+    <p style="font-family:'Space Mono',monospace;font-size:9px;color:#888780;letter-spacing:0.06em;margin-bottom:20px;">Ethereum &middot; Base &middot; Optimism &middot; BNB Chain</p>
+    <div style="display:inline-block;background:#EF9F27;color:#412402;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:11px 24px;cursor:default;">Ko-fi &middot; coming soon</div>
+  </div>
+</section>
 <footer>
   <div class="footer-inner">
     <span class="footer-logo">Grindorium.org</span>
     <div class="footer-links">
+      <a href="#support">Support</a>
       <a href="https://youtube.com/@Grindorium" target="_blank" rel="noopener">YouTube</a>
       <a href="https://tiktok.com/@Grindorium" target="_blank" rel="noopener">TikTok</a>
       <a href="https://instagram.com/Grindorium" target="_blank" rel="noopener">Instagram</a>
@@ -459,7 +469,6 @@
       <a href="https://reddit.com/u/Grindorium" target="_blank" rel="noopener">Reddit</a>
       <a href="https://quora.com/profile/Grindorium" target="_blank" rel="noopener">Quora</a>
       <a href="https://medium.com/@erturk.ali375" target="_blank" rel="noopener">Medium</a>
-      <a href="#" onclick="openSupport();return false;">Support</a>
     </div>
     <div class="footer-legal">
       <a href="/privacy">Privacy Policy</a>
@@ -472,23 +481,6 @@
 </footer>
 <div class="sound-btn" onclick="toggleAmbient()" title="Ambient sound"><span class="sound-icon" id="soundIcon">♪</span></div>
 <button class="disconnect-btn" onclick="openDisconnect()">Disconnect</button>
-<div class="support-overlay" id="supportOverlay" onclick="if(event.target===this)closeSupport()">
-  <div class="support-box">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#7eb8e8" stroke-width="1.2" style="margin-bottom:14px;opacity:0.8;"><path d="M3 9h13v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9z"/><path d="M16 10h2.2a2.3 2.3 0 0 1 0 4.6H16"/><path d="M6.5 5.5c0-1 .8-1 .8-2M10 5.5c0-1 .8-1 .8-2M13.5 5.5c0-1 .8-1 .8-2"/></svg>
-      <div class="support-title">Support Grindorium</div>
-      <div class="support-sub">Everything here is free and stays free. If it helped you, a coffee keeps it running.</div>
-      <div class="support-label">ETH &middot; USDT &middot; USDC</div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
-        <div class="support-addr" id="supportAddr" style="margin:0;">0x467eff5639e0db4d8b333df463facaa997bc8aac</div>
-        <button onclick="copySupportAddr(this)" aria-label="Copy address" title="Copy" style="background:none;border:1px solid rgba(126,184,232,0.25);color:#7eb8e8;width:32px;height:32px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg></button>
-      </div>
-      <div class="support-note">Same address on Ethereum, Base, Optimism and BNB Chain.<br>EVM networks only.</div>
-      <div style="margin-top:18px;padding:12px 16px;border:1px dashed rgba(126,184,232,0.18);color:#44566a;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;">Ko-fi &middot; coming soon</div>
-      <!-- KOFI_PLACEHOLDER: hesap aktif olunca yukaridaki "coming soon" kutusunu su linkle DEGISTIR:
-      <a style="margin-top:18px;display:inline-block;padding:12px 16px;border:1px solid rgba(126,184,232,0.3);color:#7eb8e8;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;" href="https://ko-fi.com/KULLANICI" target="_blank" rel="noopener">Buy a coffee on Ko-fi</a> -->
-      <button class="support-close" onclick="closeSupport()">&times; Close</button>
-  </div>
-</div>
 <script>
   // MOBILE NAV
   function openMobileNav(){document.getElementById('mobileNav').classList.add('open');}
@@ -742,16 +734,13 @@ function stopSoundNow(){
   }
   if(window.requestIdleCallback){requestIdleCallback(()=>quoteRender());}else{setTimeout(quoteRender,100);}
 
-  if(location.hash==='#support'){window.addEventListener('DOMContentLoaded',()=>setTimeout(openSupport,300));}
-  function openSupport(){document.getElementById('supportOverlay').classList.add('active');}
-  function closeSupport(){document.getElementById('supportOverlay').classList.remove('active');}
-  function copySupportAddr(btn){
-    const a=document.getElementById('supportAddr').textContent.trim();
-    (navigator.clipboard?navigator.clipboard.writeText(a):Promise.reject()).then(()=>{
-      btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy address',2000);
-    }).catch(()=>{
-      const t=document.createElement('textarea');t.value=a;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();
-      btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy address',2000);
+  function grndCopyAddr(el){
+    var a=el.textContent.trim();
+    (navigator.clipboard?navigator.clipboard.writeText(a):Promise.reject()).then(function(){
+      var o=el.textContent;el.textContent='Copied.';setTimeout(function(){el.textContent=o;},1800);
+    }).catch(function(){
+      var t=document.createElement('textarea');t.value=a;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();
+      var o=el.textContent;el.textContent='Copied.';setTimeout(function(){el.textContent=o;},1800);
     });
   }
   function quoteDownload(){
