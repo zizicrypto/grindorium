@@ -2126,6 +2126,7 @@ const POST_META={
     ambientOn=false;
     if(sIcon)sIcon.style.color='var(--dim)';
     var _sb=document.querySelector('.sound-btn');if(_sb)_sb.classList.remove('sound-on');
+    try{localStorage.setItem('grnd_ambient','0');}catch(e){}
   } else {
     if(!ambientCtx)ambientCtx=new (window.AudioContext||window.webkitAudioContext)();
     if(ambientCtx.state==='suspended')ambientCtx.resume();
@@ -2149,8 +2150,21 @@ const POST_META={
     ambientOn=true;
     if(sIcon)sIcon.style.color='var(--accent)';
     var _sb2=document.querySelector('.sound-btn');if(_sb2)_sb2.classList.add('sound-on');
+    try{localStorage.setItem('grnd_ambient','1');}catch(e){}
   }
 }
+  (function(){
+    try{
+      if(localStorage.getItem('grnd_ambient')!=='1')return;
+      var _sb=document.querySelector('.sound-btn');
+      var _si=document.getElementById('soundIcon');
+      if(_sb)_sb.classList.add('sound-on');
+      if(_si)_si.style.color='var(--accent)';
+      function _once(){document.removeEventListener('click',_once,true);document.removeEventListener('scroll',_once,true);if(!ambientOn)toggleAmbient();}
+      document.addEventListener('click',_once,true);
+      document.addEventListener('scroll',_once,true);
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>
