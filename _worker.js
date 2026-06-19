@@ -146,19 +146,9 @@ export default {
     }
 
     async function serveAsset(target) {
-      const cleanTarget = target.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
-      let resp = await env.ASSETS.fetch(new Request(new URL(cleanTarget, url.origin).toString(), {
+      return env.ASSETS.fetch(new Request(new URL(target, url.origin).toString(), {
         method: request.method, headers: request.headers,
       }));
-      if ([301, 302, 307, 308].includes(resp.status)) {
-        const loc = resp.headers.get('Location');
-        if (loc) {
-          resp = await env.ASSETS.fetch(new Request(new URL(loc, url.origin).toString(), {
-            method: request.method, headers: request.headers,
-          }));
-        }
-      }
-      return resp;
     }
 
     // Ham dosya adlarini temiz URL'lere 301'le: /grindorium-burnout(.html) -> /burnout
