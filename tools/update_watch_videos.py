@@ -21,7 +21,7 @@ OUTPUT = REPO_ROOT / "videos.json"
 def fetch_channel_videos():
     cmd = [
         sys.executable, "-m", "yt_dlp",
-        "--flat-playlist",
+        "--skip-download",
         "--dump-json",
         "--playlist-end", "40",
         CHANNEL_URL,
