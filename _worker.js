@@ -112,6 +112,7 @@ export default {
       '/self-sabotage': '/grindorium-selfsabotage.html',
       '/stress': '/grindorium-stress.html',
       '/grid': '/grid.html',
+      '/wiki/burnout-recovery': '/grindorium-wiki-burnout-recovery.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
