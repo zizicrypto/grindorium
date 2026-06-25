@@ -113,6 +113,7 @@ export default {
       '/stress': '/grindorium-stress.html',
       '/grid': '/grid.html',
       '/wiki/burnout-recovery': '/grindorium-wiki-burnout-recovery.html',
+      '/writings/boreout': '/writings/boreout.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

@@ -26,7 +26,8 @@
     "/procrastination"
    ],
    "publish_date": "2026-06-25",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-06-25"
   },
   {
    "slug": "functional-freeze",
