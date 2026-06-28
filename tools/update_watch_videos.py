@@ -1,43 +1,79 @@
 """
 Updates videos.json with the latest long videos from the Grindorium YouTube channel.
-Run on MAIN. Requires yt-dlp installed (pip install yt-dlp).
+Uses YouTube Data API v3 (public read-only, API key via YOUTUBE_API_KEY env var).
 Filters out Shorts by duration. Writes newest first.
 Usage: python tools/update_watch_videos.py
 Then commit and push videos.json.
 """
 import json
-import subprocess
+import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-CHANNEL_URL = "https://www.youtube.com/@Grindorium/videos"
+from googleapiclient.discovery import build
+
 MIN_DURATION_SECONDS = 120
 MAX_VIDEOS = 24
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = REPO_ROOT / "videos.json"
 
 
+def _parse_iso_duration(iso):
+    m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "")
+    if not m:
+        return 0
+    h, mn, s = (int(x or 0) for x in m.groups())
+    return h * 3600 + mn * 60 + s
+
+
 def fetch_channel_videos():
-    cmd = [
-        sys.executable, "-m", "yt_dlp",
-        "--skip-download",
-        "--dump-json",
-        "--playlist-end", "40",
-        CHANNEL_URL,
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
-    if result.returncode != 0:
-        print("yt-dlp failed:")
-        print(result.stderr[-2000:])
-        sys.exit(1)
-    videos = []
-    for line in result.stdout.strip().splitlines():
-        try:
-            videos.append(json.loads(line))
-        except json.JSONDecodeError:
+    api_key = os.environ["YOUTUBE_API_KEY"]
+    yt = build("youtube", "v3", developerKey=api_key)
+
+    ch = yt.channels().list(part="contentDetails", forHandle="@Grindorium").execute()
+    pid = ch["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+
+    items, seen, page = [], set(), None
+    while len(items) < 40:
+        r = yt.playlistItems().list(
+            part="contentDetails,snippet", playlistId=pid,
+            maxResults=50, pageToken=page
+        ).execute()
+        for item in r.get("items", []):
+            vid = item["contentDetails"]["videoId"]
+            if vid not in seen:
+                seen.add(vid)
+                items.append(item)
+        page = r.get("nextPageToken")
+        if not page:
+            break
+    items = items[:40]
+
+    vid_ids = [item["contentDetails"]["videoId"] for item in items]
+    details = {}
+    for i in range(0, len(vid_ids), 50):
+        resp = yt.videos().list(
+            part="contentDetails", id=",".join(vid_ids[i:i + 50])
+        ).execute()
+        for v in resp.get("items", []):
+            details[v["id"]] = v["contentDetails"]["duration"]
+
+    results = []
+    for item in items:
+        vid = item["contentDetails"]["videoId"]
+        if vid not in details:
             continue
-    return videos
+        snip = item["snippet"]
+        upload_date = snip.get("publishedAt", "")[:10].replace("-", "")
+        results.append({
+            "id": vid,
+            "title": snip.get("title", ""),
+            "upload_date": upload_date,
+            "duration": _parse_iso_duration(details[vid]),
+        })
+    return results
 
 
 def main():

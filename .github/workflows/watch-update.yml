@@ -17,9 +17,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install yt-dlp
-        run: pip install yt-dlp
+      - name: Install dependencies
+        run: pip install google-api-python-client
       - name: Update videos.json
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python tools/update_watch_videos.py
       - name: Commit if changed
         id: commit
