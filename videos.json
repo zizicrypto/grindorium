@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28",
+  "updated": "2026-06-29",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
     {
@@ -19,12 +19,6 @@
       "title": "Why Most Men Wake Up at 30 and Feel Like They Wasted Everything",
       "published": "2026-06-11",
       "duration": 717
-    },
-    {
-      "id": "jxH_2JMuf88",
-      "title": "The Life You're Not Living",
-      "published": "2026-06-04",
-      "duration": 668
     }
   ]
 }
