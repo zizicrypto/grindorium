@@ -40,7 +40,8 @@
     "/burnout"
    ],
    "publish_date": "2026-06-29",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-06-29"
   },
   {
    "slug": "revenge-bedtime-procrastination",

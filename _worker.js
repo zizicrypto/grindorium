@@ -114,6 +114,7 @@ export default {
       '/grid': '/grid.html',
       '/wiki/burnout-recovery': '/grindorium-wiki-burnout-recovery.html',
       '/writings/boreout': '/writings/boreout.html',
+      '/writings/functional-freeze': '/writings/functional-freeze.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
