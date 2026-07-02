@@ -1,7 +1,13 @@
 {
-  "updated": "2026-06-29",
+  "updated": "2026-07-02",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "SBbYjNIsZa0",
+      "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
+      "published": "2026-07-02",
+      "duration": 683
+    },
     {
       "id": "8baZFrP08Rg",
       "title": "The Hidden Reason You're Exhausted All the Time in 2026 — Even When You Sleep",
