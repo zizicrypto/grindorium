@@ -115,6 +115,7 @@ export default {
       '/wiki/burnout-recovery': '/grindorium-wiki-burnout-recovery.html',
       '/writings/boreout': '/writings/boreout.html',
       '/writings/functional-freeze': '/writings/functional-freeze.html',
+      '/writings/revenge-bedtime-procrastination': '/writings/revenge-bedtime-procrastination.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
