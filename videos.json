@@ -1,7 +1,13 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-07-06",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "antm9DtHFjg",
+      "title": "Why You Can't Stop Scrolling (The Real Reason)",
+      "published": "2026-07-05",
+      "duration": 602
+    },
     {
       "id": "SBbYjNIsZa0",
       "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
@@ -19,12 +25,6 @@
       "title": "The Hidden Reason You Feel Empty Even When Life Looks Good",
       "published": "2026-06-18",
       "duration": 624
-    },
-    {
-      "id": "PZzM3OjcWgs",
-      "title": "Why Most Men Wake Up at 30 and Feel Like They Wasted Everything",
-      "published": "2026-06-11",
-      "duration": 717
     }
   ]
 }
