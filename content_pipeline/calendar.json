@@ -82,7 +82,8 @@
     "/stress"
    ],
    "publish_date": "2026-07-09",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-07-09"
   },
   {
    "slug": "vacation-guilt",
