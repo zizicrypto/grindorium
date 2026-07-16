@@ -103,6 +103,20 @@ def _gating_ok(config, content_type):
 
 
 def _rate_gate_ok(config, content_type, posting_plan):
+    # 2026-07-16'da kanitlandi: bu kural "stickline" icin ARTIK YANLIS.
+    # Eski (main.py/poster_check.py) sistemde video zamanlari tahmin
+    # edildigi icin bir "backlog" birikip ayni anda birden fazla video
+    # patlak verme riski vardi, bu kural onu onluyordu. Yeni sistemde
+    # schedule.json + publishAt zaten dogru zamanlamayi garanti ediyor -
+    # STICKLINE'in kendi programinda LONG+ESLI_SHORT ayni gun sadece 3 saat
+    # arayla yayinlaniyor (bkz STICKLINE_SYSTEM.md), bu da 6 saatlik
+    # "stickline_min_hours_between" kuralini HER ZAMAN tetikleyip ikinci
+    # videoyu sonsuza kadar engelliyordu (RuCh8006niI/49MERGpa3Vs testinde
+    # yakalandi). "stickline" (schedule.json kaynakli) icin kapatildi;
+    # "grindorium" (RSS yedek yakalama, zamanlamasi garanti degil) icin
+    # hala uygulaniyor.
+    if content_type == "stickline":
+        return True
     key = content_type + "_min_hours_between"
     min_hours = config["schedule"].get(key)
     if not min_hours:
