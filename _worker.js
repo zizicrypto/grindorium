@@ -119,6 +119,7 @@ export default {
       '/writings/summer-pressure': '/writings/summer-pressure.html',
       '/writings/high-functioning-anxiety': '/writings/high-functioning-anxiety.html',
       '/writings/vacation-guilt': '/writings/vacation-guilt.html',
+      '/writings/languishing': '/writings/languishing.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
