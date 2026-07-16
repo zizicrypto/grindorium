@@ -1,13 +1,11 @@
 name: Grindorium Poster (cloud)
 
 on:
-  # NOT (2026-07-16): cron KASITLI OLARAK KAPALI. PC'deki main.py + Task
-  # Scheduler sistemi hala aktif calisiyor - cron acilirsa (otomatik
-  # tetiklenen calistirmalarda dry_run girdisi bos kalir, yani GERCEK
-  # paylasim modunda calisir) cift paylasim riski dogar. Ali onayladiktan
-  # ve PC tarafi durdurulduktan SONRA asagidaki satiri geri ac:
-  # schedule:
-  #   - cron: '*/15 * * * *'
+  # 2026-07-16: Ali onayladi, PC'deki main.py durduruldu + Task Scheduler
+  # gorevleri (GrindoriumPoster*) devre disi birakildi. Bulut artik TEK
+  # aktif paylasici.
+  schedule:
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
