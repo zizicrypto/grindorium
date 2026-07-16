@@ -66,7 +66,20 @@ jobs:
           git add posting_plan.json
           if git diff --cached --quiet; then
             echo "posting_plan.json unchanged"
-          else
-            git commit -m "grindorium_poster: posting_plan.json guncellendi"
-            git push
+            exit 0
           fi
+          git commit -m "grindorium_poster: posting_plan.json guncellendi"
+          # push cakismasi (baska bir surec ayni anda push ettiyse) ihtimaline
+          # karsi birkac kez rebase+retry - "paylasildi" bilgisi ASLA
+          # kaybolmamali, yoksa bir sonraki calistirma ayni videoyu tekrar
+          # paylasmaya kalkar (gercek cift-paylasim riski).
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "push basarili (deneme $i)"
+              exit 0
+            fi
+            echo "push basarisiz (deneme $i), rebase edip tekrar denenecek"
+            git pull --rebase
+          done
+          echo "push 5 denemeden sonra basarisiz - posting_plan.json commit'i LOCAL'de kaldi, elle kontrol gerekir"
+          exit 1
