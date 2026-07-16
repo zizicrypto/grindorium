@@ -91,10 +91,14 @@ def download_video(video_id, download_dir, logger, timeout=900):
 
 def ensure_h264(video_path, logger):
     """X, Facebook ve Instagram H.264 + AAC ister. Degilse ffmpeg ile cevir."""
-    probe = subprocess.run(
-        ["ffprobe", "-v", "error", "-select_streams", "v:0",
-         "-show_entries", "stream=codec_name", "-of", "csv=p=0", str(video_path)],
-        capture_output=True, text=True)
+    try:
+        probe = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=codec_name", "-of", "csv=p=0", str(video_path)],
+            capture_output=True, text=True)
+    except FileNotFoundError:
+        logger.error("ffprobe/ffmpeg PATH'te bulunamadi, codec kontrolu atlaniyor: %s", video_path)
+        return video_path
     codec = probe.stdout.strip()
     if codec == "h264":
         return video_path
