@@ -24,31 +24,38 @@ def post(video_path, captions, config, logger):
         "upload_type": "resumable",
         "caption": captions["instagram"]["caption"],
     })
-    container.raise_for_status()
+    if not container.ok:
+        raise RuntimeError(f"Instagram container {container.status_code}: {container.text[:500]}")
     container_id = container.json()["id"]
+    logger.info("Instagram container: %s", container_id)
 
     size = os.path.getsize(video_path)
     with open(video_path, "rb") as f:
         up = requests.post(f"{RUPLOAD}/{container_id}", timeout=900,
                            headers={"Authorization": f"OAuth {token}",
                                     "offset": "0",
-                                    "file_size": str(size)},
+                                    "file_size": str(size),
+                                    "Content-Type": "application/octet-stream"},
                            data=f)
-    up.raise_for_status()
+    if not up.ok:
+        raise RuntimeError(f"Instagram upload {up.status_code}: {up.text[:500]}")
 
     for _ in range(40):
         status = requests.get(f"{GRAPH}/{container_id}", timeout=30,
-                              params={"fields": "status_code", "access_token": token})
-        status.raise_for_status()
-        code = status.json().get("status_code")
+                              params={"fields": "status_code,status", "access_token": token})
+        if not status.ok:
+            raise RuntimeError(f"Instagram status check {status.status_code}: {status.text[:500]}")
+        status_data = status.json()
+        code = status_data.get("status_code")
         if code == "FINISHED":
             break
         if code == "ERROR":
-            raise RuntimeError("Instagram container processing failed")
+            raise RuntimeError(f"Instagram container processing failed: {status_data}")
         time.sleep(15)
 
     pub = requests.post(f"{GRAPH}/{ig_user}/media_publish", timeout=60,
                         data={"creation_id": container_id, "access_token": token})
-    pub.raise_for_status()
+    if not pub.ok:
+        raise RuntimeError(f"Instagram publish {pub.status_code}: {pub.text[:500]}")
     logger.info("Instagram posted: %s", pub.json().get("id"))
     return True
