@@ -1,0 +1,63 @@
+name: Grindorium Poster (cloud)
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (gercek paylasim yapma)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: grindorium-poster
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: grindorium_poster
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build config.json from secrets
+        run: python build_config.py
+        env:
+          YOUTUBE_CHANNEL_ID: ${{ secrets.GRINDORIUM_YOUTUBE_CHANNEL_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.GRINDORIUM_IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.GRINDORIUM_IG_USER_ID }}
+          FB_PAGE_ID: ${{ secrets.GRINDORIUM_FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.GRINDORIUM_FB_PAGE_ACCESS_TOKEN }}
+
+      - name: Run cloud_poster
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python cloud_poster.py --dry-run
+          else
+            python cloud_poster.py
+          fi
+
+      - name: Commit posting_plan.json if changed
+        run: |
+          git config user.name "grindorium-bot"
+          git config user.email "bot@grindorium.org"
+          git add posting_plan.json
+          if git diff --cached --quiet; then
+            echo "posting_plan.json unchanged"
+          else
+            git commit -m "grindorium_poster: posting_plan.json guncellendi"
+            git push
+          fi
