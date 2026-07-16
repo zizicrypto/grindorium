@@ -36,16 +36,22 @@ def download_video(video_id, download_dir, logger, timeout=900):
     # GitHub Actions'in (ve genelde datacenter IP'lerinin) YouTube tarafindan
     # "bot" sanilip "Sign in to confirm you're not a bot" hatasiyla
     # engellenmesi bilinen bir sorun (2026-07-16'da cloud_poster'in ilk
-    # gercek calistirmasinda kanitlandi; android client tek basina da
-    # yetmedi, GitHub'in IP'si icin de ayni hatayi verdi). Gercek cozum:
-    # oturum acilmis bir YouTube hesabinin cookie'si (cookies.txt,
-    # GRINDORIUM_YOUTUBE_COOKIES_B64 GitHub secret'indan build_config.py ile
-    # bulut runner'inda olusturulur) + JS meydan okuma cozucu (deno,
-    # --remote-components ejs:github ile indirilir, workflow'da kurulu
-    # olmali). Cookie varsa once onu dener (en guvenilir, tam kalite),
-    # yoksa/basarisiz olursa android client'a (dusuk kalite ama cookie'siz
-    # calisir), sonra varsayilana duser.
-    client_attempts = []
+    # gercek calistirmasinda kanitlandi). Cozum sirasi (hepsi ayni gun
+    # gercek videolarla test edildi):
+    #   1) android_vr client - COOKIE GEREKTIRMEZ, bot-kontrolune hic
+    #      takilmadi, hem kisa hem uzun videoda tam kalite (1080p) verdi.
+    #      Cookie'ye bagimli olmadigi icin suresi dolma/rotasyon riski yok -
+    #      birincil yontem.
+    #   2) Cookie (cookies.txt, GRINDORIUM_YOUTUBE_COOKIES_B64 secret'indan
+    #      build_config.py ile olusturulur) + deno JS runtime - yedek.
+    #      NOT: Google cookie'leri guvenlik onlemi olarak rotasyona
+    #      ugratabiliyor ("cookies are no longer valid" uyarisi 2026-07-16
+    #      gece kanitlandi) - bu yuzden TEK basina guvenilir degil, sadece
+    #      yedek olarak tutuluyor.
+    #   3) android client - dusuk kalite (SABR kisitlamasi ~480p) ama
+    #      cookie'siz calisir, son care.
+    #   4) varsayilan client - son care.
+    client_attempts = [["--extractor-args", "youtube:player_client=android_vr"]]
     if COOKIES_FILE.exists():
         client_attempts.append([
             "--cookies", str(COOKIES_FILE),
