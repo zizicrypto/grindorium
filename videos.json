@@ -1,7 +1,13 @@
 {
-  "updated": "2026-07-13",
+  "updated": "2026-07-16",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "RuCh8006niI",
+      "title": "The Hidden Cost of Comfort: Why Easy Life is Making You Weak",
+      "published": "2026-07-16",
+      "duration": 721
+    },
     {
       "id": "z0C9Ea3xX8o",
       "title": "Why \"I'll Start Tomorrow\" Never Actually Comes",
@@ -25,12 +31,6 @@
       "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
       "published": "2026-07-02",
       "duration": 683
-    },
-    {
-      "id": "8baZFrP08Rg",
-      "title": "The Hidden Reason You're Exhausted All the Time in 2026 — Even When You Sleep",
-      "published": "2026-06-25",
-      "duration": 633
     }
   ]
 }
