@@ -1,11 +1,16 @@
 name: Grindorium Poster (cloud)
 
 on:
-  # 2026-07-16: Ali onayladi, PC'deki main.py durduruldu + Task Scheduler
-  # gorevleri (GrindoriumPoster*) devre disi birakildi. Bulut artik TEK
-  # aktif paylasici.
-  schedule:
-    - cron: '*/15 * * * *'
+  # 2026-07-16 GECE: Ali'nin acik talimatiyla cron GECICI OLARAK KAPATILDI.
+  # Sebep: RuCh8006niI icin ayni gece 6+ kez ust uste "Sign in to confirm
+  # you're not a bot" hatasi alindi (cookie dahil TUM yontemler basarisiz
+  # oldu, GitHub'in bulut IP'si YouTube tarafindan bloklu). Ali'nin gercek
+  # bir endisesi var: gercek YouTube/Google hesabinin cookie'siyle tekrar
+  # tekrar basarisiz "bot kontrolu" tetiklemek, o hesap icin risk (ek
+  # guvenlik incelemesi/kisitlama) yaratabilir. Cozum netlesip Ali
+  # onaylayana kadar cron tekrar acilmayacak - asagidaki satiri geri ac:
+  # schedule:
+  #   - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
