@@ -7,6 +7,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+COOKIES_FILE = Path(__file__).resolve().parent.parent / "cookies.txt"
+
 
 def download_video(video_id, download_dir, logger, timeout=900):
     """Returns (video_path, meta) or (None, None) on failure."""
@@ -14,9 +16,15 @@ def download_video(video_id, download_dir, logger, timeout=900):
     out_dir.mkdir(parents=True, exist_ok=True)
     url = f"https://www.youtube.com/watch?v={video_id}"
     out_template = str(out_dir / f"{video_id}.%(ext)s")
+    # -S "res:1080,vcodec:h264" ile secim yapiliyor (sabit "height<=1080"
+    # filtresi DEGIL): STICKLINE short'lari dikey (1080x1920, yani height=1920)
+    # oldugu icin eski "height<=1080" filtresi bunlari yanlislikla 480p'ye
+    # dusuruyordu (genislik/yukseklik karisikligi, 2026-07-16'da kanitlandi).
+    # -S siralama ipucu hem dikey hem yatay videoda doru calisir.
     base_cmd = [
         sys.executable, "-m", "yt_dlp",
-        "-f", "bv*[vcodec^=avc1][height<=1080]+ba[acodec^=mp4a]/b[ext=mp4][vcodec^=avc1]/b[ext=mp4]/b",
+        "-S", "res:1080,vcodec:h264",
+        "-f", "bv*+ba/b",
         "--merge-output-format", "mp4",
         "--write-info-json",
         "-o", out_template,
@@ -24,10 +32,24 @@ def download_video(video_id, download_dir, logger, timeout=900):
     # GitHub Actions'in (ve genelde datacenter IP'lerinin) YouTube tarafindan
     # "bot" sanilip "Sign in to confirm you're not a bot" hatasiyla
     # engellenmesi bilinen bir sorun (2026-07-16'da cloud_poster'in ilk
-    # gercek calistirmasinda kanitlandi). android client bu web-tabanli
-    # bot kontrolune takilmiyor - once onu dene, olmazsa varsayilan
-    # (client belirtmeden) dene.
-    client_attempts = [["--extractor-args", "youtube:player_client=android"], []]
+    # gercek calistirmasinda kanitlandi; android client tek basina da
+    # yetmedi, GitHub'in IP'si icin de ayni hatayi verdi). Gercek cozum:
+    # oturum acilmis bir YouTube hesabinin cookie'si (cookies.txt,
+    # GRINDORIUM_YOUTUBE_COOKIES_B64 GitHub secret'indan build_config.py ile
+    # bulut runner'inda olusturulur) + JS meydan okuma cozucu (deno,
+    # --remote-components ejs:github ile indirilir, workflow'da kurulu
+    # olmali). Cookie varsa once onu dener (en guvenilir, tam kalite),
+    # yoksa/basarisiz olursa android client'a (dusuk kalite ama cookie'siz
+    # calisir), sonra varsayilana duser.
+    client_attempts = []
+    if COOKIES_FILE.exists():
+        client_attempts.append([
+            "--cookies", str(COOKIES_FILE),
+            "--js-runtimes", "deno",
+            "--remote-components", "ejs:github",
+        ])
+    client_attempts.append(["--extractor-args", "youtube:player_client=android"])
+    client_attempts.append([])
     result = None
     for extra_args in client_attempts:
         cmd = base_cmd + extra_args + [url]

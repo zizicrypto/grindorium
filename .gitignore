@@ -1,4 +1,5 @@
 grindorium_poster/config.json
+grindorium_poster/cookies.txt
 grindorium_poster/state.json
 grindorium_poster/downloads/
 grindorium_poster/logs/*.log

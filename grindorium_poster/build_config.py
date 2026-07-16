@@ -4,8 +4,15 @@ config.json olusturur (asla commit edilmez, .gitignore'da zaten var).
 Local PC'deki config.json'un yerini TUTMAZ - o dosya PC'de kalmaya devam
 eder, bu sadece bulut calistirmasi icin ayni sekli bulut ortaminda kurar.
 """
+import base64
 import json
 import os
+
+cookies_b64 = os.environ.get("YOUTUBE_COOKIES_B64", "")
+if cookies_b64:
+    with open("cookies.txt", "wb") as f:
+        f.write(base64.b64decode(cookies_b64))
+    print("cookies.txt olusturuldu.")
 
 config = {
     "youtube": {
