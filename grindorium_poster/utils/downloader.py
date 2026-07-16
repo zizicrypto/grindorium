@@ -14,19 +14,31 @@ def download_video(video_id, download_dir, logger, timeout=900):
     out_dir.mkdir(parents=True, exist_ok=True)
     url = f"https://www.youtube.com/watch?v={video_id}"
     out_template = str(out_dir / f"{video_id}.%(ext)s")
-    cmd = [
+    base_cmd = [
         sys.executable, "-m", "yt_dlp",
         "-f", "bv*[vcodec^=avc1][height<=1080]+ba[acodec^=mp4a]/b[ext=mp4][vcodec^=avc1]/b[ext=mp4]/b",
         "--merge-output-format", "mp4",
         "--write-info-json",
         "-o", out_template,
-        url,
     ]
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
-    except subprocess.TimeoutExpired:
-        logger.error("Download timed out for %s", video_id)
-        return None, None
+    # GitHub Actions'in (ve genelde datacenter IP'lerinin) YouTube tarafindan
+    # "bot" sanilip "Sign in to confirm you're not a bot" hatasiyla
+    # engellenmesi bilinen bir sorun (2026-07-16'da cloud_poster'in ilk
+    # gercek calistirmasinda kanitlandi). android client bu web-tabanli
+    # bot kontrolune takilmiyor - once onu dene, olmazsa varsayilan
+    # (client belirtmeden) dene.
+    client_attempts = [["--extractor-args", "youtube:player_client=android"], []]
+    result = None
+    for extra_args in client_attempts:
+        cmd = base_cmd + extra_args + [url]
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            logger.error("Download timed out for %s", video_id)
+            return None, None
+        if result.returncode == 0:
+            break
+        logger.warning("yt-dlp denemesi basarisiz (%s): %s", extra_args or "varsayilan client", result.stderr[-400:])
     if result.returncode != 0:
         logger.error("yt-dlp failed for %s: %s", video_id, result.stderr[-800:])
         return None, None
