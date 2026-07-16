@@ -1,4 +1,15 @@
 {
-  "posted": {},
-  "last_posted": {}
+  "posted": {
+    "ZMv2BudkKRQ": {
+      "content_type": "stickline",
+      "kind": "BAGIMSIZ_SHORT",
+      "done_platforms": [
+        "facebook"
+      ],
+      "posted_at": "2026-07-16T16:20:21+00:00"
+    }
+  },
+  "last_posted": {
+    "stickline": "2026-07-16T16:20:21+00:00"
+  }
 }
