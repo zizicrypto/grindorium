@@ -30,12 +30,12 @@ Produce captions adapted for each platform. Respond with ONLY a JSON object, no 
 }}"""
 
 
-def rewrite_for_platforms(meta, config, logger):
+def rewrite_for_platforms(meta, config, logger, content_type="grindorium"):
     """Returns dict of platform captions. Always returns something usable."""
     claude_cfg = config.get("claude", {})
     if not claude_cfg.get("enabled") or not claude_cfg.get("api_key") or "YOUR_" in claude_cfg.get("api_key", ""):
         logger.info("Claude disabled or no key. Using fallback formatter.")
-        return fallback_formatter.build_all(meta)
+        return fallback_formatter.build_all(meta, content_type)
 
     prompt = PROMPT_TEMPLATE.format(
         title=meta.get("title", ""),
@@ -59,7 +59,7 @@ def rewrite_for_platforms(meta, config, logger):
         )
         if resp.status_code == 429:
             logger.warning("Claude rate limited. Using fallback.")
-            return fallback_formatter.build_all(meta)
+            return fallback_formatter.build_all(meta, content_type)
         resp.raise_for_status()
         data = resp.json()
         text = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
@@ -70,7 +70,7 @@ def rewrite_for_platforms(meta, config, logger):
         return cleaned
     except (requests.RequestException, json.JSONDecodeError, KeyError, ValueError) as exc:
         logger.warning("Claude rewrite failed (%s). Using fallback.", exc)
-        return fallback_formatter.build_all(meta)
+        return fallback_formatter.build_all(meta, content_type)
 
 
 def _validate(captions, meta, logger):
