@@ -24,6 +24,7 @@ Flags:
 """
 import json
 import logging
+import os
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -54,6 +55,44 @@ def _load_json(path, default):
 
 def _parse_iso(s):
     return datetime.fromisoformat(s.replace("Z", "+00:00"))
+
+
+def _validate_config(config, logger):
+    """build_config.py bir secret'i bos/eksik birakmissa (orn. yanlis
+    GitHub secret adi) bunu video indirmeden/harcamadan ONCE yakala -
+    yarim/bozuk bir calistirma yerine net bir hatayla erken cik."""
+    problems = []
+    if not config.get("youtube", {}).get("channel_id"):
+        problems.append("youtube.channel_id bos")
+    for name in ("instagram", "facebook"):
+        pcfg = config.get("platforms", {}).get(name, {})
+        if not pcfg.get("enabled"):
+            continue
+        for field in (["access_token", "ig_user_id"] if name == "instagram"
+                       else ["page_id", "page_access_token"]):
+            if not pcfg.get(field):
+                problems.append(f"platforms.{name}.{field} bos")
+    if problems:
+        for p in problems:
+            logger.error("CONFIG HATASI: %s", p)
+        return False
+    return True
+
+
+def _write_json_atomic(path, data, logger):
+    """Yaziyi tamamlarken kesinti olursa (runner crash vb.) yarim/bozuk
+    JSON diskte kalmasin diye: gecici dosyaya yaz, JSON olarak dogrula,
+    sonra atomik rename ile gercek dosyanin yerine koy."""
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    text = json.dumps(data, indent=2, ensure_ascii=False)
+    tmp.write_text(text, encoding="utf-8")
+    try:
+        json.loads(tmp.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        tmp.unlink(missing_ok=True)
+        logger.error("DOGRULAMA HATASI: %s icin yazilan JSON bozuk, iptal: %s", path.name, exc)
+        raise
+    os.replace(tmp, path)
 
 
 def _gating_ok(config, content_type):
@@ -169,7 +208,7 @@ def _post_video(entry, config, logger, dry_run):
     return done
 
 
-def _mark_posted(posting_plan, entry, done_platforms):
+def _mark_posted(posting_plan, entry, done_platforms, logger):
     posting_plan.setdefault("posted", {})[entry["id"]] = {
         "content_type": entry["content_type"],
         "kind": entry["kind"],
@@ -178,9 +217,7 @@ def _mark_posted(posting_plan, entry, done_platforms):
     }
     posting_plan.setdefault("last_posted", {})[entry["content_type"]] = \
         datetime.now(timezone.utc).isoformat(timespec="seconds")
-    POSTING_PLAN_FILE.write_text(
-        json.dumps(posting_plan, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
+    _write_json_atomic(POSTING_PLAN_FILE, posting_plan, logger)
 
 
 def main():
@@ -189,6 +226,10 @@ def main():
     tag = "[DRY-RUN] " if dry_run else ""
 
     config = json.loads((BASE / "config.json").read_text(encoding="utf-8"))
+    if not _validate_config(config, logger):
+        logger.error("Config gecersiz, cikiliyor (hicbir sey indirilmedi/paylasilmadi).")
+        sys.exit(1)
+
     candidates, posting_plan = _build_candidates(config, logger)
 
     if not candidates:
@@ -213,7 +254,7 @@ def main():
 
         if not dry_run:
             if done:
-                _mark_posted(posting_plan, entry, done)
+                _mark_posted(posting_plan, entry, done, logger)
                 logger.info("Paylasim tamam: %s -> %s", entry["id"], done)
             else:
                 logger.error("Hicbir platforma paylasilamadi: %s (bir sonraki calistirmada tekrar denenir)", entry["id"])
