@@ -110,7 +110,8 @@
     "/loneliness"
    ],
    "publish_date": "2026-07-16",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-07-16"
   },
   {
    "slug": "toxic-productivity",
