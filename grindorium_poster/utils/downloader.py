@@ -16,15 +16,19 @@ def download_video(video_id, download_dir, logger, timeout=900):
     out_dir.mkdir(parents=True, exist_ok=True)
     url = f"https://www.youtube.com/watch?v={video_id}"
     out_template = str(out_dir / f"{video_id}.%(ext)s")
-    # -S "res:1080,vcodec:h264" ile secim yapiliyor (sabit "height<=1080"
-    # filtresi DEGIL): STICKLINE short'lari dikey (1080x1920, yani height=1920)
-    # oldugu icin eski "height<=1080" filtresi bunlari yanlislikla 480p'ye
-    # dusuruyordu (genislik/yukseklik karisikligi, 2026-07-16'da kanitlandi).
-    # -S siralama ipucu hem dikey hem yatay videoda doru calisir.
+    # "height<=1080" filtresi dikey (1080x1920) short'larda ~480p'ye
+    # dusuyor (height ekseni 1920 oldugu icin, sadece height<=1080 formatlar
+    # aliniyor). 2026-07-16'da ONCE bunun "hata" oldugu dusunulup -S
+    # "res:1080" ile tam 1080p'ye cikarildi, AMA gercek testte Instagram
+    # Reels API'si o yuksek bitrate'li (tam 1080p) dosyayi
+    # ProcessingFailedError (retriable:false) ile reddetti - dusuk
+    # bitrate'li (bu filtrenin verdigi ~480p) versiyon ise basariyla
+    # yayinlandi (kanitlandi, gercek IG API cagrisiyla test edildi).
+    # Yani bu filtre "hata" degil, Instagram'in bitrate sinirina kazara
+    # uyan GUVENLI bir sinirlama - eski haline donduruldu.
     base_cmd = [
         sys.executable, "-m", "yt_dlp",
-        "-S", "res:1080,vcodec:h264",
-        "-f", "bv*+ba/b",
+        "-f", "bv*[vcodec^=avc1][height<=1080]+ba[acodec^=mp4a]/b[ext=mp4][vcodec^=avc1]/b[ext=mp4]/b",
         "--merge-output-format", "mp4",
         "--write-info-json",
         "-o", out_template,
