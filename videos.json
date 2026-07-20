@@ -1,7 +1,13 @@
 {
-  "updated": "2026-07-16",
+  "updated": "2026-07-20",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "TA5tGh_fkoc",
+      "title": "You Were Busy All Day. You Did Nothing.",
+      "published": "2026-07-19",
+      "duration": 923
+    },
     {
       "id": "RuCh8006niI",
       "title": "The Hidden Cost of Comfort: Why Easy Life is Making You Weak",
