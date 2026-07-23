@@ -138,7 +138,8 @@
     "/discipline"
    ],
    "publish_date": "2026-07-23",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-07-23"
   },
   {
    "slug": "emotional-flashbacks",
