@@ -1,7 +1,13 @@
 {
-  "updated": "2026-07-20",
+  "updated": "2026-07-23",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "fJKI6NwxqyE",
+      "title": "Why Most Men Feel Empty and Lonely in 2026 (Even When Connected)",
+      "published": "2026-07-23",
+      "duration": 653
+    },
     {
       "id": "TA5tGh_fkoc",
       "title": "You Were Busy All Day. You Did Nothing.",
@@ -31,12 +37,6 @@
       "title": "Why You Can't Stop Scrolling (The Real Reason)",
       "published": "2026-07-05",
       "duration": 602
-    },
-    {
-      "id": "SBbYjNIsZa0",
-      "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
-      "published": "2026-07-02",
-      "duration": 683
     }
   ]
 }
