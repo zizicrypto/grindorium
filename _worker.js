@@ -122,6 +122,7 @@ export default {
       '/writings/languishing': '/writings/languishing.html',
       '/writings/toxic-productivity': '/writings/toxic-productivity.html',
       '/writings/doomscrolling': '/writings/doomscrolling.html',
+      '/writings/emotional-flashbacks': '/writings/emotional-flashbacks.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
