@@ -166,7 +166,8 @@
     "/self-esteem"
    ],
    "publish_date": "2026-07-30",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-07-30"
   },
   {
    "slug": "analysis-paralysis",

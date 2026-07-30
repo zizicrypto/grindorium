@@ -123,6 +123,7 @@ export default {
       '/writings/toxic-productivity': '/writings/toxic-productivity.html',
       '/writings/doomscrolling': '/writings/doomscrolling.html',
       '/writings/emotional-flashbacks': '/writings/emotional-flashbacks.html',
+      '/writings/rejection-sensitivity': '/writings/rejection-sensitivity.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
