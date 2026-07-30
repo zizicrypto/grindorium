@@ -1,7 +1,13 @@
 {
-  "updated": "2026-07-27",
+  "updated": "2026-07-30",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "4YO8786qzPA",
+      "title": "Stay Calm When Money is Uncertain: Practical Ways to Protect Your Peace in 2026",
+      "published": "2026-07-30",
+      "duration": 969
+    },
     {
       "id": "YlmNOHMmLN0",
       "title": "You Will Never Feel Ready. Start Anyway.",
@@ -31,12 +37,6 @@
       "title": "Why \"I'll Start Tomorrow\" Never Actually Comes",
       "published": "2026-07-12",
       "duration": 938
-    },
-    {
-      "id": "xnlgijH5AUU",
-      "title": "The Hidden Reason Rich People Think Completely Different About Money",
-      "published": "2026-07-09",
-      "duration": 727
     }
   ]
 }
