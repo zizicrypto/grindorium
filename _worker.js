@@ -120,6 +120,10 @@ export default {
       '/writings/high-functioning-anxiety': '/writings/high-functioning-anxiety.html',
       '/writings/vacation-guilt': '/writings/vacation-guilt.html',
       '/writings/languishing': '/writings/languishing.html',
+      '/writings/toxic-productivity': '/writings/toxic-productivity.html',
+      '/writings/doomscrolling': '/writings/doomscrolling.html',
+      '/writings/emotional-flashbacks': '/writings/emotional-flashbacks.html',
+      '/writings/rejection-sensitivity': '/writings/rejection-sensitivity.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

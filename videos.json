@@ -1,7 +1,31 @@
 {
-  "updated": "2026-07-16",
+  "updated": "2026-07-30",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "4YO8786qzPA",
+      "title": "Stay Calm When Money is Uncertain: Practical Ways to Protect Your Peace in 2026",
+      "published": "2026-07-30",
+      "duration": 969
+    },
+    {
+      "id": "YlmNOHMmLN0",
+      "title": "You Will Never Feel Ready. Start Anyway.",
+      "published": "2026-07-26",
+      "duration": 1077
+    },
+    {
+      "id": "fJKI6NwxqyE",
+      "title": "Why Most Men Feel Empty and Lonely in 2026 (Even When Connected)",
+      "published": "2026-07-23",
+      "duration": 653
+    },
+    {
+      "id": "TA5tGh_fkoc",
+      "title": "You Were Busy All Day. You Did Nothing.",
+      "published": "2026-07-19",
+      "duration": 923
+    },
     {
       "id": "RuCh8006niI",
       "title": "The Hidden Cost of Comfort: Why Easy Life is Making You Weak",
@@ -13,24 +37,6 @@
       "title": "Why \"I'll Start Tomorrow\" Never Actually Comes",
       "published": "2026-07-12",
       "duration": 938
-    },
-    {
-      "id": "xnlgijH5AUU",
-      "title": "The Hidden Reason Rich People Think Completely Different About Money",
-      "published": "2026-07-09",
-      "duration": 727
-    },
-    {
-      "id": "antm9DtHFjg",
-      "title": "Why You Can't Stop Scrolling (The Real Reason)",
-      "published": "2026-07-05",
-      "duration": 602
-    },
-    {
-      "id": "SBbYjNIsZa0",
-      "title": "How to Stop Caring What Others Think Without Becoming Cold or Arrogant",
-      "published": "2026-07-02",
-      "duration": 683
     }
   ]
 }
