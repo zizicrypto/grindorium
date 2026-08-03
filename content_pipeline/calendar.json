@@ -180,7 +180,8 @@
     "/anxiety"
    ],
    "publish_date": "2026-08-03",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-08-03"
   },
   {
    "slug": "social-battery",
