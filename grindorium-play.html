@@ -579,30 +579,6 @@
     </div>
   </a>
 
-  <div class="game-section-label">Collective</div>
-
-  <a href="#" class="game-card" onclick="openWall();return false;">
-    <div class="gc-visual" style="background:#050810;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-      <div style="display:flex;flex-wrap:wrap;gap:10px;max-width:260px;justify-content:center;padding:12px;">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:rgba(249,168,212,0.55);">exhausted</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(134,239,172,0.45);">hopeful</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:rgba(126,184,232,0.5);">anxious</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:rgba(167,139,250,0.45);">present</span>
-        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(253,224,71,0.4);">calm</span>
-      </div>
-    </div>
-    <div class="gc-body">
-      <div class="gc-tag">12: Collective</div>
-      <div class="gc-title">The Wall</div>
-      <div class="gc-tagline">One word. Anonymous. Shared with everyone here right now.</div>
-      <div class="gc-footer">
-        <span class="gc-badge">Live</span>
-        <span class="gc-badge">Anonymous</span>
-        <span class="gc-arrow">↗</span>
-      </div>
-    </div>
-  </a>
-
   <div class="game-section-label">Focus</div>
 
   <a href="/focus" class="game-card">
@@ -2437,96 +2413,16 @@ c:[
   }
 
 
-  const WALL_URL="https://nvjznlvrsckdkicyqvpn.supabase.co";
-  const WALL_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss";
-  const WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,"];
-  var wallWords=[],wallYours=null,wallRefreshTimer=null,wallCooldownTimer=null;
 
-  function wallFetch(){var _cut=new Date(Date.now()-86400000).toISOString();wallFetchUrl("/rest/v1/words?select=word&created_at=gte."+_cut+"&order=created_at.desc&limit=200",true);}
-  function wallFetchUrl(_q,_try24){ fetch(WALL_URL+_q,{
-      headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY}
-    }).then(function(res){return res.json();}).then(function(data){
-      if(_try24&&(!data||data.length<12)){wallFetchUrl("/rest/v1/words?select=word&order=created_at.desc&limit=200",false);return;}
-      var _wc=document.getElementById('wall-cloud');
-      var _wm=document.getElementById('wall-mode');
-      if(!_wm&&_wc){_wm=document.createElement('div');_wm.id='wall-mode';_wm.style.cssText='font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#44566a;text-align:center;margin-bottom:14px;';_wc.parentNode.insertBefore(_wm,_wc);}
-      if(_wm)_wm.textContent=_try24?'words from the last 24 hours':'the last words left here';
-      var counts={};
-      data.forEach(function(r){counts[r.word]=(counts[r.word]||0)+1;});
-      wallWords=Object.entries(counts).map(function(e){return{word:e[0],count:e[1]};}).sort(function(a,b){return b.count-a.count;});
-      var ld=document.getElementById("wall-loading");if(ld)ld.style.display="none";
-      var cloud=document.getElementById("wall-cloud");
-      if(cloud){
-        var WALL_COLORS=["rgba(126,184,232,","rgba(167,139,250,","rgba(249,168,212,","rgba(134,239,172,","rgba(253,224,71,","rgba(94,234,212,","rgba(248,113,113,","rgba(196,181,253,"];
-        cloud.innerHTML="";
-        var cw=cloud.offsetWidth||700;
-        var ch=Math.max(360,window.innerHeight*0.4);
-        cloud.style.minHeight=ch+"px";
-        cloud.style.position="relative";
-        var maxCount=wallWords.length>0?Math.max.apply(null,wallWords.map(function(w){return w.count;})):1;
-        var wallPlaced=[];
-        var isMobileWall=cw<480;
-        wallWords.slice(0,35).forEach(function(item,i){
-          var el=document.createElement("div");
-          el.style.position="absolute";
-          var size=isMobileWall?(10+(item.count/maxCount)*16):(14+(item.count/maxCount)*28);
-          el.style.fontSize=size+"px";
-          el.style.fontFamily="'Cormorant Garamond',serif";
-          el.style.fontWeight="300";
-          var opacity=0.25+(item.count/maxCount)*0.65;
-          el.style.color=WALL_COLORS[i%WALL_COLORS.length]+opacity+")";
-          el.style.cursor="default";
-          el.style.letterSpacing="0.02em";
-          el.textContent=item.word;
-          el.style.visibility="hidden";
-          cloud.appendChild(el);
-          var ew=el.offsetWidth;var eh=el.offsetHeight;
-          var x,y,tries=0,fits=false;
-          while(tries<100&&!fits){
-            x=Math.random()*Math.max(0,cw-ew);
-            y=Math.random()*Math.max(0,ch-eh);
-            fits=true;
-            for(var j=0;j<wallPlaced.length;j++){var p=wallPlaced[j];if(x<p.x+p.w+4&&x+ew+4>p.x&&y<p.y+p.h+4&&y+eh+4>p.y){fits=false;break;}}
-            tries++;
-          }
-          wallPlaced.push({x:x,y:y,w:ew,h:eh});
-          el.style.left=x+"px";el.style.top=y+"px";el.style.visibility="";
-        });
-        var total=wallWords.reduce(function(s,w){return s+w.count;},0);
-        var meta=document.getElementById("wall-count");
-        if(meta)meta.textContent=total+" word"+(total===1?"":"s")+" shared in the last 24 hours";
-      }
-    }).catch(function(e){
-      var ld=document.getElementById("wall-loading");if(ld)ld.style.display="none";
-      var wc=document.getElementById("wall-cloud");
-      if(wc)wc.innerHTML='<p style="color:#6b7f96;font-size:12px;">Could not connect. Try refreshing.</p>';
-    });
+  function wallFetch(){
+    var ld=document.getElementById("wall-loading");if(ld)ld.style.display="none";
+    var wc=document.getElementById("wall-cloud");
+    if(wc)wc.innerHTML='<p style="color:#6b7f96;font-size:12px;">The wall is paused right now. Check back soon.</p>';
+    var btn=document.getElementById("wall-submit-btn");
+    if(btn)btn.disabled=true;
   }
   function wallSubmit(){
-    var btn=document.getElementById("wall-submit-btn");
-    if(btn&&btn.disabled)return;
-    var val=document.getElementById("wall-input");
-    if(!val)return;
-    var word=val.value.trim().toUpperCase();
-    if(!word||word.includes(" ")||word.length>20)return;
-    if(btn){
-      btn.disabled=true;
-      var secs=30;
-      btn.textContent=secs+"s";
-      wallCooldownTimer=setInterval(function(){
-        secs--;
-        if(secs<=0){clearInterval(wallCooldownTimer);btn.disabled=false;btn.textContent="Share";}
-        else{btn.textContent=secs+"s";}
-      },1000);
-    }
-    fetch(WALL_URL+"/rest/v1/words",{
-      method:"POST",
-      headers:{"apikey":WALL_KEY,"Authorization":"Bearer "+WALL_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},
-      body:JSON.stringify({word:word})
-    }).then(function(res){
-      if(res.ok){val.value="";wallFetch();}
-      else{console.warn("Wall submit failed:",res.status);}
-    }).catch(function(e){console.warn("Wall submit error:",e);});
+    wallSetMsg("Sharing is paused right now. Check back soon.");
   }
   function wallSetMsg(txt){
     const m=document.getElementById("wall-msg");
@@ -2542,12 +2438,10 @@ c:[
     document.getElementById("wall-cloud").innerHTML="";
     document.getElementById("wall-count").textContent="";
     wallFetch();
-    wallRefreshTimer=setInterval(wallFetch,15000);
   }
   function closeWall(){history.replaceState({},"","/play");
     document.getElementById("wallOverlay").classList.remove("active");
     document.body.style.overflow="";
-    clearInterval(wallRefreshTimer);
   }
 
 

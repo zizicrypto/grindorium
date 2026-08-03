@@ -86,6 +86,7 @@
   <div class="page-label">The Word Grid</div>
   <div class="page-title">Leave your word.<br>It stays here forever.</div>
   <div class="page-desc">500,000 cells. One word each. Any language. Anonymous, permanent, yours. When every cell is filled, one word will appear in the center.</div>
+  <div class="page-desc" style="color:var(--accent);">Claiming new words is paused right now while we rebuild the grid's backend. Check back soon.</div>
   <div class="stats">
     <div><div class="stat-n" id="sTaken">...</div><div class="stat-l">words claimed</div></div>
     <div><div class="stat-n" id="sFree">...</div><div class="stat-l">remaining</div></div>
@@ -127,8 +128,6 @@
   </div>
 </div>
 <script>
-const SB_URL='https://nvjznlvrsckdkicyqvpn.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52anpubHZyc2NrZGtpY3lxdnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg3MTIsImV4cCI6MjA5NTc3NDcxMn0.-JzKO5yXrAHpyOT_asLlhDlzMDORa66RvG7_hr-_7ss';
 const TOTAL=500000,COLS=1000,ROWS=500;
 const COLORS=['rgba(126,184,232,0.9)','rgba(167,139,250,0.9)','rgba(249,168,212,0.9)','rgba(134,239,172,0.9)','rgba(253,224,71,0.85)','rgba(251,146,60,0.9)','rgba(94,234,212,0.9)','rgba(196,181,253,0.9)','rgba(248,113,113,0.9)','rgba(52,211,153,0.9)'];
 const SEED=[{idx:211800,w:'ephemeral'},{idx:199624,w:'solipsism'},{idx:104897,w:'lachrymose'},{idx:314278,w:'ineffable'},{idx:93743,w:'sonder'},{idx:120723,w:'hiraeth'},{idx:130249,w:'querencia'},{idx:69858,w:'kenopsia'},{idx:398394,w:'monachopsis'},{idx:45392,w:'catharsis'},{idx:131675,w:'anagnorisis'},{idx:382222,w:'apophenia'},{idx:200837,w:'dysphoria'},{idx:278298,w:'euthymia'},{idx:358774,w:'limerence'},{idx:367257,w:'vellichor'},{idx:282396,w:'rubatosis'},{idx:47100,w:'onism'},{idx:491979,w:'occhiolism'},{idx:327113,w:'liberosis'},{idx:256520,w:'jouska'},{idx:104578,w:'ellipsism'},{idx:221060,w:'zenosyne'},{idx:378654,w:'adronitis'},{idx:321501,w:'altschmerz'},{idx:308494,w:'chrysalism'},{idx:113609,w:'enouement'},{idx:415558,w:'exulansis'},{idx:472907,w:'kuebiko'},{idx:413304,w:'opia'},{idx:196073,w:'anecdoche'},{idx:431135,w:'lachesism'},{idx:203482,w:'paro'},{idx:451670,w:'toska'},{idx:357757,w:'weltschmerz'},{idx:111458,w:'yugen'},{idx:79836,w:'zielschmerz'},{idx:241950,w:'abyssal'},{idx:346327,w:'ataraxia'},{idx:93848,w:'bathos'},{idx:445627,w:'clinomania'},{idx:297226,w:'elegy'},{idx:177632,w:'fugue'},{idx:43497,w:'halcyon'},{idx:496426,w:'ichor'},{idx:375746,w:'kairos'},{idx:277199,w:'liminal'},{idx:355140,w:'melisma'},{idx:406047,w:'nadir'},{idx:46033,w:'penumbra'},{idx:245911,w:'qualia'},{idx:165873,w:'reverie'},{idx:211090,w:'sibilance'},{idx:22361,w:'tenuous'},{idx:141242,w:'umbra'},{idx:292527,w:'visceral'},{idx:3994,w:'wistful'},{idx:222930,w:'zenith'},{idx:106831,w:'absolution'},{idx:190070,w:'benevolence'},{idx:489231,w:'cognizance'},{idx:280132,w:'discernment'},{idx:42371,w:'equanimity'},{idx:242266,w:'forbearance'},{idx:271924,w:'gratitude'},{idx:471986,w:'humility'},{idx:103850,w:'integrity'},{idx:317461,w:'kinship'},{idx:242588,w:'luminous'},{idx:26905,w:'magnanimity'},{idx:187446,w:'nuance'},{idx:67706,w:'obsolescence'},{idx:113153,w:'paradox'},{idx:499345,w:'quintessence'},{idx:482745,w:'resilience'},{idx:374941,w:'solace'},{idx:84311,w:'transcendence'},{idx:391909,w:'ubiquity'},{idx:415151,w:'vigilance'},{idx:231585,w:'watershed'},{idx:312170,w:'yearning'},{idx:484886,w:'zeal'},{idx:93126,w:'aberration'},{idx:494880,w:'bifurcation'},{idx:263819,w:'confluence'},{idx:346187,w:'divergence'},{idx:92286,w:'emergence'},{idx:19431,w:'fragility'},{idx:57562,w:'homeostasis'},{idx:12217,w:'impermanence'},{idx:89751,w:'kaleidoscope'},{idx:248369,w:'luminescence'},{idx:358542,w:'metamorphosis'},{idx:429742,w:'nebulous'},{idx:219688,w:'oscillation'},{idx:42551,w:'periphery'},{idx:491091,w:'quiescence'},{idx:223042,w:'rupture'},{idx:331357,w:'symbiosis'},{idx:45098,w:'threshold'},{idx:74926,w:'undulation'},{idx:162428,w:'vulnerability'},{idx:323690,w:'wanderlust'},{idx:2971,w:'zeitgeist'},{idx:199785,w:'acquiesce'},{idx:172856,w:'brooding'},{idx:71206,w:'cadence'},{idx:274413,w:'dissolution'},{idx:212509,w:'equinox'},{idx:105274,w:'harbinger'},{idx:471843,w:'inchoate'},{idx:412727,w:'jettison'},{idx:29045,w:'languor'},{idx:335771,w:'mercurial'},{idx:110852,w:'nocturne'},{idx:232245,w:'pensive'},{idx:135044,w:'quietude'},{idx:285983,w:'reckoning'},{idx:211847,w:'serendipity'},{idx:432607,w:'talisman'},{idx:400448,w:'unmoored'},{idx:66244,w:'vertiginous'},{idx:185497,w:'waning'},{idx:493539,w:'alchemy'},{idx:364379,w:'becoming'},{idx:249636,w:'chimera'},{idx:483498,w:'elusive'},{idx:29264,w:'fathom'},{idx:68643,w:'gravitas'},{idx:387215,w:'haunting'},{idx:452947,w:'iridescent'},{idx:376629,w:'labyrinth'},{idx:314398,w:'mnemonic'},{idx:408389,w:'nostalgia'},{idx:391759,w:'oblivion'},{idx:78873,w:'palimpsest'},{idx:318785,w:'remnant'},{idx:493472,w:'sorrow'},{idx:214066,w:'twilight'},{idx:65204,w:'vanishing'},{idx:50585,w:'withering'},{idx:62240,w:'witness'},{idx:75320,w:'vemödalen'},{idx:250500,w:'grindorium'}];
@@ -147,30 +146,6 @@ function st(){return cs()+gs();}
 function tW(){return COLS*st();}
 function tH(){return ROWS*st();}
 function fitZoom(){return Math.min(vW/COLS,vH/ROWS);}
-
-async function seedToDB(){
-  if(localStorage.getItem('grd_seeded')==='1')return;
-  try{
-    const rows=SEED.map(s=>({idx:s.idx,word:s.w,color:COLORS[s.idx%COLORS.length]}));
-    const res=await fetch(`${SB_URL}/rest/v1/grid_words`,{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=ignore-duplicates,return=minimal'},
-      body:JSON.stringify(rows)
-    });
-    if(res.ok||res.status===409)localStorage.setItem('grd_seeded','1');
-  }catch(e){}
-}
-
-async function loadFromDB(){
-  try{
-    const res=await fetch(`${SB_URL}/rest/v1/grid_words?select=idx,word,color&limit=10000`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
-    if(!res.ok)return;
-    const data=await res.json();
-    if(Array.isArray(data))data.forEach(r=>cells.set(r.idx,{w:r.word,c:r.color||COLORS[r.idx%COLORS.length]}));
-    updateStats();draw();
-    checkSafe();
-  }catch(e){}
-}
 
 function resize(){
   vW=wrap.clientWidth;
@@ -292,26 +267,8 @@ function openModal(idx){
 function closeModal(){document.getElementById('modalBg').classList.remove('open');selIdx=null;}
 
 async function claimWord(){
-  const raw=document.getElementById('wInput').value.trim().toLowerCase().replace(/\s+/g,'');
   const err=document.getElementById('errMsg');
-  if(!raw){err.textContent='Type a word first.';return;}
-  if(raw.length>24){err.textContent='Too long.';return;}
-  const taken=new Set([...cells.values()].map(v=>v.w.toLowerCase()));
-  if(taken.has(raw)){err.textContent='This word is already taken.';return;}
-  const color=COLORS[selIdx%COLORS.length];
-  try{
-    const res=await fetch(`${SB_URL}/rest/v1/grid_words`,{
-      method:'POST',
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({idx:selIdx,word:raw,color})
-    });
-    if(res.status===409){err.textContent='This word is already taken.';return;}
-    if(!res.ok){err.textContent='Something went wrong. Try again.';return;}
-  }catch(e){err.textContent='Connection error. Try again.';return;}
-  cells.set(selIdx,{w:raw,c:color});
-  localStorage.setItem('grd_v1','1');
-  claimed=true;
-  closeModal();updateStats();draw();checkSafe();
+  err.textContent='Claiming is paused right now. Check back soon.';
 }
 
 function updateStats(){
@@ -330,7 +287,6 @@ function checkSafe(){
 document.getElementById('wInput').addEventListener('keydown',e=>{if(e.key==='Enter')claimWord();if(e.key==='Escape')closeModal();});
 window.addEventListener('resize',resize);
 updateStats();resize();
-seedToDB();loadFromDB();
 </script>
 </body>
 </html>
