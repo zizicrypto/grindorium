@@ -125,6 +125,7 @@ export default {
       '/writings/emotional-flashbacks': '/writings/emotional-flashbacks.html',
       '/writings/rejection-sensitivity': '/writings/rejection-sensitivity.html',
       '/writings/analysis-paralysis': '/writings/analysis-paralysis.html',
+      '/writings/social-battery': '/writings/social-battery.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
