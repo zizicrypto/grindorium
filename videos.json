@@ -1,7 +1,13 @@
 {
-  "updated": "2026-08-07",
+  "updated": "2026-08-10",
   "note": "Updated by tools/update_watch_videos.py. Long videos only, newest first.",
   "videos": [
+    {
+      "id": "W2AYwP5HJxI",
+      "title": "You Know Everything and Nothing Changes",
+      "published": "2026-08-09",
+      "duration": 1129
+    },
     {
       "id": "v_Ld1oz_Sts",
       "title": "How to Master Your Mind When Everything Feels Out of Control",
