@@ -126,6 +126,7 @@ export default {
       '/writings/rejection-sensitivity': '/writings/rejection-sensitivity.html',
       '/writings/analysis-paralysis': '/writings/analysis-paralysis.html',
       '/writings/social-battery': '/writings/social-battery.html',
+      '/writings/birthday-blues': '/writings/birthday-blues.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
