@@ -127,6 +127,7 @@ export default {
       '/writings/analysis-paralysis': '/writings/analysis-paralysis.html',
       '/writings/social-battery': '/writings/social-battery.html',
       '/writings/birthday-blues': '/writings/birthday-blues.html',
+      '/writings/brain-fog': '/writings/brain-fog.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
