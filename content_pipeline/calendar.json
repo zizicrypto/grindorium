@@ -236,7 +236,8 @@
     "/numbness"
    ],
    "publish_date": "2026-08-17",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-08-17"
   },
   {
    "slug": "self-abandonment",
