@@ -129,6 +129,7 @@ export default {
       '/writings/birthday-blues': '/writings/birthday-blues.html',
       '/writings/brain-fog': '/writings/brain-fog.html',
       '/writings/comparison-spiral': '/writings/comparison-spiral.html',
+      '/writings/self-abandonment': '/writings/self-abandonment.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

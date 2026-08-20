@@ -250,7 +250,8 @@
     "/attachment"
    ],
    "publish_date": "2026-08-20",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-08-20"
   },
   {
    "slug": "hyperindependence",
