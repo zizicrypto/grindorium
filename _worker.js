@@ -130,6 +130,7 @@ export default {
       '/writings/brain-fog': '/writings/brain-fog.html',
       '/writings/comparison-spiral': '/writings/comparison-spiral.html',
       '/writings/self-abandonment': '/writings/self-abandonment.html',
+      '/writings/hyperindependence': '/writings/hyperindependence.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

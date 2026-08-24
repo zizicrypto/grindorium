@@ -264,7 +264,8 @@
     "/self-esteem"
    ],
    "publish_date": "2026-08-24",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-08-24"
   },
   {
    "slug": "anticipatory-anxiety",
