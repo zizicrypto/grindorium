@@ -131,6 +131,7 @@ export default {
       '/writings/comparison-spiral': '/writings/comparison-spiral.html',
       '/writings/self-abandonment': '/writings/self-abandonment.html',
       '/writings/hyperindependence': '/writings/hyperindependence.html',
+      '/writings/anticipatory-anxiety': '/writings/anticipatory-anxiety.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
