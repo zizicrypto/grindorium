@@ -132,6 +132,7 @@ export default {
       '/writings/self-abandonment': '/writings/self-abandonment.html',
       '/writings/hyperindependence': '/writings/hyperindependence.html',
       '/writings/anticipatory-anxiety': '/writings/anticipatory-anxiety.html',
+      '/writings/september-reset': '/writings/september-reset.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

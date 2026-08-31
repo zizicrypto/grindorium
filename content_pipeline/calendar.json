@@ -292,7 +292,8 @@
     "/stress"
    ],
    "publish_date": "2026-08-31",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-08-31"
   },
   {
    "slug": "masking",
