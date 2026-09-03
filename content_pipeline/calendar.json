@@ -306,7 +306,8 @@
     "/burnout"
    ],
    "publish_date": "2026-09-03",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-09-03"
   },
   {
    "slug": "sunday-scaries",

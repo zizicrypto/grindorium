@@ -133,6 +133,7 @@ export default {
       '/writings/hyperindependence': '/writings/hyperindependence.html',
       '/writings/anticipatory-anxiety': '/writings/anticipatory-anxiety.html',
       '/writings/september-reset': '/writings/september-reset.html',
+      '/writings/masking': '/writings/masking.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
