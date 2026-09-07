@@ -134,6 +134,7 @@ export default {
       '/writings/anticipatory-anxiety': '/writings/anticipatory-anxiety.html',
       '/writings/september-reset': '/writings/september-reset.html',
       '/writings/masking': '/writings/masking.html',
+      '/writings/sunday-scaries': '/writings/sunday-scaries.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
