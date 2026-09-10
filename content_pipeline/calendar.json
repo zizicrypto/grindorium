@@ -334,7 +334,8 @@
     "/loneliness"
    ],
    "publish_date": "2026-09-10",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-09-10"
   },
   {
    "slug": "burnout-vs-depression",

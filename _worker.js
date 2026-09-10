@@ -135,6 +135,7 @@ export default {
       '/writings/september-reset': '/writings/september-reset.html',
       '/writings/masking': '/writings/masking.html',
       '/writings/sunday-scaries': '/writings/sunday-scaries.html',
+      '/writings/anhedonia': '/writings/anhedonia.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
