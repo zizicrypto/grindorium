@@ -136,6 +136,7 @@ export default {
       '/writings/masking': '/writings/masking.html',
       '/writings/sunday-scaries': '/writings/sunday-scaries.html',
       '/writings/anhedonia': '/writings/anhedonia.html',
+      '/writings/burnout-vs-depression': '/writings/burnout-vs-depression.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
