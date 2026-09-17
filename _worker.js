@@ -137,6 +137,7 @@ export default {
       '/writings/sunday-scaries': '/writings/sunday-scaries.html',
       '/writings/anhedonia': '/writings/anhedonia.html',
       '/writings/burnout-vs-depression': '/writings/burnout-vs-depression.html',
+      '/writings/emotional-hangover': '/writings/emotional-hangover.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
