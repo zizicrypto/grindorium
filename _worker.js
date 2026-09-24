@@ -139,6 +139,7 @@ export default {
       '/writings/burnout-vs-depression': '/writings/burnout-vs-depression.html',
       '/writings/emotional-hangover': '/writings/emotional-hangover.html',
       '/writings/quiet-quitting-yourself': '/writings/quiet-quitting-yourself.html',
+      '/wiki/window-of-tolerance': '/grindorium-wiki-window-of-tolerance.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

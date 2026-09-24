@@ -390,7 +390,8 @@
     "/numbness"
    ],
    "publish_date": "2026-09-24",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-09-24"
   },
   {
    "slug": "emotional-granularity",
