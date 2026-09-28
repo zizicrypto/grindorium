@@ -140,6 +140,7 @@ export default {
       '/writings/emotional-hangover': '/writings/emotional-hangover.html',
       '/writings/quiet-quitting-yourself': '/writings/quiet-quitting-yourself.html',
       '/wiki/window-of-tolerance': '/grindorium-wiki-window-of-tolerance.html',
+      '/wiki/emotional-granularity': '/grindorium-wiki-emotional-granularity.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

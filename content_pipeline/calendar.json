@@ -404,7 +404,8 @@
     "/anxiety"
    ],
    "publish_date": "2026-09-28",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-09-28"
   },
   {
    "slug": "allostatic-load",
