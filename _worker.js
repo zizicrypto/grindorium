@@ -141,6 +141,7 @@ export default {
       '/writings/quiet-quitting-yourself': '/writings/quiet-quitting-yourself.html',
       '/wiki/window-of-tolerance': '/grindorium-wiki-window-of-tolerance.html',
       '/wiki/emotional-granularity': '/grindorium-wiki-emotional-granularity.html',
+      '/wiki/allostatic-load': '/grindorium-wiki-allostatic-load.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
