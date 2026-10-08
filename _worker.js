@@ -142,6 +142,7 @@ export default {
       '/wiki/window-of-tolerance': '/grindorium-wiki-window-of-tolerance.html',
       '/wiki/emotional-granularity': '/grindorium-wiki-emotional-granularity.html',
       '/wiki/allostatic-load': '/grindorium-wiki-allostatic-load.html',
+      '/writings/asking-for-help': '/writings/asking-for-help.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
