@@ -446,7 +446,8 @@
     "/loneliness"
    ],
    "publish_date": "2026-10-08",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-10-12"
   },
   {
    "slug": "time-blindness",

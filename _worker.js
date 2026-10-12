@@ -143,6 +143,7 @@ export default {
       '/wiki/emotional-granularity': '/grindorium-wiki-emotional-granularity.html',
       '/wiki/allostatic-load': '/grindorium-wiki-allostatic-load.html',
       '/writings/asking-for-help': '/writings/asking-for-help.html',
+      '/wiki/body-doubling': '/grindorium-wiki-body-doubling.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
