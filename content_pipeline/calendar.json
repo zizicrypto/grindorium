@@ -460,7 +460,8 @@
     "/stress"
    ],
    "publish_date": "2026-10-12",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-10-15"
   },
   {
    "slug": "freeze-response",

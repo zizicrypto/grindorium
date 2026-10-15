@@ -144,6 +144,7 @@ export default {
       '/wiki/allostatic-load': '/grindorium-wiki-allostatic-load.html',
       '/writings/asking-for-help': '/writings/asking-for-help.html',
       '/wiki/body-doubling': '/grindorium-wiki-body-doubling.html',
+      '/writings/time-blindness': '/writings/time-blindness.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
