@@ -145,6 +145,7 @@ export default {
       '/writings/asking-for-help': '/writings/asking-for-help.html',
       '/wiki/body-doubling': '/grindorium-wiki-body-doubling.html',
       '/writings/time-blindness': '/writings/time-blindness.html',
+      '/writings/freeze-response': '/writings/freeze-response.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
