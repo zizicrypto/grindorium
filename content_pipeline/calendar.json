@@ -488,7 +488,8 @@
     "/perfectionism"
    ],
    "publish_date": "2026-10-19",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-10-22"
   },
   {
    "slug": "default-mode-network",
