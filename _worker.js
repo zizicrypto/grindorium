@@ -147,6 +147,7 @@ export default {
       '/writings/time-blindness': '/writings/time-blindness.html',
       '/writings/freeze-response': '/writings/freeze-response.html',
       '/writings/task-paralysis': '/writings/task-paralysis.html',
+      '/wiki/default-mode-network': '/grindorium-wiki-default-mode-network.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

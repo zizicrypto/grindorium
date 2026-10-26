@@ -502,7 +502,8 @@
     "/numbness"
    ],
    "publish_date": "2026-10-22",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-10-26"
   },
   {
    "slug": "waiting-mode",
