@@ -148,6 +148,7 @@ export default {
       '/writings/freeze-response': '/writings/freeze-response.html',
       '/writings/task-paralysis': '/writings/task-paralysis.html',
       '/wiki/default-mode-network': '/grindorium-wiki-default-mode-network.html',
+      '/writings/waiting-mode': '/writings/waiting-mode.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
