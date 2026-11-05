@@ -150,6 +150,7 @@ export default {
       '/wiki/default-mode-network': '/grindorium-wiki-default-mode-network.html',
       '/writings/waiting-mode': '/writings/waiting-mode.html',
       '/writings/fawn-response': '/writings/fawn-response.html',
+      '/writings/light-and-mood': '/writings/light-and-mood.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };

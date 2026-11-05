@@ -544,7 +544,8 @@
     "/stress"
    ],
    "publish_date": "2026-11-02",
-   "status": "staged"
+   "status": "published",
+   "published_on": "2026-11-05"
   },
   {
    "slug": "behavioral-activation",
