@@ -152,6 +152,7 @@ export default {
       '/writings/fawn-response': '/writings/fawn-response.html',
       '/writings/light-and-mood': '/writings/light-and-mood.html',
       '/wiki/behavioral-activation': '/grindorium-wiki-behavioral-activation.html',
+      '/writings/waking-at-3am': '/writings/waking-at-3am.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
