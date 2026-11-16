@@ -153,6 +153,7 @@ export default {
       '/writings/light-and-mood': '/writings/light-and-mood.html',
       '/wiki/behavioral-activation': '/grindorium-wiki-behavioral-activation.html',
       '/writings/waking-at-3am': '/writings/waking-at-3am.html',
+      '/wiki/sleep-debt': '/grindorium-wiki-sleep-debt.html',
       '/privacy': '/privacy/index.html',
       '/terms': '/terms/index.html',
     };
